@@ -221,13 +221,13 @@ void LoadResources()
 	animations->Add(301, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//jump right
 	animations->Add(302, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3,100); //fight left
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 100); //fight left
 	animations->Add(401, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3,100); //fight right
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 100); //fight right
 	animations->Add(402, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3,100);//knee fight left
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 100);//knee fight left
 	animations->Add(501, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3,100); //knee fight right
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 100); //knee fight right
 	animations->Add(502, ani);
 	in.close();
 

@@ -83,6 +83,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CWhip::Render()
 {
 	int ani=2 * state + state_whip;
+	if(state==SHORT_WHIP)
 		if (state_whip==WHIP_STATE_LEFT)
 		{
 			//DebugOut(L"curent= %d\n", animations[ani]->GetCureentFrame());
@@ -98,16 +99,29 @@ void CWhip::Render()
 			//	fight = true;
 			//	animations[ani]->Render(x, y, 255);
 			//}
-			animations[ani]->RenderWhip(fight, x +46, y + 1, x +38, y - 1, x, y, 255);
+			animations[ani]->RenderWhip(fight, x +46, y + 3, x +37, y + 1, x, y, 255);
 
 		}
 		else 
 		{
 			DebugOut(L"curent= %d\n", animations[ani]->GetCureentFrame());
 			//RenderBoundingBox(200);
-			animations[ani]->RenderWhip(fight, x - 29, y + 2, x - 38, y - 1, x, y, 255);
+			animations[ani]->RenderWhip(fight, x - 28, y + 2, x - 33, y - 1, x, y, 255);
 		}
-	
+	else
+	{
+		if (state_whip == WHIP_STATE_LEFT)
+		{
+			animations[ani]->RenderWhip(fight, x + 60, y + 3, x + 53, y + 1, x, y, 255);
+
+		}
+		else
+		{
+			DebugOut(L"curent= %d\n", animations[ani]->GetCureentFrame());
+			//RenderBoundingBox(200);
+			animations[ani]->RenderWhip(fight, x - 28, y + 2, x - 33, y - 1, x, y, 255);
+		}
+	}
 }
 
 
@@ -130,15 +144,24 @@ void CWhip::GetBoundingBox(float & left, float & top, float & right, float & bot
 		right = x + YELLOW_WHIP_BBOX_WIDTH;
 		bottom = y + YELLOW_WHIP_BBOX_HEIGHT;
 	}
-	else if (state == RED_WHIP)
+	/*else if (state == RED_WHIP)
 	{
 		right = x + RED_WHIP_BBOX_WIDTH;
 		bottom = y + RED_WHIP_BBOX_HEIGHT;
-	}
+	}*/
 }
 
 void CWhip::SetState(int state)
 {
 	CGameObject::SetState(state);
+	switch (state) 
+	{
+	case WHITE_WHIP:
+		size = SHORT_WHIP;
+	case BLUE_WHIP:
+		size = SHORT_WHIP;
+	case YELLOW_WHIP:
+		size = LONG_WHIP;
+	}
 }
 

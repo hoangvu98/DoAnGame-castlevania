@@ -26,11 +26,21 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		{
 			fight = false;
 			whip->fight = false;
+		} 
+		if (whip->GetSize() == SHORT_WHIP)
+		{
+			if (nx < 0)
+				whip->SetPosition(x - 22, y + 5);
+			else
+				whip->SetPosition(x + 22, y + 7);
 		}
-		if (nx < 0)
-			whip->SetPosition(x - 22, y + 5);
 		else
-			whip->SetPosition(x + 22, y + 5);
+		{
+			if (nx < 0)
+				whip->SetPosition(x - 39, y + 5);
+			else
+				whip->SetPosition(x + 22, y + 7);
+		}
 		whip->Update(dt, coObject);
 	/*	if (whip->fight == true)
 		{
@@ -100,8 +110,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 					whip->SetState(BLUE_WHIP);
 				else if (whip->state == BLUE_WHIP)
 					whip->SetState(YELLOW_WHIP);
-				else if (whip->state == YELLOW_WHIP)
-					whip->SetState(RED_WHIP);
+				/*else if (whip->state == YELLOW_WHIP)
+					whip->SetState(RED_WHIP);*/
 				SetState(SIMON_STATE_UPDATE);
 				FrameUpdate = GetTickCount();
 				x += dx;
