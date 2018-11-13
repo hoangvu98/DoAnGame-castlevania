@@ -100,6 +100,11 @@ void CEntranceLevel::LoadMap()
 			hidenObj->SetPosition(i * 64.0f, 160.0f);
 			cells->InitCells(hidenObj, 2, i);
 		}
+		CHidenObject *hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_STAIR);
+		hidenObj->SetSize(20.0f, 20.0f);
+		hidenObj->SetPosition(607.0f, 140.0f);
+		cells->InitCells(hidenObj, 2, 9);
 		break;
 	}
 }

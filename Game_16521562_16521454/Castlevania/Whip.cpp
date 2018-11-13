@@ -20,24 +20,24 @@ void CWhip::LoadAnimaion()
 	ifstream in("Data\\Whip.txt");
 	LPANIMATION ani;
 	LPDIRECT3DTEXTURE9 texwhip = texture->Get(ID_WHIP);
-	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3,100);
+	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 150);
 	animations->Add(2000, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 100);
+	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 150);
 	animations->Add(2001, ani);
 
-	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 100);
+	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 150);
 	animations->Add(2002, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 100);
+	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 150);
 	animations->Add(2003, ani);
 
-	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 100);
+	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 150);
 	animations->Add(2004, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 100);
+	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 150);
 	animations->Add(2005, ani);
 
-	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 100);
+	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 150);
 	animations->Add(2006, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 100);
+	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 150);
 	animations->Add(2007, ani);
 	in.close();
 }
@@ -52,76 +52,84 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
-	
+	DWORD t = GetTickCount() - FrameWhip;
+	if (t <= 150)
+	{
+		if (size == SHORT_WHIP)
+		{
+			if (state_whip == WHIP_STATE_RIGHT)
+				SetPosition(x - 6, y + 9);//
+			else
+				SetPosition(x + 24, y + 8);//
+		}
+		else
+		{
+			if (state_whip == WHIP_STATE_RIGHT)
+				SetPosition(x - 6, y + 9);//
+			else
+				SetPosition(x + 21, y + 8);
+		}
+	}
+	else if (t > 150 && t <= 300)
+	{
+
+		if (size == SHORT_WHIP)
+		{
+			if (state_whip == WHIP_STATE_RIGHT)
+				SetPosition(x - 11, y + 6);//
+			else
+				SetPosition(x + 15, y + 6);//
+		}
+		else
+		{
+			if (state_whip == WHIP_STATE_RIGHT)
+				SetPosition(x - 11, y + 6);//
+			else
+				SetPosition(x + 14, y + 6);
+		}
+	}
+	else if (t >= 300)
+	{
+
+		if (size == SHORT_WHIP)
+		{
+			if (state_whip == WHIP_STATE_RIGHT)
+				SetPosition(x + 22, y + 7);//
+			else
+				SetPosition(x - 22, y + 5);//
+		}
+		else
+		{
+			if (state_whip == WHIP_STATE_RIGHT)
+				SetPosition(x + 22, y + 7);//
+			else
+				SetPosition(x - 39, y + 5);
+		}
+	}
 	if (fight == true)
 	{
 		coEventsResult.clear();
 		CalcPotentialCollisions(coObjects, coEvents);
-		
+		FilterCollisionImmediately(coEvents, coEventsResult);
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<CCandle *> (e->obj))
+			{
+				CCandle *candle = dynamic_cast<CCandle *>(e->obj);
 
-			for (UINT i = 0; i < coEvents.size(); i++)
-			{
-				LPCOLLISIONEVENT c = coEvents[i];
-				if (c->t == 0)
-					coEventsResult.push_back(coEvents[i]);
-			}
-			for (UINT i = 0; i < coEventsResult.size(); i++)
-			{
-				LPCOLLISIONEVENT e = coEventsResult[i];
-				if (dynamic_cast<CCandle *> (e->obj))
+				if (candle->state != CANDLE_STATE_DELETE)
 				{
-					CCandle *candle = dynamic_cast<CCandle *>(e->obj);
-				
-					if (candle->state != CANDLE_STATE_DELETE)
-					{
-						candle->SetState(CANDLE_STATE_DISAPPEAR);
-					}
+					candle->SetState(CANDLE_STATE_DISAPPEAR);
 				}
 			}
+		}
 	}
 }
 void CWhip::Render()
 {
-	int ani=2 * state + state_whip;
-	if(state==SHORT_WHIP)
-		if (state_whip==WHIP_STATE_LEFT)
-		{
-			//DebugOut(L"curent= %d\n", animations[ani]->GetCureentFrame());
-			////RenderBoundingBox(200);
-			//if (animations[ani]->GetCureentFrame() == -1)
-			//	animations[ani]->Render(x + 46, y + 1, 255);
-			//else if (animations[ani]->GetCureentFrame() == 0)
-			//	animations[ani]->Render(x + 46, y + 1, 255);
-			//else if (animations[ani]->GetCureentFrame() == 1)
-			//	animations[ani]->Render( x + 38, y - 1, 255);
-			//else
-			//{
-			//	fight = true;
-			//	animations[ani]->Render(x, y, 255);
-			//}
-			animations[ani]->RenderWhip(fight, x +46, y + 3, x +37, y + 1, x, y, 255);
-
-		}
-		else 
-		{
-			DebugOut(L"curent= %d\n", animations[ani]->GetCureentFrame());
-			//RenderBoundingBox(200);
-			animations[ani]->RenderWhip(fight, x - 28, y + 2, x - 33, y - 1, x, y, 255);
-		}
-	else
-	{
-		if (state_whip == WHIP_STATE_LEFT)
-		{
-			animations[ani]->RenderWhip(fight, x + 60, y + 3, x + 53, y + 1, x, y, 255);
-
-		}
-		else
-		{
-			DebugOut(L"curent= %d\n", animations[ani]->GetCureentFrame());
-			//RenderBoundingBox(200);
-			animations[ani]->RenderWhip(fight, x - 28, y + 2, x - 33, y - 1, x, y, 255);
-		}
-	}
+	int ani = 2 * state + state_whip;
+	animations[ani]->Render(x, y, 255);
 }
 
 
@@ -134,7 +142,7 @@ void CWhip::GetBoundingBox(float & left, float & top, float & right, float & bot
 		right = x + WHITE_WHIP_BBOX_WIDTH;
 		bottom = y + WHITE_WHIP_BBOX_HEIGHT;
 	}
-	else if(state==BLUE_WHIP)
+	else if (state == BLUE_WHIP)
 	{
 		right = x + BLUE_WHIP_BBOX_WIDTH;
 		bottom = y + BLUE_WHIP_BBOX_HEIGHT;
@@ -154,14 +162,20 @@ void CWhip::GetBoundingBox(float & left, float & top, float & right, float & bot
 void CWhip::SetState(int state)
 {
 	CGameObject::SetState(state);
-	switch (state) 
+	switch (state)
 	{
 	case WHITE_WHIP:
+		state = WHITE_WHIP;
 		size = SHORT_WHIP;
+		break;
 	case BLUE_WHIP:
+		state = BLUE_WHIP;
 		size = SHORT_WHIP;
+		break;
 	case YELLOW_WHIP:
+		state = YELLOW_WHIP;
 		size = LONG_WHIP;
+		break;
 	}
 }
 

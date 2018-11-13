@@ -19,6 +19,7 @@ using namespace std;
 #define SIMON_STATE_KNEE			4
 #define SIMON_STATE_DIE				5
 #define SIMON_STATE_UPDATE          6
+#define SIMON_STATE_STAIR           7
 
 #define SIMON_ANI_WALKING_LEFT		0
 #define SIMON_ANI_WALKING_RIGHT		1
@@ -30,8 +31,12 @@ using namespace std;
 #define SIMON_ANI_FIGHT_RIGHT		7
 #define SIMON_ANI_KNEE_FIGHT_LEFT	8
 #define SIMON_ANI_KNEE_FIGHT_RIGHT	9
-#define SIMON_ANI_DIE_LEFT			10
-#define SIMON_ANI_DIE_RIGHT			11
+#define SIMON_ANI_STAIR_LEFT		10
+#define SIMON_ANI_STAIR_RIGHT		11
+#define SIMON_ANI_STAIR_IDLE_LEFT	12
+#define SIMON_ANI_STAIR_IDLE_RIGHT	13
+//#define SIMON_ANI_DIE_LEFT			10
+//#define SIMON_ANI_DIE_RIGHT			11
 
 #define SIMON_BBOX_IDLE_WIDTH		18
 #define SIMON_BBOX_IDLE_HEIGHT		30
@@ -44,7 +49,7 @@ using namespace std;
 
 class CSimon :public CGameObject
 {
-	int heart=0;
+	int heart = 0;
 	int mx;
 	int previousstate;
 	int state_update;
@@ -56,9 +61,11 @@ class CSimon :public CGameObject
 	bool jump = true;
 	bool fight = false;
 	int alpha = 255;
+	int stair = 0; //0 b?nh thý?ng 1 g?p c?c 2 ðang lên
 	CItems* weapon;
+	DWORD FrameStair;
 public:
-	DWORD FrameStart;
+	bool test = false;
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObject = NULL);
 	void Render();
 	void GetBoundingBox(float & left, float & top, float & right, float & bottom);
@@ -70,10 +77,15 @@ public:
 	void SetJump(bool jump) { this->jump = jump; }
 	bool GetFight() { return fight; }
 	void SetFight(bool fight) { this->fight = fight; }
-	void SetFramWeapon() { FrameWeapon = GetTickCount(); }
-	DWORD GetFramWeapon() { return FrameWeapon; }
+	void SetFrameWeapon() { FrameWeapon = GetTickCount(); }
+	DWORD GetFrameWeapon() { return FrameWeapon; }
 	bool GetOnSkill() { return OnSkill; }
 	CItems* GetWeapon() { return weapon; }
+	CWhip* GetWhip() { return whip; }
+	int GetStair() { return stair; }
+	void SetStair(int stair) { this->stair = stair; }
+	void SetFrameStair() { FrameStair = GetTickCount(); }
+	DWORD GetFrameStair() { return FrameStair; }
 	DWORD GetFrameUpdate()
 	{
 		return FrameUpdate;

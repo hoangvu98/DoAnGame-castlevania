@@ -65,22 +65,32 @@ class CSampleKeyHander: public CKeyEventHandler
 };
 
 CSampleKeyHander * keyHandler; 
-
 void CSampleKeyHander::OnKeyDown(int KeyCode)
 {
 	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	switch (KeyCode)
 	{
+	case DIK_UP:
+		if (simon->GetStair() == 1)
+		{
+			simon->y += 9;
+			simon->SetStair(2);
+			simon->SetState(SIMON_STATE_STAIR);
+		}
+		break;
 	case DIK_RETURN:
 		screen = 2;
 		break;
 	case DIK_D:
-		if (simon->GetFight() == false)
+		if (simon->GetStair() != 2)
 		{
-			if (!game->IsKeyDown(DIK_DOWN) && simon->GetJump() == true)
+			if (simon->GetFight() == false)
 			{
-				simon->SetState(SIMON_STATE_JUMP);
-				simon->SetJump(false);
+				if (!game->IsKeyDown(DIK_DOWN) && simon->GetJump() == true)
+				{
+					simon->SetState(SIMON_STATE_JUMP);
+					simon->SetJump(false);
+				}
 			}
 		}
 		break;
@@ -90,8 +100,8 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		simon->SetPosition(tx, ty - 5);
 		break;
 	case DIK_F:
-		DWORD now= GetTickCount();
-		if (now - simon->FrameStart >= 300)
+		DWORD t = GetTickCount() - simon->GetWhip()->GetFrameWhip();
+		if (t >= 450)
 		{
 			if (game->IsKeyDown(DIK_UP))
 			{
@@ -101,26 +111,32 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 						simon->GetWeapon()->SetState(ITEM_STATE_WEAPON_RIGHT);
 					else
 						simon->GetWeapon()->SetState(ITEM_STATE_WEAPON_LEFT);
-					simon->SetFramWeapon();
+					simon->SetFrameWeapon();
 					simon->SetSkill(true);
 					float temp_x, temp_y;
 					simon->GetPosition(temp_x, temp_y);
-					simon->GetWeapon()->SetPosition(temp_x, temp_y+5);
+					simon->GetWeapon()->SetPosition(temp_x, temp_y + 5);
 					simon->SetState(SIMON_STATE_IDLE);
 				}
 			}
 			else
 			{
+				if (simon->nx > 0)
+					simon->GetWhip()->SetStateWhip(WHIP_STATE_RIGHT);
+				else
+					simon->GetWhip()->SetStateWhip(WHIP_STATE_LEFT);
 				simon->SetFight(true);
+
 				if (game->IsKeyDown(DIK_LEFT) || game->IsKeyDown(DIK_RIGHT))
 					simon->SetState(SIMON_STATE_IDLE);
 				if (game->IsKeyDown(DIK_DOWN))
 					simon->SetState(SIMON_STATE_KNEE);
 			}
-			simon->FrameStart = GetTickCount();
+			DWORD time = GetTickCount();
+			simon->GetWhip()->SetFrameWhip(time);
 		}
 		break;
-	
+
 	}
 }
 
@@ -140,28 +156,57 @@ void CSampleKeyHander::OnKeyUp(int KeyCode)
 
 void CSampleKeyHander::KeyState(BYTE *states)
 {
-	if (!simon->GetSkill())
+	if (simon->GetStair() == 2)
 	{
-		if (simon->GetFight() == false)
+		DWORD now = GetTickCount();
+		if (now - simon->GetFrameStair() > 300)
 		{
-			if (game->IsKeyDown(DIK_DOWN))
+			if (game->IsKeyDown(DIK_UP) || game->IsKeyDown(DIK_RIGHT))
 			{
-				if (game->IsKeyDown(DIK_UP))
-					simon->SetState(SIMON_STATE_IDLE);
-				else
-				{
-					simon->SetState(SIMON_STATE_KNEE);
-					if (game->IsKeyDown(DIK_LEFT)) simon->nx = -1;
-					else if (game->IsKeyDown(DIK_RIGHT))  simon->nx = 1;
-				}
+				simon->SetState(SIMON_STATE_STAIR);
+				simon->nx = 1;
+				simon->SetFrameStair();
+			}
+			else if (game->IsKeyDown(DIK_DOWN) || game->IsKeyDown(DIK_LEFT))
+			{
+				simon->SetState(SIMON_STATE_STAIR);
+				simon->nx = -1;
+				simon->SetFrameStair();
 			}
 			else
 			{
-				if (game->IsKeyDown(DIK_LEFT))
-					simon->SetState(SIMON_STATE_WALKING_LEFT);
-				else if (game->IsKeyDown(DIK_RIGHT))
-					simon->SetState(SIMON_STATE_WALKING_RIGHT);
-				else simon->SetState(SIMON_STATE_IDLE);
+				simon->SetState(SIMON_STATE_IDLE);
+			}
+		}
+	}
+	else
+	{
+		if (simon->GetJump() != false)
+		{
+			if (!simon->GetSkill())
+			{
+				if (simon->GetFight() == false)
+				{
+					if (game->IsKeyDown(DIK_DOWN))
+					{
+						if (game->IsKeyDown(DIK_UP))
+							simon->SetState(SIMON_STATE_IDLE);
+						else
+						{
+							simon->SetState(SIMON_STATE_KNEE);
+							if (game->IsKeyDown(DIK_LEFT)) simon->nx = -1;
+							else if (game->IsKeyDown(DIK_RIGHT))  simon->nx = 1;
+						}
+					}
+					else
+					{
+						if (game->IsKeyDown(DIK_LEFT))
+							simon->SetState(SIMON_STATE_WALKING_LEFT);
+						else if (game->IsKeyDown(DIK_RIGHT))
+							simon->SetState(SIMON_STATE_WALKING_RIGHT);
+						else simon->SetState(SIMON_STATE_IDLE);
+					}
+				}
 			}
 		}
 	}
@@ -221,14 +266,22 @@ void LoadResources()
 	animations->Add(301, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//jump right
 	animations->Add(302, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 100); //fight left
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //fight left
 	animations->Add(401, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 100); //fight right
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //fight right
 	animations->Add(402, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 100);//knee fight left
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150);//knee fight left
 	animations->Add(501, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 100); //knee fight right
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //knee fight right
 	animations->Add(502, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 2, 150); //stair walk left
+	animations->Add(601, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 2, 150); //stair walk right
+	animations->Add(602, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //stair right
+	animations->Add(603, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //stair right
+	animations->Add(604, ani);
 	in.close();
 
 	simon = new CSimon();
@@ -242,6 +295,10 @@ void LoadResources()
 	simon->AddAnimation(402);
 	simon->AddAnimation(501);
 	simon->AddAnimation(502);
+	simon->AddAnimation(601);
+	simon->AddAnimation(602);
+	simon->AddAnimation(603);
+	simon->AddAnimation(604);
 	simon->SetPosition(10.0f, 80.0f);
 	//simon->SetState(SIMON_STATE_IDLE);
 	

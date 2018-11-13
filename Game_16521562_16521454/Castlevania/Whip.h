@@ -25,6 +25,7 @@ using namespace std;
 
 #define SHORT_WHIP 0
 #define LONG_WHIP 1
+
 class CWhip :
 	public CGameObject
 {
@@ -33,6 +34,7 @@ class CWhip :
 	vector<LPANIMATION_FRAME> frames;
 	int state_whip;
 	int size;
+	DWORD FrameWhip;
 public:
 	void LoadAnimaion();
 	bool fight;
@@ -41,7 +43,9 @@ public:
 	void Render();
 	void GetBoundingBox(float & left, float & top, float & right, float & bottom);
 	void SetState(int state);
-	void SetStateWhip(int state_whip){ this->state_whip = state_whip;}
+	void SetStateWhip(int state_whip) { this->state_whip = state_whip; }
 	int GetSize() { return size; }
+	DWORD GetFrameWhip() { return FrameWhip; }
+	void SetFrameWhip(int FrameWhip) { this->FrameWhip = FrameWhip; }
 };
 
