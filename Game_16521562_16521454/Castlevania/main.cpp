@@ -318,8 +318,8 @@ void LoadResources()
 	//fishman->SetState(FISHMAN_STATE_JUMP);
 	//objects.push_back(fishman);
 
-	level_1 = new CEntranceLevel(768.0f, 184.0f);
-	level_1->SetSence(SCENE_1);
+	level_1 = CEntranceLevel::GetInstance();
+	level_1->SetScene(SCENE_1);
 	level_1->LoadMap();
 	objects = level_1->GetUpdateObjects();
 	objects.push_back(simon);
@@ -350,6 +350,7 @@ void Update(DWORD dt)
 	switch (screen)
 	{
 	case 2:
+		level_1->Update();
 		vector<LPGAMEOBJECT> coObjects;
 		objects.clear();
 		objects = level_1->GetUpdateObjects();

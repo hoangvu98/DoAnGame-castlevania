@@ -1,83 +1,134 @@
 #include "EntranceLevel.h"
 
-
+CEntranceLevel *CEntranceLevel::__instance = NULL;
 
 void CEntranceLevel::LoadMap()
 {
-	CMap::LoadMap();
-	textures->Add(ID_MAP_LEVEL_1, LEVEL_1_MAP_PATH, D3DCOLOR_XRGB(255, 255, 255));
-	texture_map = textures->Get(ID_MAP_LEVEL_1);
+	ifstream in;
+	LPDIRECT3DTEXTURE9 texture_map;
+	LPANIMATION ani = new CAnimation(100);
+	LPDIRECT3DTEXTURE9 texture_candle = textures->Get(ID_CANDLE);
+	CCandle *candle;
+	CDoor *door;
 	switch (scene)
 	{
 	case SCENE_1:
-		textures->Add(ID_CANDLE, CANDLE_TEXTURE_PATH, D3DCOLOR_XRGB(34, 177, 76));		
-		LPDIRECT3DTEXTURE9 texture_candle = textures->Get(ID_CANDLE);
-		LPANIMATION ani = new CAnimation(100);
-		ifstream in("Data\\Candle.txt");
+		textures->Add(ID_MAP_LEVEL_1, LEVEL_1_STAGE1A_PATH, D3DCOLOR_XRGB(255, 255, 255));
+		texture_map = textures->Get(ID_MAP_LEVEL_1);
+		textures->Add(ID_CANDLE, CANDLE_TEXTURE_PATH, D3DCOLOR_XRGB(34, 177, 76));
+		tilemap->LoadTileMap(STAGE_1A_MAP_DATA, texture_map);
+		
+		int column, row;
+
+		float width, height;
+		tilemap->GetSize(width, height);
+
+		column = (int)width / CELL_WIDTH + 1;
+		row = (int)height / CELL_HEIGHT + 1;
+
+		cells = new CCells(row, column);
+
+		
+		in.open("Data\\Candle.txt");
 
 		CInputImage::AddAnimation(in, sprites, ani, texture_candle, 2);
 		animations->Add(100, ani);
+		in.close();
 
-		CCandle *candle = new CCandle(HEART_SMALL);
+		candle = new CCandle(DAGGER);
 		candle->AddAnimation(100);
 		candle->SetPosition(85.0f, 111.0f);
 		candle->SetState(CANDLE_STATE_NORMAL);
-		/*cells->InitCells(candle, 2, 1);*/
 		cells->InitCells(candle, 2, 1);
-
-		candle = new CCandle(WHIP_UPDATE);
-		candle->AddAnimation(100);
-		candle->SetPosition(222.0f, 111.0f);
-		candle->SetState(CANDLE_STATE_NORMAL);
-		/*cells->InitCells(candle, 2, 2);*/
-		cells->InitCells(candle, 2, 3);
 
 		candle = new CCandle(HEART_SMALL);
 		candle->AddAnimation(100);
+		candle->SetPosition(222.0f, 111.0f);
+		candle->SetState(CANDLE_STATE_NORMAL);
+		cells->InitCells(candle, 2, 2);
+
+		candle = new CCandle();
+		candle->AddAnimation(100);
 		candle->SetPosition(343.0f, 111.0f);
 		candle->SetState(CANDLE_STATE_NORMAL);
-		//cells->InitCells(candle, 2, 4);
-		cells->InitCells(candle, 2, 5);
+		cells->InitCells(candle, 2, 4);
 
-		candle = new CCandle(WHIP_UPDATE);
+		candle = new CCandle();
 		candle->AddAnimation(100);
 		candle->SetPosition(475.0f, 111.0f);
 		candle->SetState(CANDLE_STATE_NORMAL);
-		//cells->InitCells(candle, 2, 6);
-		cells->InitCells(candle, 2, 7);
-		candle = new CCandle(DAGGER);		
+		cells->InitCells(candle, 2, 6);
+
+		candle = new CCandle(DAGGER);
 		candle->AddAnimation(100);
 		candle->SetPosition(600.0f, 111.0f);
 		candle->SetState(CANDLE_STATE_NORMAL);
-		//cells->InitCells(candle, 2, 7);
-		cells->InitCells(candle, 2, 9);
-		for (int i = 0; i < 10; i++)
+		cells->InitCells(candle, 2, 7);
+
+		for (int i = 0; i < 13; i++)
 		{
 			CHidenObject *hidenObj = new CHidenObject();
-			hidenObj->SetSize(80.0f, 15.0f);
-			hidenObj->SetPosition(i * 80.0f, 145.0f);
+			hidenObj->SetSize(64.0f, 15.0f);
+			hidenObj->SetPosition(i * 64.0f, 145.0f);
+			cells->InitCells(hidenObj, 2, i);
+		}
+
+		door = new CDoor();
+		door->SetPosition(672.0f, 105.0f);
+		cells->InitCells(door, 2, 11);
+
+		break;
+	case SCENE_2:
+		textures->Add(ID_MAP_LEVEL_1, LEVEL_1_STAGE1B_PATH, D3DCOLOR_XRGB(255, 255, 255));
+		texture_map = textures->Get(ID_MAP_LEVEL_1);
+		tilemap = new CTileMap();
+		tilemap->LoadTileMap(STAGE_1B_MAP_DATA, texture_map);
+		//int column, row;
+
+		//float width, height;
+		tilemap->GetSize(width, height);
+
+		column = (int)width / CELL_WIDTH + 1;
+		row = (int)height / CELL_HEIGHT + 1;
+
+		cells = new CCells(row, column);
+
+		for (int i = 0; i < 25; i++)
+		{
+			CHidenObject *hidenObj = new CHidenObject();
+			hidenObj->SetSize(64.0f, 15.0f);
+			hidenObj->SetPosition(i * 64.0f, 160.0f);
 			cells->InitCells(hidenObj, 2, i);
 		}
 		break;
 	}
 }
 
-void CEntranceLevel::Render()
+void CEntranceLevel::Update()
 {
-	CGame *game = CGame::GetInstance();
-	switch (scene)
+	if (prev_scene != scene)
 	{
-	case SCENE_1:
-		game->Draw(0, 0, texture_map, 0, 0, 768, 185);
-		break;
+		LoadMap();
+		prev_scene = scene;
 	}
 }
 
-CEntranceLevel::CEntranceLevel()
+void CEntranceLevel::Render()
 {
+	switch(scene)
+	{
+	case SCENE_1:
+		tilemap->Render(0.0f, 0.0f);
+		break;
+	case SCENE_2:
+		tilemap->Render(0.0f, 0.0f);
+		break;
+	}
+	//tilemap->Render(0.0f, 0.0f);
 }
 
-
-CEntranceLevel::~CEntranceLevel()
+CEntranceLevel * CEntranceLevel::GetInstance()
 {
+	if (__instance == NULL) __instance = new CEntranceLevel();
+	return __instance;
 }

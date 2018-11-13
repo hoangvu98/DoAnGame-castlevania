@@ -4,16 +4,15 @@
 #include "Sprites.h"
 #include "Cell.h"
 #include "Game.h"
+#include "TileMap.h"
 #include <vector>
 using namespace std;
+
 
 class CMap
 {
 protected:
-	int scene;
-
-	float width;
-	float height;
+	int prev_scene, scene;
 
 	CCells *cells;
 
@@ -21,21 +20,18 @@ protected:
 	CSprites *sprites;
 	CAnimations *animations;
 	
-	LPDIRECT3DTEXTURE9 texture_map;
+	CTileMap *tilemap;
 public:
 	CMap();
-	CMap(float width, float height);
 	~CMap();
 
-	void GetSize(float &width, float &height) { width = this->width; height = this->height; }
-	void SetSize(float width, float height) { this->width = width; this->height = height; }
-
-	int GetSence() { return scene; }
-	void SetSence(int scene) { this->scene = scene; }
+	//void GetSence(int &prev_scene, int &scene) { prev_scene = this->prev_scene; scene = this->scene; }
+	void SetScene(int scene) { this->scene = scene; }
 	
 	vector<LPGAMEOBJECT> GetUpdateObjects();
+	void GetSizeOfMap(float &width, float &height);
 	virtual void LoadMap();
-	//void Update(DWORD dt);
+	virtual void Update() = 0;
 	virtual void Render();
 };
 

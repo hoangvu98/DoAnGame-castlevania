@@ -3,15 +3,20 @@
 #include "Candle.h"
 #include "Game.h"
 #include "HidenObject.h"
+#include "EntranceLevel.h"
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
 	CGameObject::Update(dt);
-
+	CEntranceLevel *level1 = CEntranceLevel::GetInstance();
+	CGame *game = CGame::GetInstance();
+	float widthofmap;
+	float heightofmap;
+	level1->GetSizeOfMap(widthofmap, heightofmap);
 	vy += SIMON_GRAVITY;
 	if (state != SIMON_STATE_KNEE && previousstate== SIMON_STATE_KNEE)
 	{
 		previousstate = NULL;
-		SetPosition(x, y - 4);
+		SetPosition(x, y - 9);
 	}
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -21,45 +26,22 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 
 	if (fight == true)
 	{
-		DWORD now = GetTickCount();
-		if (now - FrameStart >= 300)
+		if (nx < 0)
+			whip->SetPosition(x - 22, y + 5);
+		else
+			whip->SetPosition(x + 22, y + 5);
+		whip->Update(dt, coObject);
+		if (whip->fight == true)
 		{
 			fight = false;
 			whip->fight = false;
-		} 
-		if (whip->GetSize() == SHORT_WHIP)
-		{
-			if (nx < 0)
-				whip->SetPosition(x - 22, y + 5);
-			else
-				whip->SetPosition(x + 22, y + 7);
 		}
-		else
-		{
-			if (nx < 0)
-				whip->SetPosition(x - 39, y + 5);
-			else
-				whip->SetPosition(x + 22, y + 7);
-		}
-		whip->Update(dt, coObject);
-	/*	if (whip->fight == true)
-		{
-			if (whip->animations[1]->GetCureentFrame() == 0)
-			{
-				fight = false;
-				whip->fight = false;
-			}
-		}*/
-	}
-	if (skill)
-	{
-		weapon->Update(dt);
 	}
 	if (coEvents.size() == 0)
 	{
 		x += dx;
 		y += dy;
-	}	
+	}
 	else
 	{
 
@@ -86,11 +68,32 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 					vy = 0; jump = true;
 				}
 			}
-
+			/*else if (dynamic_cast<CItem *> (e->obj))
+			{
+				CItem *item = dynamic_cast<CItem *>(e->obj);
+				if(item->state== ITEM_STATE_HEART_SMALL) heart++;
+				if (item->state == ITEM_STATE_HEART_BIG) heart+=2;
+				if (item->state == ITEM_STATE_WHIP_UPDATE)
+				{
+					state_update = state;
+					if(whip->state==WHITE_WHIP)
+						whip->SetState(BLUE_WHIP);
+					else if(whip->state == BLUE_WHIP)
+						whip->SetState(YELLOW_WHIP);
+					else if (whip->state == YELLOW_WHIP)
+						whip->SetState(RED_WHIP);
+					SetState(SIMON_STATE_UPDATE);
+					FrameUpdate = GetTickCount();
+				}
+				x += dx;
+				y += dy;
+				item->SetState(ITEM_STATE_DELETE);
+			}*/
 			else if (dynamic_cast<CHeart *>(e->obj))
 			{
 				CItems *items = dynamic_cast<CHeart *>(e->obj);
 				x += dx;
+				y += dy;
 				items->SetState(ITEM_STATE_DELETE);
 			}
 			else if (dynamic_cast<CDagger *>(e->obj))
@@ -100,40 +103,42 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				weapon = new CDagger();
 				weapon->LoadData();
 				x += dx;
+				y += dy;
 				items->SetState(ITEM_STATE_DELETE);
 			}
-			else if (dynamic_cast<CWhipUpdate *>(e->obj))
+			else if (dynamic_cast<CDoor *>(e->obj))
 			{
-				CItems *items = dynamic_cast<CWhipUpdate *>(e->obj);
-				state_update = state;
-				if (whip->state == WHITE_WHIP)
-					whip->SetState(BLUE_WHIP);
-				else if (whip->state == BLUE_WHIP)
-					whip->SetState(YELLOW_WHIP);
-				/*else if (whip->state == YELLOW_WHIP)
-					whip->SetState(RED_WHIP);*/
-				SetState(SIMON_STATE_UPDATE);
-				FrameUpdate = GetTickCount();
-				x += dx;
-				items->SetState(ITEM_STATE_DELETE);
+				level1->SetScene(SCENE_2);
+				SetPosition(10.0f, 80.0f);
+				game->SetCamera(0.0f, 0.0f);
 			}
 
 		}
 	}
 	//DebugOut(L"heart = %d\n", heart);
-	CGame *game = CGame::GetInstance();
+	
 	float cx, cy;
 	game->GetCamera(cx, cy);
-	if (x > 110.0f)
+	if (x > 100.0f)
 	{
-		game->SetCamera(x - 110.0f, 0.0f);
+		game->SetCamera(x - 100.0f, 0.0f);
 		if (cx < 0) game->SetCamera(0.0f, 0.0f);
-		if (cx + 320.0f >= 768.0f)
+		if (cx + 256.0f >= widthofmap)
 		{
 			game->SetCamera(cx, 0.0f);
-			if (x < 620.0f) game->SetCamera(x - 110.0f, 0.0f);
+			if (x < 620.0f) game->SetCamera(x - 100.0f, 0.0f);
 		}
 	}
+	DebugOut(L"x = %f, y = %f\n", x, y);
+	//sau nay se sua thanh CDoor
+	//if (x >= 704.0f)
+	//{
+	//	
+	//	level1->SetScene(SCENE_2);
+	//	SetPosition(10.0f, 80.0f);
+	//	game->SetCamera(0.0f, 0.0f);
+	//	//level1->Update();
+	//}
 }
 
 void CSimon::Render()
@@ -161,30 +166,33 @@ void CSimon::Render()
 		DWORD now = GetTickCount();
 		if (skill==true && now-FrameWeapon<300)
 		{
-			if (nx > 0)	ani = SIMON_ANI_FIGHT_RIGHT;
-			else ani = SIMON_ANI_FIGHT_LEFT;
+			if (nx > 0)
+				ani = SIMON_ANI_FIGHT_RIGHT;
+			else
+				ani = SIMON_ANI_FIGHT_LEFT;
 			animations[ani]->Render(x, y, 255);
 		}
 		else
 		{
 			if (fight == true)
 			{
-				if (mx == 1)
+				if (vx == 0)
 				{
-					if (nx > 0)
-						ani = SIMON_ANI_KNEE_FIGHT_RIGHT;
+					if (mx == 1)
+					{
+						if (nx > 0)
+							ani = SIMON_ANI_KNEE_FIGHT_RIGHT;
+						else
+							ani = SIMON_ANI_KNEE_FIGHT_LEFT;
+					}
 					else
-						ani = SIMON_ANI_KNEE_FIGHT_LEFT;
+					{
+						if (nx > 0)
+							ani = SIMON_ANI_FIGHT_RIGHT;
+						else
+							ani = SIMON_ANI_FIGHT_LEFT;
+					}
 				}
-				else
-				{
-					if (nx > 0)
-						ani = SIMON_ANI_FIGHT_RIGHT;
-					else
-						ani = SIMON_ANI_FIGHT_LEFT;
-				}
-				if (nx > 0)whip->SetStateWhip(WHIP_STATE_RIGHT);
-				else whip->SetStateWhip(WHIP_STATE_LEFT);
 				whip->Render();
 				animations[ani]->Render(x, y, 255);
 			}
@@ -221,14 +229,22 @@ void CSimon::Render()
 				animations[ani]->Render(x, y, 255);
 			}
 		}
-		if (skill)
+	}
+	DWORD now = GetTickCount();
+	if (skill)
+	{
+		if (now - FrameWeapon > 5000)
 		{
-			if (now - FrameWeapon > 500)	skill = false;
-			else weapon->Render();
+			skill = false;
+		}
+		else
+		{
+			float temp_x, temp_y;
+			weapon->GetPosition(temp_x, temp_y);
+			weapon->SetPosition(temp_x + 5, temp_y);
+			weapon->Render();
 		}
 	}
-	DebugOut(L"x=%f\n y=%f\n", x, y);
-	//RenderBoundingBox(100);
 }
 
 void CSimon::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -278,7 +294,7 @@ void CSimon::SetState(int state)
 		break;
 	case SIMON_STATE_KNEE:
 		if(previousstate!= SIMON_STATE_KNEE)
-			SetPosition(x, y + 4);
+			SetPosition(x, y + 9);
 		previousstate = SIMON_STATE_KNEE;
 		vx = 0;
 		mx = 1;

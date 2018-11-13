@@ -2,15 +2,14 @@
 
 CMap::CMap()
 {
-	
-}
 
-CMap::CMap(float width, float height)
-{
-	this->width = width;
-	this->height = height;
+	textures = CTextures::GetInstance();
+	sprites = CSprites::GetInstance();
+	animations = CAnimations::GetInstance();
+	tilemap = new CTileMap();
+	prev_scene = 0;
+	scene = 0;
 }
-
 
 CMap::~CMap()
 {
@@ -27,28 +26,24 @@ vector<LPGAMEOBJECT> CMap::GetUpdateObjects()
 	return UpdateObjects;
 }
 
-void CMap::LoadMap()
+void CMap::GetSizeOfMap(float &width, float &height)
 {
-	int column, row;
-	column = (int)width / 64 + 1;
-	row = (int)height / 56 + 1;
-
-	cells = new CCells(row, column);
-
-	textures = CTextures::GetInstance();
-	sprites = CSprites::GetInstance();
-	animations = CAnimations::GetInstance();
+	tilemap->GetSize(width, height);
 }
 
-//void CMap::Update(DWORD dt)
-//{
-//	float cam_x;
-//	float cam_y;
-//	CGame *game = CGame::GetInstance();
-//	game->GetCamera(cam_x, cam_y);
-//	
-//	cells->Update(dt, cam_x, cam_y);
-//}
+void CMap::LoadMap()
+{
+	/*int column, row;
+
+	float width, height;
+	tilemap->GetSize(width, height);
+
+	column = (int)width / CELL_WIDTH + 1;
+	row = (int)height / CELL_HEIGHT + 1;
+
+	cells = new CCells(row, column);*/
+
+}
 
 void CMap::Render()
 {

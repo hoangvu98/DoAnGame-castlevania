@@ -7,6 +7,7 @@
 #include <dinput.h>
 
 #define KEYBOARD_BUFFER_SIZE 1024
+
 /*
 Abstract class to define keyboard event handlers
 */

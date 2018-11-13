@@ -133,6 +133,7 @@
     <ClInclude Include="Candle.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="debug.h" />
+    <ClInclude Include="Door.h" />
     <ClInclude Include="EntranceLevel.h" />
     <ClInclude Include="Fishman.h" />
     <ClInclude Include="Game.h" />
@@ -147,6 +148,7 @@
     <ClInclude Include="Simon.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Textures.h" />
+    <ClInclude Include="TileMap.h" />
     <ClInclude Include="Whip.h" />
   </ItemGroup>
   <ItemGroup>
@@ -155,6 +157,7 @@
     <ClCompile Include="Candle.cpp" />
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="debug.cpp" />
+    <ClCompile Include="Door.cpp" />
     <ClCompile Include="EntranceLevel.cpp" />
     <ClCompile Include="Fishman.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -170,6 +173,7 @@
     <ClCompile Include="Simon.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="Whip.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

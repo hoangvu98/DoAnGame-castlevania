@@ -22,8 +22,8 @@ void CCell::Render()
 
 CCell::CCell()
 {
-	width = 80;
-	height = 60;
+	width = CELL_WIDTH;
+	height = CELL_HEIGHT;
 	objects.clear();
 }
 
@@ -61,11 +61,11 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 	int xe, ye;
 	int i, j, k;
 	list_object->clear();
-	xs = (int)cam_x / 64;
-	ys = (int)cam_y / 56;
+	xs = (int)cam_x / CELL_WIDTH;
+	ys = (int)cam_y / CELL_HEIGHT;
 
-	xe = (int)(cam_x + 256.0f) / 64;
-	ye = (int)(cam_y + 160.0f) / 56;
+	xe = (int)(cam_x + 256.0f) / CELL_WIDTH;
+	ye = (int)(cam_y + 160.0f) / CELL_HEIGHT;
 
 	for (i = ys; i <= ye; i++)
 		for (j = xs; j <= xe; j++)
@@ -100,11 +100,11 @@ void CCells::Update(DWORD dt, float cam_x, float cam_y)
 	int xe, ye;
 	int i, j;
 
-	xs = (int)cam_x / 80;
-	ys = (int)cam_y / 60;
+	xs = (int)cam_x / CELL_WIDTH;
+	ys = (int)cam_y / CELL_HEIGHT;
 
-	xe = (int)(cam_x + 320.0f) / 80;
-	ye = (int)(cam_y + 200.0f) / 60;
+	xe = (int)(cam_x + 256.0f) / CELL_WIDTH;
+	ye = (int)(cam_y + 160.0f) / CELL_HEIGHT;
 
 	for (i = xs; i < xe; i++)
 		for (j = ys; j < ye; j++)
@@ -118,11 +118,11 @@ void CCells::Render(float cam_x, float cam_y)
 	int xe, ye;
 	int i, j;
 
-	xs = (int)cam_x / 80;
-	ys = (int)cam_y / 60;
+	xs = (int)cam_x / CELL_WIDTH;
+	ys = (int)cam_y / CELL_HEIGHT;
 
-	xe = (int)(cam_x + 240.0f) / 80;
-	ye = (int)(cam_y + 200.0f) / 60;
+	xe = (int)(cam_x + 256.0f) / CELL_WIDTH;
+	ye = (int)(cam_y + 160.0f) / CELL_HEIGHT;
 
 	for (i = xs; i < xe; i++)
 		for (j = ys; j < ye; j++)

@@ -4,6 +4,8 @@
 #include "GameObject.h"
 using namespace std;
 
+#define CELL_WIDTH	64
+#define CELL_HEIGHT	56
 class CCell
 {
 	vector<LPGAMEOBJECT> objects;
