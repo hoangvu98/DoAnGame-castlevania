@@ -8,8 +8,9 @@ void CHidenObject::SetState(int state)
 void CHidenObject::Render()
 {
 	if (state == HIDENOBJECT_STATE_NORMAL)
-	{////RenderBoundingBox(100);
-	//animations[0]->Render(x, y);
+	{
+		RenderBoundingBox(100);
+		//animations[0]->Render(x, y);
 	}
 	else
 	{

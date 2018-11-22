@@ -57,14 +57,14 @@ CEntranceLevel *level_1;
 LPDIRECT3DTEXTURE9 texture_title;
 LPDIRECT3DTEXTURE9 texture_intro;
 int screen = 1;
-class CSampleKeyHander: public CKeyEventHandler
+class CSampleKeyHander : public CKeyEventHandler
 {
 	virtual void KeyState(BYTE *states);
 	virtual void OnKeyDown(int KeyCode);
 	virtual void OnKeyUp(int KeyCode);
 };
 
-CSampleKeyHander * keyHandler; 
+CSampleKeyHander * keyHandler;
 void CSampleKeyHander::OnKeyDown(int KeyCode)
 {
 	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
@@ -73,37 +73,39 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	case DIK_UP:
 		if (simon->GetStair() == 1)
 		{
-			simon->y += 9;
-			simon->SetStair(2);
-			simon->SetState(SIMON_STATE_STAIR);
+			simon->state_auto = 1;
 		}
 		break;
 	case DIK_RETURN:
 		screen = 2;
 		break;
 	case DIK_D:
-		if (simon->GetStair() != 2)
+		if (simon->GetFight() == false)
 		{
-			if (simon->GetFight() == false)
+			if (!game->IsKeyDown(DIK_DOWN) && simon->GetJump() == true)
 			{
-				if (!game->IsKeyDown(DIK_DOWN) && simon->GetJump() == true)
-				{
-					simon->SetState(SIMON_STATE_JUMP);
-					simon->SetJump(false);
-				}
+				simon->SetState(SIMON_STATE_JUMP);
+				simon->SetJump(false);
 			}
 		}
 		break;
 	case DIK_DOWN:
-		float tx, ty;
-		simon->GetPosition(tx, ty);
-		simon->SetPosition(tx, ty - 5);
+		if (simon->GetStair() == 3)
+		{
+			simon->state_auto = 1;
+		}
+		else if (simon->GetStair() != 2)
+		{
+			float tx, ty;
+			simon->GetPosition(tx, ty);
+			simon->SetPosition(tx, ty - 5);
+		}
 		break;
 	case DIK_F:
 		DWORD t = GetTickCount() - simon->GetWhip()->GetFrameWhip();
 		if (t >= 450)
 		{
-			if (game->IsKeyDown(DIK_UP))
+			if (game->IsKeyDown(DIK_UP) && t >= 450)
 			{
 				if (simon->GetOnSkill())
 				{
@@ -126,11 +128,15 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 				else
 					simon->GetWhip()->SetStateWhip(WHIP_STATE_LEFT);
 				simon->SetFight(true);
-
-				if (game->IsKeyDown(DIK_LEFT) || game->IsKeyDown(DIK_RIGHT))
+				if (simon->GetStair() != 2)
+				{
+					if (game->IsKeyDown(DIK_LEFT) || game->IsKeyDown(DIK_RIGHT))
+						simon->SetState(SIMON_STATE_IDLE);
+					if (game->IsKeyDown(DIK_DOWN))
+						simon->SetState(SIMON_STATE_KNEE);
+				}
+				else
 					simon->SetState(SIMON_STATE_IDLE);
-				if (game->IsKeyDown(DIK_DOWN))
-					simon->SetState(SIMON_STATE_KNEE);
 			}
 			DWORD time = GetTickCount();
 			simon->GetWhip()->SetFrameWhip(time);
@@ -146,10 +152,16 @@ void CSampleKeyHander::OnKeyUp(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_DOWN:
-		float tx, ty;
-		simon->GetPosition(tx, ty);
-		simon->SetPosition(tx, ty - 4);
-		simon->SetState(SIMON_STATE_IDLE);
+		if (simon->GetStair() == 3)
+		{
+		}
+		else if (simon->GetStair() != 2)
+		{
+			float tx, ty;
+			simon->GetPosition(tx, ty);
+			simon->SetPosition(tx, ty - 4);
+			simon->SetState(SIMON_STATE_IDLE);
+		}
 		break;
 	}
 }
@@ -158,24 +170,58 @@ void CSampleKeyHander::KeyState(BYTE *states)
 {
 	if (simon->GetStair() == 2)
 	{
-		DWORD now = GetTickCount();
-		if (now - simon->GetFrameStair() > 300)
+		if (!simon->GetSkill())
 		{
-			if (game->IsKeyDown(DIK_UP) || game->IsKeyDown(DIK_RIGHT))
+			if (simon->GetFight() == false)
 			{
-				simon->SetState(SIMON_STATE_STAIR);
-				simon->nx = 1;
-				simon->SetFrameStair();
-			}
-			else if (game->IsKeyDown(DIK_DOWN) || game->IsKeyDown(DIK_LEFT))
-			{
-				simon->SetState(SIMON_STATE_STAIR);
-				simon->nx = -1;
-				simon->SetFrameStair();
-			}
-			else
-			{
-				simon->SetState(SIMON_STATE_IDLE);
+				DWORD now = GetTickCount();
+				if (now - simon->GetFrameStair() > 400)
+				{
+					if (simon->IsUp == 2)
+					{
+						simon->IsUp = 0;
+						simon->SetStair(0);
+					}
+					if (simon->IsDown == 2)
+					{
+						simon->IsDown = 0;
+						simon->SetStair(0);
+					}
+					if (game->IsKeyDown(DIK_UP) || game->IsKeyDown(DIK_RIGHT))
+					{
+						if (simon->IsUp == 1)
+						{
+							simon->IsUp = 2;
+						}
+						if (simon->IsDown == 1)
+						{
+							simon->IsDown = 0;
+						}
+						simon->SetState(SIMON_STATE_STAIR);
+						simon->nx = 1;
+						simon->SetFrameStair();
+						simon->GetPosition(simon->simon_x, simon->simon_y);
+					}
+					else if (game->IsKeyDown(DIK_DOWN) || game->IsKeyDown(DIK_LEFT))
+					{
+						if (simon->IsDown == 1)
+						{
+							simon->IsDown = 2;
+						}
+						if (simon->IsUp == 1)
+						{
+							simon->IsUp = 0;
+						}
+						simon->SetState(SIMON_STATE_STAIR);
+						simon->nx = -1;
+						simon->SetFrameStair();
+						simon->GetPosition(simon->simon_x, simon->simon_y);
+					}
+					else
+					{
+						simon->SetState(SIMON_STATE_IDLE);
+					}
+				}
 			}
 		}
 	}
@@ -187,7 +233,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 			{
 				if (simon->GetFight() == false)
 				{
-					if (game->IsKeyDown(DIK_DOWN))
+					if (game->IsKeyDown(DIK_DOWN) && simon->GetStair() != 3)
 					{
 						if (game->IsKeyDown(DIK_UP))
 							simon->SetState(SIMON_STATE_IDLE);
@@ -226,7 +272,7 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 }
 
 /*
-	Load all game resources 
+	Load all game resources
 	In this example: load textures, sprites, animations and mario object
 
 	TO-DO: Improve this function by loading texture,sprite,animation,object from file
@@ -246,12 +292,12 @@ void LoadResources()
 	CSprites *sprites = CSprites::GetInstance();
 	CAnimations *animations = CAnimations::GetInstance();
 
-	
+
 	LPDIRECT3DTEXTURE9 texsimon = texture->Get(ID_SIMON);
 	LPANIMATION ani;
-	
 
-	
+
+
 
 	ifstream in("Data\\Simon.txt");
 	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3);//walk left
@@ -274,14 +320,18 @@ void LoadResources()
 	animations->Add(501, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //knee fight right
 	animations->Add(502, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 2, 150); //stair walk left
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 2, 200); //stair walk left
 	animations->Add(601, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 2, 150); //stair walk right
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 2, 200); //stair walk right
 	animations->Add(602, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //stair right
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //stair left
 	animations->Add(603, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //stair right
 	animations->Add(604, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //stair fight left
+	animations->Add(605, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //stair fight right
+	animations->Add(606, ani);
 	in.close();
 
 	simon = new CSimon();
@@ -299,13 +349,16 @@ void LoadResources()
 	simon->AddAnimation(602);
 	simon->AddAnimation(603);
 	simon->AddAnimation(604);
-	simon->SetPosition(10.0f, 80.0f);
+	simon->AddAnimation(605);
+	simon->AddAnimation(606);
+	//simon->SetPosition(10.0f, 80.0f); 
+	simon->SetPosition(615.0f, 80.0f);
 	//simon->SetState(SIMON_STATE_IDLE);
-	
+
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
 	/*LPDIRECT3DTEXTURE9 texbrick = texture->Get(ID_BRICK);
-	
+
 	sprites->Add(20011, 0, 0, 15, 15, texbrick);
 	ani = new CAnimation(100);
 	ani->Add(20011);
@@ -323,7 +376,7 @@ void LoadResources()
 	hidenObject->SetPosition(0.0f, 146.0f);
 	hidenObject->SetSize(769.0f, 15.0f);
 	objects.push_back(hidenObject);
-	
+
 	LPDIRECT3DTEXTURE9 texcandle = texture->Get(ID_CANDLE);
 	in.open("Data\\Candle.txt");
 	AddAnimation(in, sprites, ani, texcandle, 2);
@@ -422,7 +475,7 @@ void Update(DWORD dt)
 }
 
 /*
-	Render a frame 
+	Render a frame
 */
 void Render()
 {
@@ -447,7 +500,7 @@ void Render()
 				objects[i]->Render();
 			break;
 		}
-		
+
 		spriteHandler->End();
 		d3ddv->EndScene();
 	}
@@ -490,7 +543,7 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 			hInstance,
 			NULL);
 
-	if (!hWnd) 
+	if (!hWnd)
 	{
 		OutputDebugString(L"[ERROR] CreateWindow failed");
 		DWORD ErrCode = GetLastError();
@@ -531,7 +584,8 @@ int Run()
 			frameStart = now;
 			if (game->GetPause())
 			{
-				game->ProcessKeyboard();
+				if (simon->state_auto == 0)
+					game->ProcessKeyboard();
 				Update(dt);
 			}
 			DWORD now = GetTickCount();
@@ -546,7 +600,7 @@ int Run()
 			Render();
 		}
 		else
-			Sleep(tickPerFrame - dt);	
+			Sleep(tickPerFrame - dt);
 	}
 
 	return 1;
@@ -565,7 +619,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	LoadResources();
 
-	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH*2, SCREEN_HEIGHT*2, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
+	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH * 2, SCREEN_HEIGHT * 2, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 
 	Run();
 

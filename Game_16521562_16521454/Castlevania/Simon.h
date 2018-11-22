@@ -35,6 +35,8 @@ using namespace std;
 #define SIMON_ANI_STAIR_RIGHT		11
 #define SIMON_ANI_STAIR_IDLE_LEFT	12
 #define SIMON_ANI_STAIR_IDLE_RIGHT	13
+#define SIMON_ANI_STAIR_FIGHT_LEFT	14
+#define SIMON_ANI_STAIR_FIGHT_RIGHT	15
 //#define SIMON_ANI_DIE_LEFT			10
 //#define SIMON_ANI_DIE_RIGHT			11
 
@@ -63,9 +65,16 @@ class CSimon :public CGameObject
 	int alpha = 255;
 	int stair = 0; //0 b?nh thý?ng 1 g?p c?c 2 ðang lên
 	CItems* weapon;
-	DWORD FrameStair;
+	DWORD FrameStair = 0;
+	int test = 0;
 public:
-	bool test = false;
+	DWORD test_stair = 0;
+	float simon_x;
+	float simon_y;
+	int IsUp = 0;
+	int IsDown = 0;
+	float stair_x = 0;
+	int state_auto = 0;
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObject = NULL);
 	void Render();
 	void GetBoundingBox(float & left, float & top, float & right, float & bottom);

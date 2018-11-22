@@ -2,6 +2,8 @@
 #include "GameObject.h"
 #define HIDENOBJECT_STATE_NORMAL 0
 #define HIDENOBJECT_STATE_STAIR 1
+#define HIDENOBJECT_STATE_STAIR_UP 1
+#define HIDENOBJECT_STATE_STAIR_DOWN 2
 class CHidenObject :
 	public CGameObject
 {
