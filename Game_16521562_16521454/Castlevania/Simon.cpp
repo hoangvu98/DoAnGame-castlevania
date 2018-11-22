@@ -4,6 +4,8 @@
 #include "Game.h"
 #include "HidenObject.h"
 #include "EntranceLevel.h"
+
+CSimon *CSimon::__instance = NULL;
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
 	CGameObject::Update(dt);
@@ -495,4 +497,10 @@ void CSimon::SetState(int state)
 		vy = 0;
 		break;
 	}
+}
+
+CSimon * CSimon::GetInstance()
+{
+	if (__instance == NULL) __instance = new CSimon();
+	return __instance;
 }

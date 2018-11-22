@@ -51,6 +51,7 @@ using namespace std;
 
 class CSimon :public CGameObject
 {
+	static CSimon *__instance;
 	int heart = 0;
 	int mx;
 	int previousstate;
@@ -115,6 +116,6 @@ public:
 		whip->AddAnimation(2007);
 
 	}
-
+	static CSimon *GetInstance();
 };
 

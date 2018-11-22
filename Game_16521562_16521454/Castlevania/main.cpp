@@ -334,7 +334,7 @@ void LoadResources()
 	animations->Add(606, ani);
 	in.close();
 
-	simon = new CSimon();
+	simon = CSimon::GetInstance();
 	simon->AddAnimation(101);
 	simon->AddAnimation(102);
 	simon->AddAnimation(201);

@@ -4,6 +4,7 @@
 #define HIDENOBJECT_STATE_STAIR 1
 #define HIDENOBJECT_STATE_STAIR_UP 1
 #define HIDENOBJECT_STATE_STAIR_DOWN 2
+#define HIDENOBJECT_STATE_JUMP		3
 class CHidenObject :
 	public CGameObject
 {

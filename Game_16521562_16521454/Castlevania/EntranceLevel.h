@@ -7,6 +7,9 @@
 #include "HidenObject.h"
 #include "TileMap.h"
 #include "Door.h"
+#include "Simon.h"
+#include "Panther.h"
+#include "debug.h"
 using namespace std;
 #define LEVEL_1_STAGE1A_PATH L"castlevania_texture\\Background\\tileset_map1_stage1A.png"/*Level 1 Entrance.png"*/
 #define LEVEL_1_STAGE1B_PATH L"castlevania_texture\\Background\\tileset_map1_stage1B.png"

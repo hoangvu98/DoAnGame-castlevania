@@ -1,4 +1,12 @@
 #include "Panther.h"
+#include "debug.h"
+void CPanther::InitMovingArea()
+{
+	left = x - DISTANCE;
+	top = y;
+	right = left + MOVING_AREA_WIDTH;
+	bottom = top + MOVING_AREA_HEIGHT;
+}
 
 void CPanther::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
@@ -12,44 +20,99 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CGameObject::Update(dt, coObjects);
 	vy += PANTHER_GRAVITY * dt;
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
 
-	//
-	// TO-DO: make sure Goomba can interact with the world and to each of them too!
-	// 
+	coEvents.clear();
 
-	x += dx;
-	y += dy;
+	if (state != PANTHER_STATE_DIE)
+		CalcPotentialCollisions(coObjects, coEvents);
+	float x, y;
+	CSimon *simon = CSimon::GetInstance();
+	simon->GetPosition(x, y);
 
-	/*if (vx < 0 && x < 0) {
-		x = 0; vx = -vx;
+
+	//DebugOut(L"coEvents.size() = %d\n", coEvents.size());
+
+	if (coEvents.size() == 0)
+	{
+		jump = false;
+		if (turn == 1) Setnx(simon->Getnx());
+		this->x += dx;
+		this->y += dy;
 	}
+	else
+	{
+		float min_tx, min_ty, nx = 0, ny;
+		for (UINT i = 0; i < coEvents.size(); i++)
+		{
+			if (dynamic_cast<CHidenObject *> (coEvents[i]->obj))
+			{
+				CHidenObject *hobj = dynamic_cast<CHidenObject *> (coEvents[i]->obj);
+				if (hobj->GetState() == HIDENOBJECT_STATE_STAIR_DOWN ||
+					hobj->GetState() == HIDENOBJECT_STATE_STAIR_UP)
+					coEvents.erase(coEvents.begin() + i);
+			}
+		}
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
-	if (vx > 0 && x > 290) {
-		x = 290; vx = -vx;
-	}*/
+		this->x += min_tx * dx + nx * 0.4f;
+		this->y += min_ty * dy + ny * 0.4f;
+
+		
+		if (nx != 0) vx = 0;
+		if (ny != 0) vy = 0;
+
+		if (x >= left && Getnx() < 0 && jump == false)
+			SetState(PANTHER_STATE_WALKING_LEFT);
+		else if (x >= left && Getnx() > 0 && jump == false)
+			SetState(PANTHER_STATE_WALKING_RIGHT);
+
+		if (turn == 0 && jump == true)
+			turn = 1;
+		//DebugOut(L"state = %d\n", state);
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			if (dynamic_cast<CHidenObject *> (coEventsResult[i]->obj))
+			{
+				CHidenObject *hobj = dynamic_cast<CHidenObject *> (coEventsResult[i]->obj);
+				if (hobj->GetState() == HIDENOBJECT_STATE_JUMP)
+				{
+					jump = true;
+					this->x += dx;
+					this->y += dy;
+				}
+			}
+		}
+	}
+	if (jump == true && Getnx() < 0)
+		SetState(PANTHER_STATE_JUMP_LEFT);
+	else if (jump == true && Getnx() > 0)
+		SetState(PANTHER_STATE_JUMP_RIGHT);
+	DebugOut(L"state = %d\n", state);
 }
 
 void CPanther::Render()
 {
 	int ani;
-	if (state = PANTHER_STATE_IDLE)
+	if (state == PANTHER_STATE_IDLE)
 	{
 		if (nx > 0) ani = PANTHER_ANI_IDLE_RIGHT;
 		else ani = PANTHER_ANI_IDLE_LEFT;
 	}
-	if (state = PANTHER_STATE_JUMP_RIGHT)
+	if (state == PANTHER_STATE_JUMP_RIGHT)
 	{
 		ani = PANTHER_ANI_JUMP_RIGHT;
 	}
-	if (state = PANTHER_STATE_JUMP_LEFT)
+	if (state == PANTHER_STATE_JUMP_LEFT)
 	{
 		ani = PANTHER_ANI_JUMP_LEFT;
 	}
-	if (state = PANTHER_STATE_WALKING_RIGHT)
+	if (state == PANTHER_STATE_WALKING_RIGHT)
 	{
 		ani = PANTHER_ANI_WALKING_RIGHT;
 	}
-	if (state = PANTHER_STATE_WALKING_LEFT)
+	if (state == PANTHER_STATE_WALKING_LEFT)
 	{
 		ani = PANTHER_ANI_WALKING_LEFT;
 	}
@@ -66,7 +129,7 @@ void CPanther::SetState(int state)
 		nx = 1;
 		break;
 	case PANTHER_STATE_WALKING_LEFT:
-		vx = -PANTHER_WALKING_SPEED;
+		vx = -PANTHER_WALKING_SPEED; 
 		nx = -1;
 		break;
 	case PANTHER_STATE_JUMP_RIGHT:
@@ -83,4 +146,12 @@ void CPanther::SetState(int state)
 		vx = 0;
 		break;
 	}
+}
+
+void CPanther::GetMovingArea(float & left, float & top, float & right, float & bottom)
+{
+	left = this->left;
+	top = this->top;
+	right = this->right;
+	bottom = this->bottom;
 }

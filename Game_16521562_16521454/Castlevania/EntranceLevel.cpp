@@ -5,11 +5,17 @@ CEntranceLevel *CEntranceLevel::__instance = NULL;
 void CEntranceLevel::LoadMap()
 {
 	ifstream in;
+	textures->Add(ID_CANDLE, CANDLE_TEXTURE_PATH, D3DCOLOR_XRGB(34, 177, 76));
+	textures->Add(ID_PANTHER, PANTHER_TEXTURE_PATH, D3DCOLOR_XRGB(96, 68, 106));
+	CSimon *simon = CSimon::GetInstance();
 	LPDIRECT3DTEXTURE9 texture_map;
 	LPANIMATION ani = new CAnimation(100);
 	LPDIRECT3DTEXTURE9 texture_candle = textures->Get(ID_CANDLE);
+	LPDIRECT3DTEXTURE9 texpanther = textures->Get(ID_PANTHER);
+
 	CCandle *candle;
 	CDoor *door;
+	CPanther *panther;
 	switch (scene)
 	{
 	case SCENE_1:
@@ -117,6 +123,44 @@ void CEntranceLevel::LoadMap()
 		hidenObj->SetSize(30.0f, 17.0f);
 		hidenObj->SetPosition(681.0f, 81.0f);
 		cells->InitCells(hidenObj, 1, 10);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_JUMP);
+		hidenObj->SetPosition(681.0f, 84.0f);
+		hidenObj->SetSize(5.0f, 14.0f);
+		cells->InitCells(hidenObj, 1, 10);
+
+		in.open("Data\\Panther.txt");
+		if (!in) DebugOut(L"Can't open file");
+
+		CInputImage::AddAnimation(in, sprites, ani, texpanther, 1);
+		animations->Add(4000, ani);
+		CInputImage::AddAnimation(in, sprites, ani, texpanther, 1);
+		animations->Add(4001, ani);
+		CInputImage::AddAnimation(in, sprites, ani, texpanther, 3);
+		animations->Add(4002, ani);
+		CInputImage::AddAnimation(in, sprites, ani, texpanther, 3);
+		animations->Add(4003, ani);
+		CInputImage::AddAnimation(in, sprites, ani, texpanther, 1);
+		animations->Add(4004, ani);
+		CInputImage::AddAnimation(in, sprites, ani, texpanther, 1);
+		animations->Add(4005, ani);
+
+		panther = new CPanther();
+		panther->AddAnimation(4000);
+		panther->AddAnimation(4001);
+		panther->AddAnimation(4002);
+		panther->AddAnimation(4003);
+		panther->AddAnimation(4004);
+		panther->AddAnimation(4005);
+
+		panther->SetState(PANTHER_STATE_IDLE);
+		panther->Setnx(-simon->Getnx());
+		panther->SetTurn(0);
+		panther->SetPosition(690.0f, 80.0f);
+		panther->SetJump(false);
+		panther->InitMovingArea();
+		cells->InitCells(panther, 1, 10);
 		break;
 	}
 }
