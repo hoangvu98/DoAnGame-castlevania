@@ -33,11 +33,15 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 
 	//DebugOut(L"coEvents.size() = %d\n", coEvents.size());
-
+	
 	if (coEvents.size() == 0)
 	{
 		jump = false;
-		if (turn == 1) Setnx(simon->Getnx());
+		if (turn == 1)
+		{
+			Setnx(simon->Getnx());
+			turn = 0;
+		}
 		this->x += dx;
 		this->y += dy;
 	}
@@ -82,6 +86,11 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					this->x += dx;
 					this->y += dy;
 				}
+				/*else if (hobj->GetState() == HIDENOBJECT_STATE_NORMAL)
+				{
+					turn = 0;
+					jump = false;				
+				}*/
 			}
 		}
 	}
