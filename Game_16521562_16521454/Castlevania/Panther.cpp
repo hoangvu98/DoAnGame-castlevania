@@ -2,6 +2,8 @@
 #include "debug.h"
 void CPanther::InitMovingArea()
 {
+	temp_x = x;
+	temp_y = y;
 	left = x - DISTANCE;
 	top = y;
 	right = left + MOVING_AREA_WIDTH;
@@ -31,15 +33,12 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CSimon *simon = CSimon::GetInstance();
 	simon->GetPosition(x, y);
 
-
-	//DebugOut(L"coEvents.size() = %d\n", coEvents.size());
-	
 	if (coEvents.size() == 0)
 	{
 		jump = false;
 		if (turn == 1)
 		{
-			Setnx(simon->Getnx());
+			Setnx(-nx);
 			turn = 0;
 		}
 		this->x += dx;
@@ -74,7 +73,7 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 		if (turn == 0 && jump == true)
 			turn = 1;
-		//DebugOut(L"state = %d\n", state);
+
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			if (dynamic_cast<CHidenObject *> (coEventsResult[i]->obj))
@@ -86,11 +85,6 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					this->x += dx;
 					this->y += dy;
 				}
-				/*else if (hobj->GetState() == HIDENOBJECT_STATE_NORMAL)
-				{
-					turn = 0;
-					jump = false;				
-				}*/
 			}
 		}
 	}

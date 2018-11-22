@@ -34,6 +34,9 @@
 class CPanther : public CGameObject
 {
 	float left, top, right, bottom;
+
+	float temp_x, temp_y;
+
 	bool jump;
 	int turn; //0- left, 1- right
 public:
