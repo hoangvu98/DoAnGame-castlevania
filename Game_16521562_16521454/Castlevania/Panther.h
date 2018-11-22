@@ -30,7 +30,7 @@
 
 #define MOVING_AREA_WIDTH		128
 #define MOVING_AREA_HEIGHT		160
-#define DISTANCE				20
+#define DISTANCE				67
 class CPanther : public CGameObject
 {
 	float left, top, right, bottom;
