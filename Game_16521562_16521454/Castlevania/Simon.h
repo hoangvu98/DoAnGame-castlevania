@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "GameObject.h"
 #include "Whip.h"
 #include "InputImage.h"
@@ -20,6 +20,7 @@ using namespace std;
 #define SIMON_STATE_DIE				5
 #define SIMON_STATE_UPDATE          6
 #define SIMON_STATE_STAIR           7
+#define SIMON_STATE_COLLUSION       8   
 
 #define SIMON_ANI_WALKING_LEFT		0
 #define SIMON_ANI_WALKING_RIGHT		1
@@ -37,6 +38,9 @@ using namespace std;
 #define SIMON_ANI_STAIR_IDLE_RIGHT	13
 #define SIMON_ANI_STAIR_FIGHT_LEFT	14
 #define SIMON_ANI_STAIR_FIGHT_RIGHT	15
+#define SIMON_ANI_COLLUSION_LEFT 16
+#define SIMON_ANI_COLLUSION_RIGHT 17
+
 //#define SIMON_ANI_DIE_LEFT			10
 //#define SIMON_ANI_DIE_RIGHT			11
 
@@ -64,10 +68,12 @@ class CSimon :public CGameObject
 	bool jump = true;
 	bool fight = false;
 	int alpha = 255;
-	int stair = 0; //0 b?nh th�?ng 1 g?p c?c 2 �ang l�n
+	int stair = 0; //0 b?nh thư?ng 1 g?p c?c 2 đang lên
 	CItems* weapon;
 	DWORD FrameStair = 0;
 	int test = 0;
+	int collusion = 0;//0 co the đụng 1 đã đụng -đứng 2 đã đụng - có thể di chuyển 
+	int collusion_nx = 0;
 public:
 	DWORD test_stair = 0;
 	float simon_x;
@@ -95,6 +101,7 @@ public:
 	int GetStair() { return stair; }
 	void SetStair(int stair) { this->stair = stair; }
 	void SetFrameStair() { FrameStair = GetTickCount(); }
+	int GetCollusion() { return collusion; }
 	DWORD GetFrameStair() { return FrameStair; }
 	DWORD GetFrameUpdate()
 	{
@@ -102,18 +109,29 @@ public:
 	}
 	CSimon() :CGameObject()
 	{
+		AddAnimation(101);
+		AddAnimation(102);
+		AddAnimation(201);
+		AddAnimation(202);
+		AddAnimation(301);
+		AddAnimation(302);
+		AddAnimation(401);
+		AddAnimation(402);
+		AddAnimation(501);
+		AddAnimation(502);
+		AddAnimation(601);
+		AddAnimation(602);
+		AddAnimation(603);
+		AddAnimation(604);
+		AddAnimation(605);
+		AddAnimation(606);
+		AddAnimation(701);
+		AddAnimation(702);
 		mx = 0;
 		previousstate = state;
 		whip = new CWhip();
 		whip->SetState(WHITE_WHIP);
-		whip->AddAnimation(2000);
-		whip->AddAnimation(2001);
-		whip->AddAnimation(2002);
-		whip->AddAnimation(2003);
-		whip->AddAnimation(2004);
-		whip->AddAnimation(2005);
-		whip->AddAnimation(2006);
-		whip->AddAnimation(2007);
+	
 
 	}
 	static CSimon *GetInstance();

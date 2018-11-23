@@ -36,7 +36,6 @@ class CWhip :
 	int size;
 	DWORD FrameWhip;
 public:
-	void LoadAnimaion();
 	bool fight;
 	CWhip();
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);

@@ -20,13 +20,13 @@
 #include "HidenObject.h"
 #include "EntranceLevel.h"
 #include "InputImage.h"
+#include "Resource.h"
 using namespace std;
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"Castlevania"
 
 #define BRICK_TEXTURE_PATH L"brick.png"
-#define SIMON_TEXTURE_PATH L"castlevania_texture\\Simon\\Simon.png"
 #define BBOX_TEXTURE_PATH L"bbox.png"
 #define CANDLE_TEXTURE_PATH L"castlevania_texture\\Weapon\\Candle.png"
 #define TITLE_SCREEN_PATH L"castlevania_texture\\Background\\Title Screen.png"
@@ -38,9 +38,7 @@ using namespace std;
 
 #define MAX_FRAME_RATE 120
 
-#define ID_SIMON			2
 #define ID_BRICK			3
-#define ID_GHOUL			4
 #define ID_BAT				5
 #define ID_TITLE_SCREEN		7
 #define ID_INTRO_SCREEN		8
@@ -50,6 +48,7 @@ CBrick *brick;
 CGhoul *ghoul;
 CBat *bat;
 CMap *map1;
+CResource *resource;
 
 vector<LPGAMEOBJECT> objects;
 CHidenObject *hidenObject;
@@ -93,12 +92,6 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		if (simon->GetStair() == 3)
 		{
 			simon->state_auto = 1;
-		}
-		else if (simon->GetStair() != 2)
-		{
-			float tx, ty;
-			simon->GetPosition(tx, ty);
-			simon->SetPosition(tx, ty - 5);
 		}
 		break;
 	case DIK_F:
@@ -152,14 +145,8 @@ void CSampleKeyHander::OnKeyUp(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_DOWN:
-		if (simon->GetStair() == 3)
+		if (simon->GetStair() != 2)
 		{
-		}
-		else if (simon->GetStair() != 2)
-		{
-			float tx, ty;
-			simon->GetPosition(tx, ty);
-			simon->SetPosition(tx, ty - 4);
 			simon->SetState(SIMON_STATE_IDLE);
 		}
 		break;
@@ -281,153 +268,31 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 void LoadResources()
 {
 	CTextures *texture = CTextures::GetInstance();
-	texture->Add(ID_SIMON, SIMON_TEXTURE_PATH, D3DCOLOR_XRGB(0, 128, 128));
+	CSprites *sprites = CSprites::GetInstance();
+	CAnimations *animations = CAnimations::GetInstance();
 	texture->Add(ID_BRICK, BBOX_TEXTURE_PATH, D3DCOLOR_XRGB(237, 28, 36));
 	texture->Add(ID_BBOX, BBOX_TEXTURE_PATH, D3DCOLOR_XRGB(0, 128, 128));
 	texture->Add(ID_CANDLE, CANDLE_TEXTURE_PATH, D3DCOLOR_XRGB(34, 177, 76));
 	texture->Add(ID_ITEM, ITEM_TEXTURE_PATH, D3DCOLOR_XRGB(128, 0, 0));
 	texture->Add(ID_TITLE_SCREEN, TITLE_SCREEN_PATH, D3DCOLOR_XRGB(255, 255, 255));
 	texture->Add(ID_INTRO_SCREEN, INTRO_SCREEN_PATH, D3DCOLOR_XRGB(255, 255, 255));
-
-	CSprites *sprites = CSprites::GetInstance();
-	CAnimations *animations = CAnimations::GetInstance();
-
-
-	LPDIRECT3DTEXTURE9 texsimon = texture->Get(ID_SIMON);
-	LPANIMATION ani;
-
-
-
-
-	ifstream in("Data\\Simon.txt");
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3);//walk left
-	animations->Add(101, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3);//walk right
-	animations->Add(102, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//idle left
-	animations->Add(201, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//idle right
-	animations->Add(202, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//jump left
-	animations->Add(301, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//jump right
-	animations->Add(302, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //fight left
-	animations->Add(401, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //fight right
-	animations->Add(402, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150);//knee fight left
-	animations->Add(501, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //knee fight right
-	animations->Add(502, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 2, 200); //stair walk left
-	animations->Add(601, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 2, 200); //stair walk right
-	animations->Add(602, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //stair left
-	animations->Add(603, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //stair right
-	animations->Add(604, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //stair fight left
-	animations->Add(605, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //stair fight right
-	animations->Add(606, ani);
-	in.close();
-
+	resource = new CResource();
+	resource->LoadSimon();
+	resource->LoadWhip();
+	resource->LoadPanther();
+	resource->LoadGhoul();
+	resource->LoadDagger();
+	resource->LoadHeart();
+	resource->LoadWhipUpdate();
+	resource->LoadCandle();
+	resource->LoadHitEffect();
 	simon = CSimon::GetInstance();
-	simon->AddAnimation(101);
-	simon->AddAnimation(102);
-	simon->AddAnimation(201);
-	simon->AddAnimation(202);
-	simon->AddAnimation(301);
-	simon->AddAnimation(302);
-	simon->AddAnimation(401);
-	simon->AddAnimation(402);
-	simon->AddAnimation(501);
-	simon->AddAnimation(502);
-	simon->AddAnimation(601);
-	simon->AddAnimation(602);
-	simon->AddAnimation(603);
-	simon->AddAnimation(604);
-	simon->AddAnimation(605);
-	simon->AddAnimation(606);
-	//simon->SetPosition(10.0f, 80.0f); 
 	simon->SetPosition(615.0f, 80.0f);
+	//simon->SetPosition(10.0f, 80.0f); 
 	//simon->SetState(SIMON_STATE_IDLE);
 
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
-	/*LPDIRECT3DTEXTURE9 texbrick = texture->Get(ID_BRICK);
-
-	sprites->Add(20011, 0, 0, 15, 15, texbrick);
-	ani = new CAnimation(100);
-	ani->Add(20011);
-	animations->Add(601, ani);
-
-	for (int i = 0; i < 30; i++)
-	{
-		brick = new CBrick();
-		brick->AddAnimation(601);
-		brick->SetPosition(i * 15, 150.0f);
-		objects.push_back(brick);
-	}*/
-
-	/*hidenObject = new CHidenObject();
-	hidenObject->SetPosition(0.0f, 146.0f);
-	hidenObject->SetSize(769.0f, 15.0f);
-	objects.push_back(hidenObject);
-
-	LPDIRECT3DTEXTURE9 texcandle = texture->Get(ID_CANDLE);
-	in.open("Data\\Candle.txt");
-	AddAnimation(in, sprites, ani, texcandle, 2);
-	in.close();
-	animations->Add(701, ani);
-
-
-	CCandle *candle = new CCandle();
-	candle->AddAnimation(701);
-	candle->SetPosition(80.0f, 113.0f);
-	candle->SetState(CANDLE_STATE_NORMAL);
-	objects.push_back(candle);*/
-
-
-
-	/*texture->Add(ID_MAP_LEVEL1, MAP_LEVEL1_TEXTURE_PATH, D3DCOLOR_XRGB(255, 255, 255));
-	LPDIRECT3DTEXTURE9 texmap = texture->Get(ID_MAP_LEVEL1);
-	sprites->Add(20001, 0, 0, 768, 184, texmap);
-	ani = new CAnimation(100);
-	ani->Add(20001);
-	animations->Add(801, ani);
-
-	map1 = new CMap();
-	map1->AddAnimation(801);
-	map1->SetPosition(0.0f, 0.0f);*/
-
-	//LPDIRECT3DTEXTURE9 texfishman = texture->Get(ID_FISHMAN);
-	//AddAnimation(in_fish, sprites, ani, texfishman, 1);//fire left
-	//animations->Add(601, ani);
-	//AddAnimation(in_fish, sprites, ani, texfishman, 1);//jump left
-	//animations->Add(701, ani);
-	//AddAnimation(in_fish, sprites, ani, texfishman, 2);//walk left
-	//animations->Add(801, ani);
-	//AddAnimation(in_fish, sprites, ani, texfishman, 1);//fire right
-	//animations->Add(901, ani);
-	//AddAnimation(in_fish, sprites, ani, texfishman, 1);//jump right
-	//animations->Add(1001, ani);
-	//AddAnimation(in_fish, sprites, ani, texfishman, 2);//walk right
-	//animations->Add(1101, ani);
-	//in_fish.close();
-	//fishman = new CFishman();
-	//fishman->AddAnimation(601);
-	//fishman->AddAnimation(701);
-	//fishman->AddAnimation(801);
-	//fishman->AddAnimation(901);
-	//fishman->AddAnimation(1001);
-	//fishman->AddAnimation(1101);
-	//fishman->SetPosition(100.f, 170.f);
-	//fishman->SetState(FISHMAN_STATE_JUMP);
-	//objects.push_back(fishman);
-
 	level_1 = CEntranceLevel::GetInstance();
 	level_1->SetScene(SCENE_1);
 	level_1->LoadMap();
@@ -584,7 +449,7 @@ int Run()
 			frameStart = now;
 			if (game->GetPause())
 			{
-				if (simon->state_auto == 0)
+				if (simon->state_auto == 0 && simon->GetCollusion()!=1)
 					game->ProcessKeyboard();
 				Update(dt);
 			}

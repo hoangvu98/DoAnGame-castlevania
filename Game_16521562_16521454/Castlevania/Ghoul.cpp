@@ -1,4 +1,6 @@
 #include "Ghoul.h"
+#include "InputImage.h"
+
 
 void CGhoul::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
@@ -52,4 +54,9 @@ void CGhoul::SetState(int state)
 		nx = -1;
 		break;
 	}
+}
+CGhoul::CGhoul()
+{
+	AddAnimation(10000);
+	AddAnimation(10001);
 }

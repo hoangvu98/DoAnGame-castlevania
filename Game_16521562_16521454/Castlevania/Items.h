@@ -15,17 +15,11 @@
 class CItems :
 	public CGameObject
 {
-protected:
-	CTextures *textures;
-	CSprites *sprites;
-	CAnimations *anims;
-	LPDIRECT3DTEXTURE9 texitem;
 public:
 	CItems();
 	~CItems();
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
-	virtual void LoadData()=0;
 	virtual void Render() = 0;
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom) = 0;
 };
@@ -37,13 +31,12 @@ class CDagger : public CItems
 {
 	int damage;
 public:
-	CDagger() :CItems() { this->damage = 2; }
+	CDagger() :CItems() { this->damage = 2; AddAnimation(6000); AddAnimation(6001); }
 
 	int GetDamage() { return damage; }
 	void SetDamage(int damage) { this->damage = damage; }
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
-	void LoadData();
 	void Render();
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 };
@@ -62,7 +55,7 @@ class CHeart:public CItems
 	int hearts;
 	int size;
 public:
-	CHeart():CItems() { size = HEART_SMALL; }
+	CHeart() :CItems() { size = HEART_SMALL; AddAnimation(7000); AddAnimation(8000); }
 
 	CHeart(int size) :CItems()
 	{
@@ -76,6 +69,8 @@ public:
 			hearts = 2;
 			break;
 		}
+		AddAnimation(7000);
+		AddAnimation(8000);
 	}
 
 	void SetHearts(int hearts) { this->hearts = hearts; }
@@ -84,7 +79,6 @@ public:
 	void SetSize(int size) { this->size = size; }
 	int GetSize() { return size; }
 
-	void LoadData();
 	void Render();
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 
@@ -96,10 +90,7 @@ public:
 class CWhipUpdate : public CItems
 {
 public:
-	CWhipUpdate() :CItems() {  }
-
-	//void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
-	void LoadData();
+	CWhipUpdate() :CItems() { AddAnimation(9000); }
 	void Render();
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 };

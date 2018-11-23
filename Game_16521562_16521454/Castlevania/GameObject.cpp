@@ -8,8 +8,7 @@
 #include "GameObject.h"
 #include "Sprites.h"
 #include "InputImage.h"
-#define HITEFFECT_TEXTURE_PATH L"Hit effect.png"
-#define ID_HITEFFECT		10
+
 CGameObject::CGameObject()
 {
 	x = y = 0;
@@ -160,22 +159,4 @@ void Chiteffect::Render()
 {
 	animations[0]->Render(x, y, 255);
 	animations[1]->Render(x + 5, y + 5, 255);
-}
-void Chiteffect::LoadAnimaion()
-{
-	CTextures *texture = CTextures::GetInstance();
-	texture->Add(ID_HITEFFECT, HITEFFECT_TEXTURE_PATH, D3DCOLOR_XRGB(34, 177, 76));
-
-	CSprites *sprites = CSprites::GetInstance();
-	CAnimations *animations = CAnimations::GetInstance();
-
-	ifstream in("Data\\Hit_effect.txt");
-	LPANIMATION ani;
-	LPDIRECT3DTEXTURE9 texhiteffect = texture->Get(ID_HITEFFECT);
-	ani = new CAnimation(50);
-	CInputImage::AddAnimation(in, sprites, ani, texhiteffect, 1);
-	animations->Add(5000, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texhiteffect, 3);
-	animations->Add(5001, ani);
-	in.close();
 }

@@ -27,13 +27,12 @@ public:
 	void Render();
 	void GetBoundingBox(float & left, float & top, float &right, float & bottom);
 	void SetState(int state);
-	//CItem* GetItem() { return item; }
 	CItems *GetItems() { return items; }
 
 	CCandle()
 	{
+		AddAnimation(100);
 		hiteffect = new Chiteffect();
-
 		int random;
 		srand(time(NULL));
 		random = rand() % 2;
@@ -56,11 +55,10 @@ public:
 			}
 			break;
 		}
-		items->LoadData();
-		//items->SetState(0);
 	}
 	CCandle(int item) 
 	{
+		AddAnimation(100);
 		hiteffect = new Chiteffect();
 		int random = rand() % 2;
 		switch (item)
@@ -84,7 +82,6 @@ public:
 			items = new CWhipUpdate();
 			break;
 		}	
-		items->LoadData();
 	}
 };
 

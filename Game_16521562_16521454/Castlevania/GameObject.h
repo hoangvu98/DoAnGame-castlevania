@@ -88,7 +88,6 @@ public:
 
 class Chiteffect :public CGameObject
 {
-	void LoadAnimaion();
 public:
 	void Render();
 	void GetBoundingBox(float & left, float & top, float & right, float & bottom) {};
@@ -96,7 +95,6 @@ public:
 
 	Chiteffect() :CGameObject()
 	{
-		LoadAnimaion();
 		AddAnimation(5000);
 		AddAnimation(5001);
 	};

@@ -9,43 +9,18 @@
 using namespace std;
 
 
-void CWhip::LoadAnimaion()
-{
-	CTextures *texture = CTextures::GetInstance();
-	texture->Add(ID_WHIP, WHIP_TEXTURE_PATH, D3DCOLOR_XRGB(0, 128, 128));
-
-	CSprites *sprites = CSprites::GetInstance();
-	CAnimations *animations = CAnimations::GetInstance();
-
-	ifstream in("Data\\Whip.txt");
-	LPANIMATION ani;
-	LPDIRECT3DTEXTURE9 texwhip = texture->Get(ID_WHIP);
-	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 150);
-	animations->Add(2000, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 150);
-	animations->Add(2001, ani);
-
-	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 150);
-	animations->Add(2002, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 150);
-	animations->Add(2003, ani);
-
-	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 150);
-	animations->Add(2004, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 150);
-	animations->Add(2005, ani);
-
-	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 150);
-	animations->Add(2006, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 150);
-	animations->Add(2007, ani);
-	in.close();
-}
 
 CWhip::CWhip()
 {
 	fight = false;
-	LoadAnimaion();
+	AddAnimation(2000);
+	AddAnimation(2001);
+	AddAnimation(2002);
+	AddAnimation(2003);
+	AddAnimation(2004);
+	AddAnimation(2005);
+	AddAnimation(2006);
+	AddAnimation(2007);
 }
 
 void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

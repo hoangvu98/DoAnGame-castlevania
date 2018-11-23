@@ -33,30 +33,36 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CSimon *simon = CSimon::GetInstance();
 	simon->GetPosition(x, y);
 
-	if (coEvents.size() == 0)
+	for (UINT i = 0; i < coEvents.size(); i++)
 	{
-		jump = false;
+		if (dynamic_cast<CHidenObject *> (coEvents[i]->obj))
+		{
+			CHidenObject *hobj = dynamic_cast<CHidenObject *> (coEvents[i]->obj);
+			if (hobj->GetState() == HIDENOBJECT_STATE_STAIR_DOWN ||
+				hobj->GetState() == HIDENOBJECT_STATE_STAIR_UP)
+				coEvents.erase(coEvents.begin() + i);
+		}
+		else if (dynamic_cast<CSimon *> (coEvents[i]->obj))
+			coEvents.erase(coEvents.begin() + i);
+	}
+	
+	if (coEvents.size() == 0)
+	{	
 		if (turn == 1)
 		{
-			Setnx(-nx);
+			Setnx(-Getnx());
+			/*if (nx < 0) SetState(PANTHER_STATE_WALKING_LEFT);
+			else SetState(PANTHER_STATE_WALKING_RIGHT);*/
 			turn = 0;
 		}
+		jump = false;
 		this->x += dx;
 		this->y += dy;
 	}
 	else
 	{
 		float min_tx, min_ty, nx = 0, ny;
-		for (UINT i = 0; i < coEvents.size(); i++)
-		{
-			if (dynamic_cast<CHidenObject *> (coEvents[i]->obj))
-			{
-				CHidenObject *hobj = dynamic_cast<CHidenObject *> (coEvents[i]->obj);
-				if (hobj->GetState() == HIDENOBJECT_STATE_STAIR_DOWN ||
-					hobj->GetState() == HIDENOBJECT_STATE_STAIR_UP)
-					coEvents.erase(coEvents.begin() + i);
-			}
-		}
+		
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
 		this->x += min_tx * dx + nx * 0.4f;
@@ -71,6 +77,10 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		else if (x >= left && Getnx() > 0 && jump == false)
 			SetState(PANTHER_STATE_WALKING_RIGHT);
 
+		if (x < left && run == true && Getnx() < 0)
+			SetState(PANTHER_STATE_WALKING_LEFT);
+		else if (x < left && run == true && Getnx() > 0)
+			SetState(PANTHER_STATE_WALKING_RIGHT);
 		if (turn == 0 && jump == true)
 			turn = 1;
 
@@ -82,8 +92,10 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				if (hobj->GetState() == HIDENOBJECT_STATE_JUMP)
 				{
 					jump = true;
+					run = true;
 					this->x += dx;
 					this->y += dy;
+					DebugOut(L"run = %d\n", run);
 				}
 			}
 		}
@@ -93,6 +105,7 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	else if (jump == true && Getnx() > 0)
 		SetState(PANTHER_STATE_JUMP_RIGHT);
 	DebugOut(L"state = %d\n", state);
+	DebugOut(L"run = %d\n", run);
 }
 
 void CPanther::Render()
