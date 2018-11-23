@@ -34,7 +34,7 @@ public:
 	CCells(int row, int column);
 	~CCells();
 
-	void InitCells(LPGAMEOBJECT object, int x, int y);
+	void InitCells(LPGAMEOBJECT object);
 	void GetListOfObjects(vector<LPGAMEOBJECT> *list_object, float cam_x, float cam_y);
 	void Update(DWORD dt, float cam_x, float cam_y);
 	void Render(float cam_x, float cam_y);

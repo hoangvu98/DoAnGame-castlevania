@@ -54,8 +54,10 @@ CCells::~CCells()
 {
 }
 
-void CCells::InitCells(LPGAMEOBJECT object, int x, int y)
+void CCells::InitCells(LPGAMEOBJECT object)
 {
+	int x = object->x / CELL_WIDTH;
+	int y = object->y / CELL_HEIGHT;
 	cells[x][y].SetObjects(object);
 }
 

@@ -6,7 +6,10 @@ void CCandle::Render()
 {
 	if (state == CANDLE_STATE_NORMAL)
 	{
-		animations[0]->Render(x, y);
+		if (size == BIG_CANDLE)
+			animations[0]->Render(x, y);
+		else if (size == SMALL_CANDLE)
+			animations[1]->Render(x, y);
 	}
 	else if (state == CANDLE_STATE_DISAPPEAR)
 	{
@@ -39,37 +42,42 @@ void CCandle::SetState(int state)
 	}
 }
 
-CCandle::CCandle()
+CCandle::CCandle(int size)
 {
 	
-		AddAnimation(100);
-		hiteffect = new Chiteffect();
-		int random;
-		srand(time(NULL));
+	this->size = size;
+	AddAnimation(11111);
+	AddAnimation(11112);
+	hiteffect = new Chiteffect();
+	int random;
+	srand(time(NULL));
+	random = rand() % 2;
+
+	switch (random)
+	{
+	case 0:
+		items = new CDagger();
+		break;
+	case 1:
 		random = rand() % 2;
 		switch (random)
 		{
 		case 0:
-			items = new CDagger();
+			items = new CHeart(HEART_BIG);
 			break;
 		case 1:
-			random = rand() % 2;
-			switch (random)
-			{
-			case 0:
-				items = new CHeart(HEART_BIG);
-				break;
-			case 1:
-				items = new CHeart(HEART_SMALL);
-				break;
-			}
+			items = new CHeart(HEART_SMALL);
 			break;
 		}
+		break;
+	}
 }
 
-CCandle::CCandle(int item)
+CCandle::CCandle(int size, int item)
 {
-	AddAnimation(100);
+	this->size = size;
+	AddAnimation(11111);
+	AddAnimation(11112);
 	hiteffect = new Chiteffect();
 	int random = rand() % 2;
 	switch (item)

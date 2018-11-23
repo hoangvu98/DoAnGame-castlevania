@@ -7,6 +7,9 @@
 #define HEART		1
 #define WHIP_UPDATE	2
 
+#define BIG_CANDLE		100
+#define SMALL_CANDLE	200
+
 #define CANDLE_STATE_DELETE     20
 #define CANDLE_STATE_NORMAL 0
 #define CANDLE_STATE_DISAPPEAR	10
@@ -17,6 +20,7 @@
 class CCandle :
 	public CGameObject
 {
+	int size;
 	Chiteffect *hiteffect;
 	CItems *items;
 	int Time;
@@ -25,7 +29,7 @@ public:
 	void GetBoundingBox(float & left, float & top, float &right, float & bottom);
 	void SetState(int state);
 	CItems *GetItems() { return items; }
-	CCandle();
-	CCandle(int item);
+	CCandle(int size);
+	CCandle(int size, int item);
 };
 

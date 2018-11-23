@@ -189,10 +189,11 @@ void CResource::LoadCandle()
 	texcandle = texture->Get(ID_CANDLE);
 	ifstream in("Data\\Candle.txt");
 	CInputImage::AddAnimation(in, sprites, ani, texcandle, 2);
-	animations->Add(100, ani);
+	animations->Add(11111, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texcandle, 2);
+	animations->Add(11112, ani);
 	in.close();
 }
-
 void CResource::LoadHitEffect()
 {
 	CTextures *texture = CTextures::GetInstance();

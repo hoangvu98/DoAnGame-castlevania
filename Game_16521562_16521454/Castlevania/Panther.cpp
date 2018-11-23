@@ -1,5 +1,6 @@
 #include "Panther.h"
 #include "debug.h"
+#include "Candle.h"
 void CPanther::InitMovingArea()
 {
 	temp_x = x;
@@ -42,17 +43,17 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				hobj->GetState() == HIDENOBJECT_STATE_STAIR_UP)
 				coEvents.erase(coEvents.begin() + i);
 		}
-		else if (dynamic_cast<CSimon *> (coEvents[i]->obj))
+		else if (dynamic_cast<CCandle *> (coEvents[i]->obj))
 			coEvents.erase(coEvents.begin() + i);
+		/*else if (dynamic_cast<CSimon *> (coEvents[i]->obj))
+			coEvents.erase(coEvents.begin() + i);*/
 	}
-	
+
 	if (coEvents.size() == 0)
-	{	
+	{
 		if (turn == 1)
 		{
 			Setnx(-Getnx());
-			/*if (nx < 0) SetState(PANTHER_STATE_WALKING_LEFT);
-			else SetState(PANTHER_STATE_WALKING_RIGHT);*/
 			turn = 0;
 		}
 		jump = false;
@@ -62,13 +63,13 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	else
 	{
 		float min_tx, min_ty, nx = 0, ny;
-		
+
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
 		this->x += min_tx * dx + nx * 0.4f;
 		this->y += min_ty * dy + ny * 0.4f;
 
-		
+
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
 
@@ -81,6 +82,7 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			SetState(PANTHER_STATE_WALKING_LEFT);
 		else if (x < left && run == true && Getnx() > 0)
 			SetState(PANTHER_STATE_WALKING_RIGHT);
+
 		if (turn == 0 && jump == true)
 			turn = 1;
 
@@ -95,6 +97,7 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					run = true;
 					this->x += dx;
 					this->y += dy;
+					DebugOut(L"run = %d\n", run);
 				}
 			}
 		}
@@ -103,6 +106,8 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		SetState(PANTHER_STATE_JUMP_LEFT);
 	else if (jump == true && Getnx() > 0)
 		SetState(PANTHER_STATE_JUMP_RIGHT);
+	DebugOut(L"state = %d\n", state);
+	DebugOut(L"run = %d\n", run);
 }
 
 void CPanther::Render()
@@ -142,7 +147,7 @@ void CPanther::SetState(int state)
 		nx = 1;
 		break;
 	case PANTHER_STATE_WALKING_LEFT:
-		vx = -PANTHER_WALKING_SPEED; 
+		vx = -PANTHER_WALKING_SPEED;
 		nx = -1;
 		break;
 	case PANTHER_STATE_JUMP_RIGHT:
@@ -155,7 +160,7 @@ void CPanther::SetState(int state)
 		vx = -PANTHER_JUMP_SPEED_X;
 		nx = -1;
 		break;
-	case PANTHER_STATE_IDLE: 
+	case PANTHER_STATE_IDLE:
 		vx = 0;
 		break;
 	}
