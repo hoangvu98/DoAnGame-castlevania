@@ -95,7 +95,6 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					run = true;
 					this->x += dx;
 					this->y += dy;
-					DebugOut(L"run = %d\n", run);
 				}
 			}
 		}
@@ -104,8 +103,6 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		SetState(PANTHER_STATE_JUMP_LEFT);
 	else if (jump == true && Getnx() > 0)
 		SetState(PANTHER_STATE_JUMP_RIGHT);
-	DebugOut(L"state = %d\n", state);
-	DebugOut(L"run = %d\n", run);
 }
 
 void CPanther::Render()

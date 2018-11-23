@@ -15,6 +15,7 @@ public:
 	void GetSize(float width, float height) { width = this->width; height = this->height; }
 	void SetObjects(LPGAMEOBJECT object);
 	vector<LPGAMEOBJECT> GetObjects() { return objects; }
+	void XoaObject(int k);
 	void Update(DWORD dt);
 	void Render();
 	CCell();

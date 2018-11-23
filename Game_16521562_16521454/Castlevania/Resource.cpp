@@ -116,7 +116,7 @@ void CResource::LoadGhoul()
 	CTextures *texture = CTextures::GetInstance();
 	CSprites *sprites = CSprites::GetInstance();
 	CAnimations *animations = CAnimations::GetInstance();
-	texture->Add(ID_GHOUL, GHOUL_TEXTURE_PATH, D3DCOLOR_XRGB(0, 128, 128));
+	texture->Add(ID_GHOUL, GHOUL_TEXTURE_PATH, D3DCOLOR_XRGB(96, 68, 106));
 
 
 	ifstream in("Data\\Ghoul.txt");

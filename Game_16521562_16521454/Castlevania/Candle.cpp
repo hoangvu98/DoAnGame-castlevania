@@ -33,12 +33,64 @@ void CCandle::SetState(int state)
 	CGameObject::SetState(state);
 	switch (state)
 	{
-	case CANDLE_STATE_NORMAL:
-		break;
 	case CANDLE_STATE_DISAPPEAR:
 		Time = GetTickCount();
 		break;
-	case CANDLE_STATE_DELETE:
+	}
+}
+
+CCandle::CCandle()
+{
+	
+		AddAnimation(100);
+		hiteffect = new Chiteffect();
+		int random;
+		srand(time(NULL));
+		random = rand() % 2;
+		switch (random)
+		{
+		case 0:
+			items = new CDagger();
+			break;
+		case 1:
+			random = rand() % 2;
+			switch (random)
+			{
+			case 0:
+				items = new CHeart(HEART_BIG);
+				break;
+			case 1:
+				items = new CHeart(HEART_SMALL);
+				break;
+			}
+			break;
+		}
+}
+
+CCandle::CCandle(int item)
+{
+	AddAnimation(100);
+	hiteffect = new Chiteffect();
+	int random = rand() % 2;
+	switch (item)
+	{
+
+	case DAGGER:
+		items = new CDagger();
+		break;
+	case HEART:
+		switch (random)
+		{
+		case 0:
+			items = new CHeart(HEART_BIG);
+			break;
+		case 1:
+			items = new CHeart(HEART_SMALL);
+			break;
+		}
+		break;
+	case WHIP_UPDATE:
+		items = new CWhipUpdate();
 		break;
 	}
 }

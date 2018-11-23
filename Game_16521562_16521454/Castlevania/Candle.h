@@ -2,7 +2,6 @@
 #include <cstdlib>
 #include <time.h>
 #include "GameObject.h"
-//#include "Item.h"
 #include "Items.h"
 #define DAGGER		0
 #define HEART		1
@@ -11,7 +10,6 @@
 #define CANDLE_STATE_DELETE     20
 #define CANDLE_STATE_NORMAL 0
 #define CANDLE_STATE_DISAPPEAR	10
-#define CANDLE_STATE_NORMAL 0
 #define CANDLE_BBOX_WIDTH	18
 #define CANDLE_BBOX_HEIGHT	34
 #define FrameTime 200
@@ -20,7 +18,6 @@ class CCandle :
 	public CGameObject
 {
 	Chiteffect *hiteffect;
-	//CItem* item;
 	CItems *items;
 	int Time;
 public:
@@ -28,60 +25,7 @@ public:
 	void GetBoundingBox(float & left, float & top, float &right, float & bottom);
 	void SetState(int state);
 	CItems *GetItems() { return items; }
-
-	CCandle()
-	{
-		AddAnimation(100);
-		hiteffect = new Chiteffect();
-		int random;
-		srand(time(NULL));
-		random = rand() % 2;
-
-		switch (random)
-		{
-		case 0:
-			items = new CDagger();
-			break;
-		case 1:
-			random = rand() % 2;
-			switch (random)
-			{
-			case 0:
-				items = new CHeart(HEART_BIG);
-				break;
-			case 1:
-				items = new CHeart(HEART_SMALL);
-				break;
-			}
-			break;
-		}
-	}
-	CCandle(int item) 
-	{
-		AddAnimation(100);
-		hiteffect = new Chiteffect();
-		int random = rand() % 2;
-		switch (item)
-		{
-		
-		case DAGGER:
-			items = new CDagger();
-			break;
-		case HEART:		
-			switch (random)
-			{
-			case 0:
-				items = new CHeart(HEART_BIG);
-				break;
-			case 1:
-				items = new CHeart(HEART_SMALL);
-				break;
-			}
-			break;
-		case WHIP_UPDATE:
-			items = new CWhipUpdate();
-			break;
-		}	
-	}
+	CCandle();
+	CCandle(int item);
 };
 

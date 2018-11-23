@@ -141,7 +141,6 @@
     <ClInclude Include="Ghoul.h" />
     <ClInclude Include="HidenObject.h" />
     <ClInclude Include="InputImage.h" />
-    <ClInclude Include="Item.h" />
     <ClInclude Include="Items.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Panther.h" />
@@ -166,7 +165,6 @@
     <ClCompile Include="Ghoul.cpp" />
     <ClCompile Include="HidenObject.cpp" />
     <ClCompile Include="InputImage.cpp" />
-    <ClCompile Include="Item.cpp" />
     <ClCompile Include="Items.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />

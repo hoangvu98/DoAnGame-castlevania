@@ -5,7 +5,7 @@
 #include "Panther.h"
 #include "HidenObject.h"
 #include "EntranceLevel.h"
-
+#include "Ghoul.h"
 DWORD FrameCollusion;
 int color=255;
 CSimon *CSimon::__instance = NULL;
@@ -17,7 +17,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	float widthofmap;
 	float heightofmap;
 	level1->GetSizeOfMap(widthofmap, heightofmap);
-	float temp_x;
 	if (stair == 0)
 		vy += SIMON_GRAVITY;
 	if (state != SIMON_STATE_KNEE && previousstate == SIMON_STATE_KNEE)
@@ -112,14 +111,14 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			{
 				if (state == SIMON_STATE_COLLUSION)
 					int x = 1;
-				CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
-				if (nx != 0) vx = 0;
-				if (ny != 0) {
-					vy = 0; jump = true;
-				}
+				CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);			
 				DWORD now = GetTickCount();
 				if(now-FrameCollusion>100)
 				{
+					if (nx != 0) vx = 0;
+					if (ny != 0) {
+						vy = 0; jump = true;
+					}
 					if (collusion==1 && ny < 0)
 						if (state == SIMON_STATE_COLLUSION)
 							SetState(SIMON_STATE_KNEE);
@@ -148,14 +147,25 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			}
 			else if (dynamic_cast<CPanther *> (e->obj))
 			{
-				CPanther *panther = dynamic_cast<CPanther *>(e->obj);
-				collusion = 1;
-				SetState(SIMON_STATE_COLLUSION);
-				if (nx > 0)
-					collusion_nx = 1;
-				else
-					collusion_nx = -1;
-				FrameCollusion = GetTickCount();
+				if (collusion == 0)
+				{
+					CPanther *panther = dynamic_cast<CPanther *>(e->obj);
+					collusion = 1;
+					SetState(SIMON_STATE_COLLUSION);
+					collusion_nx = nx;
+					FrameCollusion = GetTickCount();
+				}
+			}
+			else if (dynamic_cast<CGhoul *> (e->obj))
+			{
+				if (collusion == 0)
+				{
+					CGhoul *ghoul = dynamic_cast<CGhoul *>(e->obj);
+					collusion = 1;
+					SetState(SIMON_STATE_COLLUSION);
+					collusion_nx = nx;
+					FrameCollusion = GetTickCount();
+				}
 			}
 		}
 	}
@@ -266,10 +276,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			}
 		}
 	}
-	DebugOut(L"collusion=%d\n", collusion);
-	//DebugOut(L"y=%f\n", y);
-
-	//DebugOut(L"IsUp=%d\n", IsUp);
 
 	//sau nay se sua thanh CDoor
 	//if (x >= 704.0f)
@@ -502,13 +508,19 @@ void CSimon::Render()
 
 		}
 	}
+	RenderBoundingBox(100);
 }
 
 void CSimon::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
 	left = x;
 	top = y;
-	if (vx == 0 && mx == 1)
+	if (vy < 0)
+	{
+		right = x + SIMON_BBOX_KNEE_WIDTH;
+		bottom = y + SIMON_BBOX_KNEE_HEIGHT;
+	}
+	else if (vx == 0 && mx == 1)
 	{
 		right = x + SIMON_BBOX_KNEE_WIDTH;
 		bottom = y + SIMON_BBOX_KNEE_HEIGHT;
@@ -564,13 +576,13 @@ void CSimon::SetState(int state)
 	case SIMON_STATE_COLLUSION:
 		if (collusion_nx > 0)
 		{
-			nx = -1;
-			vx = -SIMON_WALKING_SPEED;
+			nx = 1;
+			vx = SIMON_WALKING_SPEED;
 		}
 		else
 		{
-			nx = 1;
-			vx = SIMON_WALKING_SPEED;
+			nx = -1;
+			vx = -SIMON_WALKING_SPEED;
 		}
 		vy = -0.15f;
 		break;

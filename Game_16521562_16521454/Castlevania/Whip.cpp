@@ -4,6 +4,7 @@
 #include <vector>
 #include "Simon.h"
 #include "debug.h"
+#include "Ghoul.h"
 #define WHIP_TEXTURE_PATH L"castlevania_texture\\Weapon\\Whip.png"
 #define ID_WHIP	6
 using namespace std;
@@ -96,6 +97,15 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (candle->state != CANDLE_STATE_DELETE)
 				{
 					candle->SetState(CANDLE_STATE_DISAPPEAR);
+				}
+			}
+			if (dynamic_cast<CGhoul *> (e->obj))
+			{
+				CGhoul *ghoul = dynamic_cast<CGhoul *>(e->obj);
+
+				if (ghoul->state != GHOUL_STATE_DELETE)
+				{
+					ghoul->SetState(GHOUL_STATE_DISAPPEAR);
 				}
 			}
 		}
