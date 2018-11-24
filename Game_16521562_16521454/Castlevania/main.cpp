@@ -288,6 +288,8 @@ void LoadResources()
 	resource->LoadWhipUpdate();
 	resource->LoadCandle();
 	resource->LoadHitEffect();
+	resource->LoadDoor();
+	resource->LoadBat();
 	simon = CSimon::GetInstance();
 	//simon->SetPosition(1280.0f, 80.0f);
 	//simon->SetPosition(687.0f, 60.0f);

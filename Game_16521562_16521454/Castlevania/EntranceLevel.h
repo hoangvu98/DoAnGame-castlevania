@@ -14,8 +14,11 @@
 using namespace std;
 #define LEVEL_1_STAGE1A_PATH L"castlevania_texture\\Background\\tileset_map1_stage1A.png"/*Level 1 Entrance.png"*/
 #define LEVEL_1_STAGE1B_PATH L"castlevania_texture\\Background\\tileset_map1_stage1B.png"
+#define LEVEL_1_STAGE2B_PATH L"castlevania_texture\\Background\\tileset_map1_stage2B.png"
+
 #define STAGE_1A_MAP_DATA "Data\\TileMap1Stage1A.txt"
 #define STAGE_1B_MAP_DATA "Data\\TileMap1Stage1B.txt"
+#define STAGE_2B_MAP_DATA "Data\\TileMap1Stage2B.txt"
 
 #define SCENE_1		1
 #define SCENE_2		2

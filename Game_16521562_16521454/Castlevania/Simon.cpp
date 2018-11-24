@@ -149,9 +149,15 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			}
 			else if (dynamic_cast<CDoor *>(e->obj))
 			{
-				level1->SetScene(SCENE_2);
+				/*level1->SetScene(SCENE_2);
 				SetPosition(10.0f, 80.0f);
-				game->SetCamera(0.0f, 0.0f);
+				game->SetCamera(0.0f, 0.0f);*/
+				level1->SetScene(SCENE_3);
+				CDoor *door = dynamic_cast<CDoor *>(e->obj);
+				door->SetState(DOOR_STATE_OPEN);
+
+				x += dx;
+				y += dy;
 			}
 			else if (dynamic_cast<CPanther *> (e->obj))
 			{

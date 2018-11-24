@@ -221,3 +221,49 @@ void CResource::LoadHitEffect()
 	animations->Add(5001, ani);
 	in.close();
 }
+
+void CResource::LoadDoor()
+{
+	CTextures *texture = CTextures::GetInstance();
+	texture->Add(ID_DOOR, DOOR_TEXTURE_PATH, D3DCOLOR_XRGB(34, 177, 76));
+
+	CSprites *sprites = CSprites::GetInstance();
+	CAnimations *animations = CAnimations::GetInstance();
+
+	ifstream in("Data\\Door.txt");
+	LPANIMATION ani;
+	LPDIRECT3DTEXTURE9 texdoor = texture->Get(ID_DOOR);
+	ani = new CAnimation(100);
+	CInputImage::AddAnimation(in, sprites, ani, texdoor, 1);
+	animations->Add(11000, ani);
+	ani = new CAnimation(1000);
+	CInputImage::AddAnimation(in, sprites, ani, texdoor, 2);
+	animations->Add(11001, ani);
+	ani = new CAnimation(100);
+	CInputImage::AddAnimation(in, sprites, ani, texdoor, 1);
+	animations->Add(11002, ani);
+	in.close();
+}
+
+void CResource::LoadBat()
+{
+	CTextures *texture = CTextures::GetInstance();
+	texture->Add(ID_BAT, BAT_TEXTURE_PATH, D3DCOLOR_XRGB(96, 68, 106));
+
+	CSprites *sprites = CSprites::GetInstance();
+	CAnimations *animations = CAnimations::GetInstance();
+
+	ifstream in("Data\\Bat.txt");
+	LPANIMATION ani;
+	LPDIRECT3DTEXTURE9 texbat = texture->Get(ID_BAT);
+	ani = new CAnimation(100);
+	CInputImage::AddAnimation(in, sprites, ani, texbat, 1);
+	animations->Add(12000, ani);
+	ani = new CAnimation(1000);
+	CInputImage::AddAnimation(in, sprites, ani, texbat, 3);
+	animations->Add(12001, ani);
+	ani = new CAnimation(100);
+	CInputImage::AddAnimation(in, sprites, ani, texbat, 3);
+	animations->Add(12002, ani);
+	in.close();
+}

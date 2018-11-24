@@ -27,8 +27,8 @@ void CCandle::GetBoundingBox(float & left, float & top, float & right, float & b
 {
 	left = x;
 	top = y;
-	right = x + CANDLE_BBOX_WIDTH;
-	bottom = y + CANDLE_BBOX_HEIGHT;
+	right = x + BIG_CANDLE_BBOX_WIDTH;
+	bottom = y + BIG_CANDLE_BBOX_HEIGHT;
 }
 
 void CCandle::SetState(int state)
