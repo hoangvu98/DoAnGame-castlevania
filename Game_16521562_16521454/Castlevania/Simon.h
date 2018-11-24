@@ -22,29 +22,33 @@ using namespace std;
 #define SIMON_STATE_STAIR           7
 #define SIMON_STATE_COLLUSION       8   
 
-#define SIMON_ANI_WALKING_LEFT		0
-#define SIMON_ANI_WALKING_RIGHT		1
-#define SIMON_ANI_IDLE_LEFT			2
-#define SIMON_ANI_IDLE_RIGHT		3
-#define SIMON_ANI_JUMP_LEFT			4
-#define SIMON_ANI_JUMP_RIGHT		5
-#define SIMON_ANI_FIGHT_LEFT		6
-#define SIMON_ANI_FIGHT_RIGHT		7
-#define SIMON_ANI_KNEE_FIGHT_LEFT	8
-#define SIMON_ANI_KNEE_FIGHT_RIGHT	9
-#define SIMON_ANI_STAIR_LEFT		10
-#define SIMON_ANI_STAIR_RIGHT		11
-#define SIMON_ANI_STAIR_IDLE_LEFT	12
-#define SIMON_ANI_STAIR_IDLE_RIGHT	13
-#define SIMON_ANI_STAIR_FIGHT_LEFT	14
-#define SIMON_ANI_STAIR_FIGHT_RIGHT	15
-#define SIMON_ANI_COLLUSION_LEFT 16
-#define SIMON_ANI_COLLUSION_RIGHT 17
+#define SIMON_ANI_WALKING_LEFT		    0
+#define SIMON_ANI_WALKING_RIGHT		    1
+#define SIMON_ANI_IDLE_LEFT			    2
+#define SIMON_ANI_IDLE_RIGHT		    3
+#define SIMON_ANI_JUMP_LEFT			    4
+#define SIMON_ANI_JUMP_RIGHT		    5
+#define SIMON_ANI_FIGHT_LEFT		    6
+#define SIMON_ANI_FIGHT_RIGHT		    7
+#define SIMON_ANI_KNEE_FIGHT_LEFT	    8
+#define SIMON_ANI_KNEE_FIGHT_RIGHT      9
+#define SIMON_ANI_STAIR_UP_LEFT		    10
+#define SIMON_ANI_STAIR_UP_RIGHT		11
+#define SIMON_ANI_STAIR_DOWN_LEFT		12
+#define SIMON_ANI_STAIR_DOWN_RIGHT		13
+#define SIMON_ANI_STAIR_IDLE_UP_LEFT	14
+#define SIMON_ANI_STAIR_IDLE_UP_RIGHT	15
+#define SIMON_ANI_STAIR_IDLE_DOWN_LEFT	16
+#define SIMON_ANI_STAIR_IDLE_DOWN_RIGHT	17
+#define SIMON_ANI_STAIR_FIGHT_LEFT	    18
+#define SIMON_ANI_STAIR_FIGHT_RIGHT    	19
+#define SIMON_ANI_COLLUSION_LEFT        20
+#define SIMON_ANI_COLLUSION_RIGHT       21
 
 //#define SIMON_ANI_DIE_LEFT			10
 //#define SIMON_ANI_DIE_RIGHT			11
 
-#define SIMON_BBOX_IDLE_WIDTH		18
+#define SIMON_BBOX_IDLE_WIDTH		15
 #define SIMON_BBOX_IDLE_HEIGHT		30
 
 #define SIMON_BBOX_KNEE_WIDTH		18
@@ -53,6 +57,7 @@ using namespace std;
 #define SIMON_BBOX_KNEE_FIGHT_WIDTH		18
 #define SIMON_BBOX_KNEE_FIGHT_HEIGHT	25
 
+#define TIME_STAIR 400
 class CSimon :public CGameObject
 {
 	static CSimon *__instance;
@@ -123,10 +128,15 @@ public:
 		AddAnimation(602);
 		AddAnimation(603);
 		AddAnimation(604);
-		AddAnimation(605);
-		AddAnimation(606);
 		AddAnimation(701);
 		AddAnimation(702);
+		AddAnimation(703);
+		AddAnimation(704);
+		AddAnimation(801);
+		AddAnimation(802);
+		AddAnimation(901);
+		AddAnimation(902);
+
 		mx = 0;
 		previousstate = state;
 		whip = new CWhip();

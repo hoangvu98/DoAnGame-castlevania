@@ -2,6 +2,7 @@
 #include "Textures.h"
 #include "InputImage.h"
 #include "debug.h"
+#include "Simon.h"
 void CResource::LoadSimon()
 {
 	CTextures *texture = CTextures::GetInstance();
@@ -32,22 +33,30 @@ void CResource::LoadSimon()
 	animations->Add(501, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //knee fight right
 	animations->Add(502, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 2, 200); //stair walk left
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 2, TIME_STAIR/2); //stair walk up left
 	animations->Add(601, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 2, 200); //stair walk right
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 2, TIME_STAIR/2); //stair walk up right
 	animations->Add(602, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //stair left
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 2, TIME_STAIR / 2); //stair walk down left
 	animations->Add(603, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //stair right
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 2, TIME_STAIR / 2); //stair walk down right
 	animations->Add(604, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //stair fight left
-	animations->Add(605, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //stair fight right
-	animations->Add(606, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //collusion monster left 
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //stair up left
 	animations->Add(701, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//collusion monster right
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //stair up right
 	animations->Add(702, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //stair down left
+	animations->Add(703, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //stair down right
+	animations->Add(704, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //stair fight left
+	animations->Add(801, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //stair fight right
+	animations->Add(802, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //collusion monster left 
+	animations->Add(901, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//collusion monster right
+	animations->Add(902, ani);
 	in.close();
 }
 

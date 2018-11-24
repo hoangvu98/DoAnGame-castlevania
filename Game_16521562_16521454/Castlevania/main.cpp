@@ -162,15 +162,17 @@ void CSampleKeyHander::KeyState(BYTE *states)
 			if (simon->GetFight() == false)
 			{
 				DWORD now = GetTickCount();
-				if (now - simon->GetFrameStair() > 400)
+				if (now - simon->GetFrameStair() > TIME_STAIR)
 				{
 					if (simon->IsUp == 2)
 					{
+						simon->y -= 3.0f;
 						simon->IsUp = 0;
 						simon->SetStair(0);
 					}
 					if (simon->IsDown == 2)
 					{
+						simon->y -= 3.0f;
 						simon->IsDown = 0;
 						simon->SetStair(0);
 					}
@@ -287,14 +289,16 @@ void LoadResources()
 	resource->LoadCandle();
 	resource->LoadHitEffect();
 	simon = CSimon::GetInstance();
-	simon->SetPosition(615.0f, 80.0f);
-	//simon->SetPosition(10.0f, 80.0f); 
+	//simon->SetPosition(1280.0f, 80.0f);
+	//simon->SetPosition(687.0f, 60.0f);
+	//simon->SetPosition(615.0f, 80.0f);
+	simon->SetPosition(10.0f, 80.0f); 
 	//simon->SetState(SIMON_STATE_IDLE);
 
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
 	level_1 = CEntranceLevel::GetInstance();
-	level_1->SetScene(SCENE_1);
+	level_1->SetScene(SCENE_2);
 	level_1->LoadMap();
 	objects = level_1->GetUpdateObjects();
 	objects.push_back(simon);

@@ -7,7 +7,7 @@
 #include "EntranceLevel.h"
 #include "Ghoul.h"
 DWORD FrameCollusion;
-int color=255;
+int color = 255;
 CSimon *CSimon::__instance = NULL;
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
@@ -23,6 +23,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	{
 		previousstate = NULL;
 		SetPosition(x, y - 5);
+		SetState(SIMON_STATE_IDLE);
 	}
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -51,84 +52,91 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	{
 		weapon->Update(dt);
 	}
+	coEventsResult.clear();
+	FilterCollisionImmediately(coEvents, coEventsResult);
+	bool test=true;
+	for (UINT i = 0; i < coEventsResult.size(); i++)
+	{
+		LPCOLLISIONEVENT e = coEventsResult[i];
+		if (dynamic_cast<CHidenObject *> (e->obj))
+		{
+			CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
+			if (hidenobject->GetState() == HIDENOBJECT_STATE_STAIR_UP)
+			{
+				stair_x = hidenobject->GetStair_X();
+				if (stair != 2)
+					stair = 1;
+				if (stair == 2 && IsDown != 2)
+					IsDown = 1;
+			}
+			else if (hidenobject->GetState() == HIDENOBJECT_STATE_STAIR_DOWN)
+			{
+				stair_x = hidenobject->GetStair_X();
+				if (stair != 2)
+					stair = 3;
+				if (stair == 2 && IsUp != 2)
+					IsUp = 1;
+			}
+		}
+	}
+	for (UINT i = 0; i < coEvents.size(); i++)
+	{
+		LPCOLLISIONEVENT e = coEvents[i];
+		if (dynamic_cast<CCandle *> (e->obj))
+		{
+			coEvents.erase(coEvents.begin() + i);
+			i--;
+		}
+		else if (dynamic_cast<CHidenObject *> (e->obj))
+		{
+			CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
+			if (hidenobject->GetState() != HIDENOBJECT_STATE_NORMAL)
+			{
+				coEvents.erase(coEvents.begin() + i);
+				i--;
+			}
+		}
+	}
 	if (coEvents.size() == 0)
 	{
-		x += dx;
-		y += dy;
+		/*x += dx;
+		y += dy;*/
 	}
 	else
 	{
-		FilterCollisionImmediately(coEvents, coEventsResult);
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (dynamic_cast<CHidenObject *> (e->obj))
-			{
-				CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
-				if (hidenobject->GetState() == HIDENOBJECT_STATE_STAIR_UP)
-				{
-					stair_x = hidenobject->x;
-					if (stair != 2)
-						stair = 1;
-					if (stair == 2 && IsDown != 2)
-						IsDown = 1;
-				}
-				if (hidenobject->GetState() == HIDENOBJECT_STATE_STAIR_DOWN)
-				{
-					stair_x = hidenobject->x;
-					if (stair != 2)
-						stair = 3;
-					if (stair == 2 && IsUp != 2)
-						IsUp = 1;
-				}
-			}
-		}
 		coEventsResult.clear();
-
 		float min_tx, min_ty, nx = 0, ny;
-
-		for (UINT i = 0; i < coEvents.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEvents[i];
-			if (dynamic_cast<CCandle *> (e->obj))
-				coEvents.erase(coEvents.begin() + i);
-			if (dynamic_cast<CHidenObject *> (e->obj))
-			{
-				CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
-				if (hidenobject->GetState() != HIDENOBJECT_STATE_NORMAL)
-					coEvents.erase(coEvents.begin() + i);
-			}
-		}
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-		x += min_tx * dx + nx * 0.4f;
-		y += min_ty * dy + ny * 0.4f;
-
-
+	
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (dynamic_cast<CHidenObject *> (e->obj))
 			{
-				if (state == SIMON_STATE_COLLUSION)
-					int x = 1;
-				CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);			
-				DWORD now = GetTickCount();
-				if(now-FrameCollusion>100)
-				{
-					if (nx != 0) vx = 0;
-					if (ny != 0) {
-						vy = 0; jump = true;
+				CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
+				/*if (hidenobject->GetState() == HIDENOBJECT_STATE_NORMAL)
+				{*/
+					x += min_tx * dx + nx * 0.4f;
+					y += min_ty * dy + ny * 0.4f;
+					test = false;
+					DWORD now = GetTickCount();
+					if (now - FrameCollusion > 100)
+					{
+						if (nx != 0) vx = 0;
+						if (ny != 0) {
+							vy = 0; jump = true;
+						}
+						if (collusion == 1 && ny < 0)
+							if (state == SIMON_STATE_COLLUSION)
+								SetState(SIMON_STATE_KNEE);
 					}
-					if (collusion==1 && ny < 0)
-						if (state == SIMON_STATE_COLLUSION)
-							SetState(SIMON_STATE_KNEE);
-				}
+				//}
 			}
 			else if (dynamic_cast<CHeart *>(e->obj))
 			{
 				CItems *items = dynamic_cast<CHeart *>(e->obj);
-				x += dx;
-				y += dy;
+				/*x += dx;
+				y += dy;*/
 				items->SetState(ITEM_STATE_DELETE);
 			}
 			else if (dynamic_cast<CDagger *>(e->obj))
@@ -136,7 +144,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				OnSkill = true;
 				CItems *items = dynamic_cast<CDagger *>(e->obj);
 				weapon = new CDagger();
-				x += dx;
+				//x += dx;
 				items->SetState(ITEM_STATE_DELETE);
 			}
 			else if (dynamic_cast<CDoor *>(e->obj))
@@ -158,6 +166,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			}
 			else if (dynamic_cast<CGhoul *> (e->obj))
 			{
+				/*y += dy;
+				x += dx;*/
 				if (collusion == 0)
 				{
 					CGhoul *ghoul = dynamic_cast<CGhoul *>(e->obj);
@@ -168,6 +178,12 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				}
 			}
 		}
+	}
+	if (test)
+	{
+		x += dx;
+		y += dy;
+		test = true;
 	}
 	if (state_auto == 1)
 	{
@@ -260,9 +276,9 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	{
 		float x1;
 		if (nx > 0)
-			x1 = simon_x + 0.02*test_stair;
+			x1 = simon_x + (float)8/ TIME_STAIR *test_stair;
 		else
-			x1 = simon_x - 0.02*test_stair;
+			x1 = simon_x - (float)8 / TIME_STAIR *test_stair;
 		float cx, cy;
 		game->GetCamera(cx, cy);
 		if (x1 > 100.0f)
@@ -287,7 +303,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	//	//level1->Update();
 	//}
 	DWORD now = GetTickCount();
-	if (now - FrameCollusion > 1000 && collusion==1)
+	if (now - FrameCollusion > 1000 && collusion == 1)
 	{
 		collusion = 2;
 	}
@@ -317,9 +333,9 @@ void CSimon::Render()
 			if (state == SIMON_STATE_STAIR)
 			{
 				if (nx > 0)
-					ani = SIMON_ANI_STAIR_RIGHT;
+					ani = SIMON_ANI_STAIR_UP_RIGHT;
 				else
-					ani = SIMON_ANI_STAIR_LEFT;
+					ani = SIMON_ANI_STAIR_DOWN_LEFT;
 			}
 			else
 			{
@@ -344,9 +360,9 @@ void CSimon::Render()
 					else
 					{
 						if (nx > 0)
-							ani = SIMON_ANI_STAIR_IDLE_RIGHT;
+							ani = SIMON_ANI_STAIR_IDLE_UP_RIGHT;
 						else
-							ani = SIMON_ANI_STAIR_IDLE_LEFT;
+							ani = SIMON_ANI_STAIR_IDLE_DOWN_LEFT;
 					}
 				}
 
@@ -361,15 +377,16 @@ void CSimon::Render()
 						x += 8;
 						y -= 8;
 					}
-					else
-					{
-						x -= 8;
-						y += 8;
-					}
+					
 				}
 				else if (animations[ani]->GetCureentFrame() == 1 && test == 1)
 				{
 					test = 0;
+					if(nx<0)
+					{
+						x -= 8;
+						y += 8;
+					}
 				}
 			}
 			if (skill)
@@ -492,7 +509,7 @@ void CSimon::Render()
 				animations[ani]->Render(x, y, color);
 				color = 150;
 			}
-			else 
+			else
 			{
 				animations[ani]->Render(x, y, color);
 				color = 200;

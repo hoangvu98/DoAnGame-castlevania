@@ -44,7 +44,6 @@ void CGhoul::Render()
 	if (now - Time >= FrameTime)
 		SetState(GHOUL_STATE_DELETE);
 	}
-	//RenderBoundingBox(200);
 }
 
 void CGhoul::SetState(int state)

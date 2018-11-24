@@ -85,66 +85,73 @@ void CEntranceLevel::LoadMap()
 		row = (int)height / CELL_HEIGHT + 1;
 
 		cells = new CCells(column, row);
+		CHidenObject *hidenObj;
 
 		for (int i = 0; i < 25; i++)
 		{
-			CHidenObject *hidenObj = new CHidenObject();
+			hidenObj = new CHidenObject();
 			hidenObj->SetSize(64.0f, 15.0f);
 			hidenObj->SetPosition(i * 64.0f, 160.0f);
 			cells->InitCells(hidenObj);
 		}
-		CHidenObject *hidenObj = new CHidenObject();
+		hidenObj = new CHidenObject();
+		hidenObj->SetSize(147,14);
+		hidenObj->SetPosition(1386.0f, 66.0f);
+		cells->InitCells(hidenObj);
+
+		hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_UP);
 		hidenObj->SetSize(40.0f, 12.0f);
 		hidenObj->SetPosition(607.0f, 148.0f);
+		hidenObj->SetStair_X(607.0f);
 		cells->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_UP);
-		hidenObj->SetSize(40.0f, 12.0f);
-		hidenObj->SetPosition(713.0f, 85.0f);
+		hidenObj->SetSize(27.0f, 11.0f);
+		hidenObj->SetPosition(706.0f, 84.0f);
+		hidenObj->SetStair_X(706.0f);
 		cells->InitCells(hidenObj);
 
-		hidenObj = new CHidenObject();
+		/*hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_UP);
 		hidenObj->SetSize(40.0f, 12.0f);
 		hidenObj->SetPosition(937.0f, 86.0f);
-		cells->InitCells(hidenObj);
+		cells->InitCells(hidenObj);*/
 
 		hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_UP);
-		hidenObj->SetSize(40.0f, 12.0f);
-		hidenObj->SetPosition(1288.0f, 146.0f);
-		cells->InitCells(hidenObj);
-
-		hidenObj = new CHidenObject();
-		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
-		hidenObj->SetSize(55.0f, 17.0f);
-		hidenObj->SetPosition(681.0f, 97.0f);
+		hidenObj->SetSize(29.0f, 13.0f);
+		hidenObj->SetPosition(1283.0f, 150.0f);
+		hidenObj->SetStair_X(1282.0f);
 		cells->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
-		hidenObj->SetSize(30.0f, 17.0f);
-		hidenObj->SetPosition(681.0f, 81.0f);
+		hidenObj->SetSize(23.0f, 13.0f);
+		hidenObj->SetPosition(682.0f, 81.0f);
+		hidenObj->SetStair_X(681.0f);
 		cells->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
-		hidenObj->SetSize(30.0f, 17.0f);
-		hidenObj->SetPosition(753.0f, 57.0f);
+		hidenObj->SetSize(23.0f, 13.0f);
+		hidenObj->SetPosition(746.0f, 52.0f);
+		hidenObj->SetStair_X(746.0f);
 		cells->InitCells(hidenObj);
 
-		hidenObj = new CHidenObject();
+		/*hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
 		hidenObj->SetSize(30.0f, 17.0f);
 		hidenObj->SetPosition(896.0f, 52.0f);
-		cells->InitCells(hidenObj);
+		hidenObj->SetStair_X(746.0f);*/
+		//cells->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
-		hidenObj->SetSize(30.0f, 17.0f);
-		hidenObj->SetPosition(1392.0f, 52.0f);
+		hidenObj->SetSize(56.0f, 15.0f);
+		hidenObj->SetPosition(1385.0f, 50.0f);
+		hidenObj->SetStair_X(1385.0f);
 		cells->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
@@ -183,6 +190,13 @@ void CEntranceLevel::LoadMap()
 		hidenObj->SetSize(5.0f, 7.0f);
 		cells->InitCells(hidenObj);
 
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
+		hidenObj->SetSize(55.0f, 15.0f);
+		hidenObj->SetPosition(681.0f, 96.0f);
+		cells->InitCells(hidenObj);
+
 		hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
 		hidenObj->SetPosition(752.0f, 64.0f);
@@ -217,7 +231,7 @@ void CEntranceLevel::LoadMap()
 
 		CSimon *simon = CSimon::GetInstance();
 
-		panther->SetState(PANTHER_STATE_IDLE);
+		/*panther->SetState(PANTHER_STATE_IDLE);
 		panther->Setnx(-1);
 		panther->SetTurn(0);
 		panther->SetPosition(690.0f, 80.0f);
@@ -241,7 +255,7 @@ void CEntranceLevel::LoadMap()
 		panther->SetTurn(0);
 		panther->SetJump(false);
 		panther->InitMovingArea();
-		cells->InitCells(panther);
+		cells->InitCells(panther);*/
 		for (int i = 0; i < 5; i++)
 		{
 			candle = new CCandle(SMALL_CANDLE);
@@ -316,10 +330,10 @@ void CEntranceLevel::LoadMap()
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
 
-		ghoul = new CGhoul();
+	/*	ghoul = new CGhoul();
 		ghoul->SetPosition(250.0f, 127.0f);
 		ghoul->SetState(GHOUL_STATE_RIGHT);
-		cells->InitCells(ghoul);
+		cells->InitCells(ghoul);*/
 		break;
 	}
 }

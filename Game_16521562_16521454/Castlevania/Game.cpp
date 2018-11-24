@@ -221,10 +221,7 @@ void CGame::SweptAABB(
 
 	t = -1.0f;			// no collision
 	nx = ny = 0;
-	if (sl == 80.0f)
-	{
-
-	}
+	
 	//
 	// Broad-phase test 
 	//
