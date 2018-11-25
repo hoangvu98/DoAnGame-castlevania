@@ -15,6 +15,22 @@ CMap::~CMap()
 {
 }
 
+
+void CMap::NextScece(float &x, float &y)
+{
+	scene++;
+	if (scene == 2)
+	{
+		x = 10.0f;
+		y = 127.0f;
+	}
+	else
+	{
+		x = 0;
+		y = 0;
+	}
+}
+
 vector<LPGAMEOBJECT> CMap::GetUpdateObjects()
 {
 	float cam_x, cam_y;

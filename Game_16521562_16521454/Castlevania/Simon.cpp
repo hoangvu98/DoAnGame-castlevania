@@ -15,10 +15,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
 	CGameObject::Update(dt);
 	CEntranceLevel *level1 = CEntranceLevel::GetInstance();
-	CGame *game = CGame::GetInstance();
-	float widthofmap;
-	float heightofmap;
-	level1->GetSizeOfMap(widthofmap, heightofmap);
 	if (stair == 0)
 		vy += SIMON_GRAVITY;
 	if (state != SIMON_STATE_KNEE && previousstate == SIMON_STATE_KNEE)
@@ -100,6 +96,15 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				i--;
 			}
 		}
+		else if (dynamic_cast<CDoor *> (e->obj))
+		{
+			CDoor *door = dynamic_cast<CDoor *>(e->obj);
+			if (door->IsGo == false)
+			{
+				coEvents.erase(coEvents.begin() + i);
+				i--;
+			}
+		}
 	}
 	if (coEvents.size() == 0)
 	{
@@ -162,9 +167,20 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			}
 			else if (dynamic_cast<CDoor *>(e->obj))
 			{
-				level1->SetScene(SCENE_3);
 				CDoor *door = dynamic_cast<CDoor *>(e->obj);
-				door->SetState(DOOR_STATE_OPEN);
+				if (door->GetIsHiden() == true && door->IsGo == true)
+				{
+					door->IsGo = false;
+					level1->SetNextScene(true);
+				}
+				else if (door->GetIsHiden() == false && door->IsGo ==true)
+				{
+					SetState(SIMON_STATE_IDLE);
+					door->IsGo = false;
+					camera_auto = 2;
+					state_auto = -1;
+				}
+				//door->SetState(DOOR_STATE_OPEN);
 			}
 			else if (dynamic_cast<CPanther *> (e->obj))
 			{
@@ -190,73 +206,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			}
 		}
 	}
-	if (test)
-	{
-		x += dx;
-		y += dy;
-		test = true;
-	}
-	if (state_auto == 1)
-	{
-		if (x > stair_x)
-		{
-			SetState(SIMON_STATE_WALKING_LEFT);
-			state_auto = 2;
-		}
-		else if (x < stair_x)
-		{
-			state_auto == 3;
-			SetState(state = SIMON_STATE_WALKING_RIGHT);
-		}
-	}
-	else if (state_auto == 2)
-	{
-		if (x <= stair_x)
-		{
-			if (stair == 1)
-			{
-				SetState(SIMON_STATE_STAIR_UP);
-				x = stair_x;
-				nx = nx1;
-				x += 8;
-			}
-			else
-			{
-				SetState(SIMON_STATE_STAIR_DOWN);
-				x = stair_x;
-				nx = nx1;
-				x -= 8;
-			}
-			SetFrameStair();
-			GetPosition(simon_x, simon_y);
-			stair = 2;
-			state_auto = 0;
-		}
-	}
-	else if (state_auto == 3)
-	{
-		if (x >= stair_x)
-		{
-			if (stair == 1)
-			{
-				SetState(SIMON_STATE_STAIR_UP);
-				x = stair_x;
-				nx = nx1;
-				x += 8;
-			}
-			else
-			{
-				SetState(SIMON_STATE_STAIR_DOWN);
-				x = stair_x;
-				nx = nx1;
-				x -= 8;
-			}
-			SetFrameStair();
-			GetPosition(simon_x, simon_y);
-			stair = 2;
-			state_auto = 0;
-		}
-	}
 	if (state == SIMON_STATE_STAIR_DOWN || state == SIMON_STATE_STAIR_UP)
 	{
 		DWORD now = GetTickCount();
@@ -264,51 +213,16 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	}
 	else
 		test_stair = 0;
-	if (state != SIMON_STATE_STAIR_DOWN && state != SIMON_STATE_STAIR_UP)
+	if (test)
 	{
-		float cx, cy;
-		game->GetCamera(cx, cy);
-		if (x > 100.0f)
-		{
-			game->SetCamera(x - 100.0f, 0.0f);
-			if (cx < 0) game->SetCamera(0.0f, 0.0f);
-			if (cx + 256.0f >= widthofmap)
-			{
-				game->SetCamera(cx, 0.0f);
-				if (x < 620.0f) game->SetCamera(x - 100.0f, 0.0f);
-			}
-		}
+		x += dx;
+		y += dy;
+		test = true;
 	}
-	else
+	if (state == SIMON_STATE_STAIR_DOWN || state == SIMON_STATE_STAIR_UP)
 	{
-		float x1;
-		if (nx > 0)
-			x1 = simon_x + (float)8 / TIME_STAIR * test_stair;
-		else
-			x1 = simon_x - (float)8 / TIME_STAIR * test_stair;
-		float cx, cy;
-		game->GetCamera(cx, cy);
-		if (x1 > 100.0f)
-		{
-			game->SetCamera(x1 - 100.0f, 0.0f);
-			if (cx < 0) game->SetCamera(0.0f, 0.0f);
-			if (cx + 256.0f >= widthofmap)
-			{
-				game->SetCamera(cx, 0.0f);
-				if (x1 < 620.0f) game->SetCamera(x1 - 100.0f, 0.0f);
-			}
-		}
+		camera_auto = 1;
 	}
-
-	//sau nay se sua thanh CDoor
-	//if (x >= 704.0f)
-	//{
-	//	
-	//	level1->SetScene(SCENE_2);
-	//	SetPosition(10.0f, 80.0f);
-	//	game->SetCamera(0.0f, 0.0f);
-	//	//level1->Update();
-	//}
 	DWORD now = GetTickCount();
 	if (now - FrameCollusion > 1000 && collusion == 1)
 	{
@@ -318,6 +232,12 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	{
 		collusion = 0;
 	}
+	Auto();
+	if (camera_auto == 0)
+		Camera();
+	else
+		CameraAuto();
+		//DebugOut(L"x=%f\ny=%f\n", x, y);
 }
 
 void CSimon::Render()
@@ -334,7 +254,7 @@ void CSimon::Render()
 			else
 				color = 150;
 		}
-		if (stair == 2 || state_auto == 4)
+		if (stair == 2)
 		{
 			DWORD now = GetTickCount();
 			if (state == SIMON_STATE_STAIR_UP)
@@ -461,22 +381,19 @@ void CSimon::Render()
 				{
 					if (fight == true)
 					{
-						if (vx == 0)
+						if (mx == 1)
 						{
-							if (mx == 1)
-							{
-								if (nx > 0)
-									ani = SIMON_ANI_KNEE_FIGHT_RIGHT;
-								else
-									ani = SIMON_ANI_KNEE_FIGHT_LEFT;
-							}
+							if (nx > 0)
+								ani = SIMON_ANI_KNEE_FIGHT_RIGHT;
 							else
-							{
-								if (nx > 0)
-									ani = SIMON_ANI_FIGHT_RIGHT;
-								else
-									ani = SIMON_ANI_FIGHT_LEFT;
-							}
+								ani = SIMON_ANI_KNEE_FIGHT_LEFT;
+						}
+						else
+						{
+							if (nx > 0)
+								ani = SIMON_ANI_FIGHT_RIGHT;
+							else
+								ani = SIMON_ANI_FIGHT_LEFT;
 						}
 						if (nx > 0)whip->SetStateWhip(WHIP_STATE_RIGHT);
 						else whip->SetStateWhip(WHIP_STATE_LEFT);
@@ -553,7 +470,8 @@ void CSimon::Render()
 
 		}
 	}
-	DebugOut(L"ani=%d\n", ani);
+	if (ani == 17)
+		DebugOut(L"ani=%d\n", ani);
 	RenderBoundingBox(100);
 }
 
@@ -636,6 +554,161 @@ void CSimon::SetState(int state)
 		}
 		vy = -0.15f;
 		break;
+	}
+}
+
+void CSimon::Auto()
+{
+	if (state_auto == 1)
+	{
+		if (x > stair_x)
+		{
+			SetState(SIMON_STATE_WALKING_LEFT);
+			state_auto = 2;
+		}
+		else if (x < stair_x)
+		{
+			state_auto == 3;
+			SetState(SIMON_STATE_WALKING_RIGHT);
+		}
+	}
+	else if (state_auto == 2)
+	{
+		if (x <= stair_x)
+		{
+			x = stair_x;
+			nx = nx1;
+			if (stair == 1)
+			{
+				SetState(SIMON_STATE_STAIR_UP);
+				x += 8;
+			}
+			else
+			{
+				SetState(SIMON_STATE_STAIR_DOWN);
+				x -= 8;
+			}
+			SetFrameStair();
+			GetPosition(simon_x, simon_y);
+			stair = 2;
+			state_auto = 0;
+		}
+	}
+	else if (state_auto == 3)
+	{
+		if (x >= stair_x)
+		{
+			x = stair_x;
+			nx = nx1;
+			if (stair == 1)
+			{
+				SetState(SIMON_STATE_STAIR_UP);
+				x += 8;
+			}
+			else
+			{
+				SetState(SIMON_STATE_STAIR_DOWN);
+				x -= 8;
+			}
+			SetFrameStair();
+			GetPosition(simon_x, simon_y);
+			stair = 2;
+			state_auto = 0;
+		}
+	}
+	else if (state_auto == 4)
+	{
+		CEntranceLevel *level1 = CEntranceLevel::GetInstance();
+		float min;
+		float max;
+		level1->GetSizeMap(min, max);
+		SetState(SIMON_STATE_WALKING_RIGHT);
+		vx = 0.01f;
+		if (x > max - 20.0f)
+		{
+			state_auto = -1;	
+			SetState(SIMON_STATE_IDLE);
+			camera_auto = 3;
+		}
+
+	}
+
+}
+
+void CSimon::Camera()
+{
+	CEntranceLevel *level1 = CEntranceLevel::GetInstance();
+	CGame *game = CGame::GetInstance();
+	float min;
+	float max;
+	level1->GetSizeMap(min, max);
+	
+		if (x - 128.0f<min)
+		{
+			game->SetCamera(min, 0.0f);
+		}
+		else if (x + 128.0f > max)
+		{
+			game->SetCamera(max-256.0f, 0.0f);
+		}
+		else
+			game->SetCamera(x - 128.0f, 0.0f);
+}
+
+void CSimon::CameraAuto()
+{
+	CEntranceLevel *level1 = CEntranceLevel::GetInstance();
+	CGame *game = CGame::GetInstance();
+	float min;
+	float max;
+	level1->GetSizeMap(min, max);
+	if (camera_auto == 1)
+	{
+		float x1;
+		if (nx > 0)
+			x1 = simon_x + (float)8 / TIME_STAIR * test_stair;
+		else
+			x1 = simon_x - (float)8 / TIME_STAIR * test_stair;
+		if (x1 - 128.0f < min)
+		{
+			game->SetCamera(min, 0.0f);
+		}
+		else if (x1 + 128.0f > max)
+		{
+			game->SetCamera(max - 256.0f, 0.0f);
+		}
+		else
+			game->SetCamera(x1 - 128.0f, 0.0f);
+		camera_auto = 0;
+	}
+	else if(camera_auto == 2)
+	{
+		float cx, cy;
+		game->GetCamera(cx, cy);
+		if (cx < x - 128.0f)
+		{
+			game->SetCamera(cx + 1.0f, 0.0f);
+		}
+		else
+		{
+			camera_auto = -1;
+			state_auto = 4;
+		}
+	}
+	else if (camera_auto == 3)
+	{
+		float cx, cy;
+		game->GetCamera(cx, cy);
+		if (cx < x)
+		{
+			game->SetCamera(cx + 1.0f, 0.0f);
+		}
+		else
+		{
+			camera_auto = -1;
+			state_auto = -1;
+			level1->SetNextScene(true);
+		}
 	}
 }
 

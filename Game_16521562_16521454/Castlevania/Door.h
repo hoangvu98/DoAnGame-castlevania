@@ -13,12 +13,16 @@
 class CDoor :
 	public CGameObject
 {
+	bool IsHiden;
 	bool stop;
 	int i;
 public:
+	bool IsGo = true;
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	void Render();
 	void SetStop(bool stop) { this->stop = stop; }
+	void SetIsHiDen(bool IsHiden) {this->IsHiden= IsHiden;}
+	bool GetIsHiden() { return IsHiden; }
 	CDoor();
 };
 

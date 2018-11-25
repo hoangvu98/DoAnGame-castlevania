@@ -72,7 +72,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	case DIK_UP:
 		if (simon->GetStair() == 1)
 		{
-			simon->state_auto = 1;
+			simon->SetStateAuto (1);
 		}
 		break;
 	case DIK_RETURN:
@@ -91,7 +91,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	case DIK_DOWN:
 		if (simon->GetStair() == 3)
 		{
-			simon->state_auto = 1;
+			simon->SetStateAuto(1);
 		}
 		break;
 	case DIK_F:
@@ -301,7 +301,7 @@ void LoadResources()
 	resource->LoadAxe();
 	resource->LoadAxe_animation();
 	simon = CSimon::GetInstance();
-	//simon->SetPosition(1280.0f, 80.0f);
+	//simon->SetPosition(1378.0f, 34.0f);
 	//simon->SetPosition(687.0f, 60.0f);
 	//simon->SetPosition(895.0f, 20.0f);
 	//simon->SetPosition(615.0f, 80.0f);
@@ -342,12 +342,22 @@ void Update(DWORD dt)
 	switch (screen)
 	{
 	case 2:
+		if(level_1->IsNext())
+		{ 
+			float x, y;
+			level_1->NextScece(x, y);
+			if(x!=0 &&y!=0)
+				simon->SetPosition(x, y);
+			level_1->SetNextScene(false);
+			simon->SetCameraAuto(0);
+			simon->SetStateAuto(0);
+
+		}
 		level_1->Update();
 		vector<LPGAMEOBJECT> coObjects;
 		objects.clear();
 		objects = level_1->GetUpdateObjects();
 		objects.push_back(simon);
-
 		for (int i = 0; i < objects.size() - 1; i++)
 			coObjects.push_back(objects[i]);
 		for (int i = 0; i < objects.size(); i++)
@@ -466,7 +476,7 @@ int Run()
 			frameStart = now;
 			if (game->GetPause())
 			{
-				if (simon->state_auto == 0 && simon->GetCollusion()!=1)
+				if (simon->GetStateAuto() == 0 && simon->GetCollusion()!=1)
 					game->ProcessKeyboard();
 				Update(dt);
 			}

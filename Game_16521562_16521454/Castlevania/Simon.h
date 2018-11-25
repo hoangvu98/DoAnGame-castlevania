@@ -7,7 +7,7 @@
 using namespace std;
 #define WHIP_TEXTURE_PATH L"castlevania_texture\\Weapon\\Whip.png"
 
-#define SIMON_WALKING_SPEED		0.1f
+#define SIMON_WALKING_SPEED		0.05f
 #define SIMON_JUMP_SPEED		0.2f
 #define SIMON_GRAVITY			0.01f
 #define SIMON_DEFLECT_SPEED		0.1f
@@ -82,13 +82,14 @@ class CSimon :public CGameObject
 	int test = 0;
 	int collusion = 0;//0 co the đụng 1 đã đụng -đứng 2 đã đụng - có thể di chuyển 
 	int collusion_nx = 0;
+	int state_auto = 0;
+	int camera_auto = 0;
 public:
 	DWORD test_stair = 0;
 	float simon_x;
 	float simon_y;
 	int IsUp = 0;
 	int IsDown = 0;
-	int state_auto = 0;
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObject = NULL);
 	void Render();
 	void GetBoundingBox(float & left, float & top, float & right, float & bottom);
@@ -110,10 +111,16 @@ public:
 	void SetFrameStair() { FrameStair = GetTickCount(); }
 	int GetCollusion() { return collusion; }
 	DWORD GetFrameStair() { return FrameStair; }
+	int GetStateAuto() { return state_auto; }
+	void SetStateAuto(int state_auto) { this-> state_auto= state_auto; }
+	void SetCameraAuto(int camera_auto) { this->camera_auto = camera_auto; }
 	DWORD GetFrameUpdate()
 	{
 		return FrameUpdate;
 	}
+	void Auto();
+	void Camera();
+	void CameraAuto();
 	CSimon() :CGameObject()
 	{
 		AddAnimation(101);

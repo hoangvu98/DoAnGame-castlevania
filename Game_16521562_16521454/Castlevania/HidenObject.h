@@ -1,9 +1,10 @@
 #pragma once
 #include "GameObject.h"
-#define HIDENOBJECT_STATE_NORMAL 0
-#define HIDENOBJECT_STATE_STAIR_UP 1
+#define HIDENOBJECT_STATE_NORMAL     0
+#define HIDENOBJECT_STATE_STAIR_UP   1
 #define HIDENOBJECT_STATE_STAIR_DOWN 2
-#define HIDENOBJECT_STATE_JUMP		3
+#define HIDENOBJECT_STATE_JUMP		 3
+#define HIDENOBJECT_STATE_DOOR		 4
 class CHidenObject :
 	public CGameObject
 {

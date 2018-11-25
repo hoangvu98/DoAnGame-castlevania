@@ -23,6 +23,10 @@ void CHidenObject::Render()
 	{
 
 	}
+	else if (state == HIDENOBJECT_STATE_DOOR)
+	{
+		RenderBoundingBox(200);
+	}
 }
 
 void CHidenObject::GetBoundingBox(float & left, float & top, float & right, float & bottom)

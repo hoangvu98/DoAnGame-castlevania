@@ -114,7 +114,9 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CWhip::Render()
 {
 	int ani = 2 * state + state_whip;
-	animations[ani]->Render(x, y, 255);
+	DWORD t = GetTickCount() - FrameWhip;
+	if(t<=450)
+		animations[ani]->Render(x, y, 255);
 }
 
 

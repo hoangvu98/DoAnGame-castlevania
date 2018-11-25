@@ -15,6 +15,7 @@ void CEntranceLevel::LoadMap()
 	CPanther *panther;
 	CGhoul *ghoul;
 	CSimon *simon = CSimon::GetInstance();
+	CHidenObject *hidenObj;
 	switch (scene)
 	{
 	case SCENE_1:
@@ -66,9 +67,20 @@ void CEntranceLevel::LoadMap()
 			hidenObj->SetPosition(i * 64.0f, 145.0f);
 			cells->InitCells(hidenObj);
 		}
+		hidenObj = new CHidenObject();
+		hidenObj->SetSize(2.0f, 145.0f);
+		hidenObj->SetPosition(0, 0);
+		cells->InitCells(hidenObj);
+
+	/*	hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_DOOR);
+		hidenObj->SetSize(10.0f, 145.0f);
+		hidenObj->SetPosition(625.0f, 0);
+		cells->InitCells(hidenObj);*/
 
 		door = new CDoor();
 		door->SetPosition(672.0f, 105.0f);
+		door->SetIsHiDen(true);
 		cells->InitCells(door);
 
 		break;
@@ -86,7 +98,6 @@ void CEntranceLevel::LoadMap()
 		row = (int)height / CELL_HEIGHT + 1;
 
 		cells = new CCells(column, row);
-		CHidenObject *hidenObj;
 
 		for (int i = 0; i < 25; i++)
 		{
@@ -357,7 +368,16 @@ void CEntranceLevel::LoadMap()
 		door = new CDoor();
 		door->SetState(DOOR_STATE_CLOSE);
 		door->SetPosition(1530.0f, 15.0f);
+		door->SetIsHiDen(false);
 		cells->InitCells(door);
+		for (int i = 0; i < 2; i++)
+		{
+			hidenObj = new CHidenObject();
+			hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
+			hidenObj->SetPosition(i * 64.0f + 1550.0f, 65.0f);
+			hidenObj->SetSize(64.0f, 15.0f);
+			cells->InitCells(hidenObj);
+		}
 		break;
 	case SCENE_3:
 		for (int i = 0; i < 2; i++)
@@ -560,6 +580,25 @@ void CEntranceLevel::Render()
 		break;
 	}*/
 	tilemap->Render(0.0f, 0.0f);
+}
+
+void CEntranceLevel::GetSizeMap(float &min, float &max)
+{
+	if (scene == SCENE_1)
+	{
+		min = MIN_MAP_1;
+		max = MAX_MAP_1;
+	}
+	else if(scene == SCENE_2)
+	{
+		min = MIN_MAP_2;
+		max = MAX_MAP_2;
+	}
+	else if (scene == SCENE_3)
+	{
+		min = MIN_MAP_3;
+		max = MAX_MAP_3;
+	}
 }
 
 CEntranceLevel * CEntranceLevel::GetInstance()

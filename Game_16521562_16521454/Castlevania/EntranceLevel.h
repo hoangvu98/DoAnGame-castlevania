@@ -26,6 +26,13 @@ using namespace std;
 #define SCENE_4		4
 
 #define ID_MAP_LEVEL_1	0
+
+#define MIN_MAP_1 0
+#define MAX_MAP_1 769
+#define MIN_MAP_2 0
+#define MAX_MAP_2 1555
+#define MIN_MAP_3 1540
+#define MAX_MAP_3 2208
 class CEntranceLevel :
 	public CMap
 {
@@ -34,7 +41,7 @@ public:
 	void LoadMap();
 	void Update();
 	void Render();
-
+	void GetSizeMap(float &min,float &max);
 	static CEntranceLevel * GetInstance();
 };
 
