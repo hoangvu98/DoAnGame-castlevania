@@ -82,7 +82,6 @@ CCandle::CCandle(int size, int item)
 	int random = rand() % 2;
 	switch (item)
 	{
-
 	case DAGGER:
 		items = new CDagger();
 		break;
@@ -99,6 +98,11 @@ CCandle::CCandle(int size, int item)
 		break;
 	case WHIP_UPDATE:
 		items = new CWhipUpdate();
+		break;
+	case MONEY_BAG:
+		items = new CMoneyBag(MONEY_BAG_SMALL, MONEY_BAG_RED);
+	case AXE:
+		items = new CAxe();
 		break;
 	}
 }

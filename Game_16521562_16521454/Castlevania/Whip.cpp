@@ -64,7 +64,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				SetPosition(x + 14, y + 6);
 		}
 	}
-	else if (t >= 300)
+	else if (t >= 300 && t <= 450)
 	{
 
 		if (size == SHORT_WHIP)

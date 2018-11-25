@@ -1,0 +1,5 @@
+31006 378 43 391 57 //money bag red
+
+31007 378 68 391 82 //money bag blue
+
+31008 378 92 391 106 //money bag white

@@ -6,6 +6,8 @@
 #define DAGGER		0
 #define HEART		1
 #define WHIP_UPDATE	2
+#define MONEY_BAG   3
+#define AXE         4
 
 #define BIG_CANDLE		100
 #define SMALL_CANDLE	200

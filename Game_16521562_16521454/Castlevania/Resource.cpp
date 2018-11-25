@@ -267,3 +267,52 @@ void CResource::LoadBat()
 	animations->Add(12002, ani);
 	in.close();
 }
+
+void CResource::LoadMoneyBag()
+{
+	CTextures *texture = CTextures::GetInstance();
+	CSprites *sprites = CSprites::GetInstance();
+	CAnimations *animations = CAnimations::GetInstance();
+	texture->Add(ID_ITEM, ITEM_TEXTURE_PATH, D3DCOLOR_XRGB(128, 0, 0));
+	LPANIMATION ani = new CAnimation(100);
+	LPDIRECT3DTEXTURE9 texitem;
+	texitem = texture->Get(ID_ITEM);
+	ifstream in("Data\\MoneyBag.txt");
+	CInputImage::AddAnimation(in, sprites, ani, texitem, 1);
+	animations->Add(13001, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texitem, 1);
+	animations->Add(13002, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texitem, 1);
+	animations->Add(13003, ani);
+	in.close();
+}
+
+void CResource::LoadAxe()
+{
+	CTextures *texture = CTextures::GetInstance();
+	CSprites *sprites = CSprites::GetInstance();
+	CAnimations *animations = CAnimations::GetInstance();
+	texture->Add(ID_ITEM, ITEM_TEXTURE_PATH, D3DCOLOR_XRGB(128, 0, 0));
+	LPANIMATION ani = new CAnimation(100);
+	LPDIRECT3DTEXTURE9 texitem;
+	texitem = texture->Get(ID_ITEM);
+	ifstream in("Data\\Axe.txt");
+	CInputImage::AddAnimation(in, sprites, ani, texitem, 1);
+	animations->Add(14001, ani);
+	in.close();
+}
+
+void CResource::LoadAxe_animation()
+{
+	CTextures *texture = CTextures::GetInstance();
+	CSprites *sprites = CSprites::GetInstance();
+	CAnimations *animations = CAnimations::GetInstance();
+	texture->Add(ID_ITEM, ITEM_TEXTURE_PATH, D3DCOLOR_XRGB(128, 0, 0));
+	LPANIMATION ani = new CAnimation(100);
+	LPDIRECT3DTEXTURE9 texitem;
+	texitem = texture->Get(ID_ITEM);
+	ifstream in("Data\\Axe.txt");
+	CInputImage::AddAnimation(in, sprites, ani, texitem, 4);
+	animations->Add(14002, ani);
+	in.close();
+}

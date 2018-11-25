@@ -42,11 +42,13 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (state == ITEM_STATE_ITEM)
 		CItems::Update(dt, coObjects);
-	else if (state == ITEM_STATE_WEAPON_RIGHT)
-		SetPosition(x + 3, y);
-	else if(state == ITEM_STATE_WEAPON_LEFT)
-		SetPosition(x - 3, y);
-
+	else
+	{
+		CGameObject::Update(dt);
+		//vy += ITEM_GRAVITY * dt;
+		x += dx;
+		y += dy;
+	}
 }
 
 
@@ -69,7 +71,20 @@ void CDagger::GetBoundingBox(float & left, float & top, float & right, float & b
 	right = x + DAGGER_BBOX_WIDTH;
 	bottom = y + DAGGER_BBOX_HEIGHT;
 }
-
+void CDagger::SetState(int state)
+{
+	CGameObject::SetState(state);
+	switch (state)
+	{
+	case ITEM_STATE_WEAPON_LEFT:
+		vx = -SPEED_DAGGER;
+		//vy = -0.1f;
+		break;
+	case ITEM_STATE_WEAPON_RIGHT:
+		vx = SPEED_DAGGER;
+		//vy = -0.1f;
+	}
+}
 void CHeart::Render()
 {
 	if (state != ITEM_STATE_DELETE)
@@ -116,4 +131,77 @@ void CWhipUpdate::GetBoundingBox(float & left, float & top, float & right, float
 	top = y;
 	right = x + WHIP_UPDATE_BBOX_WIDTH;
 	bottom = y + WHIP_UPDATE_BBOX_HEIGHT;
+}
+
+CMoneyBag::CMoneyBag(int size, int state)
+{
+	this->state = state; 
+	this->size = size;
+	AddAnimation(13001); 
+	AddAnimation(13002); 
+	AddAnimation(13003);
+}
+
+void CMoneyBag::Render()
+{
+	if (state != ITEM_STATE_DELETE)
+	{
+		animations[state]->Render(x, y);
+	}
+}
+
+void CMoneyBag::GetBoundingBox(float & left, float & top, float & right, float & bottom)
+{
+	left = x;
+	top = y;
+	right = x + MONEY_BAG_BBOX_WIDTH;
+	bottom = y + MONEY_BAG_BBOX_HEIGHT;
+}
+
+void CAxe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+{
+	if (state == ITEM_STATE_ITEM)
+		CItems::Update(dt, coObjects);
+	else
+	{
+		CGameObject::Update(dt);
+		vy += AXE_GRAVITY * dt;
+		x += dx;
+		y += dy;
+	}
+}
+
+void CAxe::Render()
+{
+	if (state == ITEM_STATE_ITEM)
+	{
+		animations[0]->Render(x, y);
+	}
+	else if (state != ITEM_STATE_DELETE)
+	{
+		animations[1]->Render(x, y);
+	}
+}
+
+void CAxe::GetBoundingBox(float & left, float & top, float & right, float & bottom)
+{
+	left = x;
+	top = y;
+	right = x + AXE_BBOX_WIDTH;
+	bottom = y + AXE_BBOX_HEIGHT;
+}
+
+void CAxe::SetState(int state)
+{
+	CGameObject::SetState(state);
+	switch (state)
+	{
+	case ITEM_STATE_WEAPON_LEFT:
+		vx = -SPEED_AXE_X;
+		vy = -SPEED_AXE_Y;
+		break;
+	case ITEM_STATE_WEAPON_RIGHT:
+		vx = SPEED_AXE_X;
+		vy = -SPEED_AXE_Y;
+	}
 }

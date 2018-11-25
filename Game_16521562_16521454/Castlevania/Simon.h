@@ -19,8 +19,11 @@ using namespace std;
 #define SIMON_STATE_KNEE			4
 #define SIMON_STATE_DIE				5
 #define SIMON_STATE_UPDATE          6
-#define SIMON_STATE_STAIR           7
-#define SIMON_STATE_COLLUSION       8   
+#define SIMON_STATE_STAIR_UP_IDLE   7
+#define SIMON_STATE_STAIR_DOWN_IDLE	8
+#define SIMON_STATE_STAIR_UP        9
+#define SIMON_STATE_STAIR_DOWN      10
+#define SIMON_STATE_COLLUSION       11
 
 #define SIMON_ANI_WALKING_LEFT		    0
 #define SIMON_ANI_WALKING_RIGHT		    1
@@ -85,7 +88,6 @@ public:
 	float simon_y;
 	int IsUp = 0;
 	int IsDown = 0;
-	float stair_x = 0;
 	int state_auto = 0;
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObject = NULL);
 	void Render();

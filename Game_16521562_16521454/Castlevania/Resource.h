@@ -18,7 +18,6 @@
 #define ID_GHOUL	100
 #define ID_DOOR		4
 #define ID_BAT		5
-
 class CResource
 {
 public:
@@ -33,4 +32,7 @@ public:
 	void LoadHitEffect();
 	void LoadDoor();
 	void LoadBat();
+	void LoadMoneyBag();
+	void LoadAxe();
+	void LoadAxe_animation();
 };

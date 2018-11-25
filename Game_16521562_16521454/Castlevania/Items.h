@@ -3,10 +3,8 @@
 #include "Textures.h"
 #include "Sprites.h"
 
-#define ITEM_TEXTURE_PATH L"castlevania_texture\\Weapon\\Items.png"
 
 #define ITEM_GRAVITY	0.01f
-#define ID_ITEM 3
 
 #define ITEM_STATE_ITEM 0
 #define ITEM_STATE_WEAPON_RIGHT 1
@@ -26,19 +24,16 @@ public:
 
 #define DAGGER_BBOX_WIDTH	19
 #define DAGGER_BBOX_HEIGHT	10
-
+#define SPEED_DAGGER 0.15f
 class CDagger : public CItems
 {
-	int damage;
+	int damage=2;
 public:
-	CDagger() :CItems() { this->damage = 2; AddAnimation(6000); AddAnimation(6001); }
-
-	int GetDamage() { return damage; }
-	void SetDamage(int damage) { this->damage = damage; }
-
+	CDagger() :CItems() {AddAnimation(6000); AddAnimation(6001); }
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	void Render();
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
+	void SetState(int state);
 };
 
 #define HEART_BIG		0
@@ -87,10 +82,46 @@ public:
 #define WHIP_UPDATE_BBOX_WIDTH 18
 #define WHIP_UPDATE_BBOX_HEIGHT 16
 
+
 class CWhipUpdate : public CItems
 {
 public:
 	CWhipUpdate() :CItems() { AddAnimation(9000); }
 	void Render();
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
+};
+
+#define MONEY_BAG_BBOX_WIDTH 13
+#define MONEY_BAG_BBOX_HEIGHT 14
+#define MONEY_BAG_SMALL 0
+#define MONEY_BAG_BIG 1
+
+#define MONEY_BAG_RED   0
+#define MONEY_BAG_BLUE  1
+#define MONEY_BAG_WHITE 2
+
+class CMoneyBag : public CItems
+{
+	int size;
+public:
+	CMoneyBag(int size, int state);
+	void Render();
+	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
+};
+
+#define AXE_BBOX_WIDTH 15
+#define AXE_BBOX_HEIGHT 14
+
+#define SPEED_AXE_X 0.15f
+#define SPEED_AXE_Y 0.3f
+#define AXE_GRAVITY	0.001f
+class CAxe : public CItems
+{
+	int damage=2;
+public:
+	CAxe() :CItems() { AddAnimation(14001); AddAnimation(14002); }
+	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
+	void Render();
+	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
+	void SetState(int state);
 };

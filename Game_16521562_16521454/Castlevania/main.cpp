@@ -186,8 +186,10 @@ void CSampleKeyHander::KeyState(BYTE *states)
 						{
 							simon->IsDown = 0;
 						}
-						simon->SetState(SIMON_STATE_STAIR);
-						simon->nx = 1;
+						if (simon->GetState() == SIMON_STATE_STAIR_DOWN ||
+							simon->GetState() == SIMON_STATE_STAIR_DOWN_IDLE)
+							simon->nx = -simon->nx;
+						simon->SetState(SIMON_STATE_STAIR_UP);
 						simon->SetFrameStair();
 						simon->GetPosition(simon->simon_x, simon->simon_y);
 					}
@@ -201,14 +203,19 @@ void CSampleKeyHander::KeyState(BYTE *states)
 						{
 							simon->IsUp = 0;
 						}
-						simon->SetState(SIMON_STATE_STAIR);
-						simon->nx = -1;
+						if (simon->GetState() == SIMON_STATE_STAIR_UP ||
+							simon->GetState() == SIMON_STATE_STAIR_UP_IDLE)
+							simon->nx = -simon->nx;
+						simon->SetState(SIMON_STATE_STAIR_DOWN);
 						simon->SetFrameStair();
 						simon->GetPosition(simon->simon_x, simon->simon_y);
 					}
 					else
 					{
-						simon->SetState(SIMON_STATE_IDLE);
+						if(simon->GetState()== SIMON_STATE_STAIR_UP || simon->GetState() == SIMON_STATE_STAIR_UP_IDLE)
+							simon->SetState(SIMON_STATE_STAIR_UP_IDLE);
+						else
+							simon->SetState(SIMON_STATE_STAIR_DOWN_IDLE);
 					}
 				}
 			}
@@ -290,9 +297,13 @@ void LoadResources()
 	resource->LoadHitEffect();
 	resource->LoadDoor();
 	resource->LoadBat();
+	resource->LoadMoneyBag();
+	resource->LoadAxe();
+	resource->LoadAxe_animation();
 	simon = CSimon::GetInstance();
 	//simon->SetPosition(1280.0f, 80.0f);
 	//simon->SetPosition(687.0f, 60.0f);
+	//simon->SetPosition(895.0f, 20.0f);
 	//simon->SetPosition(615.0f, 80.0f);
 	simon->SetPosition(10.0f, 80.0f); 
 	//simon->SetState(SIMON_STATE_IDLE);
@@ -300,7 +311,7 @@ void LoadResources()
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
 	level_1 = CEntranceLevel::GetInstance();
-	level_1->SetScene(SCENE_2);
+	level_1->SetScene(SCENE_1);
 	level_1->LoadMap();
 	objects = level_1->GetUpdateObjects();
 	objects.push_back(simon);

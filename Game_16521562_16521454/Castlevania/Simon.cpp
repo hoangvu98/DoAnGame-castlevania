@@ -8,6 +8,8 @@
 #include "Ghoul.h"
 DWORD FrameCollusion;
 int color = 255;
+float stair_x = 0;
+int nx1;
 CSimon *CSimon::__instance = NULL;
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
@@ -54,7 +56,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	}
 	coEventsResult.clear();
 	FilterCollisionImmediately(coEvents, coEventsResult);
-	bool test=true;
+	bool test = true;
 	for (UINT i = 0; i < coEventsResult.size(); i++)
 	{
 		LPCOLLISIONEVENT e = coEventsResult[i];
@@ -63,6 +65,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
 			if (hidenobject->GetState() == HIDENOBJECT_STATE_STAIR_UP)
 			{
+				nx1 = hidenobject->nx;
 				stair_x = hidenobject->GetStair_X();
 				if (stair != 2)
 					stair = 1;
@@ -71,6 +74,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			}
 			else if (hidenobject->GetState() == HIDENOBJECT_STATE_STAIR_DOWN)
 			{
+				nx1 = hidenobject->nx;
 				stair_x = hidenobject->GetStair_X();
 				if (stair != 2)
 					stair = 3;
@@ -107,7 +111,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		coEventsResult.clear();
 		float min_tx, min_ty, nx = 0, ny;
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-	
+
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
@@ -116,27 +120,30 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
 				/*if (hidenobject->GetState() == HIDENOBJECT_STATE_NORMAL)
 				{*/
-					x += min_tx * dx + nx * 0.4f;
-					y += min_ty * dy + ny * 0.4f;
-					test = false;
-					DWORD now = GetTickCount();
-					if (now - FrameCollusion > 100)
-					{
-						if (nx != 0) vx = 0;
-						if (ny != 0) {
-							vy = 0; jump = true;
-						}
-						if (collusion == 1 && ny < 0)
-							if (state == SIMON_STATE_COLLUSION)
-								SetState(SIMON_STATE_KNEE);
+				x += min_tx * dx + nx * 0.4f;
+				y += min_ty * dy + ny * 0.4f;
+				test = false;
+				DWORD now = GetTickCount();
+				if (now - FrameCollusion > 100)
+				{
+					if (nx != 0) vx = 0;
+					if (ny != 0) {
+						vy = 0; jump = true;
 					}
+					if (collusion == 1 && ny < 0)
+						if (state == SIMON_STATE_COLLUSION)
+							SetState(SIMON_STATE_KNEE);
+				}
 				//}
 			}
 			else if (dynamic_cast<CHeart *>(e->obj))
 			{
 				CItems *items = dynamic_cast<CHeart *>(e->obj);
-				/*x += dx;
-				y += dy;*/
+				items->SetState(ITEM_STATE_DELETE);
+			}
+			else if (dynamic_cast<CMoneyBag *>(e->obj))
+			{
+				CItems *items = dynamic_cast<CMoneyBag *>(e->obj);
 				items->SetState(ITEM_STATE_DELETE);
 			}
 			else if (dynamic_cast<CDagger *>(e->obj))
@@ -144,20 +151,20 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				OnSkill = true;
 				CItems *items = dynamic_cast<CDagger *>(e->obj);
 				weapon = new CDagger();
-				//x += dx;
+				items->SetState(ITEM_STATE_DELETE);
+			}
+			else if (dynamic_cast<CAxe *>(e->obj))
+			{
+				OnSkill = true;
+				CItems *items = dynamic_cast<CAxe *>(e->obj);
+				weapon = new CAxe();
 				items->SetState(ITEM_STATE_DELETE);
 			}
 			else if (dynamic_cast<CDoor *>(e->obj))
 			{
-				/*level1->SetScene(SCENE_2);
-				SetPosition(10.0f, 80.0f);
-				game->SetCamera(0.0f, 0.0f);*/
 				level1->SetScene(SCENE_3);
 				CDoor *door = dynamic_cast<CDoor *>(e->obj);
 				door->SetState(DOOR_STATE_OPEN);
-
-				x += dx;
-				y += dy;
 			}
 			else if (dynamic_cast<CPanther *> (e->obj))
 			{
@@ -172,8 +179,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			}
 			else if (dynamic_cast<CGhoul *> (e->obj))
 			{
-				/*y += dy;
-				x += dx;*/
 				if (collusion == 0)
 				{
 					CGhoul *ghoul = dynamic_cast<CGhoul *>(e->obj);
@@ -210,24 +215,22 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		{
 			if (stair == 1)
 			{
-				SetState(SIMON_STATE_STAIR);
+				SetState(SIMON_STATE_STAIR_UP);
 				x = stair_x;
-				nx = 1;
+				nx = nx1;
 				x += 8;
 			}
 			else
 			{
-				SetState(SIMON_STATE_STAIR);
+				SetState(SIMON_STATE_STAIR_DOWN);
 				x = stair_x;
-				nx = -1;
+				nx = nx1;
 				x -= 8;
 			}
 			SetFrameStair();
 			GetPosition(simon_x, simon_y);
 			stair = 2;
 			state_auto = 0;
-			if (nx < 0)
-				y += 7;
 		}
 	}
 	else if (state_auto == 3)
@@ -236,34 +239,32 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		{
 			if (stair == 1)
 			{
-				SetState(SIMON_STATE_STAIR);
+				SetState(SIMON_STATE_STAIR_UP);
 				x = stair_x;
-				nx = 1;
+				nx = nx1;
 				x += 8;
 			}
 			else
 			{
-				SetState(SIMON_STATE_STAIR);
+				SetState(SIMON_STATE_STAIR_DOWN);
 				x = stair_x;
-				nx = -1;
+				nx = nx1;
 				x -= 8;
 			}
 			SetFrameStair();
 			GetPosition(simon_x, simon_y);
 			stair = 2;
 			state_auto = 0;
-			if (nx < 0)
-				y += 7;
 		}
 	}
-	if (state == SIMON_STATE_STAIR)
+	if (state == SIMON_STATE_STAIR_DOWN || state == SIMON_STATE_STAIR_UP)
 	{
 		DWORD now = GetTickCount();
 		test_stair = now - FrameStair;
 	}
 	else
 		test_stair = 0;
-	if (state != SIMON_STATE_STAIR)
+	if (state != SIMON_STATE_STAIR_DOWN && state != SIMON_STATE_STAIR_UP)
 	{
 		float cx, cy;
 		game->GetCamera(cx, cy);
@@ -282,9 +283,9 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	{
 		float x1;
 		if (nx > 0)
-			x1 = simon_x + (float)8/ TIME_STAIR *test_stair;
+			x1 = simon_x + (float)8 / TIME_STAIR * test_stair;
 		else
-			x1 = simon_x - (float)8 / TIME_STAIR *test_stair;
+			x1 = simon_x - (float)8 / TIME_STAIR * test_stair;
 		float cx, cy;
 		game->GetCamera(cx, cy);
 		if (x1 > 100.0f)
@@ -336,10 +337,17 @@ void CSimon::Render()
 		if (stair == 2 || state_auto == 4)
 		{
 			DWORD now = GetTickCount();
-			if (state == SIMON_STATE_STAIR)
+			if (state == SIMON_STATE_STAIR_UP)
 			{
 				if (nx > 0)
 					ani = SIMON_ANI_STAIR_UP_RIGHT;
+				else
+					ani = SIMON_ANI_STAIR_UP_LEFT;
+			}
+			else if (state == SIMON_STATE_STAIR_DOWN)
+			{
+				if (nx > 0)
+					ani = SIMON_ANI_STAIR_DOWN_RIGHT;
 				else
 					ani = SIMON_ANI_STAIR_DOWN_LEFT;
 			}
@@ -365,39 +373,55 @@ void CSimon::Render()
 					}
 					else
 					{
-						if (nx > 0)
-							ani = SIMON_ANI_STAIR_IDLE_UP_RIGHT;
+						if (state == SIMON_STATE_STAIR_UP_IDLE)
+						{
+							if (nx > 0)
+								ani = SIMON_ANI_STAIR_IDLE_UP_RIGHT;
+							else
+								ani = SIMON_ANI_STAIR_IDLE_UP_LEFT;
+						}
 						else
-							ani = SIMON_ANI_STAIR_IDLE_DOWN_LEFT;
+						{
+							if (nx > 0)
+								ani = SIMON_ANI_STAIR_IDLE_DOWN_RIGHT;
+							else
+								ani = SIMON_ANI_STAIR_IDLE_DOWN_LEFT;
+						}
 					}
 				}
 
 			}
-			if (state == SIMON_STATE_STAIR)
+			if (state == SIMON_STATE_STAIR_UP)
 			{
 				if (animations[ani]->GetCureentFrame() == 0 && test == 0)
 				{
 					test = 1;
 					if (nx > 0)
-					{
 						x += 8;
-						y -= 8;
-					}
-					
+					else
+						x -= 8;
+					y -= 8;
 				}
+				else if (animations[ani]->GetCureentFrame() == 1 && test == 1)
+					test = 0;
+			}
+			else if (state == SIMON_STATE_STAIR_DOWN)
+			{
+				if (animations[ani]->GetCureentFrame() == 0 && test == 0)
+					test = 1;
 				else if (animations[ani]->GetCureentFrame() == 1 && test == 1)
 				{
 					test = 0;
-					if(nx<0)
-					{
+					if (nx > 0)
+						x += 8;
+					else
 						x -= 8;
-						y += 8;
-					}
+					y += 8;
 				}
 			}
 			if (skill)
 			{
-				if (now - FrameWeapon > 500)	skill = false;
+				if (now - FrameWeapon > 1000)	skill = false;
 				else weapon->Render();
 			}
 			animations[ani]->Render(x, y, color);
@@ -454,8 +478,6 @@ void CSimon::Render()
 									ani = SIMON_ANI_FIGHT_LEFT;
 							}
 						}
-						/*				whip->Render();
-										animations[ani]->Render(x, y, 255);*/
 						if (nx > 0)whip->SetStateWhip(WHIP_STATE_RIGHT);
 						else whip->SetStateWhip(WHIP_STATE_LEFT);
 						animations[ani]->Render(x, y, color);
@@ -496,7 +518,7 @@ void CSimon::Render()
 				}
 				if (skill)
 				{
-					if (now - FrameWeapon > 500)	skill = false;
+					if (now - FrameWeapon > 1000)	skill = false;
 					else weapon->Render();
 				}
 			}
@@ -531,6 +553,7 @@ void CSimon::Render()
 
 		}
 	}
+	DebugOut(L"ani=%d\n", ani);
 	RenderBoundingBox(100);
 }
 
@@ -592,7 +615,11 @@ void CSimon::SetState(int state)
 	case SIMON_STATE_UPDATE:
 		vx = 0;
 		break;
-	case SIMON_STATE_STAIR:
+	case SIMON_STATE_STAIR_UP:
+		vx = 0;
+		vy = 0;
+		break;
+	case SIMON_STATE_STAIR_DOWN:
 		vx = 0;
 		vy = 0;
 		break;
