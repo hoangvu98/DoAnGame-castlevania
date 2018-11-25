@@ -55,7 +55,7 @@ void CEntranceLevel::LoadMap()
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
 
-		candle = new CCandle(BIG_CANDLE, DAGGER);
+		candle = new CCandle(BIG_CANDLE, /*DAGGER*/BOOMERANG);
 		candle->SetPosition(600.0f, 111.0f);
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);

@@ -300,6 +300,8 @@ void LoadResources()
 	resource->LoadMoneyBag();
 	resource->LoadAxe();
 	resource->LoadAxe_animation();
+	resource->LoadBoomerang();
+	resource->LoadHollyWater();
 	simon = CSimon::GetInstance();
 	//simon->SetPosition(1378.0f, 34.0f);
 	//simon->SetPosition(687.0f, 60.0f);

@@ -1,6 +1,7 @@
 #include "Items.h"
 #include <fstream>
 #include "InputImage.h"
+#include "Simon.h"
 using namespace std;
 
 
@@ -205,3 +206,131 @@ void CAxe::SetState(int state)
 		vy = -SPEED_AXE_Y;
 	}
 }
+
+CBoomerang::CBoomerang()
+{
+	AddAnimation(15000);
+	AddAnimation(15001);
+}
+
+void CBoomerang::Render()
+{
+	int ani;
+	if (state == ITEM_STATE_ITEM)
+		animations[BOOMERANG_ANI_ITEM]->Render(x, y);
+	else if (state == ITEM_STATE_WEAPON_LEFT || state == ITEM_STATE_WEAPON_RIGHT)
+		animations[BOOMERANG_ANI_FLY]->Render(x, y);
+}
+
+void CBoomerang::GetBoundingBox(float & left, float & top, float & right, float & bottom)
+{
+	left = x;
+	top = y;
+	right = x + BOOMERANG_BBOX_WIDTH;
+	bottom = y + BOOMERANG_BBOX_HEIGHT;
+}
+
+void CBoomerang::SetState(int state)
+{
+	CGameObject::SetState(state);
+	switch (state)
+	{
+	case ITEM_STATE_WEAPON_LEFT:
+		vx = -BOOMERANG_SPEED;
+		break;
+	case ITEM_STATE_WEAPON_RIGHT:
+		vx = BOOMERANG_SPEED;
+		break;
+	}
+}
+
+void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+{
+	if (state == ITEM_STATE_ITEM)
+		CItems::Update(dt, coObjects);
+	else
+	{
+		CSimon *simon = CSimon::GetInstance();
+		float sx, sy;
+		simon->GetPosition(sx, sy);
+		CGameObject::Update(dt);
+		float left_distance;
+		float right_distance;
+		left_distance = sx - DISTANCE_OF_BOOMERANG;
+		right_distance = sx + DISTANCE_OF_BOOMERANG;
+		if (x <= left_distance)
+			SetState(ITEM_STATE_WEAPON_RIGHT);
+		if (x >= right_distance)
+			SetState(ITEM_STATE_WEAPON_LEFT);
+		x += dx;
+	}
+}
+	CHollyWater::CHollyWater()
+	{
+		AddAnimation(16000);
+		AddAnimation(16001);
+		AddAnimation(16002);
+	}
+
+	void CHollyWater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+	{
+		if (state == ITEM_STATE_ITEM)
+			CItems::Update(dt, coObjects);
+		else
+			{
+				CGameObject::Update(dt);
+				vy += AXE_GRAVITY * dt;
+				y += dy;
+				x += dx;
+			}
+	}
+
+	void CHollyWater::Render()
+	{
+		if (state == ITEM_STATE_ITEM)
+			animations[HOLLY_WATER_ANI_ITEM]->Render(x, y);
+		else if (state == ITEM_STATE_WEAPON_LEFT || state == ITEM_STATE_WEAPON_RIGHT)
+			animations[HOLLY_WATER_ANI_FALLING]->Render(x, y);
+		else if (state == HOLLY_WATER_STATE_EXPLODE)
+			animations[HOLLY_WATER_ANI_EXPLODE]->Render(x, y);
+	}
+
+	void CHollyWater::GetBoundingBox(float & left, float & top, float & right, float & bottom)
+	{
+		left = x;
+		right = y;
+		if (state == HOLLY_WATER_STATE_EXPLODE)
+		{
+			right = x + FIRE_BBOX_WIDTH;
+			bottom = y + FIRE_BBOX_HEIGHT;
+		}
+		else if (state == ITEM_STATE_ITEM)
+		{
+			right = x + ITEM_BBOX_WIDTH;
+			bottom = y + ITEM_BBOX_HEIGHT;
+		}
+		else
+		{
+			right = x + BOTTLE_BBOX_WIDTH;
+			bottom = y + BOTTLE_BBOX_HEIGHT;
+		}
+	}
+
+	void CHollyWater::SetState(int state)
+	{
+		CGameObject::SetState(state);
+		switch (state)
+		{
+		case ITEM_STATE_WEAPON_LEFT:
+			vx = -HOLLY_WATER_FALLING_SPEED_X;
+			vy = -HOLLY_WATER_FALLING_SPEDD_Y;
+			break;
+		case ITEM_STATE_WEAPON_RIGHT:
+			vx = HOLLY_WATER_FALLING_SPEED_X;
+			vy = -HOLLY_WATER_FALLING_SPEDD_Y;
+			break;
+		case HOLLY_WATER_STATE_EXPLODE:
+			vx = 0;
+			break;
+		}
+	}

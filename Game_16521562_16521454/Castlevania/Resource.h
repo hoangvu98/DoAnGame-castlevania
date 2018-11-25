@@ -35,4 +35,6 @@ public:
 	void LoadMoneyBag();
 	void LoadAxe();
 	void LoadAxe_animation();
+	void LoadBoomerang();
+	void LoadHollyWater();
 };

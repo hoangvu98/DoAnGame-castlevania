@@ -104,6 +104,12 @@ CCandle::CCandle(int size, int item)
 	case AXE:
 		items = new CAxe();
 		break;
+	case BOOMERANG:
+		items = new CBoomerang();
+		break;
+	case HOLLYWATER:
+		items = new CHollyWater();
+		break;
 	}
 }
 

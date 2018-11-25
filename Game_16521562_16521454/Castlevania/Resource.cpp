@@ -316,3 +316,49 @@ void CResource::LoadAxe_animation()
 	animations->Add(14002, ani);
 	in.close();
 }
+
+void CResource::LoadBoomerang()
+{
+	CTextures *textures = CTextures::GetInstance();
+	CSprites *sprites = CSprites::GetInstance();
+	CAnimations *animations = CAnimations::GetInstance();
+
+	LPDIRECT3DTEXTURE9 texboomerang;
+	texboomerang = textures->Get(ID_ITEM);
+
+	LPANIMATION ani;
+	ani = new CAnimation(100);
+
+	ifstream in("Data\\Boomerang.txt");
+	CInputImage::AddAnimation(in, sprites, ani, texboomerang, 1);
+	animations->Add(15000, ani);
+	in.close();
+	in.open("Data\\Boomerang.txt");
+	ani = new CAnimation(100);
+	CInputImage::AddAnimation(in, sprites, ani, texboomerang, 3);
+	animations->Add(15001, ani);
+	in.close();
+}
+
+void CResource::LoadHollyWater()
+{
+	CTextures *textures = CTextures::GetInstance();
+	CSprites *sprites = CSprites::GetInstance();
+	CAnimations *animations = CAnimations::GetInstance();
+
+	LPDIRECT3DTEXTURE9 texhollywater;
+	texhollywater = textures->Get(ID_ITEM);
+
+	LPANIMATION ani;
+	ani = new CAnimation(100);
+
+	ifstream in("Data\\Holly_water.txt");
+	CInputImage::AddAnimation(in, sprites, ani, texhollywater, 1);
+	animations->Add(16000, ani);
+	ani = new CAnimation(100);
+	CInputImage::AddAnimation(in, sprites, ani, texhollywater, 1);
+	animations->Add(16001, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texhollywater, 2);
+	animations->Add(16002, ani);
+	in.close();
+}

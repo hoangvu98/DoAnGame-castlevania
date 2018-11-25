@@ -125,3 +125,55 @@ public:
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	void SetState(int state);
 };
+
+#define BOOMERANG_SPEED	0.2f
+
+#define BOOMERANG_BBOX_WIDTH	15
+#define BOOMERANG_BBOX_HEIGHT	15
+
+#define BOOMERANG_ANI_ITEM		0
+#define BOOMERANG_ANI_FLY		1
+
+#define DISTANCE_OF_BOOMERANG	80
+
+class CBoomerang : public CItems
+{
+	int damage;
+public:
+	CBoomerang();
+	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
+	//void SetDistance(float l, float r) { left_distance = l; right_distance = r; }
+	void Render();
+	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
+	void SetState(int state);
+};
+
+#define HOLLY_WATER_FALLING_SPEED_X		0.15f
+#define HOLLY_WATER_FALLING_SPEDD_Y		0.3f
+#define HOLLY_WATER_GRAVITY				0.001f
+
+#define BOTTLE_BBOX_WIDTH 	9
+#define BOTTLE_BBOX_HEIGHT	10
+
+#define FIRE_BBOX_WIDTH		16
+#define FIRE_BBOX_HEIGHT	13
+
+#define ITEM_BBOX_WIDTH		12
+#define ITEM_BBOX_HEIGHT	15
+
+#define HOLLY_WATER_STATE_EXPLODE	4
+
+#define HOLLY_WATER_ANI_ITEM		0
+#define HOLLY_WATER_ANI_FALLING		1
+#define HOLLY_WATER_ANI_EXPLODE		2
+
+class CHollyWater :public CItems
+{
+	int damage;
+public:
+	CHollyWater();
+	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
+	void Render();
+	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
+	void SetState(int state);
+};

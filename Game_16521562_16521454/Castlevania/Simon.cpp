@@ -165,6 +165,20 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				weapon = new CAxe();
 				items->SetState(ITEM_STATE_DELETE);
 			}
+			else if (dynamic_cast<CBoomerang *>(e->obj))
+			{
+				OnSkill = true;
+				CItems *items = dynamic_cast<CBoomerang *>(e->obj);
+				weapon = new CBoomerang();
+				items->SetState(ITEM_STATE_DELETE);
+			}
+			else  if (dynamic_cast<CHollyWater *>(e->obj))
+			{
+				OnSkill = true;
+				CItems *items = dynamic_cast<CHollyWater *>(e->obj);
+				weapon = new CHollyWater();
+				items->SetState(ITEM_STATE_DELETE);
+			}
 			else if (dynamic_cast<CDoor *>(e->obj))
 			{
 				CDoor *door = dynamic_cast<CDoor *>(e->obj);
