@@ -76,6 +76,15 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 					stair = 3;
 				if (stair == 2 && IsUp != 2)
 					IsUp = 1;
+			}		
+		}
+		else if (dynamic_cast<CDoor *>(e->obj))
+		{
+			CDoor *door = dynamic_cast<CDoor *>(e->obj);
+			if (door->GetIsHiden() == true && door->IsGo == true)
+			{
+				door->IsGo = false;
+				level1->SetNextScene(true);
 			}
 		}
 	}
@@ -582,7 +591,7 @@ void CSimon::Auto()
 		}
 		else if (x < stair_x)
 		{
-			state_auto == 3;
+			state_auto = 3;
 			SetState(SIMON_STATE_WALKING_RIGHT);
 		}
 	}
@@ -637,7 +646,6 @@ void CSimon::Auto()
 		float max;
 		level1->GetSizeMap(min, max);
 		SetState(SIMON_STATE_WALKING_RIGHT);
-		vx = 0.01f;
 		if (x > max - 20.0f)
 		{
 			state_auto = -1;	

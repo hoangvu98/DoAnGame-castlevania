@@ -380,6 +380,19 @@ void CEntranceLevel::LoadMap()
 		}
 		break;
 	case SCENE_3:
+		hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
+		hidenObj->SetPosition(1567.0f, 147.0f);
+		hidenObj->SetStair_X(1583.0f);
+		hidenObj->SetSize(30.0f, 15.0f);
+		hidenObj->nx = 1;
+		cells->InitCells(hidenObj);
+
+		door = new CDoor();
+		door->SetState(DOOR_STATE_CLOSE);
+		door->SetPosition(1600.0f, 166.0f);
+		door->SetIsHiDen(true);
+		cells->InitCells(door);
 		for (int i = 0; i < 2; i++)
 		{
 			hidenObj = new CHidenObject();
@@ -599,6 +612,12 @@ void CEntranceLevel::GetSizeMap(float &min, float &max)
 		min = MIN_MAP_3;
 		max = MAX_MAP_3;
 	}
+	else if (scene == SCENE_4)
+	{
+		min = MIN_MAP_4;
+		max = MAX_MAP_4;
+	}
+
 }
 
 CEntranceLevel * CEntranceLevel::GetInstance()

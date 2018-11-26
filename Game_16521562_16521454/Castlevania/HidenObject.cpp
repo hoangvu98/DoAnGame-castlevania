@@ -9,7 +9,7 @@ void CHidenObject::Render()
 {
 	if (state == HIDENOBJECT_STATE_NORMAL)
 	{
-		RenderBoundingBox(200);
+		//RenderBoundingBox(200);
 	}
 	else if (state == HIDENOBJECT_STATE_STAIR_UP)
 	{
@@ -17,7 +17,7 @@ void CHidenObject::Render()
 	}
 	else if (state == HIDENOBJECT_STATE_STAIR_DOWN)
 	{
-		RenderBoundingBox(200);
+		//RenderBoundingBox(200);
 	}
 	else if (state == HIDENOBJECT_STATE_JUMP)
 	{

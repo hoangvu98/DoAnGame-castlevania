@@ -303,17 +303,17 @@ void LoadResources()
 	resource->LoadBoomerang();
 	resource->LoadHollyWater();
 	simon = CSimon::GetInstance();
-	//simon->SetPosition(1378.0f, 34.0f);
+	simon->SetPosition(1378.0f, 34.0f);
 	//simon->SetPosition(687.0f, 60.0f);
 	//simon->SetPosition(895.0f, 20.0f);
 	//simon->SetPosition(615.0f, 80.0f);
-	simon->SetPosition(10.0f, 80.0f); 
+	//simon->SetPosition(10.0f, 80.0f); 
 	//simon->SetState(SIMON_STATE_IDLE);
 
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
 	level_1 = CEntranceLevel::GetInstance();
-	level_1->SetScene(SCENE_1);
+	level_1->SetScene(SCENE_2);
 	level_1->LoadMap();
 	objects = level_1->GetUpdateObjects();
 	objects.push_back(simon);
@@ -353,7 +353,7 @@ void Update(DWORD dt)
 			level_1->SetNextScene(false);
 			simon->SetCameraAuto(0);
 			simon->SetStateAuto(0);
-
+			simon->Camera();
 		}
 		level_1->Update();
 		vector<LPGAMEOBJECT> coObjects;

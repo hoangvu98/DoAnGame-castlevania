@@ -7,7 +7,7 @@
 using namespace std;
 #define WHIP_TEXTURE_PATH L"castlevania_texture\\Weapon\\Whip.png"
 
-#define SIMON_WALKING_SPEED		0.05f
+#define SIMON_WALKING_SPEED		0.1f
 #define SIMON_JUMP_SPEED		0.2f
 #define SIMON_GRAVITY			0.01f
 #define SIMON_DEFLECT_SPEED		0.1f

@@ -33,6 +33,8 @@ using namespace std;
 #define MAX_MAP_2 1555
 #define MIN_MAP_3 1540
 #define MAX_MAP_3 2208
+#define MIN_MAP_4 0
+#define MAX_MAP_4 512
 class CEntranceLevel :
 	public CMap
 {
