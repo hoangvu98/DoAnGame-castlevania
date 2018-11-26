@@ -362,3 +362,27 @@ void CResource::LoadHollyWater()
 	animations->Add(16002, ani);
 	in.close();
 }
+
+void CResource::LoadBrick()
+{
+	CTextures *textures = CTextures::GetInstance();
+	textures->Add(ID_BRICK, BRICK_TEXTURE_PATH, D3DCOLOR_XRGB(255, 255, 255));
+
+	CSprites *sprites = CSprites::GetInstance();
+	CAnimations *animations = CAnimations::GetInstance();
+
+	LPDIRECT3DTEXTURE9 texbrick;
+	texbrick = textures->Get(ID_BRICK);
+
+	LPANIMATION ani;
+	ani = new CAnimation(100);
+
+	ifstream in("Data\\Brick.txt");
+	CInputImage::AddAnimation(in, sprites, ani, texbrick, 1);
+	animations->Add(17000, ani);
+
+	ani = new CAnimation(100);
+	CInputImage::AddAnimation(in, sprites, ani, texbrick, 1);
+	animations->Add(17001, ani);
+	in.close();
+}

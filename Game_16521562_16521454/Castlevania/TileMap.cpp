@@ -9,10 +9,10 @@ void CTileMap::LoadTileMap(string fileName, LPDIRECT3DTEXTURE9 tex)
 	ifstream in(fileName);
 	if (!in)
 	{
-		DebugOut(L"Can't not open file: %s\n", fileName);
+		DebugOut(L"Can't not open file\n");
 		return;
 	}
-	else DebugOut(L"Open file %s sucessful!", fileName);
+	else DebugOut(L"Open file sucessful!\n");
 	sprites = CSprites::GetInstance();
 
 	in >> column;

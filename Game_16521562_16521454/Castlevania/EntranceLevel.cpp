@@ -15,6 +15,8 @@ void CEntranceLevel::LoadMap()
 	CPanther *panther;
 	CGhoul *ghoul;
 	CSimon *simon = CSimon::GetInstance();
+	CBrick *brick;
+	CBat *bat;
 	CHidenObject *hidenObj;
 	switch (scene)
 	{
@@ -380,6 +382,19 @@ void CEntranceLevel::LoadMap()
 		}
 		break;
 	case SCENE_3:
+
+		/*brick = new CBrick();
+		brick->SetState(BRICK_STATE_FULL);
+		brick->SetPosition(1792.0f, 128.0f);
+		cells->InitCells(brick);*/
+
+		/*bat = new CBat();
+		bat->SetState(BAT_STATE_INVISIBLE);
+		bat->SetPosition(1778.0f, 44.0f);
+		bat->Setnx(-1);
+		bat->InitMovingArea();
+		cells->InitCells(bat);*/
+
 		hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
 		hidenObj->SetPosition(1567.0f, 147.0f);
@@ -499,7 +514,7 @@ void CEntranceLevel::LoadMap()
 		textures->Add(ID_MAP_LEVEL_1, LEVEL_1_STAGE2B_PATH, D3DCOLOR_XRGB(255, 255, 255));
 		texture_map = textures->Get(ID_MAP_LEVEL_1);
 
-		tilemap = new CTileMap();
+		//tilemap = new CTileMap();
 		tilemap->LoadTileMap(STAGE_2B_MAP_DATA, texture_map);
 
 		tilemap->GetSize(width, height);

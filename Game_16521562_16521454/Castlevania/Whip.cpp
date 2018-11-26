@@ -5,6 +5,7 @@
 #include "Simon.h"
 #include "debug.h"
 #include "Ghoul.h"
+#include "Brick.h"
 #define WHIP_TEXTURE_PATH L"castlevania_texture\\Weapon\\Whip.png"
 #define ID_WHIP	6
 using namespace std;
@@ -107,6 +108,18 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					ghoul->SetState(GHOUL_STATE_DISAPPEAR);
 				}
+			}
+			if (dynamic_cast<CBrick *>(e->obj))
+			{
+				CBrick *brick = dynamic_cast<CBrick *>(e->obj);
+				brick->SetDel(brick->GetDel() + 1);
+				/*DebugOut(L"del = %d\n", brick->GetDel());*/
+				if (brick->GetDel() <= 10)
+					brick->SetState(BRICK_STATE_HALF);
+				else
+					brick->SetState(BRICK_STATE_DELETE);
+
+
 			}
 		}
 	}

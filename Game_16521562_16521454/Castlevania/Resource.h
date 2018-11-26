@@ -8,6 +8,7 @@
 #define HITEFFECT_TEXTURE_PATH L"Hit effect.png"
 #define DOOR_TEXTURE_PATH L"castlevania_texture\\Weapon\\Door.png"
 #define BAT_TEXTURE_PATH L"castlevania_texture\\Enemy\\Bat.png"
+#define BRICK_TEXTURE_PATH L"castlevania_texture\\Weapon\\Brick.png"
 
 #define ID_HITEFFECT 10
 #define ID_CANDLE	1
@@ -18,6 +19,8 @@
 #define ID_GHOUL	100
 #define ID_DOOR		4
 #define ID_BAT		5
+#define ID_BRICK	8
+
 class CResource
 {
 public:
@@ -37,4 +40,5 @@ public:
 	void LoadAxe_animation();
 	void LoadBoomerang();
 	void LoadHollyWater();
+	void LoadBrick();
 };
