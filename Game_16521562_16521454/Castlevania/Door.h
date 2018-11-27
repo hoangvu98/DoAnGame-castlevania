@@ -18,6 +18,7 @@ class CDoor :
 	int i;
 public:
 	bool IsGo = true;
+	float cx, cy;
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	void Render();
 	void SetStop(bool stop) { this->stop = stop; }

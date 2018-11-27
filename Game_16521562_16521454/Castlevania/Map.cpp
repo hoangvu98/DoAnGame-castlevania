@@ -18,21 +18,23 @@ CMap::~CMap()
 
 void CMap::NextScece(float &x, float &y)
 {
-	scene++;
-	if (scene == 2)
+	if (IsNextScene)
 	{
-		x = 10.0f;
-		y = 127.0f;
-	}
-	else if (scene == 4)
-	{
-		x = 20.0f;
-		y = 28.0f;
-	}
-	else
-	{
-		x = 0;
-		y = 0;
+		if (scene == 2)
+		{
+			x = 10.0f;
+			y = 127.0f;
+		}
+		else if (scene == 4)
+		{
+			x = 63.0f;
+			y = -5.0f;
+		}
+		else
+		{
+			x = 0;
+			y = 0;
+		}
 	}
 }
 

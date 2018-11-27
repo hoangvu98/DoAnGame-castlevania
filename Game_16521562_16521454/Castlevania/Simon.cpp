@@ -14,6 +14,10 @@ CSimon *CSimon::__instance = NULL;
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
 	CGameObject::Update(dt);
+	if(IsUp!=2)
+		IsUp = 0;
+	if (IsDown != 2)
+		IsDown = 0;
 	CEntranceLevel *level1 = CEntranceLevel::GetInstance();
 	if (stair == 0)
 		vy += SIMON_GRAVITY;
@@ -81,10 +85,25 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		else if (dynamic_cast<CDoor *>(e->obj))
 		{
 			CDoor *door = dynamic_cast<CDoor *>(e->obj);
-			if (door->GetIsHiden() == true && door->IsGo == true)
+			if (door->GetIsHiden() == true && door->IsGo == true && door->nx == 1)
 			{
 				door->IsGo = false;
+				if (door->cx != 0 || door->cy != 0)
+				{
+					simon_x = door->cx;
+					simon_y = door->cy;
+				}
 				level1->SetNextScene(true);
+			}
+			else if (door->GetIsHiden() == true && door->IsGo == true && door->nx == -1 && stair==2)
+			{
+				door->IsGo = false;
+				if (door->cx != 0 || door->cy != 0)
+				{
+					simon_x = door->cx;
+					simon_y = door->cy;
+				}
+				level1->SetFallScene(true);
 			}
 		}
 	}
@@ -108,7 +127,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		else if (dynamic_cast<CDoor *> (e->obj))
 		{
 			CDoor *door = dynamic_cast<CDoor *>(e->obj);
-			if (door->IsGo == false)
+			if (door->IsGo == false )
 			{
 				coEvents.erase(coEvents.begin() + i);
 				i--;
@@ -191,7 +210,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			else if (dynamic_cast<CDoor *>(e->obj))
 			{
 				CDoor *door = dynamic_cast<CDoor *>(e->obj);
-				if (door->GetIsHiden() == true && door->IsGo == true)
+				if (door->GetIsHiden() == true && door->IsGo == true && door->nx == 1)
 				{
 					door->IsGo = false;
 					level1->SetNextScene(true);
@@ -260,7 +279,9 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		Camera();
 	else
 		CameraAuto();
-		//DebugOut(L"x=%f\ny=%f\n", x, y);
+	DebugOut(L"stair=%d\n", stair);
+	//DebugOut(L"up=%d\ndown=%d\n", IsUp, IsDown);
+	//DebugOut(L"x=%f\ny=%f\n", x, y);
 }
 
 void CSimon::Render()
@@ -493,8 +514,6 @@ void CSimon::Render()
 
 		}
 	}
-	if (ani == 17)
-		DebugOut(L"ani=%d\n", ani);
 	RenderBoundingBox(100);
 }
 
@@ -651,6 +670,8 @@ void CSimon::Auto()
 			state_auto = -1;	
 			SetState(SIMON_STATE_IDLE);
 			camera_auto = 3;
+			simon_x = x;
+			simon_y = y;
 		}
 
 	}

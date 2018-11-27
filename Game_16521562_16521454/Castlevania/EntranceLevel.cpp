@@ -372,7 +372,7 @@ void CEntranceLevel::LoadMap()
 		door->SetPosition(1530.0f, 15.0f);
 		door->SetIsHiDen(false);
 		cells->InitCells(door);
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < 3; i++)
 		{
 			hidenObj = new CHidenObject();
 			hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
@@ -382,7 +382,19 @@ void CEntranceLevel::LoadMap()
 		}
 		break;
 	case SCENE_3:
+		textures->Add(ID_MAP_LEVEL_1, LEVEL_1_STAGE1B_PATH, D3DCOLOR_XRGB(255, 255, 255));
+		texture_map = textures->Get(ID_MAP_LEVEL_1);
+		//tilemap = new CTileMap();
+		tilemap->LoadTileMap(STAGE_1B_MAP_DATA, texture_map);
+		//int column, row;
 
+		//float width, height;
+		tilemap->GetSize(width, height);
+
+		column = (int)width / CELL_WIDTH + 1;
+		row = (int)height / CELL_HEIGHT + 1;
+
+		cells = new CCells(column, row);
 		/*brick = new CBrick();
 		brick->SetState(BRICK_STATE_FULL);
 		brick->SetPosition(1792.0f, 128.0f);
@@ -403,10 +415,30 @@ void CEntranceLevel::LoadMap()
 		hidenObj->nx = 1;
 		cells->InitCells(hidenObj);
 
+		hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
+		hidenObj->SetPosition(1888.0f, 147.0f);
+		hidenObj->SetStair_X(1904.0f);
+		hidenObj->SetSize(30.0f, 15.0f);
+		hidenObj->nx = 1;
+		cells->InitCells(hidenObj);
+
+		door = new CDoor();
+		door->SetState(DOOR_STATE_CLOSE);
+		door->SetPosition(1921.0f, 166.0f);
+		door->cx = 382.0f;
+		door->cy = -4.4f;
+		door->SetIsHiDen(true);
+		door->IsGo = true;
+		cells->InitCells(door);
+
 		door = new CDoor();
 		door->SetState(DOOR_STATE_CLOSE);
 		door->SetPosition(1600.0f, 166.0f);
+		door->cx = 63.0f;
+		door->cy = -5.0f;
 		door->SetIsHiDen(true);
+		door->IsGo = true;
 		cells->InitCells(door);
 		for (int i = 0; i < 2; i++)
 		{
@@ -416,7 +448,17 @@ void CEntranceLevel::LoadMap()
 			hidenObj->SetSize(64.0f, 15.0f);
 			cells->InitCells(hidenObj);
 		}
+		hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
+		hidenObj->SetPosition(1539.0f, 160.0f);
+		hidenObj->SetSize(64.0f, 15.0f);
+		cells->InitCells(hidenObj);
 
+		hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
+		hidenObj->SetPosition(1904.0f, 160.0f);
+		hidenObj->SetSize(18.0f, 15.0f);
+		cells->InitCells(hidenObj);
 		for (int i = 0; i < 4; i++)
 		{
 			hidenObj = new CHidenObject();
@@ -524,6 +566,42 @@ void CEntranceLevel::LoadMap()
 
 		cells = new CCells(column, row);
 
+		door = new CDoor();
+		door->SetState(DOOR_STATE_CLOSE);
+		door->SetPosition(42.0f, 0.0f);
+		door->cx=  1583.0f;
+		door->cy = 137.0f;
+		door->SetIsHiDen(true);
+		door->IsGo = true;
+		door->nx = -1;
+		cells->InitCells(door);
+
+
+		door = new CDoor();
+		door->SetState(DOOR_STATE_CLOSE);
+		door->SetPosition(360.0f, 0.0f);
+		door->cx = 1904.0f;
+		door->cy = 137.0f;
+		door->SetIsHiDen(true);
+		door->IsGo = true;
+		door->nx = -1;
+		cells->InitCells(door);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_UP);
+		hidenObj->SetPosition(88.0f, 39.0f);
+		hidenObj->SetStair_X(79.0f);
+		hidenObj->SetSize(25.0f, 12.0f);
+		hidenObj->nx = -1;
+		cells->InitCells(hidenObj);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_UP);
+		hidenObj->SetPosition(432.0f, 68.0f);
+		hidenObj->SetStair_X(430.0f);
+		hidenObj->SetSize(21.0f, 14.0f);
+		hidenObj->nx = -1;
+		cells->InitCells(hidenObj);
 		for (int i = 0; i < 7; i++)
 		{
 			candle = new CCandle(SMALL_CANDLE);

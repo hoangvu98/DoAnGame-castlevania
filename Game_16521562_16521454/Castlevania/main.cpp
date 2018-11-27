@@ -182,10 +182,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 						{
 							simon->IsUp = 2;
 						}
-						if (simon->IsDown == 1)
-						{
-							simon->IsDown = 0;
-						}
+
 						if (simon->GetState() == SIMON_STATE_STAIR_DOWN ||
 							simon->GetState() == SIMON_STATE_STAIR_DOWN_IDLE)
 							simon->nx = -simon->nx;
@@ -198,10 +195,6 @@ void CSampleKeyHander::KeyState(BYTE *states)
 						if (simon->IsDown == 1)
 						{
 							simon->IsDown = 2;
-						}
-						if (simon->IsUp == 1)
-						{
-							simon->IsUp = 0;
 						}
 						if (simon->GetState() == SIMON_STATE_STAIR_UP ||
 							simon->GetState() == SIMON_STATE_STAIR_UP_IDLE)
@@ -347,11 +340,38 @@ void Update(DWORD dt)
 	case 2:
 		if(level_1->IsNext())
 		{ 
+			int scene;
+			scene=level_1->GetScene()+1;
+			level_1->SetScene(scene);
 			float x, y;
-			level_1->NextScece(x, y);
-			if(x!=0 &&y!=0)
-				simon->SetPosition(x, y);
+			if(simon->simon_x!=0 || simon->simon_y!=0)
+				simon->SetPosition(simon->simon_x, simon->simon_y);
+			else
+			{
+				level_1->NextScece(x, y);
+				if (x != 0 || y != 0)
+					simon->SetPosition(x, y);				
+			}
 			level_1->SetNextScene(false);
+			simon->SetCameraAuto(0);
+			simon->SetStateAuto(0);
+			simon->Camera();
+		}
+		else if (level_1->IsFall())
+		{
+			int scene;
+			scene = level_1->GetScene() - 1;
+			level_1->SetScene(scene);
+			float x, y;
+			if (simon->simon_x != 0 || simon->simon_y != 0)
+				simon->SetPosition(simon->simon_x, simon->simon_y);
+			else
+			{
+				level_1->NextScece(x, y);
+				if (x != 0 || y != 0)
+					simon->SetPosition(x, y);
+			}
+			level_1->SetFallScene(false);
 			simon->SetCameraAuto(0);
 			simon->SetStateAuto(0);
 			simon->Camera();

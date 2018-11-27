@@ -32,4 +32,5 @@ CDoor::CDoor()
 	AddAnimation(11002);
 	stop = false;
 	i = 0;
+	nx = 1;
 }

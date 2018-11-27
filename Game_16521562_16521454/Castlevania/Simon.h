@@ -86,8 +86,8 @@ class CSimon :public CGameObject
 	int camera_auto = 0;
 public:
 	DWORD test_stair = 0;
-	float simon_x;
-	float simon_y;
+	float simon_x=0;
+	float simon_y=0;
 	int IsUp = 0;
 	int IsDown = 0;
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObject = NULL);
