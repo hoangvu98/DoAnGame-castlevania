@@ -13,7 +13,7 @@ protected:
 	float height;
 	float stair_x;
 public:
-	void GetSize(float &width, float &heigth) { width = this->width; height = this->height; }
+	void GetSize(float &width, float &height) { width = this->width; height = this->height; }
 	void SetSize(float width, float height) { this->width = width; this->height = height; }
 	void SetState(int state);
 	void SetStair_X(float stair_x) {this->stair_x= stair_x;}

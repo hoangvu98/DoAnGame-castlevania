@@ -3,6 +3,7 @@
 #include "Candle.h"
 #include "Simon.h"
 #include "Ghoul.h"
+#include "HidenObject.h"
 void CCell::SetObjects(LPGAMEOBJECT object)
 {
 	objects.push_back(object);
@@ -56,9 +57,81 @@ CCells::~CCells()
 
 void CCells::InitCells(LPGAMEOBJECT object)
 {
-	int x = object->x / CELL_WIDTH;
-	int y = object->y / CELL_HEIGHT;
-	cells[x][y].SetObjects(object);
+	if (dynamic_cast<CHidenObject *> (object))
+	{
+		CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(object);
+		if (hidenobject->GetState() == HIDENOBJECT_STATE_NORMAL)
+		{
+			float width, height, x, y;
+			hidenobject->GetSize(width, height);
+			hidenobject->GetPosition(x, y);
+			int x1 = x / CELL_WIDTH;
+			int x2 = (x + width) / CELL_WIDTH;
+			int y1 = y / CELL_HEIGHT;
+			int y2 = (y + height) / CELL_HEIGHT;
+			for (int i = x1; i <= x2; i++)
+			{
+				for (int j = y1; j <= y2; j++)
+				{
+					hidenobject = new CHidenObject();
+					hidenobject->SetState(HIDENOBJECT_STATE_NORMAL);
+					hidenobject->SetPosition(i*CELL_WIDTH, j*CELL_HEIGHT);
+					hidenobject->SetSize(CELL_WIDTH, CELL_HEIGHT);
+					if (i == x1)
+					{
+						hidenobject->x = x;
+					}
+					if (j == y1)
+					{
+						hidenobject->y = y;
+					}
+					if (x1 == x2)
+					{
+						hidenobject->SetSize(width, CELL_HEIGHT);
+					}
+					else if (i == x1)
+					{
+						hidenobject->SetSize((i + 1)*CELL_WIDTH - x, CELL_HEIGHT);
+					}
+					else if (i == x2)
+					{
+						hidenobject->SetSize(x + width - i * CELL_WIDTH, CELL_HEIGHT);
+					}
+					if (y1 == y2)
+					{
+						float size_x, size_y;
+						hidenobject->GetSize(size_x, size_y);
+						hidenobject->SetSize(size_x, height);
+					}
+					else if (j == y1)
+					{
+						float size_x, size_y;
+						hidenobject->GetSize(size_x, size_y);
+						hidenobject->SetSize(size_x, (j + 1)*CELL_HEIGHT - y);
+					}
+					else if (j == y2)
+					{
+						float size_x, size_y;
+						hidenobject->GetSize(size_x, size_y);
+						hidenobject->SetSize(size_x, y + height - j * CELL_WIDTH);
+					}
+					cells[i][j].SetObjects(hidenobject);
+				}
+			}
+		}
+		else
+		{
+			int x = object->x / CELL_WIDTH;
+			int y = object->y / CELL_HEIGHT;
+			cells[x][y].SetObjects(object);
+		}
+	}
+	else
+	{
+		int x = object->x / CELL_WIDTH;
+		int y = object->y / CELL_HEIGHT;
+		cells[x][y].SetObjects(object);
+	}
 }
 
 void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, float cam_y)
