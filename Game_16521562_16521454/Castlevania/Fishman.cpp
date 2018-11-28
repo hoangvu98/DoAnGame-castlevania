@@ -1,5 +1,19 @@
 #include "Fishman.h"
 
+CFishman::CFishman()
+{
+	AddAnimation(18000);
+	AddAnimation(18001);
+	AddAnimation(18002);
+	AddAnimation(18003);
+	AddAnimation(18004);
+	AddAnimation(18005);
+	bullet = new CBullet();
+	i = 0;
+	j = 0;
+	fire = false;
+}
+
 void CFishman::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
 	left = x;
@@ -29,47 +43,72 @@ void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 		x += dx;
 
-		//x += min_tx * dx + nx * 0.2f;
+		x += min_tx * dx + nx * 0.4f;
 		if (ny < 0)
 		{
-			if (nx < 0)
-				SetState(FISHMAN_STATE_WALKING_LEFT);
-			else
-				SetState(FISHMAN_STATE_WALKING_RIGHT);
-			y += min_ty * dy + ny * 0.2f;
+			y += min_ty * dy + ny * 0.4f;
+			if (fire == false)
+				if (this->nx < 0) SetState(FISHMAN_STATE_WALKING_LEFT);
+				else SetState(FISHMAN_STATE_WALKING_RIGHT);
+
+			if (i >= 25 && fire == false)
+			{
+				SetState(FISHMAN_STATE_FIRE);
+				bullet->SetPosition(x, y);
+				bullet->Setnx(this->nx);
+				i = 0;
+			}
+			else if (fire == false) i++;
+			//DebugOut(L"fire = %d\n", fire);
+			if (fire == true)
+			{
+				if (j >= 50)
+				{
+					fire = false;
+					//DebugOut(L"Ngung update bullet");
+					j = 0;
+				}
+				else
+				{
+					j++;
+					bullet->Update(dt, coObjects);
+					//DebugOut(L"Dang update bullet\n");
+				}
+			}
+			DebugOut(L"vx = %f\n", vx);					
 		}
 		else
 			y += dy;
-		if (nx != 0) vx = 0;
 	}
 }
 
 void CFishman::Render()
 {
 	int ani;
+	if (vx == 0)
+	{
+		if (nx < 0) ani = FISHMAN_ANI_FIRE_LEFT;
+		else ani = FISHMAN_ANI_FIRE_RIGHT;
+		bullet->Render();
+	}
+	else
+	{
+		if (nx < 0) ani = FISHMAN_ANI_WALKING_LEFT;
+		else ani = FISHMAN_ANI_WALKING_RIGHT;
+	}
+
 	if (vy < 0)
 	{
-		if (vx < 0)
-			ani = FISHMAN_ANI_FIRE_LEFT;
-		else
-			ani = FISHMAN_ANI_FIRE_RIGHT;
+		if (nx < 0) ani = FISHMAN_ANI_JUMP_LEFT;
+		else ani = FISHMAN_ANI_JUMP_RIGHT;
+
 	}
-	else if (vx == 0)
-	{
-		if (vx < 0)
-			ani = FISHMAN_ANI_FIRE_LEFT;
-		else
-			ani = FISHMAN_ANI_FIRE_RIGHT;
-	}
-	else if (vx > 0)
-		ani = FISHMAN_ANI_WALKING_RIGHT;
-	else
-		ani = FISHMAN_ANI_WALKING_LEFT;
 	animations[ani]->Render(x, y);
 }
 
 void CFishman::SetState(int state)
 {
+	CGameObject::SetState(state);
 	CGameObject::SetState(state);
 	switch (state)
 	{
@@ -86,6 +125,7 @@ void CFishman::SetState(int state)
 		break;
 	case FISHMAN_STATE_FIRE:
 		vx = 0;
+		fire = true;
 		break;
 	}
 }

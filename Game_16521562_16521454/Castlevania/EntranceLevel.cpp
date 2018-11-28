@@ -17,6 +17,7 @@ void CEntranceLevel::LoadMap()
 	CSimon *simon = CSimon::GetInstance();
 	CBrick *brick;
 	CBat *bat;
+	CFishman *fishman;
 	CHidenObject *hidenObj;
 	switch (scene)
 	{
@@ -565,7 +566,11 @@ void CEntranceLevel::LoadMap()
 		row = (int)height / CELL_HEIGHT + 1;
 
 		cells = new CCells(column, row);
-
+		fishman = new CFishman();
+		fishman->SetState(FISHMAN_STATE_JUMP);
+		fishman->SetPosition(164.0f, 164.0f);
+		fishman->Setnx(-1);
+		cells->InitCells(fishman);
 		door = new CDoor();
 		door->SetState(DOOR_STATE_CLOSE);
 		door->SetPosition(42.0f, 0.0f);

@@ -9,6 +9,8 @@
 #define DOOR_TEXTURE_PATH L"castlevania_texture\\Weapon\\Door.png"
 #define BAT_TEXTURE_PATH L"castlevania_texture\\Enemy\\Bat.png"
 #define BRICK_TEXTURE_PATH L"castlevania_texture\\Weapon\\Brick.png"
+#define FISHMAN_TEXTURE_PATH L"castlevania_texture\\Enemy\\Fishman.png"
+#define BULLET_TEXTURE_PATH L"castlevania_texture\\Weapon\\Bullet.png"
 
 #define ID_HITEFFECT 10
 #define ID_CANDLE	1
@@ -20,6 +22,8 @@
 #define ID_DOOR		4
 #define ID_BAT		5
 #define ID_BRICK	8
+#define ID_FISHMAN	11
+#define ID_BULLET	12
 
 class CResource
 {
@@ -41,4 +45,6 @@ public:
 	void LoadBoomerang();
 	void LoadHollyWater();
 	void LoadBrick();
+	void LoadFishman();
+	void LoadBullet();
 };

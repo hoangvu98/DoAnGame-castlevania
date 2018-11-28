@@ -296,6 +296,8 @@ void LoadResources()
 	resource->LoadBoomerang();
 	resource->LoadHollyWater();
 	resource->LoadBrick();
+	resource->LoadFishman();
+	resource->LoadBullet();
 	simon = CSimon::GetInstance();
 	simon->SetPosition(1378.0f, 34.0f);
 	//simon->SetPosition(687.0f, 60.0f);

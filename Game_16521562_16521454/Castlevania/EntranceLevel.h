@@ -13,6 +13,8 @@
 #include "Ghoul.h"
 #include "Brick.h"
 #include "Bat.h"
+#include "Fishman.h"
+
 using namespace std;
 #define LEVEL_1_STAGE1A_PATH L"castlevania_texture\\Background\\tileset_map1_stage1A.png"/*Level 1 Entrance.png"*/
 #define LEVEL_1_STAGE1B_PATH L"castlevania_texture\\Background\\tileset_map1_stage1B.png"

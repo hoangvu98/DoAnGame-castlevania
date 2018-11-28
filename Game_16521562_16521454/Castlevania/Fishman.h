@@ -1,10 +1,13 @@
 #pragma once
 #include "GameObject.h"
-
+#include "Bullet.h"
 #define FISHMAN_WALKING_SPEED 0.05f
 
 #define FISHMAN_JUMP_SPEED_Y  0.7f
 #define FISHMAN_GRAVITY       0.002f
+
+#define FISHMAN_BBOX_FIRE_WIDTH	16
+#define FISHMAN_BBOX_FIRE_HEIGHT	30
 
 #define FISHMAN_BBOX_WIDTH 17
 #define FISHMAN_BBOX_HEIGHT 34
@@ -25,7 +28,12 @@
 
 class CFishman : public CGameObject
 {
+	bool fire;
+	CBullet *bullet;
+	int i;
+	int j;
 public:
+	CFishman();
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render();

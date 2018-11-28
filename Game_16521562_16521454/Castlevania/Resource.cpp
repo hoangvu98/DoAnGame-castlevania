@@ -386,3 +386,68 @@ void CResource::LoadBrick()
 	animations->Add(17001, ani);
 	in.close();
 }
+
+void CResource::LoadFishman()
+{
+	CTextures *textures = CTextures::GetInstance();
+	textures->Add(ID_FISHMAN, FISHMAN_TEXTURE_PATH, D3DCOLOR_XRGB(96, 68, 106));
+
+	CSprites *sprites = CSprites::GetInstance();
+	CAnimations *animations = CAnimations::GetInstance();
+
+	LPDIRECT3DTEXTURE9 texfishman;
+	texfishman = textures->Get(ID_FISHMAN);
+
+	LPANIMATION ani;
+	ani = new CAnimation(100);
+
+	ifstream in("Data\\Fishman.txt");
+	CInputImage::AddAnimation(in, sprites, ani, texfishman, 1);
+	animations->Add(18000, ani);
+
+	ani = new CAnimation(100);
+	CInputImage::AddAnimation(in, sprites, ani, texfishman, 1);
+	animations->Add(18001, ani);
+
+	ani = new CAnimation(100);
+	CInputImage::AddAnimation(in, sprites, ani, texfishman, 2);
+	animations->Add(18002, ani);
+
+	ani = new CAnimation(100);
+	CInputImage::AddAnimation(in, sprites, ani, texfishman, 1);
+	animations->Add(18003, ani);
+
+	ani = new CAnimation(100);
+	CInputImage::AddAnimation(in, sprites, ani, texfishman, 1);
+	animations->Add(18004, ani);
+
+	ani = new CAnimation(100);
+	CInputImage::AddAnimation(in, sprites, ani, texfishman, 2);
+	animations->Add(18005, ani);
+
+	in.close();
+}
+
+void CResource::LoadBullet()
+{
+	CTextures *textures = CTextures::GetInstance();
+	textures->Add(ID_BULLET, BULLET_TEXTURE_PATH, D3DCOLOR_XRGB(96, 68, 106));
+
+	CSprites *sprites = CSprites::GetInstance();
+	CAnimations *animations = CAnimations::GetInstance();
+
+	LPDIRECT3DTEXTURE9 texbullet;
+	texbullet = textures->Get(ID_BULLET);
+
+	LPANIMATION ani;
+	ani = new CAnimation(100);
+
+	ifstream in("Data\\Bullet.txt");
+	CInputImage::AddAnimation(in, sprites, ani, texbullet, 1);
+	animations->Add(19000, ani);
+
+	ani = new CAnimation(100);
+	CInputImage::AddAnimation(in, sprites, ani, texbullet, 1);
+	animations->Add(19001, ani);
+	in.close();
+}
