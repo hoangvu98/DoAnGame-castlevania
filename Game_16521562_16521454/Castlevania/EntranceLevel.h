@@ -28,6 +28,7 @@ using namespace std;
 #define SCENE_2		2
 #define SCENE_3		3
 #define SCENE_4		4
+#define SCENE_5		5
 
 #define ID_MAP_LEVEL_1	0
 
@@ -39,6 +40,7 @@ using namespace std;
 #define MAX_MAP_3 2208
 #define MIN_MAP_4 0
 #define MAX_MAP_4 512
+
 class CEntranceLevel :
 	public CMap
 {

@@ -667,6 +667,135 @@ void CEntranceLevel::LoadMap()
 		cells->InitCells(hidenObj);
 
 		break;
+	case SCENE_5:
+		textures->Add(ID_MAP_LEVEL_1, LEVEL_1_STAGE1B_PATH, D3DCOLOR_XRGB(255, 255, 255));
+		texture_map = textures->Get(ID_MAP_LEVEL_1);
+		//tilemap = new CTileMap();
+		tilemap->LoadTileMap(STAGE_1B_MAP_DATA, texture_map);
+		//int column, row;
+
+		//float width, height;
+		tilemap->GetSize(width, height);
+
+		column = (int)width / CELL_WIDTH + 1;
+		row = (int)height / CELL_HEIGHT + 1;
+
+		cells = new CCells(column, row);
+		candle = new CCandle(SMALL_CANDLE);
+		candle->SetPosition(2140.0f, 34.0f);
+		candle->SetState(CANDLE_STATE_NORMAL);
+		cells->InitCells(candle);
+
+		candle = new CCandle(SMALL_CANDLE);
+		candle->SetPosition(2077.0f, 93.0f);
+		candle->SetState(CANDLE_STATE_NORMAL);
+		cells->InitCells(candle);
+
+		candle = new CCandle(SMALL_CANDLE);
+		candle->SetPosition(2205.0f, 67.0f);
+		candle->SetState(CANDLE_STATE_NORMAL);
+		cells->InitCells(candle);
+
+		candle = new CCandle(SMALL_CANDLE/*, INVINCIBILITY_POTION*/);
+		candle->SetPosition(2268.0f, 37.0f);
+		candle->SetState(CANDLE_STATE_NORMAL);
+		cells->InitCells(candle);
+
+		candle = new CCandle(SMALL_CANDLE, AXE);
+		candle->SetPosition(2397.0f, 101.0f);
+		candle->SetState(CANDLE_STATE_NORMAL);
+		cells->InitCells(candle);
+
+		candle = new CCandle(SMALL_CANDLE);
+		candle->SetPosition(2333.0f, 132.0f);
+		candle->SetState(CANDLE_STATE_NORMAL);
+		cells->InitCells(candle);
+
+		for (int i = 0; i < 2; i++)
+		{
+			candle = new CCandle(SMALL_CANDLE);
+			candle->SetPosition(i * 66.0f + 2460.0f, 131.0f);
+			candle->SetState(CANDLE_STATE_NORMAL);
+			cells->InitCells(candle);
+		}
+
+		for (int i = 0; i < 2; i++)
+		{
+			candle = new CCandle(SMALL_CANDLE);
+			candle->SetPosition(i * 128.0f + 2588.0f, 99.0f);
+			candle->SetState(CANDLE_STATE_NORMAL);
+			cells->InitCells(candle);
+		}
+
+		candle = new CCandle(SMALL_CANDLE);
+		candle->SetPosition(2652.0f, 130.0f);
+		candle->SetState(CANDLE_STATE_NORMAL);
+		cells->InitCells(candle);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetPosition(2049.0f, 65.0f);
+		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
+		hidenObj->SetSize(112.0f, 15.0f);
+		cells->InitCells(hidenObj);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetPosition(2047.0f, 161.0f);
+		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
+		hidenObj->SetSize(768.0f, 15.0f);
+		//hidenObj->SetSize(176.0f, 15.0f);
+		cells->InitCells(hidenObj);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetPosition(2177.0f, 97.0f);
+		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL); 
+		hidenObj->SetSize(176.0f, 15.0f);
+		//hidenObj->SetSize(48.0f, 15.0f);
+		cells->InitCells(hidenObj);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetPosition(2721.0f, 129.0f);
+		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
+		hidenObj->SetSize(32.0f, 15.0f);
+		cells->InitCells(hidenObj);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetPosition(2769.0f, 97.0f);
+		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
+		hidenObj->SetSize(48.0f, 15.0f);
+		cells->InitCells(hidenObj);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetPosition(2151.0f, 56.0f);
+		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
+		//hidenObj->SetSize(20.0f, 10.0f);
+		cells->InitCells(hidenObj);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetPosition(2338.0f, 88.0f);
+		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
+		cells->InitCells(hidenObj);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetPosition(2764.0f, 89.0f);
+		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
+		cells->InitCells(hidenObj);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetPosition(2177.0f, 89.0f);
+		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_UP);
+		cells->InitCells(hidenObj);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetPosition(2401.0f, 153.0f);
+		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_UP);
+		cells->InitCells(hidenObj);
+
+		
+		hidenObj = new CHidenObject();
+		hidenObj->SetPosition(2728.0f, 119.0f);
+		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_UP);
+		cells->InitCells(hidenObj);
+		break;
 	}
 }
 
@@ -714,6 +843,11 @@ void CEntranceLevel::GetSizeMap(float &min, float &max)
 	{
 		min = MIN_MAP_4;
 		max = MAX_MAP_4;
+	}
+	else
+	{
+		min = 2048.0f;
+		max = 2850.0f;
 	}
 
 }

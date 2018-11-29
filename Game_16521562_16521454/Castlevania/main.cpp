@@ -299,6 +299,7 @@ void LoadResources()
 	resource->LoadFishman();
 	resource->LoadBullet();
 	simon = CSimon::GetInstance();
+	//simon->SetPosition(2053.0f, 28.0f);
 	simon->SetPosition(1378.0f, 34.0f);
 	//simon->SetPosition(687.0f, 60.0f);
 	//simon->SetPosition(895.0f, 20.0f);

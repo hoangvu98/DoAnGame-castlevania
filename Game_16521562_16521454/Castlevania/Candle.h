@@ -10,6 +10,7 @@
 #define AXE         4
 #define BOOMERANG	5
 #define HOLLYWATER	6
+#define INVINCIBILITY_POTION	7
 
 #define BIG_CANDLE		100
 #define SMALL_CANDLE	200
