@@ -43,10 +43,12 @@ using namespace std;
 #define SIMON_ANI_STAIR_IDLE_UP_RIGHT	15
 #define SIMON_ANI_STAIR_IDLE_DOWN_LEFT	16
 #define SIMON_ANI_STAIR_IDLE_DOWN_RIGHT	17
-#define SIMON_ANI_STAIR_FIGHT_LEFT	    18
-#define SIMON_ANI_STAIR_FIGHT_RIGHT    	19
-#define SIMON_ANI_COLLUSION_LEFT        20
-#define SIMON_ANI_COLLUSION_RIGHT       21
+#define SIMON_ANI_STAIR_FIGHT_UP_LEFT	    18
+#define SIMON_ANI_STAIR_FIGHT_UP_RIGHT    	19
+#define SIMON_ANI_STAIR_FIGHT_DOWN_LEFT	    20
+#define SIMON_ANI_STAIR_FIGHT_DOWN_RIGHT    21
+#define SIMON_ANI_COLLUSION_LEFT        22
+#define SIMON_ANI_COLLUSION_RIGHT       23
 
 //#define SIMON_ANI_DIE_LEFT			10
 //#define SIMON_ANI_DIE_RIGHT			11
@@ -143,6 +145,8 @@ public:
 		AddAnimation(704);
 		AddAnimation(801);
 		AddAnimation(802);
+		AddAnimation(803);
+		AddAnimation(804);
 		AddAnimation(901);
 		AddAnimation(902);
 

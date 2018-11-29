@@ -49,10 +49,14 @@ void CResource::LoadSimon()
 	animations->Add(703, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //stair down right
 	animations->Add(704, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //stair fight left
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //stair fight up left
 	animations->Add(801, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //stair fight right
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //stair fight up right
 	animations->Add(802, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //stair fight down left
+	animations->Add(803, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //stair fight down right
+	animations->Add(804, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //collusion monster left 
 	animations->Add(901, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//collusion monster right

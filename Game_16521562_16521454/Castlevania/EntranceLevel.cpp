@@ -63,23 +63,16 @@ void CEntranceLevel::LoadMap()
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
 
-		for (int i = 0; i < 13; i++)
-		{
-			CHidenObject *hidenObj = new CHidenObject();
-			hidenObj->SetSize(64.0f, 15.0f);
-			hidenObj->SetPosition(i * 64.0f, 145.0f);
-			cells->InitCells(hidenObj);
-		}
 		hidenObj = new CHidenObject();
-		hidenObj->SetSize(2.0f, 145.0f);
+		hidenObj->SetSize(768.0f, 16.0f);
+		hidenObj->SetPosition(0, 145);
+		cells->InitCells(hidenObj);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetSize(0.0f, 145.0f);
 		hidenObj->SetPosition(0, 0);
 		cells->InitCells(hidenObj);
 
-	/*	hidenObj = new CHidenObject();
-		hidenObj->SetState(HIDENOBJECT_STATE_DOOR);
-		hidenObj->SetSize(10.0f, 145.0f);
-		hidenObj->SetPosition(625.0f, 0);
-		cells->InitCells(hidenObj);*/
 
 		door = new CDoor();
 		door->SetPosition(672.0f, 105.0f);
@@ -765,35 +758,52 @@ void CEntranceLevel::LoadMap()
 		cells->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
-		hidenObj->SetPosition(2151.0f, 56.0f);
-		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
-		//hidenObj->SetSize(20.0f, 10.0f);
-		cells->InitCells(hidenObj);
-
-		hidenObj = new CHidenObject();
-		hidenObj->SetPosition(2338.0f, 88.0f);
+		hidenObj->SetPosition(2145.0f, 48.0f);
+		hidenObj->SetSize(20.0f, 17.0f);
+		hidenObj->SetStair_X(2158);
+		hidenObj->nx = 1;
 		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
 		cells->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
-		hidenObj->SetPosition(2764.0f, 89.0f);
-		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
-		cells->InitCells(hidenObj);
-
-		hidenObj = new CHidenObject();
-		hidenObj->SetPosition(2177.0f, 89.0f);
+		hidenObj->SetPosition(2177.0f, 86.0f);
+		hidenObj->SetSize(32.0f, 12.0f);
+		hidenObj->SetStair_X(2174);
+		hidenObj->nx = -1;
 		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_UP);
 		cells->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
-		hidenObj->SetPosition(2401.0f, 153.0f);
+		hidenObj->SetPosition(2335.0f, 81.0f);
+		hidenObj->SetSize(26.0f, 16.0f);
+		hidenObj->SetStair_X(2353);
+		hidenObj->nx = 1;
+		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
+		cells->InitCells(hidenObj);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetPosition(2400.0f, 150.0f);
+		hidenObj->SetSize(33.0f, 11.0f);
+		hidenObj->SetStair_X(2401);
+		hidenObj->nx = -1;
 		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_UP);
 		cells->InitCells(hidenObj);
 
 		
 		hidenObj = new CHidenObject();
-		hidenObj->SetPosition(2728.0f, 119.0f);
+		hidenObj->SetPosition(2727.0f, 117.0f);
+		hidenObj->SetSize(25.0f, 13.0f);
+		hidenObj->SetStair_X(2720);
+		hidenObj->nx = 1;
 		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_UP);
+		cells->InitCells(hidenObj);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetPosition(2760.0f, 81.0f);
+		hidenObj->SetSize(25.0f, 16.0f);
+		hidenObj->SetStair_X(2752);
+		hidenObj->nx = -1;
+		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
 		cells->InitCells(hidenObj);
 		break;
 	}
@@ -846,7 +856,7 @@ void CEntranceLevel::GetSizeMap(float &min, float &max)
 	}
 	else
 	{
-		min = 2048.0f;
+		min = 2040.0f;
 		max = 2850.0f;
 	}
 

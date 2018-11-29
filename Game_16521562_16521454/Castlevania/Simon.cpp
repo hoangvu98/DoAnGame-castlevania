@@ -19,7 +19,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	if (IsDown != 2)
 		IsDown = 0;
 	CEntranceLevel *level1 = CEntranceLevel::GetInstance();
-	if (stair == 0)
+	if (stair !=2)
 		vy += SIMON_GRAVITY;
 	if (state != SIMON_STATE_KNEE && previousstate == SIMON_STATE_KNEE)
 	{
@@ -106,6 +106,44 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				level1->SetFallScene(true);
 			}
 		}
+		else if (dynamic_cast<CHeart *>(e->obj))
+		{
+			CItems *items = dynamic_cast<CHeart *>(e->obj);
+			items->SetState(ITEM_STATE_DELETE);
+		}
+		else if (dynamic_cast<CMoneyBag *>(e->obj))
+		{
+			CItems *items = dynamic_cast<CMoneyBag *>(e->obj);
+			items->SetState(ITEM_STATE_DELETE);
+		}
+		else if (dynamic_cast<CDagger *>(e->obj))
+		{
+			OnSkill = true;
+			CItems *items = dynamic_cast<CDagger *>(e->obj);
+			weapon = new CDagger();
+			items->SetState(ITEM_STATE_DELETE);
+		}
+		else if (dynamic_cast<CAxe *>(e->obj))
+		{
+			OnSkill = true;
+			CItems *items = dynamic_cast<CAxe *>(e->obj);
+			weapon = new CAxe();
+			items->SetState(ITEM_STATE_DELETE);
+		}
+		else if (dynamic_cast<CBoomerang *>(e->obj))
+		{
+			OnSkill = true;
+			CItems *items = dynamic_cast<CBoomerang *>(e->obj);
+			weapon = new CBoomerang();
+			items->SetState(ITEM_STATE_DELETE);
+		}
+		else  if (dynamic_cast<CHollyWater *>(e->obj))
+		{
+			OnSkill = true;
+			CItems *items = dynamic_cast<CHollyWater *>(e->obj);
+			weapon = new CHollyWater();
+			items->SetState(ITEM_STATE_DELETE);
+		}
 	}
 	for (UINT i = 0; i < coEvents.size(); i++)
 	{
@@ -151,8 +189,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			if (dynamic_cast<CHidenObject *> (e->obj))
 			{
 				CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
-				/*if (hidenobject->GetState() == HIDENOBJECT_STATE_NORMAL)
-				{*/
+			
 				x += min_tx * dx + nx * 0.4f;
 				y += min_ty * dy + ny * 0.4f;
 				test = false;
@@ -167,45 +204,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 						if (state == SIMON_STATE_COLLUSION)
 							SetState(SIMON_STATE_KNEE);
 				}
-				//}
-			}
-			else if (dynamic_cast<CHeart *>(e->obj))
-			{
-				CItems *items = dynamic_cast<CHeart *>(e->obj);
-				items->SetState(ITEM_STATE_DELETE);
-			}
-			else if (dynamic_cast<CMoneyBag *>(e->obj))
-			{
-				CItems *items = dynamic_cast<CMoneyBag *>(e->obj);
-				items->SetState(ITEM_STATE_DELETE);
-			}
-			else if (dynamic_cast<CDagger *>(e->obj))
-			{
-				OnSkill = true;
-				CItems *items = dynamic_cast<CDagger *>(e->obj);
-				weapon = new CDagger();
-				items->SetState(ITEM_STATE_DELETE);
-			}
-			else if (dynamic_cast<CAxe *>(e->obj))
-			{
-				OnSkill = true;
-				CItems *items = dynamic_cast<CAxe *>(e->obj);
-				weapon = new CAxe();
-				items->SetState(ITEM_STATE_DELETE);
-			}
-			else if (dynamic_cast<CBoomerang *>(e->obj))
-			{
-				OnSkill = true;
-				CItems *items = dynamic_cast<CBoomerang *>(e->obj);
-				weapon = new CBoomerang();
-				items->SetState(ITEM_STATE_DELETE);
-			}
-			else  if (dynamic_cast<CHollyWater *>(e->obj))
-			{
-				OnSkill = true;
-				CItems *items = dynamic_cast<CHollyWater *>(e->obj);
-				weapon = new CHollyWater();
-				items->SetState(ITEM_STATE_DELETE);
 			}
 			else if (dynamic_cast<CDoor *>(e->obj))
 			{
@@ -279,9 +277,9 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		Camera();
 	else
 		CameraAuto();
-	DebugOut(L"stair=%d\n", stair);
 	//DebugOut(L"up=%d\ndown=%d\n", IsUp, IsDown);
 	//DebugOut(L"x=%f\ny=%f\n", x, y);
+	DebugOut(L"nx=%d\n", nx);
 }
 
 void CSimon::Render()
@@ -319,20 +317,41 @@ void CSimon::Render()
 			{
 				if (skill == true && now - FrameWeapon < 450)
 				{
-					if (nx > 0)
-						ani = SIMON_ANI_STAIR_FIGHT_RIGHT;
+					if (state == SIMON_STATE_STAIR_UP_IDLE)
+					{
+						if (nx > 0)
+							ani = SIMON_ANI_STAIR_FIGHT_UP_RIGHT;
+						else
+							ani = SIMON_ANI_STAIR_FIGHT_UP_LEFT;
+					}
 					else
-						ani = SIMON_ANI_STAIR_FIGHT_LEFT;
+					{
+						if (nx > 0)
+							ani = SIMON_ANI_STAIR_FIGHT_DOWN_RIGHT;
+						else
+							ani = SIMON_ANI_STAIR_FIGHT_DOWN_LEFT;
+					}
 					animations[ani]->Render(x, y, color);
 				}
 				else
 				{
 					if (fight == true)
 					{
-						if (nx > 0)
-							ani = SIMON_ANI_STAIR_FIGHT_RIGHT;
+						if (state == SIMON_STATE_STAIR_UP_IDLE)
+						{
+							
+							if (nx > 0)
+								ani = SIMON_ANI_STAIR_FIGHT_UP_RIGHT;
+							else
+								ani = SIMON_ANI_STAIR_FIGHT_UP_LEFT;
+						}
 						else
-							ani = SIMON_ANI_STAIR_FIGHT_LEFT;
+						{
+							if (nx > 0)
+								ani = SIMON_ANI_STAIR_FIGHT_DOWN_RIGHT;
+							else
+								ani = SIMON_ANI_STAIR_FIGHT_DOWN_LEFT;
+						}
 						whip->Render();
 					}
 					else
@@ -388,7 +407,7 @@ void CSimon::Render()
 				if (now - FrameWeapon > 1000)	skill = false;
 				else weapon->Render();
 			}
-			animations[ani]->Render(x, y, color);
+		
 		}
 		else
 		{
@@ -419,7 +438,6 @@ void CSimon::Render()
 						ani = SIMON_ANI_FIGHT_RIGHT;
 					else
 						ani = SIMON_ANI_FIGHT_LEFT;
-					animations[ani]->Render(x, y, color);
 				}
 				else
 				{
@@ -441,7 +459,6 @@ void CSimon::Render()
 						}
 						if (nx > 0)whip->SetStateWhip(WHIP_STATE_RIGHT);
 						else whip->SetStateWhip(WHIP_STATE_LEFT);
-						animations[ani]->Render(x, y, color);
 						whip->Render();
 					}
 					else
@@ -474,7 +491,6 @@ void CSimon::Render()
 							ani = SIMON_ANI_JUMP_LEFT;
 						else if (vy < 0 && nx > 0)
 							ani = SIMON_ANI_JUMP_RIGHT;
-						animations[ani]->Render(x, y, color);
 					}
 				}
 				if (skill)
@@ -482,6 +498,7 @@ void CSimon::Render()
 					if (now - FrameWeapon > 1000)	skill = false;
 					else weapon->Render();
 				}
+				
 			}
 		}
 	}
@@ -495,25 +512,35 @@ void CSimon::Render()
 				ani = SIMON_ANI_JUMP_LEFT;//knee
 			if (color == 200)
 			{
-				animations[ani]->Render(x, y, color);
 				color = 150;
 			}
 			else
 			{
-				animations[ani]->Render(x, y, color);
 				color = 200;
 			}
 		}
 		else if (state == SIMON_STATE_COLLUSION)
 		{
+			color = 255;
 			if (nx > 0)
 				ani = SIMON_ANI_COLLUSION_RIGHT;
 			else
 				ani = SIMON_ANI_COLLUSION_LEFT;
-			animations[ani]->Render(x, y, 255);
 
 		}
 	}
+	DWORD t = GetTickCount() - whip->GetFrameWhip();
+	if (fight == true)
+	{
+		if (t <= 150 && nx > 0)
+			animations[ani]->Render(x - 7, y, color);
+		else if (t >= 300 && nx < 0)
+			animations[ani]->Render(x - 6, y, color);
+		else
+			animations[ani]->Render(x, y, color);
+	}
+	else
+		animations[ani]->Render(x, y, color);
 	RenderBoundingBox(100);
 }
 
@@ -521,6 +548,7 @@ void CSimon::GetBoundingBox(float & left, float & top, float & right, float & bo
 {
 	left = x;
 	top = y;
+	DWORD t = GetTickCount() - whip->GetFrameWhip();
 	if (vy < 0)
 	{
 		right = x + SIMON_BBOX_KNEE_WIDTH;

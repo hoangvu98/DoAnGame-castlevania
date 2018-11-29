@@ -98,41 +98,44 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		DWORD t = GetTickCount() - simon->GetWhip()->GetFrameWhip();
 		if (t >= 450)
 		{
-			if (game->IsKeyDown(DIK_UP) && t >= 450)
+			if (simon->GetState() != SIMON_STATE_STAIR_UP && simon->GetState() != SIMON_STATE_STAIR_DOWN)
 			{
-				if (simon->GetOnSkill())
+				if (game->IsKeyDown(DIK_UP) && t >= 450)
+				{
+					if (simon->GetOnSkill())
+					{
+						if (simon->nx > 0)
+							simon->GetWeapon()->SetState(ITEM_STATE_WEAPON_RIGHT);
+						else
+							simon->GetWeapon()->SetState(ITEM_STATE_WEAPON_LEFT);
+						simon->SetFrameWeapon();
+						simon->SetSkill(true);
+						float temp_x, temp_y;
+						simon->GetPosition(temp_x, temp_y);
+						simon->GetWeapon()->SetPosition(temp_x, temp_y + 5);
+						simon->SetState(SIMON_STATE_IDLE);
+					}
+				}
+				else
 				{
 					if (simon->nx > 0)
-						simon->GetWeapon()->SetState(ITEM_STATE_WEAPON_RIGHT);
+						simon->GetWhip()->SetStateWhip(WHIP_STATE_RIGHT);
 					else
-						simon->GetWeapon()->SetState(ITEM_STATE_WEAPON_LEFT);
-					simon->SetFrameWeapon();
-					simon->SetSkill(true);
-					float temp_x, temp_y;
-					simon->GetPosition(temp_x, temp_y);
-					simon->GetWeapon()->SetPosition(temp_x, temp_y + 5);
-					simon->SetState(SIMON_STATE_IDLE);
+						simon->GetWhip()->SetStateWhip(WHIP_STATE_LEFT);
+					simon->SetFight(true);
+					if (simon->GetStair() != 2)
+					{
+						if (game->IsKeyDown(DIK_LEFT) || game->IsKeyDown(DIK_RIGHT))
+							simon->SetState(SIMON_STATE_IDLE);
+						else if (game->IsKeyDown(DIK_DOWN))
+							simon->SetState(SIMON_STATE_KNEE);
+						else
+							simon->SetState(SIMON_STATE_IDLE);
+					}
 				}
+				DWORD time = GetTickCount();
+				simon->GetWhip()->SetFrameWhip(time);
 			}
-			else
-			{
-				if (simon->nx > 0)
-					simon->GetWhip()->SetStateWhip(WHIP_STATE_RIGHT);
-				else
-					simon->GetWhip()->SetStateWhip(WHIP_STATE_LEFT);
-				simon->SetFight(true);
-				if (simon->GetStair() != 2)
-				{
-					if (game->IsKeyDown(DIK_LEFT) || game->IsKeyDown(DIK_RIGHT))
-						simon->SetState(SIMON_STATE_IDLE);
-					if (game->IsKeyDown(DIK_DOWN))
-						simon->SetState(SIMON_STATE_KNEE);
-				}
-				else
-					simon->SetState(SIMON_STATE_IDLE);
-			}
-			DWORD time = GetTickCount();
-			simon->GetWhip()->SetFrameWhip(time);
 		}
 		break;
 
@@ -300,12 +303,11 @@ void LoadResources()
 	resource->LoadBullet();
 	simon = CSimon::GetInstance();
 	//simon->SetPosition(2053.0f, 28.0f);
-	simon->SetPosition(1378.0f, 34.0f);
-	//simon->SetPosition(687.0f, 60.0f);
-	//simon->SetPosition(895.0f, 20.0f);
-	//simon->SetPosition(615.0f, 80.0f);
+	//simon->SetPosition(1378.0f, 34.0f);
+	simon->SetPosition(618.4f, 129.0f);
 	//simon->SetPosition(10.0f, 80.0f); 
 	//simon->SetState(SIMON_STATE_IDLE);
+
 
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
