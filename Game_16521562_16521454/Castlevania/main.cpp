@@ -81,10 +81,10 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	case DIK_D:
 		if (simon->GetFight() == false)
 		{
-			if (!game->IsKeyDown(DIK_DOWN) && simon->GetJump() == true)
+			if (!game->IsKeyDown(DIK_DOWN) && simon->GetJump() == 0)
 			{
 				simon->SetState(SIMON_STATE_JUMP);
-				simon->SetJump(false);
+				simon->SetJump(1);
 			}
 		}
 		break;
@@ -219,7 +219,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 	}
 	else
 	{
-		if (simon->GetJump() != false)
+		if (simon->GetJump() == 0)
 		{
 			if (!simon->GetSkill())
 			{
@@ -247,6 +247,13 @@ void CSampleKeyHander::KeyState(BYTE *states)
 				}
 			}
 		}
+		/*else
+		{
+			if (game->IsKeyDown(DIK_LEFT))
+				simon->vx = -SIMON_WALKING_SPEED;
+			else if (game->IsKeyDown(DIK_RIGHT))
+				simon->vx= SIMON_WALKING_SPEED;
+		}*/
 	}
 }
 
@@ -301,10 +308,11 @@ void LoadResources()
 	resource->LoadBrick();
 	resource->LoadFishman();
 	resource->LoadBullet();
+	resource->LoadBossBat();
 	simon = CSimon::GetInstance();
-	//simon->SetPosition(2053.0f, 28.0f);
+	simon->SetPosition(2053.0f, 28.0f);
 	//simon->SetPosition(1378.0f, 34.0f);
-	simon->SetPosition(618.4f, 129.0f);
+	//simon->SetPosition(618.4f, 129.0f);
 	//simon->SetPosition(10.0f, 80.0f); 
 	//simon->SetState(SIMON_STATE_IDLE);
 
@@ -312,7 +320,7 @@ void LoadResources()
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
 	level_1 = CEntranceLevel::GetInstance();
-	level_1->SetScene(SCENE_2);
+	level_1->SetScene(SCENE_5);
 	level_1->LoadMap();
 	objects = level_1->GetUpdateObjects();
 	objects.push_back(simon);

@@ -14,6 +14,11 @@ CSimon *CSimon::__instance = NULL;
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
 	CGameObject::Update(dt);
+	/*if (jump == 1 && vy > 0)
+	{
+		jump = 2;
+		y -= 7;
+	}*/
 	if(IsUp!=2)
 		IsUp = 0;
 	if (IsDown != 2)
@@ -80,7 +85,24 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 					stair = 3;
 				if (stair == 2 && IsUp != 2)
 					IsUp = 1;
-			}		
+			}
+			/*else if (hidenobject->GetState() == HIDENOBJECT_STATE_NORMAL)
+			{
+				float h_x, h_y, size_x, size_y;
+				hidenobject->GetPosition(h_x, h_y);
+				hidenobject->GetSize(size_x, size_y);
+				float a, b;
+				a = x - h_x;
+				if (a < 0)
+					a = -a;
+				b = x - (h_x+size_x);
+				if (b < 0)
+					b = -b;
+				if (a < 5)
+					x = h_x - 15.0f;
+				if(b<5)
+					x = h_x + size_x;
+			}*/
 		}
 		else if (dynamic_cast<CDoor *>(e->obj))
 		{
@@ -108,8 +130,9 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		}
 		else if (dynamic_cast<CHeart *>(e->obj))
 		{
-			CItems *items = dynamic_cast<CHeart *>(e->obj);
-			items->SetState(ITEM_STATE_DELETE);
+			CHeart *hearts = dynamic_cast<CHeart *>(e->obj);
+			heart+=hearts->GetHearts();
+			hearts->SetState(ITEM_STATE_DELETE);
 		}
 		else if (dynamic_cast<CMoneyBag *>(e->obj))
 		{
@@ -182,6 +205,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		coEventsResult.clear();
 		float min_tx, min_ty, nx = 0, ny;
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+		//DebugOut(L"ny=%f\n", ny);
 
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
@@ -196,9 +220,9 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				DWORD now = GetTickCount();
 				if (now - FrameCollusion > 100)
 				{
-					if (nx != 0) vx = 0;
+					//if (nx != 0) vx = 0;
 					if (ny != 0) {
-						vy = 0; jump = true;
+						vy = 0; jump = 0;
 					}
 					if (collusion == 1 && ny < 0)
 						if (state == SIMON_STATE_COLLUSION)
@@ -240,6 +264,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 					CGhoul *ghoul = dynamic_cast<CGhoul *>(e->obj);
 					collusion = 1;
 					SetState(SIMON_STATE_COLLUSION);
+					health -= ghoul->GetDamage();
 					collusion_nx = nx;
 					FrameCollusion = GetTickCount();
 				}
@@ -278,8 +303,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	else
 		CameraAuto();
 	//DebugOut(L"up=%d\ndown=%d\n", IsUp, IsDown);
-	//DebugOut(L"x=%f\ny=%f\n", x, y);
-	DebugOut(L"nx=%d\n", nx);
+	//DebugOut(L"x=%f\n", x);
+	//DebugOut(L"heart=%d\n", heart);
 }
 
 void CSimon::Render()
@@ -568,10 +593,6 @@ void CSimon::GetBoundingBox(float & left, float & top, float & right, float & bo
 
 }
 
-int CSimon::GetPreviousState()
-{
-	return previousstate;
-}
 
 void CSimon::SetState(int state)
 {
@@ -713,17 +734,23 @@ void CSimon::Camera()
 	float min;
 	float max;
 	level1->GetSizeMap(min, max);
-	
-		if (x - 128.0f<min)
+	if (level1 ->GetScene()==SCENE_5 && x + 128.0f > max)
+	{
+		MeetBoss = true;
+	}
+	if(!MeetBoss)
+	{
+		if (x - 128.0f < min)
 		{
 			game->SetCamera(min, 0.0f);
 		}
 		else if (x + 128.0f > max)
 		{
-			game->SetCamera(max-256.0f, 0.0f);
+			game->SetCamera(max - 256.0f, 0.0f);
 		}
 		else
 			game->SetCamera(x - 128.0f, 0.0f);
+	}
 }
 
 void CSimon::CameraAuto()
@@ -781,6 +808,37 @@ void CSimon::CameraAuto()
 			level1->SetNextScene(true);
 		}
 	}
+}
+
+CSimon::CSimon()
+{
+	AddAnimation(101);
+	AddAnimation(102);
+	AddAnimation(201);
+	AddAnimation(202);
+	AddAnimation(301);
+	AddAnimation(302);
+	AddAnimation(401);
+	AddAnimation(402);
+	AddAnimation(501);
+	AddAnimation(502);
+	AddAnimation(601);
+	AddAnimation(602);
+	AddAnimation(603);
+	AddAnimation(604);
+	AddAnimation(701);
+	AddAnimation(702);
+	AddAnimation(703);
+	AddAnimation(704);
+	AddAnimation(801);
+	AddAnimation(802);
+	AddAnimation(803);
+	AddAnimation(804);
+	AddAnimation(901);
+	AddAnimation(902);
+	mx = 0;
+	whip = new CWhip();
+	whip->SetState(WHITE_WHIP);
 }
 
 CSimon * CSimon::GetInstance()

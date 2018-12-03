@@ -12,14 +12,12 @@ void CGhoul::GetBoundingBox(float &left, float &top, float &right, float &bottom
 
 void CGhoul::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	CGameObject::Update(dt, coObjects);
-
+	CMonster::Update(dt, coObjects);
 	if (state == GHOUL_STATE_LEFT || state == GHOUL_STATE_RIGHT)
 	{
 		x += dx;
 		y += dy;
 	}
-	
 }
 
 void CGhoul::Render()
@@ -66,28 +64,9 @@ void CGhoul::SetState(int state)
 }
 CGhoul::CGhoul()
 {
-	hiteffect = new Chiteffect();
+	health = 1;
+	point = 100;
+	damage = 1;
 	AddAnimation(10000);
 	AddAnimation(10001);
-	int random;
-	srand(time(NULL));
-	random = rand() % 2;
-	switch (random)
-	{
-	case 0:
-		items = new CDagger();
-		break;
-	case 1:
-		random = rand() % 2;
-		switch (random)
-		{
-		case 0:
-			items = new CHeart(HEART_BIG);
-			break;
-		case 1:
-			items = new CHeart(HEART_SMALL);
-			break;
-		}
-		break;
-	}
 }

@@ -7,8 +7,8 @@
 using namespace std;
 #define WHIP_TEXTURE_PATH L"castlevania_texture\\Weapon\\Whip.png"
 
-#define SIMON_WALKING_SPEED		0.1f
-#define SIMON_JUMP_SPEED		0.2f
+#define SIMON_WALKING_SPEED		/*0.075f*/ 0.1f
+#define SIMON_JUMP_SPEED		0.22f
 #define SIMON_GRAVITY			0.01f
 #define SIMON_DEFLECT_SPEED		0.1f
 
@@ -66,16 +66,16 @@ using namespace std;
 class CSimon :public CGameObject
 {
 	static CSimon *__instance;
-	int heart = 0;
+	int heart = 0,point=0,health=12;
 	int mx;
-	int previousstate;
+	int previousstate=NULL;
 	int state_update;
 	CWhip *whip;
 	DWORD FrameUpdate;
 	DWORD FrameWeapon;
 	bool OnSkill = false;
 	bool skill = false;
-	bool jump = true;
+	int jump = 0;
 	bool fight = false;
 	int alpha = 255;
 	int stair = 0; //0 b?nh thư?ng 1 g?p c?c 2 đang lên
@@ -87,6 +87,7 @@ class CSimon :public CGameObject
 	int state_auto = 0;
 	int camera_auto = 0;
 public:
+	bool MeetBoss = false;
 	DWORD test_stair = 0;
 	float simon_x=0;
 	float simon_y=0;
@@ -95,12 +96,11 @@ public:
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObject = NULL);
 	void Render();
 	void GetBoundingBox(float & left, float & top, float & right, float & bottom);
-	int GetPreviousState();
 	void SetState(int state);
 	bool GetSkill() { return skill; }
 	void SetSkill(bool skill) { this->skill = skill; }
-	bool GetJump() { return jump; }
-	void SetJump(bool jump) { this->jump = jump; }
+	int GetJump() { return jump; }
+	void SetJump(int jump) { this->jump = jump; }
 	bool GetFight() { return fight; }
 	void SetFight(bool fight) { this->fight = fight; }
 	void SetFrameWeapon() { FrameWeapon = GetTickCount(); }
@@ -116,47 +116,13 @@ public:
 	int GetStateAuto() { return state_auto; }
 	void SetStateAuto(int state_auto) { this-> state_auto= state_auto; }
 	void SetCameraAuto(int camera_auto) { this->camera_auto = camera_auto; }
-	DWORD GetFrameUpdate()
-	{
-		return FrameUpdate;
-	}
+	DWORD GetFrameUpdate(){	return FrameUpdate;}
+	int GetPoint() { return point; }
+	void SetPoint(int point) { this->point = point; }
 	void Auto();
 	void Camera();
 	void CameraAuto();
-	CSimon() :CGameObject()
-	{
-		AddAnimation(101);
-		AddAnimation(102);
-		AddAnimation(201);
-		AddAnimation(202);
-		AddAnimation(301);
-		AddAnimation(302);
-		AddAnimation(401);
-		AddAnimation(402);
-		AddAnimation(501);
-		AddAnimation(502);
-		AddAnimation(601);
-		AddAnimation(602);
-		AddAnimation(603);
-		AddAnimation(604);
-		AddAnimation(701);
-		AddAnimation(702);
-		AddAnimation(703);
-		AddAnimation(704);
-		AddAnimation(801);
-		AddAnimation(802);
-		AddAnimation(803);
-		AddAnimation(804);
-		AddAnimation(901);
-		AddAnimation(902);
-
-		mx = 0;
-		previousstate = state;
-		whip = new CWhip();
-		whip->SetState(WHITE_WHIP);
-	
-
-	}
+	CSimon();
 	static CSimon *GetInstance();
 };
 

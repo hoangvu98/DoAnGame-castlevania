@@ -455,3 +455,27 @@ void CResource::LoadBullet()
 	animations->Add(19001, ani);
 	in.close();
 }
+
+void CResource::LoadBossBat()
+{
+	CTextures *textures = CTextures::GetInstance();
+	textures->Add(ID_BOSS_BAT, BOSS_BAT_TEXTURE_PATH, D3DCOLOR_XRGB(160, 32, 64));
+
+	CSprites *sprites = CSprites::GetInstance();
+	CAnimations *animations = CAnimations::GetInstance();
+
+	LPDIRECT3DTEXTURE9 texbossbat;
+	texbossbat = textures->Get(ID_BOSS_BAT);
+
+	LPANIMATION ani;
+	ani = new CAnimation(100);
+
+	ifstream in("Data\\BossBat.txt");
+	CInputImage::AddAnimation(in, sprites, ani, texbossbat, 1,250);
+	animations->Add(20000, ani);
+
+	ani = new CAnimation(100);
+	CInputImage::AddAnimation(in, sprites, ani, texbossbat, 2,250);
+	animations->Add(20001, ani);
+	in.close();
+}

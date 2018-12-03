@@ -14,6 +14,7 @@
 #include "Brick.h"
 #include "Bat.h"
 #include "Fishman.h"
+#include "BossBat.h"
 
 using namespace std;
 #define LEVEL_1_STAGE1A_PATH L"castlevania_texture\\Background\\tileset_map1_stage1A.png"/*Level 1 Entrance.png"*/
@@ -40,7 +41,8 @@ using namespace std;
 #define MAX_MAP_3 2208
 #define MIN_MAP_4 0
 #define MAX_MAP_4 512
-
+#define MIN_MAP_5 2040.0f
+#define MAX_MAP_5 2832.0f
 class CEntranceLevel :
 	public CMap
 {

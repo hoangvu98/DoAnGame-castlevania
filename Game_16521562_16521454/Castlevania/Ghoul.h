@@ -1,7 +1,5 @@
 #pragma once
-#include "GameObject.h"
-#include <vector>
-#include "Items.h"
+#include "Monster.h"
 using namespace std;
 #define GHOUL_WALKING_SPEED 0.01;
 
@@ -18,16 +16,12 @@ using namespace std;
 #define FrameTime 200
 
 
-class CGhoul : public CGameObject
+class CGhoul : public CMonster
 {
-	Chiteffect *hiteffect;
-	CItems *items;
-	int Time;
 public:
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render();
 	virtual void SetState(int state);
-	CItems *GetItems() { return items; }
 	CGhoul();
 };

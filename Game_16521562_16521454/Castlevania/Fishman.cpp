@@ -26,7 +26,6 @@ void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CGameObject::Update(dt, coObjects);
 	vy += FISHMAN_GRAVITY * dt;
-
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEventsResult.clear();
@@ -42,7 +41,6 @@ void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		float min_tx, min_ty, nx = 0, ny;
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 		x += dx;
-
 		x += min_tx * dx + nx * 0.4f;
 		if (ny < 0)
 		{
@@ -59,23 +57,19 @@ void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				i = 0;
 			}
 			else if (fire == false) i++;
-			//DebugOut(L"fire = %d\n", fire);
 			if (fire == true)
 			{
 				if (j >= 50)
 				{
 					fire = false;
-					//DebugOut(L"Ngung update bullet");
 					j = 0;
 				}
 				else
 				{
 					j++;
 					bullet->Update(dt, coObjects);
-					//DebugOut(L"Dang update bullet\n");
 				}
 			}
-			DebugOut(L"vx = %f\n", vx);					
 		}
 		else
 			y += dy;

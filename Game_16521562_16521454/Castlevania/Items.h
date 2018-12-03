@@ -58,10 +58,10 @@ public:
 		switch (size)
 		{
 		case HEART_BIG:
-			hearts = 1;
+			hearts = 5;
 			break;
 		case HEART_SMALL:
-			hearts = 2;
+			hearts = 1;
 			break;
 		}
 		AddAnimation(7000);

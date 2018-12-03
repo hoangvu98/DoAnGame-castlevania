@@ -4,6 +4,7 @@
 #include "Simon.h"
 #include "Ghoul.h"
 #include "HidenObject.h"
+#include "BossBat.h"
 void CCell::SetObjects(LPGAMEOBJECT object)
 {
 	objects.push_back(object);
@@ -113,7 +114,7 @@ void CCells::InitCells(LPGAMEOBJECT object)
 					{
 						float size_x, size_y;
 						hidenobject->GetSize(size_x, size_y);
-						hidenobject->SetSize(size_x, y + height - j * CELL_WIDTH);
+						hidenobject->SetSize(size_x, y + height - j * CELL_HEIGHT);
 					}
 					cells[i][j].SetObjects(hidenobject);
 				}
@@ -144,7 +145,7 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 	ys = (int)cam_y / CELL_HEIGHT;
 
 	xe = (int)(cam_x + 256.0f) / CELL_WIDTH;
-	ye = (int)(cam_y + 160.0f) / CELL_HEIGHT;
+	ye = (int)(cam_y + 185.0f) / CELL_HEIGHT;
 	for (i = xs; i <= xe; i++)
 		for (j = ys; j <= ye; j++)
 		{
@@ -200,6 +201,21 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 						{
 							list_object->push_back(e);
 						}
+					}
+					else if (dynamic_cast<CBossBat *> (e))
+					{
+						CSimon* simon = CSimon::GetInstance();
+						if (simon->MeetBoss)
+						{
+							e->SetState(BOSS_BAT_STATE_fLY);
+							CHidenObject *hidenobject;
+							hidenobject = new CHidenObject();
+							hidenobject->SetState(HIDENOBJECT_STATE_NORMAL);
+							hidenobject->SetPosition(2570, 0);
+							hidenobject->SetSize(6, 160);
+							list_object->push_back(hidenobject);
+						}
+						list_object->push_back(e);
 					}
 					else
 						list_object->push_back(e);

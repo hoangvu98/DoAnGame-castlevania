@@ -19,6 +19,7 @@ void CEntranceLevel::LoadMap()
 	CBat *bat;
 	CFishman *fishman;
 	CHidenObject *hidenObj;
+	CBossBat* bossbat;
 	switch (scene)
 	{
 	case SCENE_1:
@@ -732,9 +733,9 @@ void CEntranceLevel::LoadMap()
 		cells->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
-		hidenObj->SetPosition(2047.0f, 161.0f);
+		hidenObj->SetPosition(2040.0f, 160.0f);
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
-		hidenObj->SetSize(768.0f, 15.0f);
+		hidenObj->SetSize(767.0f, 16.0f);
 		//hidenObj->SetSize(176.0f, 15.0f);
 		cells->InitCells(hidenObj);
 
@@ -742,19 +743,18 @@ void CEntranceLevel::LoadMap()
 		hidenObj->SetPosition(2177.0f, 97.0f);
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL); 
 		hidenObj->SetSize(176.0f, 15.0f);
-		//hidenObj->SetSize(48.0f, 15.0f);
 		cells->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
-		hidenObj->SetPosition(2721.0f, 129.0f);
+		hidenObj->SetPosition(2721.0f, 127.0f);
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
-		hidenObj->SetSize(32.0f, 15.0f);
+		hidenObj->SetSize(30.0f, 13.0f);
 		cells->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
-		hidenObj->SetPosition(2769.0f, 97.0f);
+		hidenObj->SetPosition(2771.0f, 94.0f);
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
-		hidenObj->SetSize(48.0f, 15.0f);
+		hidenObj->SetSize(44.0f, 14.0f);
 		cells->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
@@ -805,6 +805,10 @@ void CEntranceLevel::LoadMap()
 		hidenObj->nx = -1;
 		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
 		cells->InitCells(hidenObj);
+
+		bossbat = new CBossBat();
+		bossbat->SetPosition(2666.0f, 0.0f);
+		cells->InitCells(bossbat);
 		break;
 	}
 }
@@ -854,10 +858,10 @@ void CEntranceLevel::GetSizeMap(float &min, float &max)
 		min = MIN_MAP_4;
 		max = MAX_MAP_4;
 	}
-	else
+	else if(scene == SCENE_5)
 	{
-		min = 2040.0f;
-		max = 2850.0f;
+		min = MIN_MAP_5;
+		max = MAX_MAP_5;
 	}
 
 }

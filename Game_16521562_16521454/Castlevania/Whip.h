@@ -35,6 +35,7 @@ class CWhip :
 	int state_whip;
 	int size;
 	DWORD FrameWhip;
+	int damage;
 public:
 	bool fight;
 	CWhip();

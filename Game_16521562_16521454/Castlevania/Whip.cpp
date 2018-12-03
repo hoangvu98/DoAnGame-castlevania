@@ -88,6 +88,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		coEventsResult.clear();
 		CalcPotentialCollisions(coObjects, coEvents);
 		FilterCollisionImmediately(coEvents, coEventsResult);
+		CSimon* simon = CSimon::GetInstance();
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
@@ -100,20 +101,25 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					candle->SetState(CANDLE_STATE_DISAPPEAR);
 				}
 			}
-			if (dynamic_cast<CGhoul *> (e->obj))
+			else if (dynamic_cast<CGhoul *> (e->obj))
 			{
 				CGhoul *ghoul = dynamic_cast<CGhoul *>(e->obj);
 
-				if (ghoul->state != GHOUL_STATE_DELETE)
+				if (ghoul->state != GHOUL_STATE_DELETE && ghoul->state != GHOUL_STATE_DISAPPEAR)
 				{
-					ghoul->SetState(GHOUL_STATE_DISAPPEAR);
+					ghoul->SetHealth(ghoul->GetHealth() - 1);
+					if (ghoul->GetHealth() <= 0)
+					{
+						ghoul->SetState(GHOUL_STATE_DISAPPEAR);
+						int points=simon->GetPoint();
+						simon->SetPoint(points + ghoul->GetPoint());
+					}
 				}
 			}
-			if (dynamic_cast<CBrick *>(e->obj))
+			else if (dynamic_cast<CBrick *>(e->obj))
 			{
 				CBrick *brick = dynamic_cast<CBrick *>(e->obj);
 				brick->SetDel(brick->GetDel() + 1);
-				/*DebugOut(L"del = %d\n", brick->GetDel());*/
 				if (brick->GetDel() <= 10)
 					brick->SetState(BRICK_STATE_HALF);
 				else
@@ -167,14 +173,17 @@ void CWhip::SetState(int state)
 	case WHITE_WHIP:
 		state = WHITE_WHIP;
 		size = SHORT_WHIP;
+		damage = 1;
 		break;
 	case BLUE_WHIP:
 		state = BLUE_WHIP;
 		size = SHORT_WHIP;
+		damage = 1;
 		break;
 	case YELLOW_WHIP:
 		state = YELLOW_WHIP;
 		size = LONG_WHIP;
+		damage = 1;
 		break;
 	}
 }
