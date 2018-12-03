@@ -249,14 +249,14 @@ void CEntranceLevel::LoadMap()
 
 		
 
-		panther->SetState(PANTHER_STATE_IDLE);
+		/*panther->SetState(PANTHER_STATE_IDLE);
 		panther->Setnx(-1);
 		panther->SetTurn(0);
 		panther->SetPosition(690.0f, 79.0f);
 		panther->SetTmpPosition(690.0f, 79.0f);
 		panther->SetJump(false);
 		panther->InitMovingArea();
-		cells->InitCells(panther);
+		cells->InitCells(panther);*/
 
 		/*panther = new CPanther();
 		panther->Setnx(-1);
