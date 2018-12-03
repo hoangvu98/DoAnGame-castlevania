@@ -21,6 +21,7 @@
 #include "EntranceLevel.h"
 #include "InputImage.h"
 #include "Resource.h"
+#include "BlackBoard.h"
 using namespace std;
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
@@ -34,7 +35,7 @@ using namespace std;
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 200)
 #define SCREEN_WIDTH 256
-#define SCREEN_HEIGHT 224
+#define SCREEN_HEIGHT 262
 
 #define MAX_FRAME_RATE 120
 
@@ -49,6 +50,7 @@ CGhoul *ghoul;
 CBat *bat;
 CMap *map1;
 CResource *resource;
+CBlackBoard * blackboard;
 
 vector<LPGAMEOBJECT> objects;
 CHidenObject *hidenObject;
@@ -309,21 +311,25 @@ void LoadResources()
 	resource->LoadFishman();
 	resource->LoadBullet();
 	resource->LoadBossBat();
+	resource->LoadBreakingWall();
 	simon = CSimon::GetInstance();
-	simon->SetPosition(2053.0f, 28.0f);
+	//simon->SetPosition(2053.0f, 28.0f);
 	//simon->SetPosition(1378.0f, 34.0f);
 	//simon->SetPosition(618.4f, 129.0f);
-	//simon->SetPosition(10.0f, 80.0f); 
+	simon->SetPosition(10.0f, 80.0f); 
 	//simon->SetState(SIMON_STATE_IDLE);
 
 
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
 	level_1 = CEntranceLevel::GetInstance();
-	level_1->SetScene(SCENE_5);
+	level_1->SetScene(SCENE_2);
 	level_1->LoadMap();
 	objects = level_1->GetUpdateObjects();
 	objects.push_back(simon);
+
+	blackboard = new CBlackBoard();
+
 }
 
 
@@ -420,10 +426,11 @@ void Render()
 		switch (screen)
 		{
 		case 1:
-			game->Draw(0, 0, texture_title, 0, 0, 258, 225);
+			game->Draw(0.0f, -40.0f, texture_title, 0, 0, 258, 225);
 			break;
 		case 2:
 			level_1->Render();
+			blackboard->Render();
 			for (int i = 0; i < objects.size(); i++)
 				objects[i]->Render();
 			break;

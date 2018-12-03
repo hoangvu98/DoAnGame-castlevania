@@ -12,6 +12,7 @@
 #define FISHMAN_TEXTURE_PATH L"castlevania_texture\\Enemy\\Fishman.png"
 #define BULLET_TEXTURE_PATH L"castlevania_texture\\Weapon\\Bullet.png"
 #define BOSS_BAT_TEXTURE_PATH L"castlevania_texture\\Enemy\\BossBat.png"
+#define BREAKINGWALL_TEXTEURE_PATH L"castlevania_texture\\Weapon\\BreakingWall.png"
 
 #define ID_HITEFFECT 10
 #define ID_CANDLE	1
@@ -26,6 +27,7 @@
 #define ID_FISHMAN	11
 #define ID_BULLET	12
 #define ID_BOSS_BAT	13
+#define ID_BREAKINGWALL	14
 
 class CResource
 {
@@ -50,4 +52,5 @@ public:
 	void LoadFishman();
 	void LoadBullet();
 	void LoadBossBat();
+	void LoadBreakingWall();
 };

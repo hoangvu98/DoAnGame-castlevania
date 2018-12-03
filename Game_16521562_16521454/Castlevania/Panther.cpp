@@ -1,14 +1,26 @@
 #include "Panther.h"
 #include "debug.h"
 #include "Candle.h"
+#include "Game.h"
 void CPanther::InitMovingArea()
 {
-	temp_x = x;
-	temp_y = y;
+	/*temp_x = x;
+	temp_y = y;*/
 	left = x - DISTANCE;
 	top = y;
 	right = left + MOVING_AREA_WIDTH;
 	bottom = top + MOVING_AREA_HEIGHT;
+}
+
+CPanther::CPanther()
+{
+	AddAnimation(4000);
+	AddAnimation(4001);
+	AddAnimation(4002);
+	AddAnimation(4003);
+	AddAnimation(4004);
+	AddAnimation(4005);
+	reset = false;
 }
 
 void CPanther::GetBoundingBox(float &left, float &top, float &right, float &bottom)
@@ -19,20 +31,39 @@ void CPanther::GetBoundingBox(float &left, float &top, float &right, float &bott
 	bottom = y + PANTHER_BBOX_HEIGHT;
 }
 
+void CPanther::Reset()
+{
+	CSimon *simon = CSimon::GetInstance();
+
+	SetState(PANTHER_STATE_IDLE);
+	SetPosition(temp_x, temp_y);
+	Setnx(-nx);
+	SetTurn(0);
+	SetJump(false);
+	InitMovingArea();
+}
+
 void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	CGameObject::Update(dt, coObjects);
+	float cx, cy;
+	CGame *game = CGame::GetInstance();
+	game->GetCamera(cx, cy);
+	if (cx + VIEWPORT_WIDTH < left || cx > right)/*&& right > cx + VIEWPORT_WIDTH) */
+		/*(left < cx && */ /*&& reset == false*/ //View port ko dung moving area
+		reset = true;
+	DebugOut(L"right = %f, cx = %f\n");
+	DebugOut(L"left = %f, cx = %f\n");
+	/*if (state != PANTHER_STATE_DIE)
+	{*/
+	CGameObject::Update(dt);
 	vy += PANTHER_GRAVITY * dt;
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	coEvents.clear();
 
-	if (state != PANTHER_STATE_DIE)
-		CalcPotentialCollisions(coObjects, coEvents);
-	float x, y;
-	CSimon *simon = CSimon::GetInstance();
-	simon->GetPosition(x, y);
+	CalcPotentialCollisions(coObjects, coEvents);
+
 
 	for (UINT i = 0; i < coEvents.size(); i++)
 	{
@@ -45,8 +76,6 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 		else if (dynamic_cast<CCandle *> (coEvents[i]->obj))
 			coEvents.erase(coEvents.begin() + i);
-		/*else if (dynamic_cast<CSimon *> (coEvents[i]->obj))
-			coEvents.erase(coEvents.begin() + i);*/
 	}
 
 	if (coEvents.size() == 0)
@@ -59,6 +88,15 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		jump = false;
 		this->x += dx;
 		this->y += dy;
+
+		/*if ((this->x < cx || this->x > cx + VIEWPORT_WIDTH) && run == true)
+		{
+			SetState(PANTHER_STATE_DIE);
+			run = false;
+			reset = true;
+			DebugOut(L"Da set state ve die\n");
+		}*/
+
 	}
 	else
 	{
@@ -69,18 +107,22 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		this->x += min_tx * dx + nx * 0.4f;
 		this->y += min_ty * dy + ny * 0.4f;
 
-
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
 
-		if (x >= left && Getnx() < 0 && jump == false)
+		float x, y;
+		CSimon *simon = CSimon::GetInstance();
+		simon->GetPosition(x, y);
+
+		if ((x >= left && x <= right)
+			&& Getnx() < 0 && jump == false)
 			SetState(PANTHER_STATE_WALKING_LEFT);
-		else if (x >= left && Getnx() > 0 && jump == false)
+		else if ((x >= left && x <= right) && Getnx() > 0 && jump == false)
 			SetState(PANTHER_STATE_WALKING_RIGHT);
 
-		if (x < left && run == true && Getnx() < 0)
+		if ((x < left && x < right) && run == true && Getnx() < 0)
 			SetState(PANTHER_STATE_WALKING_LEFT);
-		else if (x < left && run == true && Getnx() > 0)
+		else if ((x < left && x < right) && run == true && Getnx() > 0)
 			SetState(PANTHER_STATE_WALKING_RIGHT);
 
 		if (turn == 0 && jump == true)
@@ -105,6 +147,14 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		SetState(PANTHER_STATE_JUMP_LEFT);
 	else if (jump == true && Getnx() > 0)
 		SetState(PANTHER_STATE_JUMP_RIGHT);
+	//}
+	if (reset == true)
+	{
+		Reset();
+		reset = false;
+		//DebugOut(L"Da goi reset\n");
+	}
+	//DebugOut(L"state = %d\n", state);
 }
 
 void CPanther::Render()

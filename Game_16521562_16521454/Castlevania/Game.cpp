@@ -48,7 +48,19 @@ void CGame::Init(HWND hWnd)
 
 	// Initialize sprite helper from Direct3DX helper library
 	D3DXCreateSprite(d3ddv, &spriteHandler);
-
+	//Initialize font
+	HRESULT result = D3DXCreateFont(
+		d3ddv,
+		10,
+		5,
+		FW_NORMAL,
+		1, false,
+		DEFAULT_CHARSET,
+		OUT_DEFAULT_PRECIS,
+		DEFAULT_QUALITY,
+		DEFAULT_PITCH,
+		L"Consolas - Bold",
+		&font);
 	OutputDebugString(L"[INFO] InitGame done;\n");
 }
 
@@ -61,7 +73,8 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 	int xv = (int) x - cam_x;
 	int yv = (int) y - cam_y;
 	//DebugOut(L"xv = %f, yv = %f\n", xv, yv);
-	D3DXVECTOR3 p(xv, yv, 0);
+	D3DXVECTOR3 p(xv, yv + OFFSET, 0);
+
 	RECT r; 
 	r.left = left;
 	r.top = top;

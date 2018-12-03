@@ -479,3 +479,22 @@ void CResource::LoadBossBat()
 	animations->Add(20001, ani);
 	in.close();
 }
+
+void CResource::LoadBreakingWall()
+{
+	CTextures *textures = CTextures::GetInstance();
+	textures->Add(ID_BREAKINGWALL, BREAKINGWALL_TEXTEURE_PATH, D3DCOLOR_XRGB(34, 177, 76));
+
+	CSprites *sprites = CSprites::GetInstance();
+	CAnimations *animations = CAnimations::GetInstance();
+
+	LPDIRECT3DTEXTURE9 texbullet;
+	texbullet = textures->Get(ID_BREAKINGWALL);
+
+	LPANIMATION ani;
+	ani = new CAnimation(100);
+
+	ifstream in("Data\\BreakingWall.txt");
+	CInputImage::AddAnimation(in, sprites, ani, texbullet, 1);
+	animations->Add(20000, ani);
+}

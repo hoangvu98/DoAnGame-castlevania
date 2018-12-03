@@ -8,7 +8,7 @@
 #define PANTHER_WALKING_SPEED 0.3f
 
 #define PANTHER_JUMP_SPEED_X  0.2f
-#define PANTHER_JUMP_SPEED_Y  0.05f
+#define PANTHER_JUMP_SPEED_Y  0.02f
 #define PANTHER_GRAVITY       0.002f
 
 #define PANTHER_BBOX_WIDTH 24
@@ -28,8 +28,8 @@
 #define PANTHER_ANI_JUMP_RIGHT    4
 #define PANTHER_ANI_JUMP_LEFT     5
 
-#define MOVING_AREA_WIDTH		128
-#define MOVING_AREA_HEIGHT		160
+#define MOVING_AREA_WIDTH		50
+#define MOVING_AREA_HEIGHT		100
 #define DISTANCE				67
 class CPanther : public CGameObject
 {
@@ -40,23 +40,21 @@ class CPanther : public CGameObject
 	bool jump;
 
 	bool run;
+
+	bool reset;
+
 	int turn; //0- left, 1- right
 public:
 	void InitMovingArea();
-	CPanther(){
-		AddAnimation(4000);
-		AddAnimation(4001);
-		AddAnimation(4002);
-		AddAnimation(4003);
-		AddAnimation(4004);
-		AddAnimation(4005);
-	}
+	CPanther();
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
+	void Reset();
 	virtual void Render();
 	void SetState(int state);
 	void SetJump(bool jump) { this->jump = jump; }
 	void SetTurn(int turn) { this->turn = turn; }
+	void SetTmpPosition(float tmp_x, float tmp_y) { this->temp_x = tmp_x; this->temp_y = tmp_y; }
 
 	void GetMovingArea(float &left, float &top, float &right, float &bottom);
 };

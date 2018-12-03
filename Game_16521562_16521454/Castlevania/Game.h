@@ -7,7 +7,10 @@
 #include <dinput.h>
 
 #define KEYBOARD_BUFFER_SIZE 1024
+#define VIEWPORT_WIDTH		256
+#define VIEWPORT_HEIGHT		180
 
+#define OFFSET		40.0f
 /*
 Abstract class to define keyboard event handlers
 */
@@ -32,6 +35,8 @@ class CGame
 
 	LPDIRECT3DSURFACE9 backBuffer = NULL;		
 	LPD3DXSPRITE spriteHandler = NULL;			// Sprite helper library to help us draw 2D image on the screen 
+
+	LPD3DXFONT font = NULL;
 
 	LPDIRECTINPUT8       di;		// The DirectInput object         
 	LPDIRECTINPUTDEVICE8 didv;		// The keyboard device 
@@ -71,6 +76,7 @@ public:
 	LPDIRECT3DDEVICE9 GetDirect3DDevice() { return this->d3ddv; }
 	LPDIRECT3DSURFACE9 GetBackBuffer() { return backBuffer; }
 	LPD3DXSPRITE GetSpriteHandler() { return this->spriteHandler; }
+	LPD3DXFONT GetFont() { return this->font; }
 
 	static CGame * GetInstance();
 	bool GetPause() { return pause; }
