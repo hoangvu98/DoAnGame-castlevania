@@ -24,8 +24,28 @@ class CBlackBoard
 	vector<CSprite> *simonHP;
 	vector<CSprite> *enemyHP;
 
+	long score;
+	DWORD time;
+	int stage;
+	int heart;
+	int life;
 public:
 	CBlackBoard();
+	void SetScore(long score) { this->score = score; }
+	long GetScore() { return this->score; }
+
+	void SetTime(DWORD time) { this->time = time; }
+	DWORD GetTime() { return this->time; }
+
+	void SetStage(int stage) { this->stage = stage; }
+	int GetStage() { return this->stage; }
+
+	void SetHeart(int heart) { this->heart = heart; }
+	int GetHeart() { return this->heart; }
+
+	void SetLife(int life) { this->life = life; }
+	int GetLife() { return this->life; }
+
 	void Render();
 };
 

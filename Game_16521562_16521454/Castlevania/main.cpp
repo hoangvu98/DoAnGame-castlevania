@@ -31,7 +31,7 @@ using namespace std;
 #define BBOX_TEXTURE_PATH L"bbox.png"
 #define CANDLE_TEXTURE_PATH L"castlevania_texture\\Weapon\\Candle.png"
 #define TITLE_SCREEN_PATH L"castlevania_texture\\Background\\Title Screen.png"
-#define INTRO_SCREEN_PATH L"castlevania_texture\\Background\\Intro Screen.png"
+#define INTRO_SCREEN_PATH L"castlevania_texture\\Background\\introscreen.png"
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 200)
 #define SCREEN_WIDTH 256
@@ -41,8 +41,8 @@ using namespace std;
 
 #define ID_BRICK			3
 #define ID_BAT				5
-#define ID_TITLE_SCREEN		7
-#define ID_INTRO_SCREEN		8
+#define ID_TITLE_SCREEN		15
+#define ID_INTRO_SCREEN		16
 CGame *game;
 CSimon *simon;
 CBrick *brick;
@@ -57,7 +57,7 @@ CHidenObject *hidenObject;
 CEntranceLevel *level_1;
 LPDIRECT3DTEXTURE9 texture_title;
 LPDIRECT3DTEXTURE9 texture_intro;
-int screen = 1;
+int screen = 0;
 class CSampleKeyHander : public CKeyEventHandler
 {
 	virtual void KeyState(BYTE *states);
@@ -78,7 +78,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		}
 		break;
 	case DIK_RETURN:
-		screen = 2;
+		screen += 1;
 		break;
 	case DIK_D:
 		if (simon->GetFight() == false)
@@ -425,8 +425,12 @@ void Render()
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 		switch (screen)
 		{
-		case 1:
+		case 0:
 			game->Draw(0.0f, -40.0f, texture_title, 0, 0, 258, 225);
+			break;
+		case 1:
+			blackboard->Render();
+			game->Draw(0.0f, 0.0f, texture_intro, 0, 0, 256.0f, 185.0f);
 			break;
 		case 2:
 			level_1->Render();
