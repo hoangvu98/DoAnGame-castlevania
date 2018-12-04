@@ -140,7 +140,6 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 	int xs, ys;
 	int xe, ye;
 	int i, j, k;
-	list_object->clear();
 	xs = (int)cam_x / CELL_WIDTH;
 	ys = (int)cam_y / CELL_HEIGHT;
 

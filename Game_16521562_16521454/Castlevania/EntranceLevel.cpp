@@ -70,13 +70,19 @@ void CEntranceLevel::LoadMap()
 		cells->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
-		hidenObj->SetSize(0.0f, 145.0f);
-		hidenObj->SetPosition(0, 0);
+		hidenObj->SetSize(1.0f, 145.0f);
+		hidenObj->SetPosition(1, 0);
 		cells->InitCells(hidenObj);
 
+		hidenObj = new CHidenObject();
+		hidenObj->SetSize(16.0f, 88.0f);
+		hidenObj->SetPosition(707.0f, 57.0f);
+		hidenObj->SetState(HIDENOBJECT_STATE_CASTLE_GATE);
+		cells->InitCells(hidenObj);
 
 		door = new CDoor();
 		door->SetPosition(672.0f, 105.0f);
+		door->size=30;
 		door->SetIsHiDen(true);
 		cells->InitCells(door);
 
@@ -96,16 +102,25 @@ void CEntranceLevel::LoadMap()
 
 		cells = new CCells(column, row);
 
-		for (int i = 0; i < 25; i++)
-		{
+		
 			hidenObj = new CHidenObject();
-			hidenObj->SetSize(64.0f, 15.0f);
-			hidenObj->SetPosition(i * 64.0f, 160.0f);
+			hidenObj->SetSize(1530.0f, 15.0f);
+			hidenObj->SetPosition(0.0f, 160.0f);
 			cells->InitCells(hidenObj);
-		}
+
 		hidenObj = new CHidenObject();
 		hidenObj->SetSize(147,14);
 		hidenObj->SetPosition(1386.0f, 66.0f);
+		cells->InitCells(hidenObj);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetSize(1.0f, 160.0f);
+		hidenObj->SetPosition(1.0f, 0.0f);
+		cells->InitCells(hidenObj);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetSize(1.0f, 81.0f);
+		hidenObj->SetPosition(1527.0f, 77.0f);
 		cells->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();

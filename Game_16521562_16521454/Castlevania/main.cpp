@@ -58,6 +58,7 @@ CEntranceLevel *level_1;
 LPDIRECT3DTEXTURE9 texture_title;
 LPDIRECT3DTEXTURE9 texture_intro;
 int screen = 0;
+DWORD Time_screen;
 class CSampleKeyHander : public CKeyEventHandler
 {
 	virtual void KeyState(BYTE *states);
@@ -74,11 +75,15 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	case DIK_UP:
 		if (simon->GetStair() == 1)
 		{
-			simon->SetStateAuto (1);
+			simon->SetStateAuto(1);
 		}
 		break;
 	case DIK_RETURN:
-		screen += 1;
+		if (screen == 0)
+		{
+			screen = 1;
+			Time_screen = GetTickCount();
+		}
 		break;
 	case DIK_D:
 		if (simon->GetFight() == false)
@@ -312,22 +317,22 @@ void LoadResources()
 	resource->LoadBullet();
 	resource->LoadBossBat();
 	resource->LoadBreakingWall();
+	resource->LoadCastleGate();
 	simon = CSimon::GetInstance();
 	//simon->SetPosition(2053.0f, 28.0f);
 	//simon->SetPosition(1378.0f, 34.0f);
-	//simon->SetPosition(618.4f, 129.0f);
-	simon->SetPosition(10.0f, 80.0f); 
-	//simon->SetState(SIMON_STATE_IDLE);
-
+	//simon->SetPosition(618.4f, 129.0f)
+	//simon->SetPosition(10.0f, 80.0f); 
+	simon->SetPosition(226.0f, 130.0f); 
+	simon->SetState(SIMON_STATE_WALKING_LEFT);
 
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
 	level_1 = CEntranceLevel::GetInstance();
-	level_1->SetScene(SCENE_2);
+	level_1->SetScene(SCENE_0);
 	level_1->LoadMap();
-	objects = level_1->GetUpdateObjects();
 	objects.push_back(simon);
-
+	//level_1->GetUpdateObjects(&objects);
 	blackboard = new CBlackBoard();
 
 }
@@ -356,6 +361,14 @@ void Update(DWORD dt)
 	vector<LPGAMEOBJECT> coObjects;
 	switch (screen)
 	{
+	case 1:
+		objects.clear();
+		objects.push_back(simon);
+		for (int i = 0; i < objects.size() - 1; i++)
+			coObjects.push_back(objects[i]);
+		for (int i = 0; i < objects.size(); i++)
+			objects[i]->Update(dt, &coObjects);
+		break;
 	case 2:
 		if(level_1->IsNext())
 		{ 
@@ -396,10 +409,10 @@ void Update(DWORD dt)
 			simon->Camera();
 		}
 		level_1->Update();
-		vector<LPGAMEOBJECT> coObjects;
 		objects.clear();
-		objects = level_1->GetUpdateObjects();
 		objects.push_back(simon);
+		level_1->GetUpdateObjects(&objects);
+		vector<LPGAMEOBJECT> coObjects;
 		for (int i = 0; i < objects.size() - 1; i++)
 			coObjects.push_back(objects[i]);
 		for (int i = 0; i < objects.size(); i++)
@@ -423,16 +436,37 @@ void Render()
 		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
+		DWORD now = GetTickCount();
 		switch (screen)
 		{
 		case 0:
 			game->Draw(0.0f, -40.0f, texture_title, 0, 0, 258, 225);
 			break;
 		case 1:
+			if (now - Time_screen > 3000)
+			{
+				screen = 2;
+				level_1->SetNextScene(true);
+				simon->SetStateAuto(0);
+				simon->SetCameraAuto(0);
+			}
 			blackboard->Render();
+			if (now - Time_screen < 2100)
+			{
+				simon->vx = -SIMON_WALKING_SPEED / 2;
+			}
+			else
+			{
+				simon->vx = 0;
+			}
+			simon->SetStateAuto(-1);
+			simon->SetCameraAuto(-1);
+			game->SetCamera(0, 0);
 			game->Draw(0.0f, 0.0f, texture_intro, 0, 0, 256.0f, 185.0f);
+			for (int i = 0; i < objects.size(); i++)
+				objects[i]->Render();
 			break;
-		case 2:
+		case 2:				
 			level_1->Render();
 			blackboard->Render();
 			for (int i = 0; i < objects.size(); i++)

@@ -20,7 +20,12 @@ void CMap::NextScece(float &x, float &y)
 {
 	if (IsNextScene)
 	{
-		if (scene == 2)
+		if (scene == 1)
+		{
+			x = 10.0f;
+			y = 80.0f;
+		}
+		else if (scene == 2)
 		{
 			x = 10.0f;
 			y = 127.0f;
@@ -38,15 +43,12 @@ void CMap::NextScece(float &x, float &y)
 	}
 }
 
-vector<LPGAMEOBJECT> CMap::GetUpdateObjects()
+void CMap::GetUpdateObjects(vector<LPGAMEOBJECT>* objects)
 {
 	float cam_x, cam_y;
 	CGame *game = CGame::GetInstance();
 	game->GetCamera(cam_x, cam_y);
-	vector<LPGAMEOBJECT> UpdateObjects;
-
-	cells->GetListOfObjects(&UpdateObjects, cam_x, cam_y);
-	return UpdateObjects;
+	cells->GetListOfObjects(objects, cam_x, cam_y);
 }
 
 void CMap::GetSizeOfMap(float &width, float &height)

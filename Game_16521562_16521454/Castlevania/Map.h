@@ -35,7 +35,7 @@ public:
 	bool IsNext() {return IsNextScene;}
 	bool IsFall() { return IsFallScene; }
 	void NextScece(float &x,float &y);
-	vector<LPGAMEOBJECT> GetUpdateObjects();
+	void GetUpdateObjects(vector<LPGAMEOBJECT>* object);
 	void GetSizeOfMap(float &width, float &height);
 	virtual void LoadMap();
 	virtual void Update() = 0;

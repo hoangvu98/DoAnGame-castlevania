@@ -25,6 +25,7 @@ using namespace std;
 #define STAGE_1B_MAP_DATA "Data\\TileMap1Stage1B.txt"
 #define STAGE_2B_MAP_DATA "Data\\TileMap1Stage2B.txt"
 
+#define SCENE_0		0
 #define SCENE_1		1
 #define SCENE_2		2
 #define SCENE_3		3

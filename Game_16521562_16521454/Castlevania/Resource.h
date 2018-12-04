@@ -29,7 +29,7 @@
 #define ID_BULLET	12
 #define ID_BOSS_BAT	13
 #define ID_BREAKINGWALL	14
-#define ID_CASTLEGATE	15
+#define ID_CASTLEGATE	17
 
 class CResource
 {

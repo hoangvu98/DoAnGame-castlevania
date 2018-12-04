@@ -197,16 +197,12 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	}
 	if (coEvents.size() == 0)
 	{
-		/*x += dx;
-		y += dy;*/
 	}
 	else
 	{
 		coEventsResult.clear();
 		float min_tx, min_ty, nx = 0, ny;
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-		//DebugOut(L"ny=%f\n", ny);
-
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
@@ -235,7 +231,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				if (door->GetIsHiden() == true && door->IsGo == true && door->nx == 1)
 				{
 					door->IsGo = false;
-					level1->SetNextScene(true);
+					state_auto = 5;					
+					simon_x = door->x + door->size;
 				}
 				else if (door->GetIsHiden() == false && door->IsGo ==true)
 				{
@@ -303,8 +300,9 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	else
 		CameraAuto();
 	//DebugOut(L"up=%d\ndown=%d\n", IsUp, IsDown);
-	//DebugOut(L"x=%f\n", x);
+	//DebugOut(L"x=%f\ny=%f\n", x,y);
 	//DebugOut(L"heart=%d\n", heart);
+	//DebugOut(L"vx=%f\n", vx);
 }
 
 void CSimon::Render()
@@ -567,6 +565,7 @@ void CSimon::Render()
 	else
 		animations[ani]->Render(x, y, color);
 	RenderBoundingBox(100);
+	DebugOut(L"x=%f\ny=%f\n", x, y);
 }
 
 void CSimon::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -650,7 +649,11 @@ void CSimon::SetState(int state)
 
 void CSimon::Auto()
 {
-	if (state_auto == 1)
+	if (state_auto == -1)
+	{
+		vy = 0;
+	}
+	if (state_auto == 1) // tu dong di ve phia cau thang
 	{
 		if (x > stair_x)
 		{
@@ -663,7 +666,7 @@ void CSimon::Auto()
 			SetState(SIMON_STATE_WALKING_RIGHT);
 		}
 	}
-	else if (state_auto == 2)
+	else if (state_auto == 2) //tu dong len cau thang
 	{
 		if (x <= stair_x)
 		{
@@ -685,7 +688,7 @@ void CSimon::Auto()
 			state_auto = 0;
 		}
 	}
-	else if (state_auto == 3)
+	else if (state_auto == 3) //tu dong len cau thang
 	{
 		if (x >= stair_x)
 		{
@@ -707,7 +710,7 @@ void CSimon::Auto()
 			state_auto = 0;
 		}
 	}
-	else if (state_auto == 4)
+	else if (state_auto == 4) //tu dong di qua cong hien
 	{
 		CEntranceLevel *level1 = CEntranceLevel::GetInstance();
 		float min;
@@ -722,9 +725,18 @@ void CSimon::Auto()
 			simon_x = x;
 			simon_y = y;
 		}
-
 	}
-
+	else if (state_auto == 5)//tu dong di qua cong an
+	{
+		SetState(SIMON_STATE_WALKING_RIGHT);
+		vx = SIMON_WALKING_SPEED / 2;
+		if (x > simon_x)
+		{
+			simon_x = 0;
+			CEntranceLevel *level1 = CEntranceLevel::GetInstance();
+			level1->SetNextScene(true);
+		}
+	}
 }
 
 void CSimon::Camera()
@@ -760,7 +772,7 @@ void CSimon::CameraAuto()
 	float min;
 	float max;
 	level1->GetSizeMap(min, max);
-	if (camera_auto == 1)
+	if (camera_auto == 1) //di chuyen camera theo cau thang
 	{
 		float x1;
 		if (nx > 0)
@@ -779,7 +791,7 @@ void CSimon::CameraAuto()
 			game->SetCamera(x1 - 128.0f, 0.0f);
 		camera_auto = 0;
 	}
-	else if(camera_auto == 2)
+	else if(camera_auto == 2) //di chuyen camera qua simon
 	{
 		float cx, cy;
 		game->GetCamera(cx, cy);
@@ -793,7 +805,7 @@ void CSimon::CameraAuto()
 			state_auto = 4;
 		}
 	}
-	else if (camera_auto == 3)
+	else if (camera_auto == 3)// di chuyen camera ve simon
 	{
 		float cx, cy;
 		game->GetCamera(cx, cy);
