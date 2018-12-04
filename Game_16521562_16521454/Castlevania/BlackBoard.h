@@ -4,6 +4,8 @@
 #include "GameObject.h"
 #include "TileMap.h"
 #include "Textures.h"
+#include <vector>
+using namespace std;
 
 #define BLACKBOARD_TEXTURE_PATH L"castlevania_texture\\Background\\blackboard.png"
 
@@ -19,12 +21,11 @@ class CBlackBoard
 {
 	LPDIRECT3DTEXTURE9 texblackboard;
 
-	CSprite *simonhealth;
-	CSprite *enemyhealth;
+	vector<CSprite> *simonHP;
+	vector<CSprite> *enemyHP;
 
 public:
 	CBlackBoard();
-	void Init();
 	void Render();
 };
 

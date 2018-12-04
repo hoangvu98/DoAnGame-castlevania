@@ -59,7 +59,7 @@ void CGame::Init(HWND hWnd)
 		OUT_DEFAULT_PRECIS,
 		DEFAULT_QUALITY,
 		DEFAULT_PITCH,
-		L"Consolas - Bold",
+		L"Consolas",
 		&font);
 	OutputDebugString(L"[INFO] InitGame done;\n");
 }

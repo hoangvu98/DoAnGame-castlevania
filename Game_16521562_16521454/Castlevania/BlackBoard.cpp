@@ -18,7 +18,7 @@ void CBlackBoard::Render()
 	RECT rect;
 	rect.left = 0;
 	rect.top = 0;
-	rect.right = 200;
+	rect.right = 256;
 	rect.bottom = 80;
 
 	game->Draw(cx, -40.0f, texblackboard, 0, 0, 256, 40);
@@ -31,10 +31,10 @@ void CBlackBoard::Render()
 	game->GetFont()->DrawTextW(game->GetSpriteHandler(), L"\n\nENEMY ", -1, &rect, DT_EXPANDTABS,
 		D3DCOLOR_XRGB(255, 255, 255));
 
-	game->GetFont()->DrawTextW(game->GetSpriteHandler(), L"\t\t\tTIME ", -1, &rect, DT_EXPANDTABS,
+	game->GetFont()->DrawTextW(game->GetSpriteHandler(), L"\t\tTIME ", -1, &rect, DT_EXPANDTABS,
 		D3DCOLOR_XRGB(255, 255, 255));
 
-	game->GetFont()->DrawTextW(game->GetSpriteHandler(), L"\t\t\t\t\tSTAGE ", -1, &rect, DT_EXPANDTABS,
+	game->GetFont()->DrawTextW(game->GetSpriteHandler(), L"\t\t\t\tSTAGE ", -1, &rect, DT_EXPANDTABS,
 		D3DCOLOR_XRGB(255, 255, 255));
 }
 
