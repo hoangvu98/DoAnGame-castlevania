@@ -111,8 +111,8 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (ghoul->GetHealth() <= 0)
 					{
 						ghoul->SetState(GHOUL_STATE_DISAPPEAR);
-						int points=simon->GetPoint();
-						simon->SetPoint(points + ghoul->GetPoint());
+						int points=simon->GetScore();
+						simon->SetScore(points + ghoul->GetScore());
 					}
 				}
 			}

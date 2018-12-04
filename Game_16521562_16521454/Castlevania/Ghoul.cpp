@@ -130,7 +130,7 @@ void CGhoul::Reset()
 CGhoul::CGhoul()
 {
 	health = 1;
-	point = 100;
+	score = 100;
 	damage = 1;
 	AddAnimation(10000);
 	AddAnimation(10001);

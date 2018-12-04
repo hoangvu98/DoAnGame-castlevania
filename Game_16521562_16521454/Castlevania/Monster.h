@@ -9,7 +9,7 @@ protected:
 	Chiteffect *hiteffect;
 	CItems *items;
 	int health;
-	int point;
+	int score;
 	int damage;
 public:
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
@@ -19,7 +19,7 @@ public:
 	CItems *GetItems() { return items; }
 	void SetHealth(int health) { this->health = health; }
 	int GetHealth() { return health; }
-	int GetPoint() { return point; }
+	int GetScore() { return score; }
 	int GetDamage() { return damage; }
 	CMonster();
 };

@@ -67,8 +67,9 @@ using namespace std;
 class CSimon :public CGameObject
 {
 	static CSimon *__instance;
-	int heart = 0,point=0,health=12;
+	int heart = 0,score=0,health=/*12*/16;
 	int mx;
+	int stage;
 	int previousstate=NULL;
 	int state_update;
 	CWhip *whip;
@@ -118,8 +119,15 @@ public:
 	void SetStateAuto(int state_auto) { this-> state_auto= state_auto; }
 	void SetCameraAuto(int camera_auto) { this->camera_auto = camera_auto; }
 	DWORD GetFrameUpdate(){	return FrameUpdate;}
-	int GetPoint() { return point; }
-	void SetPoint(int point) { this->point = point; }
+	int GetScore() { return score; }
+	void SetScore(int score) { this->score = score; }
+
+	int GetHeart() { return this->heart; }
+	int GetHealth() { return this->health; }
+
+	void SetStage(int stage) { this->stage = stage; }
+	int GetStage() { return this->stage; }
+
 	void Auto();
 	void Camera();
 	void CameraAuto();

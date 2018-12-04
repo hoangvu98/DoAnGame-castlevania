@@ -136,6 +136,7 @@
     <ClInclude Include="Candle.h" />
     <ClInclude Include="BreakingWall.h" />
     <ClInclude Include="Cell.h" />
+    <ClInclude Include="Heal.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="Door.h" />
@@ -165,6 +166,7 @@
     <ClCompile Include="Candle.cpp" />
     <ClCompile Include="BreakingWall.cpp" />
     <ClCompile Include="Cell.cpp" />
+    <ClCompile Include="Heal.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Door.cpp" />

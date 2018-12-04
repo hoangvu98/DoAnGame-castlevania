@@ -30,7 +30,10 @@
 #define ID_BOSS_BAT	13
 #define ID_BREAKINGWALL	14
 #define ID_CASTLEGATE	17
-
+//#define ID_TITLE_SCREEN		15
+//#define ID_INTRO_SCREEN		16
+//#define ID_HEAL			18
+//#define ID_BLACKBOARD 19
 class CResource
 {
 public:
