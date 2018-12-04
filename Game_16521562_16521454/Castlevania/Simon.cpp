@@ -455,7 +455,9 @@ void CSimon::Render()
 			else
 			{
 				DWORD now = GetTickCount();
-				if (skill == true && now - FrameWeapon < 450)
+				if (state == SIMON_STATE_BEHIND)
+					ani = SIMON_ANI_BEHIND;
+				else if (skill == true && now - FrameWeapon < 450)
 				{
 					if (nx > 0)
 						ani = SIMON_ANI_FIGHT_RIGHT;
@@ -644,7 +646,10 @@ void CSimon::SetState(int state)
 		}
 		vy = -0.15f;
 		break;
-	}
+	case SIMON_STATE_BEHIND:
+		vx = 0;
+		break;
+	}	
 }
 
 void CSimon::Auto()
@@ -848,6 +853,7 @@ CSimon::CSimon()
 	AddAnimation(804);
 	AddAnimation(901);
 	AddAnimation(902);
+	AddAnimation(1000);
 	mx = 0;
 	whip = new CWhip();
 	whip->SetState(WHITE_WHIP);

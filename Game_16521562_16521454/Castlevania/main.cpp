@@ -449,6 +449,7 @@ void Render()
 				level_1->SetNextScene(true);
 				simon->SetStateAuto(0);
 				simon->SetCameraAuto(0);
+				simon->nx = 1;
 			}
 			blackboard->Render();
 			if (now - Time_screen < 2100)
@@ -457,7 +458,7 @@ void Render()
 			}
 			else
 			{
-				simon->vx = 0;
+				simon->SetState(SIMON_STATE_BEHIND);
 			}
 			simon->SetStateAuto(-1);
 			simon->SetCameraAuto(-1);

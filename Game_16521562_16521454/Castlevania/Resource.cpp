@@ -61,6 +61,8 @@ void CResource::LoadSimon()
 	animations->Add(901, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//collusion monster right
 	animations->Add(902, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//collusion monster right
+	animations->Add(1000, ani);
 	in.close();
 }
 
@@ -263,7 +265,7 @@ void CResource::LoadBat()
 	ani = new CAnimation(100);
 	CInputImage::AddAnimation(in, sprites, ani, texbat, 1);
 	animations->Add(12000, ani);
-	ani = new CAnimation(1000);
+	ani = new CAnimation(100);
 	CInputImage::AddAnimation(in, sprites, ani, texbat, 3);
 	animations->Add(12001, ani);
 	ani = new CAnimation(100);
