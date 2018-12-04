@@ -408,10 +408,10 @@ void CEntranceLevel::LoadMap()
 		row = (int)height / CELL_HEIGHT + 1;
 
 		cells = new CCells(column, row);
-		/*brick = new CBrick();
+		brick = new CBrick(1792.0f, 127.0f);
 		brick->SetState(BRICK_STATE_FULL);
-		brick->SetPosition(1792.0f, 128.0f);
-		cells->InitCells(brick);*/
+		/*brick->SetPosition(1792.0f, 128.0f);*/
+		cells->InitCells(brick);
 
 		/*bat = new CBat();
 		bat->SetState(BAT_STATE_INVISIBLE);
@@ -419,6 +419,31 @@ void CEntranceLevel::LoadMap()
 		bat->Setnx(-1);
 		bat->InitMovingArea();
 		cells->InitCells(bat);*/
+
+		//hidenobject brick
+		hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
+		hidenObj->SetPosition(1792.0f, 79.0f);
+		hidenObj->SetSize(33.0f, 32.0f);
+		cells->InitCells(hidenObj);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
+		hidenObj->SetPosition(1824.0f, 79.0f);
+		hidenObj->SetSize(33.0f, 80.0f);
+		cells->InitCells(hidenObj);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
+		hidenObj->SetPosition(1792.0f, 110.0f);
+		hidenObj->SetSize(17.0f, 16.0f);
+		cells->InitCells(hidenObj);
+		
+		hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
+		hidenObj->SetPosition(1808.0f, 110.0f);
+		hidenObj->SetSize(17.0f, 49.0f);
+		cells->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
