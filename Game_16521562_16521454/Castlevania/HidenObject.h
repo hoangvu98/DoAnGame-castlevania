@@ -5,6 +5,8 @@
 #define HIDENOBJECT_STATE_STAIR_DOWN 2
 #define HIDENOBJECT_STATE_JUMP		 3
 #define HIDENOBJECT_STATE_DOOR		 4
+#define HIDENOBJECT_STATE_CASTLE_GATE		5
+
 class CHidenObject :
 	public CGameObject
 {
@@ -20,5 +22,6 @@ public:
 	float GetStair_X() { return stair_x; }
 	void Render();
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
+	CHidenObject();
 };
 

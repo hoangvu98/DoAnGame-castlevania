@@ -8,7 +8,6 @@ class CMonster : public CGameObject
 protected:
 	Chiteffect *hiteffect;
 	CItems *items;
-	int Time;
 	int health;
 	int point;
 	int damage;

@@ -351,10 +351,10 @@ void CEntranceLevel::LoadMap()
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
 
-	/*	ghoul = new CGhoul();
+		ghoul = new CGhoul();
 		ghoul->SetPosition(250.0f, 127.0f);
-		ghoul->SetState(GHOUL_STATE_RIGHT);
-		cells->InitCells(ghoul);*/
+		ghoul->SetState(GHOUL_STATE_LEFT);
+		cells->InitCells(ghoul);
 
 		for (int i = 0; i < 3; i++)
 		{

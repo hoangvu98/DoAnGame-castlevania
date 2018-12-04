@@ -498,3 +498,21 @@ void CResource::LoadBreakingWall()
 	CInputImage::AddAnimation(in, sprites, ani, texbullet, 1);
 	animations->Add(20000, ani);
 }
+void CResource::LoadCastleGate()
+{
+	CTextures *textures = CTextures::GetInstance();
+	textures->Add(ID_CASTLEGATE, CASTLEGATE_TEXTEURE_PATH, D3DCOLOR_XRGB(0, 0, 0));
+
+	CSprites *sprites = CSprites::GetInstance();
+	CAnimations *animations = CAnimations::GetInstance();
+
+	LPDIRECT3DTEXTURE9 texbullet;
+	texbullet = textures->Get(ID_CASTLEGATE);
+
+	LPANIMATION ani;
+	ani = new CAnimation(100);
+
+	ifstream in("Data\\Castle_Gate.txt");
+	CInputImage::AddAnimation(in, sprites, ani, texbullet, 1);
+	animations->Add(20001, ani);
+}

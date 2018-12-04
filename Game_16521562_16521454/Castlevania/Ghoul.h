@@ -18,10 +18,13 @@ using namespace std;
 
 class CGhoul : public CMonster
 {
+	float min, max;
 public:
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render();
 	virtual void SetState(int state);
+	void SetLimit(float min, float max) { this->min = min; this->max = max; }
+	void Reset();
 	CGhoul();
 };

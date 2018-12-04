@@ -27,6 +27,10 @@ void CHidenObject::Render()
 	{
 		RenderBoundingBox(200);
 	}
+	else if (state == HIDENOBJECT_STATE_CASTLE_GATE)
+	{
+		animations[0]->Render(x, y);
+	}
 }
 
 void CHidenObject::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -35,4 +39,9 @@ void CHidenObject::GetBoundingBox(float & left, float & top, float & right, floa
 	top = y;
 	right = x + width;
 	bottom = y + height;
+}
+
+CHidenObject::CHidenObject()
+{
+	AddAnimation(0);
 }

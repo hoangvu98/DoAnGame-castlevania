@@ -13,6 +13,7 @@
 #define BULLET_TEXTURE_PATH L"castlevania_texture\\Weapon\\Bullet.png"
 #define BOSS_BAT_TEXTURE_PATH L"castlevania_texture\\Enemy\\BossBat.png"
 #define BREAKINGWALL_TEXTEURE_PATH L"castlevania_texture\\Weapon\\BreakingWall.png"
+#define CASTLEGATE_TEXTEURE_PATH L"castlevania_texture\\Background\\Castle_Gate.png"
 
 #define ID_HITEFFECT 10
 #define ID_CANDLE	1
@@ -28,6 +29,7 @@
 #define ID_BULLET	12
 #define ID_BOSS_BAT	13
 #define ID_BREAKINGWALL	14
+#define ID_CASTLEGATE	15
 
 class CResource
 {
@@ -53,4 +55,5 @@ public:
 	void LoadBullet();
 	void LoadBossBat();
 	void LoadBreakingWall();
+	void LoadCastleGate();
 };
