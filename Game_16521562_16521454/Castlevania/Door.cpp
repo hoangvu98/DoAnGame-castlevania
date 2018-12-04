@@ -22,7 +22,7 @@ void CDoor::Render()
 				animations[DOOR_ANI_OPEN_2]->Render(x, y);
 		}
 	}
-		RenderBoundingBox(200);
+	//RenderBoundingBox(200);
 }
 
 CDoor::CDoor()

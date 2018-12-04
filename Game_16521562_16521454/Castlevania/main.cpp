@@ -572,6 +572,7 @@ int Run()
 				game->SetPause(true);
 			}
 			Render();
+			DebugOut(L"pause=%d\n",game->GetPause());
 		}
 		else
 			Sleep(tickPerFrame - dt);

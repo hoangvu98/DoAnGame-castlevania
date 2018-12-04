@@ -14,11 +14,6 @@ CSimon *CSimon::__instance = NULL;
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
 	CGameObject::Update(dt);
-	/*if (jump == 1 && vy > 0)
-	{
-		jump = 2;
-		y -= 7;
-	}*/
 	if(IsUp!=2)
 		IsUp = 0;
 	if (IsDown != 2)
@@ -44,10 +39,10 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	{
 		whip->SetPosition(x, y);
 		DWORD t = GetTickCount() - whip->GetFrameWhip();
-		if (t >= 300)
+		if (t >= 2* FRAME_TIME_WHIP)
 		{
 			whip->fight = true;
-			if (t >= 450)
+			if (t >= 3* FRAME_TIME_WHIP)
 			{
 				fight = false;
 				whip->fight = false;
@@ -86,23 +81,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				if (stair == 2 && IsUp != 2)
 					IsUp = 1;
 			}
-			/*else if (hidenobject->GetState() == HIDENOBJECT_STATE_NORMAL)
-			{
-				float h_x, h_y, size_x, size_y;
-				hidenobject->GetPosition(h_x, h_y);
-				hidenobject->GetSize(size_x, size_y);
-				float a, b;
-				a = x - h_x;
-				if (a < 0)
-					a = -a;
-				b = x - (h_x+size_x);
-				if (b < 0)
-					b = -b;
-				if (a < 5)
-					x = h_x - 15.0f;
-				if(b<5)
-					x = h_x + size_x;
-			}*/
 		}
 		else if (dynamic_cast<CDoor *>(e->obj))
 		{
@@ -136,8 +114,19 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		}
 		else if (dynamic_cast<CMoneyBag *>(e->obj))
 		{
-			CItems *items = dynamic_cast<CMoneyBag *>(e->obj);
-			items->SetState(ITEM_STATE_DELETE);
+			CMoneyBag *moneybag = dynamic_cast<CMoneyBag *>(e->obj);
+			if (moneybag->GetSize() == MONEY_BAG_BIG)
+				score += 1000;
+			else
+			{
+				if (state == MONEY_BAG_RED)
+					score += 100;
+				else if (state == MONEY_BAG_BLUE)
+					score += 400;
+				else if (state == MONEY_BAG_WHITE)
+					score += 700;
+			}
+			moneybag->SetState(ITEM_STATE_DELETE);
 		}
 		else if (dynamic_cast<CDagger *>(e->obj))
 		{
@@ -166,6 +155,14 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			CItems *items = dynamic_cast<CHollyWater *>(e->obj);
 			weapon = new CHollyWater();
 			items->SetState(ITEM_STATE_DELETE);
+		}
+		else if (dynamic_cast<CWhipUpdate *> (e->obj))
+		{
+			CItems *items = dynamic_cast<CWhipUpdate *>(e->obj);
+			state_update = state;
+			SetState(SIMON_STATE_UPDATE);
+			items->SetState(ITEM_STATE_DELETE);
+			FrameUpdate = GetTickCount();
 		}
 	}
 	for (UINT i = 0; i < coEvents.size(); i++)
@@ -308,6 +305,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 void CSimon::Render()
 {
 	int ani;
+	bool IsRenDer=false;
 	if (collusion != 1)
 	{
 		if (collusion == 0)
@@ -436,7 +434,7 @@ void CSimon::Render()
 		{
 			if (state == SIMON_STATE_UPDATE)
 			{
-
+				IsRenDer = true;
 				if (state_update == SIMON_STATE_WALKING_LEFT)
 					ani = SIMON_ANI_WALKING_LEFT;
 				else
@@ -554,20 +552,22 @@ void CSimon::Render()
 
 		}
 	}
-	DWORD t = GetTickCount() - whip->GetFrameWhip();
-	if (fight == true)
+	if (!IsRenDer)
 	{
-		if (t <= 150 && nx > 0)
-			animations[ani]->Render(x - 7, y, color);
-		else if (t >= 300 && nx < 0)
-			animations[ani]->Render(x - 6, y, color);
+		DWORD t = GetTickCount() - whip->GetFrameWhip();
+		if (fight == true)
+		{
+			if (t <= 150 && nx > 0)
+				animations[ani]->Render(x - 7, y, color);
+			else if (t >= 300 && nx < 0)
+				animations[ani]->Render(x - 6, y, color);
+			else
+				animations[ani]->Render(x, y, color);
+		}
 		else
 			animations[ani]->Render(x, y, color);
 	}
-	else
-		animations[ani]->Render(x, y, color);
-	RenderBoundingBox(100);
-	DebugOut(L"x=%f\ny=%f\n", x, y);
+	//RenderBoundingBox(100);
 }
 
 void CSimon::GetBoundingBox(float & left, float & top, float & right, float & bottom)

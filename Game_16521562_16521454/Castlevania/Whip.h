@@ -26,6 +26,7 @@ using namespace std;
 #define SHORT_WHIP 0
 #define LONG_WHIP 1
 
+#define FRAME_TIME_WHIP 150
 class CWhip :
 	public CGameObject
 {

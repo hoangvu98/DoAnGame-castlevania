@@ -25,13 +25,13 @@ void CResource::LoadSimon()
 	animations->Add(301, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//jump right
 	animations->Add(302, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //fight left
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, FRAME_TIME_WHIP); //fight left
 	animations->Add(401, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //fight right
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, FRAME_TIME_WHIP); //fight right
 	animations->Add(402, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150);//knee fight left
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, FRAME_TIME_WHIP);//knee fight left
 	animations->Add(501, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //knee fight right
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, FRAME_TIME_WHIP); //knee fight right
 	animations->Add(502, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texsimon, 2, TIME_STAIR/2); //stair walk up left
 	animations->Add(601, ani);
@@ -49,13 +49,13 @@ void CResource::LoadSimon()
 	animations->Add(703, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //stair down right
 	animations->Add(704, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //stair fight up left
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, FRAME_TIME_WHIP); //stair fight up left
 	animations->Add(801, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //stair fight up right
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, FRAME_TIME_WHIP); //stair fight up right
 	animations->Add(802, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //stair fight down left
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, FRAME_TIME_WHIP); //stair fight down left
 	animations->Add(803, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, 150); //stair fight down right
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, FRAME_TIME_WHIP); //stair fight down right
 	animations->Add(804, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //collusion monster left 
 	animations->Add(901, ani);
@@ -76,25 +76,20 @@ void CResource::LoadWhip()
 	ifstream in("Data\\Whip.txt");
 	LPANIMATION ani;
 	LPDIRECT3DTEXTURE9 texwhip = texture->Get(ID_WHIP);
-	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 150);
+	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, FRAME_TIME_WHIP);
 	animations->Add(2000, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 150);
+	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, FRAME_TIME_WHIP);
 	animations->Add(2001, ani);
 
-	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 150);
+	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, FRAME_TIME_WHIP);
 	animations->Add(2002, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 150);
+	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, FRAME_TIME_WHIP);
 	animations->Add(2003, ani);
 
-	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 150);
+	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, FRAME_TIME_WHIP);
 	animations->Add(2004, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 150);
+	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, FRAME_TIME_WHIP);
 	animations->Add(2005, ani);
-
-	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 150);
-	animations->Add(2006, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, 150);
-	animations->Add(2007, ani);
 	in.close();
 }
 

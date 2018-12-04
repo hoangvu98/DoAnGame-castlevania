@@ -9,7 +9,7 @@
 #define ITEM_STATE_ITEM 0
 #define ITEM_STATE_WEAPON_RIGHT 1
 #define ITEM_STATE_WEAPON_LEFT 2
-#define ITEM_STATE_DELETE 3
+#define ITEM_STATE_DELETE 100
 class CItems :
 	public CGameObject
 {
@@ -93,6 +93,7 @@ public:
 
 #define MONEY_BAG_BBOX_WIDTH 13
 #define MONEY_BAG_BBOX_HEIGHT 14
+
 #define MONEY_BAG_SMALL 0
 #define MONEY_BAG_BIG 1
 
@@ -107,6 +108,7 @@ public:
 	CMoneyBag(int size, int state);
 	void Render();
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
+	int GetSize() { return size; }
 };
 
 #define AXE_BBOX_WIDTH 15

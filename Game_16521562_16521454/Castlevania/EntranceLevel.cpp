@@ -39,27 +39,27 @@ void CEntranceLevel::LoadMap()
 
 		cells = new CCells(column, row);
 
-		candle = new CCandle(BIG_CANDLE, DAGGER);
+		candle = new CCandle(BIG_CANDLE, HEART);
 		candle->SetPosition(85.0f, 111.0f);
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
 
-		candle = new CCandle(BIG_CANDLE, HEART_SMALL);
+		candle = new CCandle(BIG_CANDLE, WHIP_UPDATE);
 		candle->SetPosition(222.0f, 111.0f);
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
 
-		candle = new CCandle(BIG_CANDLE,MONEY_BAG);
+		candle = new CCandle(BIG_CANDLE, WHIP_UPDATE);
 		candle->SetPosition(343.0f, 111.0f);
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
 
-		candle = new CCandle(BIG_CANDLE,AXE);
+		candle = new CCandle(BIG_CANDLE, HEART);
 		candle->SetPosition(475.0f, 111.0f);
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
 
-		candle = new CCandle(BIG_CANDLE, /*DAGGER*/BOOMERANG);
+		candle = new CCandle(BIG_CANDLE, DAGGER);
 		candle->SetPosition(600.0f, 111.0f);
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);

@@ -51,8 +51,7 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (cx + VIEWPORT_WIDTH < left || cx > right)/*&& right > cx + VIEWPORT_WIDTH) */
 		/*(left < cx && */ /*&& reset == false*/ //View port ko dung moving area
 		reset = true;
-	DebugOut(L"right = %f, cx = %f\n");
-	DebugOut(L"left = %f, cx = %f\n");
+
 	/*if (state != PANTHER_STATE_DIE)
 	{*/
 	CGameObject::Update(dt);

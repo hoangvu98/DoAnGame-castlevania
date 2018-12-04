@@ -30,7 +30,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	DWORD t = GetTickCount() - FrameWhip;
-	if (t <= 150)
+	if (t <= FRAME_TIME_WHIP)
 	{
 		if (size == SHORT_WHIP)
 		{
@@ -47,7 +47,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				SetPosition(x + 21, y + 8);
 		}
 	}
-	else if (t > 150 && t <= 300)
+	else if (t > FRAME_TIME_WHIP && t <= FRAME_TIME_WHIP*2)
 	{
 
 		if (size == SHORT_WHIP)
@@ -65,7 +65,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				SetPosition(x + 14, y + 6);
 		}
 	}
-	else if (t >= 300 && t <= 450)
+	else if (t >= 2* FRAME_TIME_WHIP && t <= FRAME_TIME_WHIP*3)
 	{
 
 		if (size == SHORT_WHIP)
@@ -134,7 +134,7 @@ void CWhip::Render()
 {
 	int ani = 2 * state + state_whip;
 	DWORD t = GetTickCount() - FrameWhip;
-	if(t<=450)
+	if(t<=3* FRAME_TIME_WHIP)
 		animations[ani]->Render(x, y, 255);
 }
 
@@ -158,11 +158,6 @@ void CWhip::GetBoundingBox(float & left, float & top, float & right, float & bot
 		right = x + YELLOW_WHIP_BBOX_WIDTH;
 		bottom = y + YELLOW_WHIP_BBOX_HEIGHT;
 	}
-	/*else if (state == RED_WHIP)
-	{
-		right = x + RED_WHIP_BBOX_WIDTH;
-		bottom = y + RED_WHIP_BBOX_HEIGHT;
-	}*/
 }
 
 void CWhip::SetState(int state)
