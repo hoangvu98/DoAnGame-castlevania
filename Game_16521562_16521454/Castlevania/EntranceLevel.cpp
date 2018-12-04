@@ -23,7 +23,7 @@ void CEntranceLevel::LoadMap()
 	switch (scene)
 	{
 	case SCENE_1:
-		
+		simon->SetStage(1);
 		textures->Add(ID_MAP_LEVEL_1, LEVEL_1_STAGE1A_PATH, D3DCOLOR_XRGB(255, 255, 255));
 		texture_map = textures->Get(ID_MAP_LEVEL_1);
 		tilemap->LoadTileMap(STAGE_1A_MAP_DATA, texture_map);
@@ -213,7 +213,7 @@ void CEntranceLevel::LoadMap()
 
 		hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_JUMP);
-		hidenObj->SetPosition(921.0f, 94.0f);
+		hidenObj->SetPosition(909.0f, 94.0f);
 		hidenObj->SetSize(5.0f, 7.0f);
 		cells->InitCells(hidenObj);
 
@@ -260,11 +260,11 @@ void CEntranceLevel::LoadMap()
 		hidenObj->SetSize(32.0f, 15.0f);
 		cells->InitCells(hidenObj);
 
-		panther = new CPanther();
+		/*panther = new CPanther();
 
 		
 
-		/*panther->SetState(PANTHER_STATE_IDLE);
+		panther->SetState(PANTHER_STATE_IDLE);
 		panther->Setnx(-1);
 		panther->SetTurn(0);
 		panther->SetPosition(690.0f, 79.0f);
@@ -276,8 +276,8 @@ void CEntranceLevel::LoadMap()
 		/*panther = new CPanther();
 		panther->Setnx(-1);
 		panther->SetState(PANTHER_STATE_IDLE);
-		panther->SetPosition(882.0f, 48.0f);
-		panther->SetTmpPosition(882.0f, 48.0f);
+		panther->SetPosition(870.0f, 46.0f);
+		panther->SetTmpPosition(870.0f, 46.0f);
 		panther->SetTurn(0);
 		panther->SetJump(false);
 		panther->InitMovingArea();
@@ -292,6 +292,7 @@ void CEntranceLevel::LoadMap()
 		panther->SetJump(false);
 		panther->InitMovingArea();
 		cells->InitCells(panther);*/
+
 		for (int i = 0; i < 5; i++)
 		{
 			candle = new CCandle(SMALL_CANDLE);
@@ -395,6 +396,7 @@ void CEntranceLevel::LoadMap()
 		}
 		break;
 	case SCENE_3:
+		simon->SetStage(2);
 		textures->Add(ID_MAP_LEVEL_1, LEVEL_1_STAGE1B_PATH, D3DCOLOR_XRGB(255, 255, 255));
 		texture_map = textures->Get(ID_MAP_LEVEL_1);
 		//tilemap = new CTileMap();
@@ -591,6 +593,7 @@ void CEntranceLevel::LoadMap()
 		break;
 
 	case SCENE_4:
+		
 		textures->Add(ID_MAP_LEVEL_1, LEVEL_1_STAGE2B_PATH, D3DCOLOR_XRGB(255, 255, 255));
 		texture_map = textures->Get(ID_MAP_LEVEL_1);
 
@@ -705,6 +708,7 @@ void CEntranceLevel::LoadMap()
 
 		break;
 	case SCENE_5:
+		simon->SetStage(3);
 		textures->Add(ID_MAP_LEVEL_1, LEVEL_1_STAGE1B_PATH, D3DCOLOR_XRGB(255, 255, 255));
 		texture_map = textures->Get(ID_MAP_LEVEL_1);
 		//tilemap = new CTileMap();

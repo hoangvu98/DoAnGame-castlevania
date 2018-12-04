@@ -8,8 +8,8 @@ void CPanther::InitMovingArea()
 	temp_y = y;*/
 	left = x - DISTANCE;
 	top = y;
-	right = left + MOVING_AREA_WIDTH;
-	bottom = top + MOVING_AREA_HEIGHT;
+	right = x + MOVING_AREA_WIDTH;
+	bottom = y + MOVING_AREA_HEIGHT;
 }
 
 CPanther::CPanther()
@@ -37,23 +37,21 @@ void CPanther::Reset()
 
 	SetState(PANTHER_STATE_IDLE);
 	SetPosition(temp_x, temp_y);
-	Setnx(-nx);
+	Setnx(-simon->Getnx());
 	SetTurn(0);
 	SetJump(false);
+	run = false;
 	InitMovingArea();
 }
 
 void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	float cx, cy;
-	CGame *game = CGame::GetInstance();
-	game->GetCamera(cx, cy);
-	if (cx + VIEWPORT_WIDTH < left || cx > right)/*&& right > cx + VIEWPORT_WIDTH) */
-		/*(left < cx && */ /*&& reset == false*/ //View port ko dung moving area
-		reset = true;
+	float x, y;
+	CSimon *simon = CSimon::GetInstance();
+	simon->GetPosition(x, y);
 
-	/*if (state != PANTHER_STATE_DIE)
-	{*/
+	if ((x <= left - DISTANCE && x < right) || (x >= right + DISTANCE))
+		reset = true;
 	CGameObject::Update(dt);
 	vy += PANTHER_GRAVITY * dt;
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -109,19 +107,23 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
 
-		float x, y;
-		CSimon *simon = CSimon::GetInstance();
-		simon->GetPosition(x, y);
+
 
 		if ((x >= left && x <= right)
 			&& Getnx() < 0 && jump == false)
+		{
 			SetState(PANTHER_STATE_WALKING_LEFT);
+			reset = false;
+		}
 		else if ((x >= left && x <= right) && Getnx() > 0 && jump == false)
+		{
 			SetState(PANTHER_STATE_WALKING_RIGHT);
+			reset = false;
+		}
 
-		if ((x < left && x < right) && run == true && Getnx() < 0)
+		if ((x < left || x > right) && run == true && Getnx() < 0)
 			SetState(PANTHER_STATE_WALKING_LEFT);
-		else if ((x < left && x < right) && run == true && Getnx() > 0)
+		else if ((x < left || x > right) && run == true && Getnx() > 0)
 			SetState(PANTHER_STATE_WALKING_RIGHT);
 
 		if (turn == 0 && jump == true)
@@ -151,7 +153,7 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		Reset();
 		reset = false;
-		//DebugOut(L"Da goi reset\n");
+		DebugOut(L"Da goi reset\n");
 	}
 	//DebugOut(L"state = %d\n", state);
 }
