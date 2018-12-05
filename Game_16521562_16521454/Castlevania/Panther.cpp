@@ -7,8 +7,6 @@ DWORD Time_Panther_Rest = GetTickCount();
 
 void CPanther::InitMovingArea()
 {
-	/*temp_x = x;
-	temp_y = y;*/
 	left = x - DISTANCE;
 	top = y;
 	right = x + MOVING_AREA_WIDTH;
@@ -92,7 +90,7 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			else if (dynamic_cast<CCandle *> (coEvents[i]->obj))
 				coEvents.erase(coEvents.begin() + i);
 		}
-
+		bool test=true;
 		if (coEvents.size() == 0)
 		{
 			if (turn == 1)
@@ -101,8 +99,6 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				turn = 0;
 			}
 			jump = false;
-			this->x += dx;
-			this->y += dy;
 
 			/*if ((this->x < cx || this->x > cx + VIEWPORT_WIDTH) && run == true)
 			{
@@ -119,8 +115,7 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
-			this->x += min_tx * dx + nx * 0.4f;
-			this->y += min_ty * dy + ny * 0.4f;
+			
 
 			if (nx != 0) vx = 0;
 			if (ny != 0) vy = 0;
@@ -156,11 +151,21 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					{
 						jump = true;
 						run = true;
-						this->x += dx;
-						this->y += dy;
+						
 					}
-				}
+					else if (hobj->GetState() == HIDENOBJECT_STATE_NORMAL)
+					{
+						this->x += min_tx * dx + nx * 0.4f;
+						this->y += min_ty * dy + ny * 0.4f;
+						test = false;
+					}
+				}		
 			}
+		}
+		if (test)
+		{
+			this->x += dx;
+			this->y += dy;
 		}
 		if (jump == true && Getnx() < 0)
 			SetState(PANTHER_STATE_JUMP_LEFT);
