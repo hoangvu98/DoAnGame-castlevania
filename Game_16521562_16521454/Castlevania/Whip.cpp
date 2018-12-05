@@ -132,8 +132,10 @@ void CWhip::Render()
 {
 	int ani = 2 * state + state_whip;
 	DWORD t = GetTickCount() - FrameWhip;
-	if(t<=3* FRAME_TIME_WHIP)
+	if (t <= 3 * FRAME_TIME_WHIP)
 		animations[ani]->Render(x, y, 255);
+	else
+		animations[ani]->SetCureentFrame(2);
 }
 
 

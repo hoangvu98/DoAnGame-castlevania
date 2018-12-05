@@ -38,6 +38,7 @@ void CBossBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		CGameObject::Update(dt);
 		CSimon* simon = CSimon::GetInstance();
 		level1->GetSizeMap(min, max);
+		min = 2576.0f;
 		if (test == true)
 		{
 			test = false;
