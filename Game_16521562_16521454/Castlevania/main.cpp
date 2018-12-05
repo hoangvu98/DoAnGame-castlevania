@@ -314,9 +314,9 @@ void LoadResources()
 	resource->LoadCastleGate();
 	simon = CSimon::GetInstance();
 	//simon->SetPosition(2053.0f, 28.0f);
-	simon->SetPosition(1378.0f, 34.0f);
+	//simon->SetPosition(1378.0f, 34.0f);
 	//simon->SetPosition(618.4f, 129.0f)
-	//simon->SetPosition(10.0f, 80.0f); 
+	simon->SetPosition(10.0f, 80.0f); 
 	//simon->SetPosition(226.0f, 130.0f); 
 	simon->SetState(SIMON_STATE_WALKING_LEFT);
 

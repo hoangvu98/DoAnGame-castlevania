@@ -17,6 +17,9 @@ using namespace std;
 class CGhoul : public CMonster
 {
 	float min, max;
+	DWORD Time_HitEffect;
+	DWORD Time_Reset;
+	bool reset;
 public:
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);

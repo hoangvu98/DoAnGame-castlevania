@@ -3,9 +3,7 @@
 #include "debug.h"
 #include "Simon.h"
 #include "Game.h"
-bool reset;
-DWORD Time_HitEffect = GetTickCount();
-DWORD Time_Rest = GetTickCount();
+DWORD Time_Reset_Ghoul;
 void CGhoul::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
 	left = x;
@@ -25,12 +23,16 @@ void CGhoul::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (state == MONSTER_STATE_DELETE && reset == true)
 	{
 		reset = false;
-		Time_Rest = GetTickCount();
+		Time_Reset = GetTickCount();
+		Time_Reset_Ghoul= GetTickCount();
 	}
 	if (state == MONSTER_STATE_DELETE)
-		if (now - Time_Rest > 2000)
+		if(now- Time_Reset_Ghoul>200)
+		if (now - Time_Reset > 2000)
 		{
 			Reset();
+			reset = true;
+			Time_Reset_Ghoul = GetTickCount();
 		}
 	if (state == GHOUL_STATE_LEFT || state == GHOUL_STATE_RIGHT)
 	{
@@ -85,7 +87,7 @@ void CGhoul::SetState(int state)
 		nx = 1;
 		break;
 	case MONSTER_STATE_DISAPPEAR:
-		Time_Rest = GetTickCount();
+		Time_Reset = GetTickCount();
 		break;
 	}
 }

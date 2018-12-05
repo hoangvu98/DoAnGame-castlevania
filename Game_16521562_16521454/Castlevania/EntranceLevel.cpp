@@ -27,8 +27,8 @@ void CEntranceLevel::LoadMap()
 		textures->Add(ID_MAP_LEVEL_1, LEVEL_1_STAGE1A_PATH, D3DCOLOR_XRGB(255, 255, 255));
 		texture_map = textures->Get(ID_MAP_LEVEL_1);
 		tilemap->LoadTileMap(STAGE_1A_MAP_DATA, texture_map);
-		
-	
+
+
 		int column, row;
 
 		float width, height;
@@ -82,7 +82,7 @@ void CEntranceLevel::LoadMap()
 
 		door = new CDoor();
 		door->SetPosition(672.0f, 105.0f);
-		door->size=30;
+		door->size = 30;
 		door->SetIsHiDen(true);
 		door->SetScene(2);
 		cells->InitCells(door);
@@ -103,14 +103,13 @@ void CEntranceLevel::LoadMap()
 
 		cells = new CCells(column, row);
 
-		
-			hidenObj = new CHidenObject();
-			hidenObj->SetSize(1530.0f, 15.0f);
-			hidenObj->SetPosition(0.0f, 160.0f);
-			cells->InitCells(hidenObj);
+		hidenObj = new CHidenObject();
+		hidenObj->SetSize(1530.0f, 15.0f);
+		hidenObj->SetPosition(0.0f, 160.0f);
+		cells->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
-		hidenObj->SetSize(147,14);
+		hidenObj->SetSize(147, 14);
 		hidenObj->SetPosition(1386.0f, 66.0f);
 		cells->InitCells(hidenObj);
 
@@ -263,7 +262,7 @@ void CEntranceLevel::LoadMap()
 
 		/*panther = new CPanther();
 
-		
+
 
 		panther->SetState(PANTHER_STATE_IDLE);
 		panther->Setnx(-1);
@@ -372,7 +371,15 @@ void CEntranceLevel::LoadMap()
 		ghoul->SetPosition(250.0f, 127.0f);
 		ghoul->SetState(GHOUL_STATE_LEFT);
 		cells->InitCells(ghoul);
+		ghoul = new CGhoul();
 
+		ghoul->SetPosition(270.0f, 127.0f);
+		ghoul->SetState(GHOUL_STATE_LEFT);
+		cells->InitCells(ghoul); 
+		ghoul = new CGhoul();
+		ghoul->SetPosition(290.0f, 127.0f);
+		ghoul->SetState(GHOUL_STATE_LEFT);
+		cells->InitCells(ghoul);
 		for (int i = 0; i < 3; i++)
 		{
 			hidenObj = new CHidenObject();
@@ -459,7 +466,7 @@ void CEntranceLevel::LoadMap()
 		hidenObj->SetPosition(1792.0f, 110.0f);
 		hidenObj->SetSize(17.0f, 16.0f);
 		cells->InitCells(hidenObj);
-		
+
 		hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
 		hidenObj->SetPosition(1808.0f, 110.0f);
@@ -652,7 +659,7 @@ void CEntranceLevel::LoadMap()
 
 		hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
-		hidenObj->SetPosition(1695.0f,80.0f);
+		hidenObj->SetPosition(1695.0f, 80.0f);
 		hidenObj->SetStair_X(1711.0f);
 		hidenObj->SetSize(24.0f, 16.0f);
 		hidenObj->nx = 1;
@@ -692,7 +699,7 @@ void CEntranceLevel::LoadMap()
 		break;
 
 	case SCENE_4:
-		
+
 		textures->Add(ID_MAP_LEVEL_1, LEVEL_1_STAGE2B_PATH, D3DCOLOR_XRGB(255, 255, 255));
 		texture_map = textures->Get(ID_MAP_LEVEL_1);
 
@@ -713,7 +720,7 @@ void CEntranceLevel::LoadMap()
 		door = new CDoor();
 		door->SetState(DOOR_STATE_CLOSE);
 		door->SetPosition(42.0f, 0.0f);
-		door->cx=  1583.0f;
+		door->cx = 1583.0f;
 		door->cy = 137.0f;
 		door->SetIsHiDen(true);
 		door->IsGo = true;
@@ -889,7 +896,7 @@ void CEntranceLevel::LoadMap()
 
 		hidenObj = new CHidenObject();
 		hidenObj->SetPosition(2177.0f, 97.0f);
-		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL); 
+		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
 		hidenObj->SetSize(176.0f, 15.0f);
 		cells->InitCells(hidenObj);
 
@@ -937,7 +944,7 @@ void CEntranceLevel::LoadMap()
 		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_UP);
 		cells->InitCells(hidenObj);
 
-		
+
 		hidenObj = new CHidenObject();
 		hidenObj->SetPosition(2727.0f, 117.0f);
 		hidenObj->SetSize(25.0f, 13.0f);
@@ -991,7 +998,7 @@ void CEntranceLevel::GetSizeMap(float &min, float &max)
 		min = MIN_MAP_1;
 		max = MAX_MAP_1;
 	}
-	else if(scene == SCENE_2)
+	else if (scene == SCENE_2)
 	{
 		min = MIN_MAP_2;
 		max = MAX_MAP_2;
@@ -1006,7 +1013,7 @@ void CEntranceLevel::GetSizeMap(float &min, float &max)
 		min = MIN_MAP_4;
 		max = MAX_MAP_4;
 	}
-	else if(scene == SCENE_5)
+	else if (scene == SCENE_5)
 	{
 		min = MIN_MAP_5;
 		max = MAX_MAP_5;
