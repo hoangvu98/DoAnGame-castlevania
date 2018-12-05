@@ -3,6 +3,8 @@
 #include <string>
 #include <string.h>
 #include "Simon.h"
+#include "BossBat.h"
+
 void CBlackBoard::ConversionToString(long number, wstring strFormat, wstring & text)
 {
 	wstring tmp;
@@ -49,6 +51,7 @@ void CBlackBoard::Render()
 	rect.bottom = 80;
 
 	CSimon *simon = CSimon::GetInstance();
+	CBossBat *bossbat = CBossBat::GetInstance();
 
 	/*wstring strtmp;
 	strtmp.append(to_wstring(simon->GetScore()));
@@ -85,6 +88,12 @@ void CBlackBoard::Render()
 
 	for (int i = 0; i < enemyHP.size(); i++)
 		enemyHP[i].Render(i * 6.0f + 32.0f, 20.0f);
+
+	int n;
+	n = enemyHP.size() - bossbat->GetHealth();
+	if (n != 0)
+		for (j = enemyHP.size() - 1; j >= enemyHP.size() - n; j--)
+			enemyHP[j].SetType(EMPTY);
 
 	game->GetFont()->DrawTextW(game->GetSpriteHandler(), textheart.c_str(), -1, &rect, DT_EXPANDTABS,
 		D3DCOLOR_XRGB(255, 255, 255));

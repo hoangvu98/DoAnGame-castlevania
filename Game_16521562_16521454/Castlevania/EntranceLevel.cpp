@@ -947,7 +947,7 @@ void CEntranceLevel::LoadMap()
 		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
 		cells->InitCells(hidenObj);
 
-		bossbat = new CBossBat();
+		bossbat = CBossBat::GetInstance();
 		bossbat->SetPosition(2666.0f, 0.0f);
 		cells->InitCells(bossbat);
 		break;

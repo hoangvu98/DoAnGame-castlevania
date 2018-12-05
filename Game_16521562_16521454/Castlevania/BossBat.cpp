@@ -2,6 +2,9 @@
 #include "Simon.h"
 #include "EntranceLevel.h"
 #include "debug.h"
+
+CBossBat *CBossBat::__instance = NULL;
+
 DWORD time_route=GetTickCount();
 DWORD time_huong= GetTickCount();
 bool test=true;
@@ -134,6 +137,12 @@ void CBossBat::Render()
 void CBossBat::SetState(int state)
 {
 	CGameObject::SetState(state);
+}
+
+CBossBat * CBossBat::GetInstance()
+{
+	if (__instance == NULL) __instance = new CBossBat();
+	return __instance;
 }
 
 CBossBat::CBossBat()

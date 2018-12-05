@@ -15,11 +15,14 @@
 #define BOSSBAT_LIMIT_Y 105
 class CBossBat : public CMonster
 {
+	static CBossBat *__instance;
 	int nx = 0,ny=0;
 public:
 	 void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	 void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	 void Render();
 	 void SetState(int state);
+
+	 static CBossBat * GetInstance();
 	 CBossBat();
 };
