@@ -51,23 +51,19 @@ void CAnimation::Add(int spriteId, DWORD time)
 void CAnimation::Render(float x, float y, int alpha)
 {
 	DWORD now = GetTickCount();
-	if (currentFrame == -1) 
+	if (currentFrame == -1)
 	{
-		currentFrame = 0; 
+		currentFrame = 0;
 		lastFrameTime = now;
 	}
-	else
-	{
-		DWORD t = frames[currentFrame]->GetTime();
-		if (now - lastFrameTime > t)
-		{
-			currentFrame++;
-			lastFrameTime = now;
-			if (currentFrame == frames.size()) currentFrame = 0;
-		}
-		
-	}
 	frames[currentFrame]->GetSprite()->Draw(x, y, alpha);
+	DWORD t = frames[currentFrame]->GetTime();
+	if (now - lastFrameTime > t)
+	{
+		currentFrame++;
+		lastFrameTime = now;
+		if (currentFrame == frames.size()) currentFrame = 0;
+	}
 }
 
 void CAnimation::Render_now(float x, float y, int alpha,int alpha_x, int alpha_y, int alpha_z)
@@ -77,35 +73,6 @@ void CAnimation::Render_now(float x, float y, int alpha,int alpha_x, int alpha_y
 		currentFrame = 0;
 	}
 	frames[currentFrame]->GetSprite()->Draw(x, y, alpha,alpha_x,alpha_y,alpha_z);
-}
-void CAnimation::RenderWhip(bool& fight, float x, float y, float x1, float y1, float x2, float y2, int alpha)
-{
-	DWORD now = GetTickCount();
-	if (currentFrame == -1)
-	{
-		currentFrame = 0;
-		lastFrameTime = now;
-	}
-	else
-	{
-		DWORD t = frames[currentFrame]->GetTime();
-		if (now - lastFrameTime > t)
-		{
-			currentFrame++;
-			lastFrameTime = now;
-			if (currentFrame == frames.size()) currentFrame = 0;
-		}
-
-	}
-	if (currentFrame == 0)
-		frames[currentFrame]->GetSprite()->Draw(x, y, alpha);
-	else if (currentFrame == 1)
-		frames[currentFrame]->GetSprite()->Draw(x1, y1, alpha);
-	else
-	{
-		frames[currentFrame]->GetSprite()->Draw(x2, y2, alpha);
-		fight = true;
-	}
 }
 CAnimations * CAnimations::__instance = NULL;
 

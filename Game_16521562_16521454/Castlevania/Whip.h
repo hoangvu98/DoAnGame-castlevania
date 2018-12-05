@@ -30,9 +30,7 @@ using namespace std;
 class CWhip :
 	public CGameObject
 {
-	DWORD lastFrameTime;
 	int currentFrame;
-	vector<LPANIMATION_FRAME> frames;
 	int state_whip;
 	int size;
 	DWORD FrameWhip;
@@ -49,5 +47,7 @@ public:
 	int GetSize() { return size; }
 	DWORD GetFrameWhip() { return FrameWhip; }
 	void SetFrameWhip(int FrameWhip) { this->FrameWhip = FrameWhip; }
+	void SetCurrentFrame(int currentFrame) { this->currentFrame = currentFrame; }
+	int GetCurrentFrame() { return currentFrame; }
 };
 

@@ -35,7 +35,18 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		stair = 0;
 	if (state != SIMON_STATE_DIE)
 		CalcPotentialCollisions(coObject, coEvents);
+	if (IsResetWhip)
+	{
+		animations[6]->SetCureentFrame(-1);
+		animations[7]->SetCureentFrame(-1);
+		animations[8]->SetCureentFrame(-1);
+		animations[9]->SetCureentFrame(-1);
+		animations[18]->SetCureentFrame(-1);
+		animations[19]->SetCureentFrame(-1);
+		animations[20]->SetCureentFrame(-1);
+		animations[21]->SetCureentFrame(-1);
 
+	}
 	if (fight == true)
 	{
 		whip->SetPosition(x, y);
@@ -382,6 +393,10 @@ void CSimon::Render()
 							else
 								ani = SIMON_ANI_STAIR_FIGHT_DOWN_LEFT;
 						}
+						int frame = animations[ani]->GetCureentFrame();
+						if (frame == -1)
+							frame = 0;
+						whip->SetCurrentFrame(frame);
 						whip->Render();
 					}
 					else
@@ -491,6 +506,10 @@ void CSimon::Render()
 						}
 						if (nx > 0)whip->SetStateWhip(WHIP_STATE_RIGHT);
 						else whip->SetStateWhip(WHIP_STATE_LEFT);
+						int frame = animations[ani]->GetCureentFrame();
+						if (frame == -1)
+							frame = 0;
+						whip->SetCurrentFrame(frame);
 						whip->Render();
 					}
 					else

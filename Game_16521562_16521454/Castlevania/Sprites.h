@@ -66,7 +66,6 @@ public:
 	void Add(int spriteId, DWORD time = 0);
 	void Render(float x, float y, int alpha=255);
 	void Render_now(float x, float y, int alpha=255,int alpha_x=255,int alpha_y=255,int alpha_z=255);
-	void RenderWhip(bool& fight, float x, float y, float x1, float y1, float x2, float y2, int alpha = 255);
 	int GetCureentFrame() {return currentFrame;}
 	void SetCureentFrame(int currentFrame) { this->currentFrame= currentFrame; }
 };

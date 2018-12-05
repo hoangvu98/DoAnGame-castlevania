@@ -105,6 +105,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		DWORD t = GetTickCount() - simon->GetWhip()->GetFrameWhip();
 		if (t >= 3*FRAME_TIME_WHIP)
 		{
+			simon->SetResetWhip(true);
 				if (game->IsKeyDown(DIK_UP) && t >= 3 * FRAME_TIME_WHIP)
 				{
 					if (simon->GetOnSkill())

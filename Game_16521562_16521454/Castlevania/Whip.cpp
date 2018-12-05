@@ -30,7 +30,19 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	DWORD t = GetTickCount() - FrameWhip;
-	if (t <= FRAME_TIME_WHIP)
+	CSimon* simon = CSimon::GetInstance();
+	if (simon->GetRestWhip())
+	{
+		currentFrame = -1;
+		animations[0]->SetCureentFrame(-1);
+		animations[1]->SetCureentFrame(-1);
+		animations[2]->SetCureentFrame(-1);
+		animations[3]->SetCureentFrame(-1);
+		animations[4]->SetCureentFrame(-1);
+		animations[5]->SetCureentFrame(-1);
+		simon->SetResetWhip(false);
+	}
+	if (currentFrame == 0 || currentFrame == -1)
 	{
 		if (size == SHORT_WHIP)
 		{
@@ -48,7 +60,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		IsSubHP = true;
 	}
-	else if (t > FRAME_TIME_WHIP && t <= FRAME_TIME_WHIP*2)
+	else if (currentFrame == 1)
 	{
 
 		if (size == SHORT_WHIP)
@@ -66,7 +78,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				SetPosition(x + 14, y + 6);
 		}
 	}
-	else if (t >= 2* FRAME_TIME_WHIP && t <= FRAME_TIME_WHIP*3)
+	else if (currentFrame == 2)
 	{
 
 		if (size == SHORT_WHIP)
@@ -132,10 +144,8 @@ void CWhip::Render()
 {
 	int ani = 2 * state + state_whip;
 	DWORD t = GetTickCount() - FrameWhip;
-	if (t <= 3 * FRAME_TIME_WHIP)
-		animations[ani]->Render(x, y, 255);
-	else
-		animations[ani]->SetCureentFrame(2);
+	animations[ani]->SetCureentFrame(currentFrame);
+	animations[ani]->Render_now(x, y, 255);
 }
 
 
