@@ -59,29 +59,34 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
 		CGameObject::Update(dt);
-		float min_tx, min_ty, nx = 0, ny;
-		coEventsResult.clear();
-		CalcPotentialCollisions(coObjects, coEvents);
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-		for (UINT i = 0; i < coEventsResult.size(); i++)
+		if (state != ITEM_STATE_DELETE)
 		{
-			CSimon* simon = CSimon::CSimon::GetInstance();
-			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (dynamic_cast<CMonster *> (e->obj))
+			float min_tx, min_ty, nx = 0, ny;
+			coEventsResult.clear();
+			CalcPotentialCollisions(coObjects, coEvents);
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+			for (UINT i = 0; i < coEventsResult.size(); i++)
 			{
-				CMonster *monster = dynamic_cast<CMonster *>(e->obj);
-				if (monster->state != MONSTER_STATE_DELETE && monster->state != MONSTER_STATE_DISAPPEAR)
+				CSimon* simon = CSimon::CSimon::GetInstance();
+				LPCOLLISIONEVENT e = coEventsResult[i];
+				if (dynamic_cast<CMonster *> (e->obj))
 				{
-					monster->SetHealth(monster->GetHealth() - damage);
+					CMonster *monster = dynamic_cast<CMonster *>(e->obj);
+					if (monster->state != MONSTER_STATE_DELETE && monster->state != MONSTER_STATE_DISAPPEAR)
+					{
+						monster->SetHealth(monster->GetHealth() - damage);
+						SetState(ITEM_STATE_DELETE);
+					}
 				}
-			}
-			else if (dynamic_cast<CCandle *> (e->obj))
-			{
-				CCandle *candle = dynamic_cast<CCandle *>(e->obj);
-				if (candle->state != CANDLE_STATE_DELETE)
+				else if (dynamic_cast<CCandle *> (e->obj))
 				{
-					candle->SetState(CANDLE_STATE_DISAPPEAR);
-					simon->SetSkill(false);
+					CCandle *candle = dynamic_cast<CCandle *>(e->obj);
+					if (candle->state != CANDLE_STATE_DELETE)
+					{
+						candle->SetState(CANDLE_STATE_DISAPPEAR);
+						simon->SetSkill(false);
+						SetState(ITEM_STATE_DELETE);
+					}
 				}
 			}
 		}

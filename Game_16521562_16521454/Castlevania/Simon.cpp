@@ -344,7 +344,7 @@ void CSimon::Render()
 			}
 			else
 			{
-				if (skill == true && now - FrameWeapon < 450)
+				if (skill == true && now - FrameWeapon < 3*FRAME_TIME_WHIP)
 				{
 					if (state == SIMON_STATE_STAIR_UP_IDLE)
 					{
@@ -433,7 +433,7 @@ void CSimon::Render()
 			}
 			if (skill)
 			{
-				if (now - FrameWeapon > 1000)	skill = false;
+				if (now - FrameWeapon > 600) skill = false;
 				else weapon->Render();
 			}
 		
@@ -526,7 +526,7 @@ void CSimon::Render()
 				}
 				if (skill)
 				{
-					if (now - FrameWeapon > 1000)	skill = false;
+					if (now - FrameWeapon > 600)	skill = false;
 					else weapon->Render();
 				}
 				

@@ -24,7 +24,7 @@ public:
 
 #define DAGGER_BBOX_WIDTH	19
 #define DAGGER_BBOX_HEIGHT	10
-#define SPEED_DAGGER 0.15f
+#define SPEED_DAGGER 0.2f
 class CDagger : public CItems
 {
 	int damage=1;
