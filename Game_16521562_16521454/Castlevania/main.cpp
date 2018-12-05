@@ -187,7 +187,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 						simon->IsDown = 0;
 						simon->SetStair(0);
 					}
-					if (game->IsKeyDown(DIK_UP) || game->IsKeyDown(DIK_RIGHT))
+					if (game->IsKeyDown(DIK_UP))
 					{
 						if (simon->IsUp == 1)
 						{
@@ -201,7 +201,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 						simon->SetFrameStair();
 						simon->GetPosition(simon->simon_x, simon->simon_y);
 					}
-					else if (game->IsKeyDown(DIK_DOWN) || game->IsKeyDown(DIK_LEFT))
+					else if (game->IsKeyDown(DIK_DOWN))
 					{
 						if (simon->IsDown == 1)
 						{
@@ -313,17 +313,17 @@ void LoadResources()
 	resource->LoadBreakingWall();
 	resource->LoadCastleGate();
 	simon = CSimon::GetInstance();
-	simon->SetPosition(2053.0f, 28.0f);
+	//simon->SetPosition(2053.0f, 28.0f);
 	//simon->SetPosition(1378.0f, 34.0f);
 	//simon->SetPosition(618.4f, 129.0f)
-	//simon->SetPosition(10.0f, 80.0f); 
+	simon->SetPosition(10.0f, 80.0f); 
 	//simon->SetPosition(226.0f, 130.0f); 
 	simon->SetState(SIMON_STATE_WALKING_LEFT);
 
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
 	level_1 = CEntranceLevel::GetInstance();
-	level_1->SetScene(SCENE_5);
+	level_1->SetScene(SCENE_2);
 	screen = 2;
 	level_1->LoadMap();
 	objects.push_back(simon);

@@ -32,6 +32,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	coEventsResult.clear();
 	if (stair != 2)
 		stair = 0;
+	DebugOut(L"x=%f\ny=%f\n", x,y);
 	if (state != SIMON_STATE_DIE)
 		CalcPotentialCollisions(coObject, coEvents);
 
@@ -221,7 +222,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				DWORD now = GetTickCount();
 				if (now - FrameCollusion > 100)
 				{
-					//if (nx != 0) vx = 0;
 					if (ny != 0) {
 						vy = 0; jump = 0;
 					}
@@ -253,8 +253,13 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				if (collusion == 0)
 				{
 					CPanther *panther = dynamic_cast<CPanther *>(e->obj);
-					collusion = 1;
-					SetState(SIMON_STATE_COLLUSION);
+					if (stair != 2)
+					{
+						collusion = 1;
+						SetState(SIMON_STATE_COLLUSION);
+					}
+					else
+						collusion = 2;
 					collusion_nx = nx;
 					FrameCollusion = GetTickCount();
 				}
@@ -263,9 +268,15 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			{
 				CGhoul *ghoul = dynamic_cast<CGhoul *>(e->obj);
 				if (collusion == 0 && ghoul->state != MONSTER_STATE_DELETE &&
-					ghoul->state != MONSTER_STATE_DISAPPEAR) {
-					collusion = 1;
-					SetState(SIMON_STATE_COLLUSION);
+					ghoul->state != MONSTER_STATE_DISAPPEAR)
+				{
+					if (stair != 2)
+					{
+						collusion = 1;
+						SetState(SIMON_STATE_COLLUSION);
+					}
+					else
+						collusion = 2;
 					health -= ghoul->GetDamage();
 					collusion_nx = nx;
 					FrameCollusion = GetTickCount();
@@ -305,9 +316,10 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	else
 		CameraAuto();
 	//DebugOut(L"up=%d\ndown=%d\n", IsUp, IsDown);
-	DebugOut(L"x=%f\ny=%f\n", x,y);
+	//DebugOut(L"x=%f\ny=%f\n", x,y);
 	//DebugOut(L"heart=%d\n", heart);
 	//DebugOut(L"vx=%f\n", vx);
+	//DebugOut(L"stair=%d\n", stair);
 }
 
 void CSimon::Render()

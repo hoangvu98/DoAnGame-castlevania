@@ -8,7 +8,6 @@
 #include "GameObject.h"
 #include "Sprites.h"
 #include "InputImage.h"
-
 CGameObject::CGameObject()
 {
 	x = y = 0;
@@ -68,9 +67,8 @@ void CGameObject::CalcPotentialCollisions(
 	vector<LPCOLLISIONEVENT> &coEvents)
 {
 	for (UINT i = 0; i < coObjects->size(); i++)
-	{
+	{	
 		LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
-
 		if (e->t >= 0 && e->t <= 1.0f)
 			coEvents.push_back(e);
 		else
