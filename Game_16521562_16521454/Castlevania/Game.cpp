@@ -238,36 +238,36 @@ void CGame::SweptAABB(
 	// Broad-phase test 
 	//
 	bool mx=1, my=1;
-	if(ml <= sl && sl <= mr && mr <= sr)
+	if(ml < sl && sl < mr && mr < sr)
 	{
 		mx = 0; 
 	}
-	else if (sl <= ml && ml <= mr && mr <= sr)
+	else if (sl < ml && ml < mr && mr < sr)
 	{
 		mx = 0;
 	}
-	else if (sl <= ml && ml <= sr && sr <= mr)
+	else if (sl < ml && ml < sr && sr < mr)
 	{
 		mx = 0;
 	}
-	else if (ml <= sl && sl <= sr && sr <= mr)
+	else if (ml < sl && sl < sr && sr < mr)
 	{
 		mx = 0;
 	}
 
-	if (mt <= st && st <= mb && mb <= sb)
+	if (mt < st && st < mb && mb < sb)
 	{
 		my = 0;
 	}
-	else if (st <= mt && mt <= mb && mb <= sb)
+	else if (st < mt && mt < mb && mb < sb)
 	{
 		my = 0;
 	}
-	else if (st <= mt && mt <= sb && sb <= mb)
+	else if (st < mt && mt < sb && sb < mb)
 	{
 		my = 0;
 	}
-	else if (mt <= st && st <= sb && sb <= mb)
+	else if (mt < st && st < sb && sb < mb)
 	{
 		my = 0;
 	}

@@ -6,6 +6,7 @@
 #include "HidenObject.h"
 #include "BossBat.h"
 #include "Bat.h"
+#include "Fishman.h"
 void CCell::SetObjects(LPGAMEOBJECT object)
 {
 	objects.push_back(object);
@@ -197,6 +198,18 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 							if (ghoul->GetItems() != NULL)
 							if (ghoul->GetItems()->GetState() != ITEM_STATE_DELETE)
 								list_object->push_back(ghoul->GetItems());
+							list_object->push_back(e);
+						}
+						list_object->push_back(e);
+					}
+					else if (dynamic_cast<CFishman *>(e))
+					{
+						if (e->state == MONSTER_STATE_DELETE)
+						{
+							CFishman *fishman = dynamic_cast<CFishman *>(e);
+							if (fishman->GetItems() != NULL)
+								if (fishman->GetItems()->GetState() != ITEM_STATE_DELETE)
+									list_object->push_back(fishman->GetItems());
 							list_object->push_back(e);
 						}
 						list_object->push_back(e);
