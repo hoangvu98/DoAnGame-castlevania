@@ -516,6 +516,36 @@ void CEntranceLevel::LoadMap()
 		hidenObj->SetPosition(1904.0f, 160.0f);
 		hidenObj->SetSize(18.0f, 15.0f);
 		cells->InitCells(hidenObj);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
+		hidenObj->SetPosition(1539.0f, 77.0f);
+		hidenObj->SetSize(5.0f, 82.0f);
+		cells->InitCells(hidenObj);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
+		hidenObj->SetPosition(1529.0f, 0.0f);
+		hidenObj->SetSize(15.0f, 12.0f);
+		cells->InitCells(hidenObj);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
+		hidenObj->SetPosition(1952, 63);
+		hidenObj->SetSize(129.0f, 15.0f);
+		cells->InitCells(hidenObj);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
+		hidenObj->SetPosition(2040, 77);
+		hidenObj->SetSize(5.0f, 79.0f);
+		cells->InitCells(hidenObj);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
+		hidenObj->SetPosition(2016, 0);
+		hidenObj->SetSize(32.0f, 12.0f);
+		cells->InitCells(hidenObj);
 		for (int i = 0; i < 4; i++)
 		{
 			hidenObj = new CHidenObject();
