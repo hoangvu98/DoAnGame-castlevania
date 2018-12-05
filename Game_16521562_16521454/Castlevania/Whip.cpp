@@ -6,6 +6,7 @@
 #include "debug.h"
 #include "Ghoul.h"
 #include "Brick.h"
+#include "Panther.h"
 #define WHIP_TEXTURE_PATH L"castlevania_texture\\Weapon\\Whip.png"
 #define ID_WHIP	6
 using namespace std;
@@ -114,6 +115,16 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						int points=simon->GetScore();
 						simon->SetScore(points + ghoul->GetScore());
 					}
+				}
+			}
+			else if (dynamic_cast<CPanther *> (e->obj))
+			{
+				CPanther *panther = dynamic_cast<CPanther *>(e->obj);
+				panther->SetHealth(panther->GetHealth() - 1);
+				if (panther->GetHealth() <= 0)
+				{
+					panther->SetState(PANTHER_STATE_DIE);
+					simon->SetScore(simon->GetScore() + panther->GetScore());
 				}
 			}
 			else if (dynamic_cast<CBrick *>(e->obj))

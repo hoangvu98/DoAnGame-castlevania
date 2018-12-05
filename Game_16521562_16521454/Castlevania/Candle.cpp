@@ -50,26 +50,29 @@ CCandle::CCandle(int size)
 	AddAnimation(11112);
 	hiteffect = new Chiteffect();
 	int random;
-	srand(time(NULL));
-	random = rand() % 2;
-
-	switch (random)
+	//srand(time(NULL));
+	random = rand() % 10;
+	int size_bag;
+	if (random <= 8)
+		size_bag = MONEY_BAG_SMALL;
+	else
+		size_bag = MONEY_BAG_BIG;
+	if (random <= 3)
 	{
-	case 0:
-		items = new CDagger();
-		break;
-	case 1:
-		random = rand() % 2;
-		switch (random)
-		{
-		case 0:
-			items = new CHeart(HEART_BIG);
-			break;
-		case 1:
-			items = new CHeart(HEART_SMALL);
-			break;
-		}
-		break;
+		//srand(time(NULL));
+		random = rand() % 10;
+		if (random <= 2) items = new CHeart(HEART_SMALL);
+		else items = new CHeart(HEART_BIG);
+		
+	}
+	else
+	{
+		//srand(time(NULL));
+		random = rand() % 10;
+		if (random <= 2) items = new CMoneyBag(size_bag, MONEY_BAG_RED);
+		else if (random <= 3) items = new CMoneyBag(size_bag, MONEY_BAG_BLUE);
+		else items = new CMoneyBag(size_bag, MONEY_BAG_WHITE);
+		
 	}
 }
 

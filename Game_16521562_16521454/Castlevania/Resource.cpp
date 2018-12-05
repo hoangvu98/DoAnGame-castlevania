@@ -493,7 +493,7 @@ void CResource::LoadBreakingWall()
 
 	ifstream in("Data\\BreakingWall.txt");
 	CInputImage::AddAnimation(in, sprites, ani, texbullet, 1);
-	animations->Add(20000, ani);
+	animations->Add(21000, ani);
 }
 void CResource::LoadCastleGate()
 {
@@ -511,5 +511,5 @@ void CResource::LoadCastleGate()
 
 	ifstream in("Data\\Castle_Gate.txt");
 	CInputImage::AddAnimation(in, sprites, ani, texbullet, 1);
-	animations->Add(20001, ani);
+	animations->Add(21001, ani);
 }

@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Simon.h"
 #include "HidenObject.h"
+#include "Monster.h"
 #define PANTHER_TEXTURE_PATH L"castlevania_texture\\Enemy\\Panther.png"
 #define ID_PANTHER 9
 
@@ -20,6 +21,7 @@
 #define PANTHER_STATE_JUMP_RIGHT    300
 #define PANTHER_STATE_JUMP_LEFT     400
 #define PANTHER_STATE_DIE			500
+#define PANTHER_STATE_DELETE		600
 
 #define PANTHER_ANI_IDLE_RIGHT    0
 #define PANTHER_ANI_IDLE_LEFT     1
@@ -31,7 +33,7 @@
 #define MOVING_AREA_WIDTH		50
 #define MOVING_AREA_HEIGHT		100
 #define DISTANCE				67
-class CPanther : public CGameObject
+class CPanther : public CMonster
 {
 	float left, top, right, bottom;
 

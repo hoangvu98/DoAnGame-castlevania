@@ -43,5 +43,5 @@ void CHidenObject::GetBoundingBox(float & left, float & top, float & right, floa
 
 CHidenObject::CHidenObject()
 {
-	AddAnimation(20001);
+	AddAnimation(21001);
 }

@@ -2,6 +2,9 @@
 #include "debug.h"
 #include "Candle.h"
 #include "Game.h"
+DWORD Time_Panther_HitEffect = GetTickCount();
+DWORD Time_Panther_Rest = GetTickCount();
+
 void CPanther::InitMovingArea()
 {
 	/*temp_x = x;
@@ -14,12 +17,16 @@ void CPanther::InitMovingArea()
 
 CPanther::CPanther()
 {
+	CMonster::CMonster();
+	score = 100;
+	health = 1;
 	AddAnimation(4000);
 	AddAnimation(4001);
 	AddAnimation(4002);
 	AddAnimation(4003);
 	AddAnimation(4004);
 	AddAnimation(4005);
+	damage = 1;
 	reset = false;
 }
 
@@ -50,7 +57,7 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CSimon *simon = CSimon::GetInstance();
 	simon->GetPosition(x, y);
 
-	if ((x <= left - DISTANCE && x < right) || (x >= right + DISTANCE))
+	if ((x <= left - DISTANCE /*&& x < right*/) || (x >= right + DISTANCE))
 		reset = true;
 	CGameObject::Update(dt);
 	vy += PANTHER_GRAVITY * dt;
@@ -165,24 +172,44 @@ void CPanther::Render()
 	{
 		if (nx > 0) ani = PANTHER_ANI_IDLE_RIGHT;
 		else ani = PANTHER_ANI_IDLE_LEFT;
+		animations[ani]->Render(x, y);
+		//DebugOut(L"Dang render bao dung yen\n");
+		Time_Panther_HitEffect = GetTickCount();
 	}
-	if (state == PANTHER_STATE_JUMP_RIGHT)
+	else if (state == PANTHER_STATE_JUMP_RIGHT)
 	{
 		ani = PANTHER_ANI_JUMP_RIGHT;
+		animations[ani]->Render(x, y);
+		Time_Panther_HitEffect = GetTickCount();
 	}
-	if (state == PANTHER_STATE_JUMP_LEFT)
+	else if (state == PANTHER_STATE_JUMP_LEFT)
 	{
 		ani = PANTHER_ANI_JUMP_LEFT;
+		animations[ani]->Render(x, y);
+		Time_Panther_HitEffect = GetTickCount();
 	}
-	if (state == PANTHER_STATE_WALKING_RIGHT)
+	else if (state == PANTHER_STATE_WALKING_RIGHT)
 	{
 		ani = PANTHER_ANI_WALKING_RIGHT;
+		animations[ani]->Render(x, y);
+		Time_Panther_HitEffect = GetTickCount();
 	}
-	if (state == PANTHER_STATE_WALKING_LEFT)
+	else if (state == PANTHER_STATE_WALKING_LEFT)
 	{
 		ani = PANTHER_ANI_WALKING_LEFT;
+		animations[ani]->Render(x, y);
+		Time_Panther_HitEffect = GetTickCount();
 	}
-	animations[ani]->Render(x, y);
+	else if (state == PANTHER_STATE_DIE)
+	{
+		int now = GetTickCount();
+		hiteffect->SetPosition(x, y);
+		//items->SetPosition(x + 5, y + 10);
+		hiteffect->Render();
+		if (now - Time_Panther_HitEffect >= FrameTime)
+			SetState(PANTHER_STATE_DELETE);
+	}
+
 }
 
 void CPanther::SetState(int state)

@@ -4,7 +4,7 @@
 
 CBreakingWall::CBreakingWall()
 {
-	AddAnimation(20000);
+	AddAnimation(21000);
 }
 
 void CBreakingWall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
