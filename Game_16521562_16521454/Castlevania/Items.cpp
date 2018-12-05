@@ -204,6 +204,7 @@ void CMoneyBag::GetBoundingBox(float & left, float & top, float & right, float &
 
 void CAxe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	CSimon* simon = CSimon::CSimon::GetInstance();
 	if (state == ITEM_STATE_ITEM)
 		CItems::Update(dt, coObjects);
 	else
@@ -218,7 +219,7 @@ void CAxe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
-			CSimon* simon = CSimon::CSimon::GetInstance();
+			
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (dynamic_cast<CMonster *> (e->obj))
 			{
@@ -232,6 +233,7 @@ void CAxe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					simon->SetScore(points + monster->GetScore());
 					simon->SetSkill(false);
 				}
+				
 			}
 			else if (dynamic_cast<CCandle *> (e->obj))
 			{
@@ -246,6 +248,7 @@ void CAxe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vy += AXE_GRAVITY * dt;
 		x += dx;
 		y += dy;
+		simon->SetHeart(simon->GetHeart() - 1);
 	}
 }
 

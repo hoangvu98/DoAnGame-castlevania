@@ -63,6 +63,7 @@ void CGhoul::Render()
 	{
 		int now = GetTickCount();
 		hiteffect->SetPosition(x, y);
+		if (items != NULL)
 		items->SetPosition(x + 5, y + 10);
 		hiteffect->Render();
 		if (now - Time_HitEffect >= FrameTime)
@@ -106,26 +107,14 @@ void CGhoul::Reset()
 	}
 	health = 1;
 	int random;
-	srand(time(NULL));
-	random = rand() % 2;
-	switch (random)
-	{
-	case 0:
-		items = new CDagger();
-		break;
-	case 1:
-		random = rand() % 2;
-		switch (random)
-		{
-		case 0:
-			items = new CHeart(HEART_BIG);
-			break;
-		case 1:
-			items = new CHeart(HEART_SMALL);
-			break;
-		}
-		break;
-	}
+	//srand(time(NULL));
+	random = rand() % 10;
+	if (random <= 1)
+		items = new CHeart(HEART_BIG);
+	else if (random <= 3)
+		items = new CHeart(HEART_SMALL);
+	else
+		items = NULL;
 }
 CGhoul::CGhoul()
 {
@@ -135,24 +124,12 @@ CGhoul::CGhoul()
 	AddAnimation(10000);
 	AddAnimation(10001);
 	int random;
-	srand(time(NULL));
-	random = rand() % 2;
-	switch (random)
-	{
-	case 0:
-		items = new CDagger();
-		break;
-	case 1:
-		random = rand() % 2;
-		switch (random)
-		{
-		case 0:
-			items = new CHeart(HEART_BIG);
-			break;
-		case 1:
-			items = new CHeart(HEART_SMALL);
-			break;
-		}
-		break;
-	}
+	//srand(time(NULL));
+	random = rand() % 10;
+	if (random <= 1)
+		items = new CHeart(HEART_BIG);
+	else if (random <= 3)
+		items = new CHeart(HEART_SMALL);
+	else
+		items = NULL;
 }

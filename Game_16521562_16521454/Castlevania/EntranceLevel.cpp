@@ -417,8 +417,25 @@ void CEntranceLevel::LoadMap()
 
 		/*bat = new CBat();
 		bat->SetState(BAT_STATE_INVISIBLE);
-		bat->SetPosition(1778.0f, 44.0f);
+		bat->SetPosition(1822.0f, 35.0f);
 		bat->Setnx(-1);
+		bat->SetHeightFly(1822.0f + BAT_HEIGHT_FLY);
+		bat->InitMovingArea();
+		cells->InitCells(bat);
+
+		bat = new CBat();
+		bat->SetState(BAT_STATE_INVISIBLE);
+		bat->SetPosition(1891.0f, 126.0f);
+		bat->Setnx(-1);
+		bat->SetHeightFly(1891.0f + BAT_HEIGHT_FLY);
+		bat->InitMovingArea();
+		cells->InitCells(bat);
+
+		bat = new CBat();
+		bat->SetState(BAT_STATE_INVISIBLE);
+		bat->SetPosition(1536.0f, 151.0f);
+		bat->Setnx(1);
+		bat->SetHeightFly(1536.0f + BAT_HEIGHT_FLY);
 		bat->InitMovingArea();
 		cells->InitCells(bat);*/
 

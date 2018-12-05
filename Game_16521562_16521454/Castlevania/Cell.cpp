@@ -193,6 +193,7 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 						if (e->state == MONSTER_STATE_DELETE)
 						{
 							CGhoul *ghoul = dynamic_cast<CGhoul *>(e);
+							if (ghoul->GetItems() != NULL)
 							if (ghoul->GetItems()->GetState() != ITEM_STATE_DELETE)
 								list_object->push_back(ghoul->GetItems());
 							list_object->push_back(e);

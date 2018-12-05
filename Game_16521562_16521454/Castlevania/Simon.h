@@ -122,7 +122,9 @@ public:
 	int GetScore() { return score; }
 	void SetScore(int score) { this->score = score; }
 
+	void SetHeart(int heart) { this->heart = heart; }
 	int GetHeart() { return this->heart; }
+
 	int GetHealth() { return this->health; }
 
 	void SetStage(int stage) { this->stage = stage; }
