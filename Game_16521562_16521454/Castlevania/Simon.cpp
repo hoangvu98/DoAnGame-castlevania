@@ -189,6 +189,10 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		else if (dynamic_cast<CMonster *> (e->obj))
 		{
 			CMonster *monster = dynamic_cast<CMonster *>(e->obj);
+			if (monster->state == BAT_STATE_FLY_LEFT || monster->state == BAT_STATE_FLY_RIGHT)
+			{
+				monster->SetHealth(monster->GetHealth() - 1);
+			}
 			if (collusion == 0 && monster->state != MONSTER_STATE_DELETE &&
 				monster->state != MONSTER_STATE_DISAPPEAR)
 			{
