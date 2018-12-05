@@ -3,6 +3,8 @@
 #include "InputImage.h"
 #include "Simon.h"
 #include "HidenObject.h"
+#include "Monster.h"
+#include "Candle.h"
 using namespace std;
 
 
@@ -16,7 +18,7 @@ CItems::~CItems()
 {
 }
 
-void CItems::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void CItems::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
 	CGameObject::Update(dt);
 	vy = ITEM_GRAVITY*dt;
@@ -24,7 +26,7 @@ void CItems::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	bool IsUpdatePossiton = false;
-	CalcPotentialCollisions(coObjects, coEvents);
+	CalcPotentialCollisions(coObject, coEvents);
 	if (coEvents.size() != 0)
 	{
 		float min_tx, min_ty, nx = 0, ny;
@@ -40,6 +42,7 @@ void CItems::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					IsUpdatePossiton = true;
 					y += min_ty * dy + ny * 0.4f;
 				}
+				
 			}
 		}
 	}
@@ -53,8 +56,40 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		CItems::Update(dt, coObjects);
 	else
 	{
+		vector<LPCOLLISIONEVENT> coEvents;
+		vector<LPCOLLISIONEVENT> coEventsResult;
 		CGameObject::Update(dt);
-		//vy += ITEM_GRAVITY * dt;
+		float min_tx, min_ty, nx = 0, ny;
+		coEventsResult.clear();
+		CalcPotentialCollisions(coObjects, coEvents);
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			CSimon* simon = CSimon::CSimon::GetInstance();
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<CMonster *> (e->obj))
+			{
+				CMonster* monster= dynamic_cast <CMonster *>(e->obj);
+				monster->SetHealth(monster->GetHealth() -damage);
+				if (monster->GetHealth() <= 0)
+				{
+					monster->SetState(MONSTER_STATE_DISAPPEAR);
+					CSimon* simon = CSimon::GetInstance();
+					int points = simon->GetScore();
+					simon->SetScore(points + monster->GetScore());
+					simon->SetSkill(false);
+				}
+			}
+			else if (dynamic_cast<CCandle *> (e->obj))
+			{
+				CCandle *candle = dynamic_cast<CCandle *>(e->obj);
+				if (candle->state != CANDLE_STATE_DELETE)
+				{
+					candle->SetState(CANDLE_STATE_DISAPPEAR);
+					simon->SetSkill(false);
+				}
+			}
+		}
 		x += dx;
 		y += dy;
 	}
@@ -174,6 +209,40 @@ void CAxe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	else
 	{
 		CGameObject::Update(dt);
+		vector<LPCOLLISIONEVENT> coEvents;
+		vector<LPCOLLISIONEVENT> coEventsResult;
+		CGameObject::Update(dt);
+		float min_tx, min_ty, nx = 0, ny;
+		coEventsResult.clear();
+		CalcPotentialCollisions(coObjects, coEvents);
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			CSimon* simon = CSimon::CSimon::GetInstance();
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<CMonster *> (e->obj))
+			{
+				CMonster* monster = dynamic_cast <CMonster *>(e->obj);
+				monster->SetHealth(monster->GetHealth() - damage);
+				if (monster->GetHealth() <= 0)
+				{
+					monster->SetState(MONSTER_STATE_DISAPPEAR);
+					CSimon* simon = CSimon::GetInstance();
+					int points = simon->GetScore();
+					simon->SetScore(points + monster->GetScore());
+					simon->SetSkill(false);
+				}
+			}
+			else if (dynamic_cast<CCandle *> (e->obj))
+			{
+				CCandle *candle = dynamic_cast<CCandle *>(e->obj);
+				if (candle->state != CANDLE_STATE_DELETE)
+				{
+					candle->SetState(CANDLE_STATE_DISAPPEAR);
+					simon->SetSkill(false);
+				}
+			}
+		}
 		vy += AXE_GRAVITY * dt;
 		x += dx;
 		y += dy;

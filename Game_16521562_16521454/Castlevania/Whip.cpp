@@ -105,12 +105,12 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				CGhoul *ghoul = dynamic_cast<CGhoul *>(e->obj);
 
-				if (ghoul->state != GHOUL_STATE_DELETE && ghoul->state != GHOUL_STATE_DISAPPEAR)
+				if (ghoul->state != MONSTER_STATE_DELETE && ghoul->state != MONSTER_STATE_DISAPPEAR)
 				{
 					ghoul->SetHealth(ghoul->GetHealth() - 1);
 					if (ghoul->GetHealth() <= 0)
 					{
-						ghoul->SetState(GHOUL_STATE_DISAPPEAR);
+						ghoul->SetState(MONSTER_STATE_DISAPPEAR);
 						int points=simon->GetScore();
 						simon->SetScore(points + ghoul->GetScore());
 					}

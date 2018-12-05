@@ -3,6 +3,8 @@
 #include "Items.h"
 #include <vector>
 using namespace std;
+#define MONSTER_STATE_DISAPPEAR 100
+#define MONSTER_STATE_DELETE    200
 class CMonster : public CGameObject
 {
 protected:

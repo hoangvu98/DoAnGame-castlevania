@@ -52,7 +52,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	}
 	if (skill)
 	{
-		weapon->Update(dt);
+		weapon->Update(dt, coObject);
 	}
 	coEventsResult.clear();
 	FilterCollisionImmediately(coEvents, coEventsResult);
@@ -262,8 +262,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			else if (dynamic_cast<CGhoul *> (e->obj))
 			{
 				CGhoul *ghoul = dynamic_cast<CGhoul *>(e->obj);
-				if (collusion == 0 && ghoul->state != GHOUL_STATE_DELETE &&
-					ghoul->state != GHOUL_STATE_DISAPPEAR) {
+				if (collusion == 0 && ghoul->state != MONSTER_STATE_DELETE &&
+					ghoul->state != MONSTER_STATE_DISAPPEAR) {
 					collusion = 1;
 					SetState(SIMON_STATE_COLLUSION);
 					health -= ghoul->GetDamage();

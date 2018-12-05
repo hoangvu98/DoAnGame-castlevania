@@ -22,12 +22,12 @@ void CGhoul::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CGame *game = CGame::GetInstance();
 	float cx, cy;
 	game->GetCamera(cx, cy);
-	if (state == GHOUL_STATE_DELETE && reset == true)
+	if (state == MONSTER_STATE_DELETE && reset == true)
 	{
 		reset = false;
 		Time_Rest = GetTickCount();
 	}
-	if (state == GHOUL_STATE_DELETE)
+	if (state == MONSTER_STATE_DELETE)
 		if (now - Time_Rest > 2000)
 		{
 			Reset();
@@ -37,7 +37,7 @@ void CGhoul::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		x += dx;
 		y += dy;
 	}
-	else if (state == GHOUL_STATE_DELETE)
+	else if (state == MONSTER_STATE_DELETE)
 	{
 		if (cx >= min && cx + 256.0f <= max)
 			x = simon->x;
@@ -59,14 +59,14 @@ void CGhoul::Render()
 		animations[ani]->Render(x, y);
 		Time_HitEffect = GetTickCount();
 	}
-	else if (state == GHOUL_STATE_DISAPPEAR)
+	else if (state == MONSTER_STATE_DISAPPEAR)
 	{
 		int now = GetTickCount();
 		hiteffect->SetPosition(x, y);
 		items->SetPosition(x + 5, y + 10);
 		hiteffect->Render();
 		if (now - Time_HitEffect >= FrameTime)
-			SetState(GHOUL_STATE_DELETE);
+			SetState(MONSTER_STATE_DELETE);
 	}
 }
 
@@ -83,7 +83,7 @@ void CGhoul::SetState(int state)
 		vx = GHOUL_WALKING_SPEED;
 		nx = 1;
 		break;
-	case GHOUL_STATE_DISAPPEAR:
+	case MONSTER_STATE_DISAPPEAR:
 		Time_Rest = GetTickCount();
 		break;
 	}
