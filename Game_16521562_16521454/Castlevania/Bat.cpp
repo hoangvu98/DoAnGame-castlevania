@@ -2,22 +2,14 @@
 
 CBat::CBat()
 {
+	damage = 1;
+	health = 1;
+	score = 100;
 	AddAnimation(12000);
 	AddAnimation(12001);
 	AddAnimation(12002);
-	Height_Fly = 5;
 	nx = -1;
-}
-
-void CBat::InitMovingArea()
-{
-	if (nx > 0)
-		left = x + DISTANCE;
-	else if (nx < 0)
-		left = x - DISTANCE;
-	top = y;
-	right = left + MOVING_AREA_WIDTH;
-	bottom = right + MOVING_AREA_HEIGHT;
+	vy = BAT_FLYING_SPEED_Y;
 }
 
 void CBat::GetBoundingBox(float &left, float &top, float &right, float &bottom)
@@ -30,19 +22,12 @@ void CBat::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 
 void CBat::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	CGameObject::Update(dt);
+	CMonster::Update(dt, coObjects);
 	//
 	// TO-DO: make sure Goomba can interact with the world and to each of them too!
 	// 
 	CSimon *simon = CSimon::GetInstance();
-	float sx, sy;
-	simon->GetPosition(sx, sy);
-	if (sx >= left && nx < 0)
-		SetState(BAT_STATE_FLY_LEFT);
-	else if (sx >= left && nx > 0)
-		SetState(BAT_STATE_FLY_RIGHT);
-
-	if (state != BAT_STATE_INVISIBLE || state != BAT_STATE_HANGING)
+	if (state != MONSTER_STATE_DISAPPEAR && state != MONSTER_STATE_DELETE)
 	{
 		x += dx;
 		y += dy;
@@ -52,19 +37,17 @@ void CBat::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			y = Height_Fly + BAT_DISTANCE_FLY;
 			vy = -vy;
 		}
-		if (y > Height_Fly - BAT_DISTANCE_FLY)
+		if (y < Height_Fly - BAT_DISTANCE_FLY)
 		{
 			y = Height_Fly - BAT_DISTANCE_FLY;
 			vy = -vy;
 		}
 	}
-
-
 }
 
 void CBat::Render()
 {
-	if (state != BAT_STATE_INVISIBLE)
+	if (state != MONSTER_STATE_DISAPPEAR && state != MONSTER_STATE_DELETE)
 	{
 		int ani;
 		if (nx > 0)
@@ -83,12 +66,10 @@ void CBat::SetState(int state)
 	{
 	case BAT_STATE_FLY_LEFT:
 		vx = -BAT_FLYING_SPEED_X;
-		//vy = -BAT_FLYING_SPEED_Y;
 		//nx = -1;
 		break;
 	case BAT_STATE_FLY_RIGHT:
 		vx = BAT_FLYING_SPEED_X;
-		//vy = -BAT_FLYING_SPEED_Y;
 		//nx = -1;
 		break;
 	}

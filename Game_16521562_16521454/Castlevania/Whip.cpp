@@ -102,29 +102,13 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					candle->SetState(CANDLE_STATE_DISAPPEAR);
 				}
 			}
-			else if (dynamic_cast<CGhoul *> (e->obj))
+			else if (dynamic_cast<CMonster *> (e->obj))
 			{
-				CGhoul *ghoul = dynamic_cast<CGhoul *>(e->obj);
+				CMonster *monster = dynamic_cast<CMonster *>(e->obj);
 
-				if (ghoul->state != MONSTER_STATE_DELETE && ghoul->state != MONSTER_STATE_DISAPPEAR)
+				if (monster->state != MONSTER_STATE_DELETE && monster->state != MONSTER_STATE_DISAPPEAR)
 				{
-					ghoul->SetHealth(ghoul->GetHealth() - 1);
-					if (ghoul->GetHealth() <= 0)
-					{
-						ghoul->SetState(MONSTER_STATE_DISAPPEAR);
-						int points=simon->GetScore();
-						simon->SetScore(points + ghoul->GetScore());
-					}
-				}
-			}
-			else if (dynamic_cast<CPanther *> (e->obj))
-			{
-				CPanther *panther = dynamic_cast<CPanther *>(e->obj);
-				panther->SetHealth(panther->GetHealth() - 1);
-				if (panther->GetHealth() <= 0)
-				{
-					panther->SetState(PANTHER_STATE_DIE);
-					simon->SetScore(simon->GetScore() + panther->GetScore());
+					monster->SetHealth(monster->GetHealth() - 1);
 				}
 			}
 			else if (dynamic_cast<CBrick *>(e->obj))

@@ -260,10 +260,8 @@ void CEntranceLevel::LoadMap()
 		hidenObj->SetSize(32.0f, 15.0f);
 		cells->InitCells(hidenObj);
 
-		/*panther = new CPanther();
 
-
-
+		panther = new CPanther();
 		panther->SetState(PANTHER_STATE_IDLE);
 		panther->Setnx(-1);
 		panther->SetTurn(0);
@@ -271,9 +269,9 @@ void CEntranceLevel::LoadMap()
 		panther->SetTmpPosition(690.0f, 79.0f);
 		panther->SetJump(false);
 		panther->InitMovingArea();
-		cells->InitCells(panther);*/
+		cells->InitCells(panther);
 
-		/*panther = new CPanther();
+		panther = new CPanther();
 		panther->Setnx(-1);
 		panther->SetState(PANTHER_STATE_IDLE);
 		panther->SetPosition(870.0f, 46.0f);
@@ -281,9 +279,9 @@ void CEntranceLevel::LoadMap()
 		panther->SetTurn(0);
 		panther->SetJump(false);
 		panther->InitMovingArea();
-		cells->InitCells(panther);*/
+		cells->InitCells(panther);
 
-		/*panther = new CPanther();
+		panther = new CPanther();
 		panther->Setnx(-1);
 		panther->SetState(PANTHER_STATE_IDLE);
 		panther->SetPosition(931.0f, 79.0f);
@@ -291,7 +289,7 @@ void CEntranceLevel::LoadMap()
 		panther->SetTurn(0);
 		panther->SetJump(false);
 		panther->InitMovingArea();
-		cells->InitCells(panther);*/
+		cells->InitCells(panther);
 
 		for (int i = 0; i < 5; i++)
 		{
@@ -371,11 +369,12 @@ void CEntranceLevel::LoadMap()
 		ghoul->SetPosition(250.0f, 127.0f);
 		ghoul->SetState(GHOUL_STATE_LEFT);
 		cells->InitCells(ghoul);
-		ghoul = new CGhoul();
 
+		ghoul = new CGhoul();
 		ghoul->SetPosition(270.0f, 127.0f);
 		ghoul->SetState(GHOUL_STATE_LEFT);
 		cells->InitCells(ghoul); 
+
 		ghoul = new CGhoul();
 		ghoul->SetPosition(290.0f, 127.0f);
 		ghoul->SetState(GHOUL_STATE_LEFT);
@@ -424,31 +423,18 @@ void CEntranceLevel::LoadMap()
 		/*brick->SetPosition(1792.0f, 128.0f);*/
 		cells->InitCells(brick);
 
-		/*bat = new CBat();
-		bat->SetState(BAT_STATE_INVISIBLE);
-		bat->SetPosition(1822.0f, 35.0f);
-		bat->Setnx(-1);
-		bat->SetHeightFly(1822.0f + BAT_HEIGHT_FLY);
-		bat->InitMovingArea();
+		bat = new CBat();
+		bat->SetPosition(1760.0f, 35.0f);
+		bat->SetState(BAT_STATE_FLY_LEFT);
+		bat->SetHeightFly(35.0f);
 		cells->InitCells(bat);
 
-		bat = new CBat();
-		bat->SetState(BAT_STATE_INVISIBLE);
-		bat->SetPosition(1891.0f, 126.0f);
-		bat->Setnx(-1);
-		bat->SetHeightFly(1891.0f + BAT_HEIGHT_FLY);
-		bat->InitMovingArea();
-		cells->InitCells(bat);
+		hidenObj = new CHidenObject();
+		hidenObj->SetPosition(1535.0f, 12.0f);
+		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
+		hidenObj->SetSize(5.0f, 51.0f);
+		cells->InitCells(hidenObj);
 
-		bat = new CBat();
-		bat->SetState(BAT_STATE_INVISIBLE);
-		bat->SetPosition(1536.0f, 151.0f);
-		bat->Setnx(1);
-		bat->SetHeightFly(1536.0f + BAT_HEIGHT_FLY);
-		bat->InitMovingArea();
-		cells->InitCells(bat);*/
-
-		//hidenobject brick
 		hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
 		hidenObj->SetPosition(1792.0f, 79.0f);

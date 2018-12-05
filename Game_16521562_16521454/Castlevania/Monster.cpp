@@ -1,5 +1,5 @@
 #include "Monster.h"
-
+#include "Simon.h"
 void CMonster::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
 }
@@ -7,6 +7,16 @@ void CMonster::GetBoundingBox(float & left, float & top, float & right, float & 
 void CMonster::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
+	if (state != MONSTER_STATE_DISAPPEAR && state != MONSTER_STATE_DELETE)
+	{
+		if (GetHealth() <= 0)
+		{
+			CSimon* simon = CSimon::GetInstance();
+			SetState(MONSTER_STATE_DISAPPEAR);
+			int points = simon->GetScore();
+			simon->SetScore(points + score);
+		}
+	}
 }
 
 void CMonster::Render()

@@ -5,6 +5,7 @@
 #include "Ghoul.h"
 #include "HidenObject.h"
 #include "BossBat.h"
+#include "Bat.h"
 void CCell::SetObjects(LPGAMEOBJECT object)
 {
 	objects.push_back(object);
@@ -152,7 +153,7 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 				for (k = 0; k < cells[i][j].GetObjects().size(); k++)
 				{
 					LPGAMEOBJECT e = cells[i][j].GetObjects()[k];
-					if (dynamic_cast<CGhoul *> (e))
+					if (dynamic_cast<CMonster *> (e))
 					{
 						int a = e->x / CELL_WIDTH;
 						int b = e->y / CELL_HEIGHT;

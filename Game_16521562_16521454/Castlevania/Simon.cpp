@@ -6,6 +6,7 @@
 #include "HidenObject.h"
 #include "EntranceLevel.h"
 #include "Ghoul.h"
+#include "Bat.h"
 DWORD FrameCollusion;
 int color = 255;
 float stair_x = 0;
@@ -281,6 +282,24 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 					else
 						collusion = 2;
 					health -= ghoul->GetDamage();
+					collusion_nx = nx;
+					FrameCollusion = GetTickCount();
+				}
+			}
+			else if(dynamic_cast<CBat *> (e->obj))
+			{
+				if (collusion == 0)
+				{
+					CBat *bat = dynamic_cast<CBat *>(e->obj);
+					if (stair != 2)
+					{
+						collusion = 1;
+						SetState(SIMON_STATE_COLLUSION);
+					}
+					else
+						collusion = 2;
+					health -= bat->GetDamage();
+					bat->SetHealth(bat->GetHealth() - 1);
 					collusion_nx = nx;
 					FrameCollusion = GetTickCount();
 				}
@@ -791,9 +810,9 @@ void CSimon::Camera()
 		else
 			game->SetCamera(x - 128.0f, 0.0f);
 	}
-	float cx, cy;
+	/*float cx, cy;
 	game->GetCamera(cx, cy);
-	DebugOut(L"camera=%f\n", cx);
+	DebugOut(L"camera=%f\n", cx);*/
 }
 
 void CSimon::CameraAuto()
@@ -851,9 +870,9 @@ void CSimon::CameraAuto()
 			level1->SetIsNext(true);
 		}
 	}
-	float cx, cy;
-	game->GetCamera(cx, cy);
-	DebugOut(L"camera=%f\n", cx);
+	//float cx, cy;
+	//game->GetCamera(cx, cy);
+	//DebugOut(L"camera=%f\n", cx);
 }
 
 CSimon::CSimon()

@@ -12,7 +12,7 @@ using namespace std;
 #define GHOUL_STATE_LEFT  0
 #define GHOUL_STATE_RIGHT 1
 #define FrameTime 200
-
+#define FrameTimeReset 2000
 
 class CGhoul : public CMonster
 {

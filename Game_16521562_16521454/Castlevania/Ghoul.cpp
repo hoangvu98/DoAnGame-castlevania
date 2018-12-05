@@ -14,7 +14,7 @@ void CGhoul::GetBoundingBox(float &left, float &top, float &right, float &bottom
 
 void CGhoul::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	CGameObject::Update(dt, coObjects);
+	CMonster::Update(dt, coObjects);
 	DWORD now = GetTickCount();
 	CSimon* simon = CSimon::GetInstance();
 	CGame *game = CGame::GetInstance();
@@ -24,16 +24,16 @@ void CGhoul::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		reset = false;
 		Time_Reset = GetTickCount();
-		Time_Reset_Ghoul= GetTickCount();
+		Time_Reset_Ghoul = GetTickCount();
 	}
 	if (state == MONSTER_STATE_DELETE)
-		if(now- Time_Reset_Ghoul>200)
-		if (now - Time_Reset > 2000)
-		{
-			Reset();
-			reset = true;
-			Time_Reset_Ghoul = GetTickCount();
-		}
+		if (now - Time_Reset_Ghoul > FrameTime)
+			if (now - Time_Reset > FrameTimeReset)
+			{
+				Reset();
+				reset = true;
+				Time_Reset_Ghoul = GetTickCount();
+			}
 	if (state == GHOUL_STATE_LEFT || state == GHOUL_STATE_RIGHT)
 	{
 		x += dx;
@@ -66,7 +66,7 @@ void CGhoul::Render()
 		int now = GetTickCount();
 		hiteffect->SetPosition(x, y);
 		if (items != NULL)
-		items->SetPosition(x + 5, y + 10);
+			items->SetPosition(x + 5, y + 10);
 		hiteffect->Render();
 		if (now - Time_HitEffect >= FrameTime)
 			SetState(MONSTER_STATE_DELETE);
