@@ -365,10 +365,10 @@ void Update(DWORD dt)
 			objects[i]->Update(dt, &coObjects);
 		break;
 	case 2:
-		if(level_1->IsNext())
+		if(level_1->GetIsNext())
 		{ 
 			int scene;
-			scene=level_1->GetScene()+1;
+			scene=level_1->GetNextScene();
 			level_1->SetScene(scene);
 			float x, y;
 			if(simon->simon_x!=0 || simon->simon_y!=0)
@@ -379,15 +379,15 @@ void Update(DWORD dt)
 				if (x != 0 || y != 0)
 					simon->SetPosition(x, y);				
 			}
-			level_1->SetNextScene(false);
+			level_1->SetIsNext(false);
 			simon->SetCameraAuto(0);
 			simon->SetStateAuto(0);
 			simon->Camera();
 		}
-		else if (level_1->IsFall())
+		else if (level_1->GetIsFall())
 		{
 			int scene;
-			scene = level_1->GetScene() - 1;
+			scene = level_1->GetNextScene();
 			level_1->SetScene(scene);
 			float x, y;
 			if (simon->simon_x != 0 || simon->simon_y != 0)
@@ -398,7 +398,7 @@ void Update(DWORD dt)
 				if (x != 0 || y != 0)
 					simon->SetPosition(x, y);
 			}
-			level_1->SetFallScene(false);
+			level_1->SetIsFall(false);
 			simon->SetCameraAuto(0);
 			simon->SetStateAuto(0);
 			simon->Camera();
@@ -441,7 +441,8 @@ void Render()
 			if (now - Time_screen > 3000)
 			{
 				screen = 2;
-				level_1->SetNextScene(true);
+				level_1->SetIsNext(true);
+				level_1->SetNextScene(1);
 				simon->SetStateAuto(0);
 				simon->SetCameraAuto(0);
 				simon->nx = 1;

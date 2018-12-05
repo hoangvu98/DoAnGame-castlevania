@@ -32,7 +32,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	coEventsResult.clear();
 	if (stair != 2)
 		stair = 0;
-	DebugOut(L"x=%f\ny=%f\n", x,y);
 	if (state != SIMON_STATE_DIE)
 		CalcPotentialCollisions(coObject, coEvents);
 
@@ -94,7 +93,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 					simon_x = door->cx;
 					simon_y = door->cy;
 				}
-				level1->SetNextScene(true);
+				level1->SetIsNext(true);
+				level1->SetNextScene(door->GetScene());
 			}
 			else if (door->GetIsHiden() == true && door->IsGo == true && door->nx == -1 && stair==2)
 			{
@@ -104,7 +104,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 					simon_x = door->cx;
 					simon_y = door->cy;
 				}
-				level1->SetFallScene(true);
+				level1->SetIsFall(true);
+				level1->SetNextScene(door->GetScene());
 			}
 		}
 		else if (dynamic_cast<CHeart *>(e->obj))
@@ -238,6 +239,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 					door->IsGo = false;
 					state_auto = 5;					
 					simon_x = door->x + door->size;
+					level1->SetNextScene(door->GetScene());
 				}
 				else if (door->GetIsHiden() == false && door->IsGo ==true)
 				{
@@ -245,6 +247,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 					door->IsGo = false;
 					camera_auto = 2;
 					state_auto = -1;
+					level1->SetNextScene(door->GetScene());
 				}
 				//door->SetState(DOOR_STATE_OPEN);
 			}
@@ -742,7 +745,7 @@ void CSimon::Auto()
 		float max;
 		level1->GetSizeMap(min, max);
 		SetState(SIMON_STATE_WALKING_RIGHT);
-		if (x > max - 20.0f)
+		if (x > max )
 		{
 			state_auto = -1;	
 			SetState(SIMON_STATE_IDLE);
@@ -759,7 +762,7 @@ void CSimon::Auto()
 		{
 			simon_x = 0;
 			CEntranceLevel *level1 = CEntranceLevel::GetInstance();
-			level1->SetNextScene(true);
+			level1->SetIsNext(true);
 		}
 	}
 }
@@ -788,6 +791,9 @@ void CSimon::Camera()
 		else
 			game->SetCamera(x - 128.0f, 0.0f);
 	}
+	float cx, cy;
+	game->GetCamera(cx, cy);
+	DebugOut(L"camera=%f\n", cx);
 }
 
 void CSimon::CameraAuto()
@@ -834,7 +840,7 @@ void CSimon::CameraAuto()
 	{
 		float cx, cy;
 		game->GetCamera(cx, cy);
-		if (cx < x)
+		if (cx < x-22.0f)
 		{
 			game->SetCamera(cx + 1.0f, 0.0f);
 		}
@@ -842,9 +848,12 @@ void CSimon::CameraAuto()
 		{
 			camera_auto = -1;
 			state_auto = -1;
-			level1->SetNextScene(true);
+			level1->SetIsNext(true);
 		}
 	}
+	float cx, cy;
+	game->GetCamera(cx, cy);
+	DebugOut(L"camera=%f\n", cx);
 }
 
 CSimon::CSimon()

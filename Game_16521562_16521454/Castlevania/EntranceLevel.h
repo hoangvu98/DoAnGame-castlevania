@@ -42,7 +42,7 @@ using namespace std;
 #define MAX_MAP_3 2062
 #define MIN_MAP_4 0
 #define MAX_MAP_4 512
-#define MIN_MAP_5 2040.0f
+#define MIN_MAP_5 2042.0f
 #define MAX_MAP_5 2832.0f
 class CEntranceLevel :
 	public CMap
