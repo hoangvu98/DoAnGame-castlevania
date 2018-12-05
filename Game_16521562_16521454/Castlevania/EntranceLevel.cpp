@@ -590,6 +590,45 @@ void CEntranceLevel::LoadMap()
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
 
+		hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
+		hidenObj->SetPosition(1695.0f,80.0f);
+		hidenObj->SetStair_X(1711.0f);
+		hidenObj->SetSize(24.0f, 16.0f);
+		hidenObj->nx = 1;
+		cells->InitCells(hidenObj);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_UP);
+		hidenObj->SetPosition(1760.0f, 147.0f);
+		hidenObj->SetStair_X(1759.0f);
+		hidenObj->SetSize(25.0f, 11.0f);
+		hidenObj->nx = -1;
+		cells->InitCells(hidenObj);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
+		hidenObj->SetPosition(1920.0f, 78.0f);
+		hidenObj->SetStair_X(1759.0f);
+		hidenObj->SetSize(21.0f, 16.0f);
+		hidenObj->nx = 1;
+		cells->InitCells(hidenObj);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
+		hidenObj->SetPosition(1920.0f, 78.0f);
+		hidenObj->SetStair_X(1936.0f);
+		hidenObj->SetSize(21.0f, 16.0f);
+		hidenObj->nx = 1;
+		cells->InitCells(hidenObj);
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_UP);
+		hidenObj->SetPosition(1984.0f, 147.0f);
+		hidenObj->SetStair_X(1984.0f);
+		hidenObj->SetSize(27.0f, 11.0f);
+		hidenObj->nx = -1;
+		cells->InitCells(hidenObj);
 		break;
 
 	case SCENE_4:

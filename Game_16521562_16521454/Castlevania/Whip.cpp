@@ -166,19 +166,16 @@ void CWhip::SetState(int state)
 	switch (state)
 	{
 	case WHITE_WHIP:
-		state = WHITE_WHIP;
 		size = SHORT_WHIP;
 		damage = 1;
 		break;
 	case BLUE_WHIP:
-		state = BLUE_WHIP;
 		size = SHORT_WHIP;
-		damage = 1;
+		damage = 2;
 		break;
 	case YELLOW_WHIP:
-		state = YELLOW_WHIP;
 		size = LONG_WHIP;
-		damage = 1;
+		damage = 2;
 		break;
 	}
 }

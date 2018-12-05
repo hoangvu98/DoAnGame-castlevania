@@ -23,7 +23,7 @@ void CMap::NextScece(float &x, float &y)
 		if (scene == 1)
 		{
 			x = 10.0f;
-			y = 80.0f;
+			y = 114.5f;
 		}
 		else if (scene == 2)
 		{

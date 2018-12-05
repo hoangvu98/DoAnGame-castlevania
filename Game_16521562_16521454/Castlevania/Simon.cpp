@@ -159,6 +159,14 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		else if (dynamic_cast<CWhipUpdate *> (e->obj))
 		{
 			CItems *items = dynamic_cast<CWhipUpdate *>(e->obj);
+			if (whip->state == WHITE_WHIP)
+			{
+				whip->SetState(BLUE_WHIP);
+			}
+			else if (whip->state == BLUE_WHIP)
+			{
+				whip->SetState(YELLOW_WHIP);
+			}
 			state_update = state;
 			SetState(SIMON_STATE_UPDATE);
 			items->SetState(ITEM_STATE_DELETE);
@@ -297,7 +305,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	else
 		CameraAuto();
 	//DebugOut(L"up=%d\ndown=%d\n", IsUp, IsDown);
-	//DebugOut(L"x=%f\ny=%f\n", x,y);
+	DebugOut(L"x=%f\ny=%f\n", x,y);
 	//DebugOut(L"heart=%d\n", heart);
 	//DebugOut(L"vx=%f\n", vx);
 }

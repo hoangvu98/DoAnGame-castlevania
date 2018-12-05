@@ -27,7 +27,7 @@ public:
 #define SPEED_DAGGER 0.15f
 class CDagger : public CItems
 {
-	int damage=2;
+	int damage=1;
 public:
 	CDagger() :CItems() {AddAnimation(6000); AddAnimation(6001); }
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);

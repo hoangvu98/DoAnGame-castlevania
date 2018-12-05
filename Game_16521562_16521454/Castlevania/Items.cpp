@@ -2,6 +2,7 @@
 #include <fstream>
 #include "InputImage.h"
 #include "Simon.h"
+#include "HidenObject.h"
 using namespace std;
 
 
@@ -18,25 +19,32 @@ CItems::~CItems()
 void CItems::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt);
-	vy += ITEM_GRAVITY * dt;
+	vy = ITEM_GRAVITY*dt;
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
-
+	bool IsUpdatePossiton = false;
 	CalcPotentialCollisions(coObjects, coEvents);
-	if (coEvents.size() == 0)
-		y += dy;
-	else
+	if (coEvents.size() != 0)
 	{
 		float min_tx, min_ty, nx = 0, ny;
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-
-		x += min_tx * dx + nx * 0.4f;
-		y += min_ty * dy + ny * 0.4f;
-
-		if (nx != 0) vx = 0;
-		if (ny != 0) vy = 0;
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<CHidenObject *> (e->obj))
+			{
+				CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
+				if (hidenobject->state == HIDENOBJECT_STATE_NORMAL)
+				{
+					IsUpdatePossiton = true;
+					y += min_ty * dy + ny * 0.4f;
+				}
+			}
+		}
 	}
+	if (!IsUpdatePossiton)
+		y += dy;
 }
 
 void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

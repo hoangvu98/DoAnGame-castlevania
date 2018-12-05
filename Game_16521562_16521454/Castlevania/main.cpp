@@ -105,8 +105,6 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		DWORD t = GetTickCount() - simon->GetWhip()->GetFrameWhip();
 		if (t >= 450)
 		{
-			if (simon->GetState() != SIMON_STATE_STAIR_UP && simon->GetState() != SIMON_STATE_STAIR_DOWN)
-			{
 				if (game->IsKeyDown(DIK_UP) && t >= 450)
 				{
 					if (simon->GetOnSkill())
@@ -120,7 +118,12 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 						float temp_x, temp_y;
 						simon->GetPosition(temp_x, temp_y);
 						simon->GetWeapon()->SetPosition(temp_x, temp_y + 5);
-						simon->SetState(SIMON_STATE_IDLE);
+						if (simon->state == SIMON_STATE_STAIR_UP || simon->state == SIMON_STATE_STAIR_UP_IDLE)
+							simon->SetState(SIMON_STATE_STAIR_UP_IDLE);
+						else if (simon->state == SIMON_STATE_STAIR_DOWN || simon->state == SIMON_STATE_STAIR_DOWN_IDLE)
+							simon->SetState(SIMON_STATE_STAIR_DOWN_IDLE);
+						else
+							simon->SetState(SIMON_STATE_IDLE);
 					}
 				}
 				else
@@ -142,10 +145,8 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 				}
 				DWORD time = GetTickCount();
 				simon->GetWhip()->SetFrameWhip(time);
-			}
 		}
 		break;
-
 	}
 }
 
@@ -254,13 +255,6 @@ void CSampleKeyHander::KeyState(BYTE *states)
 				}
 			}
 		}
-		/*else
-		{
-			if (game->IsKeyDown(DIK_LEFT))
-				simon->vx = -SIMON_WALKING_SPEED;
-			else if (game->IsKeyDown(DIK_RIGHT))
-				simon->vx= SIMON_WALKING_SPEED;
-		}*/
 	}
 }
 
@@ -320,16 +314,17 @@ void LoadResources()
 	resource->LoadCastleGate();
 	simon = CSimon::GetInstance();
 	//simon->SetPosition(2053.0f, 28.0f);
-	//simon->SetPosition(1378.0f, 34.0f);
+	simon->SetPosition(1378.0f, 34.0f);
 	//simon->SetPosition(618.4f, 129.0f)
 	//simon->SetPosition(10.0f, 80.0f); 
-	simon->SetPosition(226.0f, 130.0f); 
+	//simon->SetPosition(226.0f, 130.0f); 
 	simon->SetState(SIMON_STATE_WALKING_LEFT);
 
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
 	level_1 = CEntranceLevel::GetInstance();
-	level_1->SetScene(SCENE_0);
+	level_1->SetScene(SCENE_2);
+	screen = 2;
 	level_1->LoadMap();
 	objects.push_back(simon);
 	//level_1->GetUpdateObjects(&objects);
@@ -572,7 +567,6 @@ int Run()
 				game->SetPause(true);
 			}
 			Render();
-			DebugOut(L"pause=%d\n",game->GetPause());
 		}
 		else
 			Sleep(tickPerFrame - dt);
