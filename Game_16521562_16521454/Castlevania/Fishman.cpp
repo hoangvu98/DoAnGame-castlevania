@@ -46,7 +46,7 @@ void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			y += min_ty * dy + ny * 0.4f;
 			if (fire == false)
-				if (this->nx < 0) SetState(FISHMAN_STATE_WALKING_LEFT);
+				if (this->nx < 0 && this->x >= FISHMAN_TURN) SetState(FISHMAN_STATE_WALKING_LEFT);
 				else SetState(FISHMAN_STATE_WALKING_RIGHT);
 
 			if (i >= 25 && fire == false)

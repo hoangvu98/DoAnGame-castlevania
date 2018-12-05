@@ -24,7 +24,7 @@
 #define FISHMAN_ANI_JUMP_RIGHT    4
 #define FISHMAN_ANI_WALKING_RIGHT 5
 
-
+#define FISHMAN_TURN			30.0f
 
 class CFishman : public CGameObject
 {

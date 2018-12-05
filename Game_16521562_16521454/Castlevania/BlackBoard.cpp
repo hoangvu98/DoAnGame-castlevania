@@ -32,6 +32,8 @@ CBlackBoard::CBlackBoard()
 	/*simonHP = new CHeal(PLAYER);*/
 	for (int i = 0; i < 16; i++)
 		simonHP.push_back(CHeal(PLAYER));
+	for (int i = 0; i < 16; i++)
+		enemyHP.push_back(CHeal(ENEMY));
 }
 
 void CBlackBoard::Render()
@@ -80,6 +82,9 @@ void CBlackBoard::Render()
 		for (j = simonHP.size() - 1; j >= simonHP.size() - k; j--)
 			simonHP[j].SetType(EMPTY);
 	/*DebugOut(L"k = %d\n", k);*/
+
+	for (int i = 0; i < enemyHP.size(); i++)
+		enemyHP[i].Render(i * 6.0f + 32.0f, 20.0f);
 
 	game->GetFont()->DrawTextW(game->GetSpriteHandler(), textheart.c_str(), -1, &rect, DT_EXPANDTABS,
 		D3DCOLOR_XRGB(255, 255, 255));
