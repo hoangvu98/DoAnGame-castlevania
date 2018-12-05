@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "Monster.h"
 #define BOSS_BAT_STATE_SLEEP 0
 #define BOSS_BAT_STATE_fLY   1
 
@@ -12,7 +13,7 @@
 
 #define BOSSBAT_LIMIT_X 120
 #define BOSSBAT_LIMIT_Y 105
-class CBossBat : public CGameObject
+class CBossBat : public CMonster
 {
 	int nx = 0,ny=0;
 public:

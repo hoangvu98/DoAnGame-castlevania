@@ -252,27 +252,11 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				}
 				//door->SetState(DOOR_STATE_OPEN);
 			}
-			else if (dynamic_cast<CPanther *> (e->obj))
+			else if (dynamic_cast<CMonster *> (e->obj))
 			{
-				if (collusion == 0)
-				{
-					CPanther *panther = dynamic_cast<CPanther *>(e->obj);
-					if (stair != 2)
-					{
-						collusion = 1;
-						SetState(SIMON_STATE_COLLUSION);
-					}
-					else
-						collusion = 2;
-					collusion_nx = nx;
-					FrameCollusion = GetTickCount();
-				}
-			}
-			else if (dynamic_cast<CGhoul *> (e->obj))
-			{
-				CGhoul *ghoul = dynamic_cast<CGhoul *>(e->obj);
-				if (collusion == 0 && ghoul->state != MONSTER_STATE_DELETE &&
-					ghoul->state != MONSTER_STATE_DISAPPEAR)
+				CMonster *monster = dynamic_cast<CMonster *>(e->obj);
+				if (collusion == 0 && monster->state != MONSTER_STATE_DELETE &&
+					monster->state != MONSTER_STATE_DISAPPEAR)
 				{
 					if (stair != 2)
 					{
@@ -281,25 +265,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 					}
 					else
 						collusion = 2;
-					health -= ghoul->GetDamage();
-					collusion_nx = nx;
-					FrameCollusion = GetTickCount();
-				}
-			}
-			else if(dynamic_cast<CBat *> (e->obj))
-			{
-				if (collusion == 0)
-				{
-					CBat *bat = dynamic_cast<CBat *>(e->obj);
-					if (stair != 2)
-					{
-						collusion = 1;
-						SetState(SIMON_STATE_COLLUSION);
-					}
-					else
-						collusion = 2;
-					health -= bat->GetDamage();
-					bat->SetHealth(bat->GetHealth() - 1);
+					health -= monster->GetDamage();
 					collusion_nx = nx;
 					FrameCollusion = GetTickCount();
 				}

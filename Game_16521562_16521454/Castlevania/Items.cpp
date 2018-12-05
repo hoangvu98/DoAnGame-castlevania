@@ -69,15 +69,10 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (dynamic_cast<CMonster *> (e->obj))
 			{
-				CMonster* monster= dynamic_cast <CMonster *>(e->obj);
-				monster->SetHealth(monster->GetHealth() -damage);
-				if (monster->GetHealth() <= 0)
+				CMonster *monster = dynamic_cast<CMonster *>(e->obj);
+				if (monster->state != MONSTER_STATE_DELETE && monster->state != MONSTER_STATE_DISAPPEAR)
 				{
-					monster->SetState(MONSTER_STATE_DISAPPEAR);
-					CSimon* simon = CSimon::GetInstance();
-					int points = simon->GetScore();
-					simon->SetScore(points + monster->GetScore());
-					simon->SetSkill(false);
+					monster->SetHealth(monster->GetHealth() - damage);
 				}
 			}
 			else if (dynamic_cast<CCandle *> (e->obj))
@@ -223,17 +218,11 @@ void CAxe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (dynamic_cast<CMonster *> (e->obj))
 			{
-				CMonster* monster = dynamic_cast <CMonster *>(e->obj);
-				monster->SetHealth(monster->GetHealth() - damage);
-				if (monster->GetHealth() <= 0)
+				CMonster *monster = dynamic_cast<CMonster *>(e->obj);
+				if (monster->state != MONSTER_STATE_DELETE && monster->state != MONSTER_STATE_DISAPPEAR)
 				{
-					monster->SetState(MONSTER_STATE_DISAPPEAR);
-					CSimon* simon = CSimon::GetInstance();
-					int points = simon->GetScore();
-					simon->SetScore(points + monster->GetScore());
-					simon->SetSkill(false);
+					monster->SetHealth(monster->GetHealth() - damage);
 				}
-				
 			}
 			else if (dynamic_cast<CCandle *> (e->obj))
 			{
@@ -248,7 +237,6 @@ void CAxe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vy += AXE_GRAVITY * dt;
 		x += dx;
 		y += dy;
-		simon->SetHeart(simon->GetHeart() - 1);
 	}
 }
 

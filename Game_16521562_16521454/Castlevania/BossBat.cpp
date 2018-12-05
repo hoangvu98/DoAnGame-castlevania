@@ -25,6 +25,8 @@ void CBossBat::GetBoundingBox(float & left, float & top, float & right, float & 
 
 void CBossBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	CMonster::Update(dt, coObjects);
+	DebugOut(L"health=%d\n", health);
 	if (state == BOSS_BAT_STATE_fLY)
 	{
 		CEntranceLevel *level1 = CEntranceLevel::GetInstance();
@@ -115,30 +117,30 @@ void CBossBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CBossBat::Render()
 {
-	if(state==BOSS_BAT_STATE_SLEEP)
-		animations[0]->Render(x,y,255);
-	else
+	if (state != MONSTER_STATE_DISAPPEAR && state != MONSTER_STATE_DELETE)
 	{
-		if (animations[state]->GetCureentFrame() == 0)
-			animations[1]->Render(x- 18, y, 255);
+		if (state == BOSS_BAT_STATE_SLEEP)
+			animations[0]->Render(x, y, 255);
 		else
-			animations[1]->Render(x - 12, y, 255);
+		{
+			if (animations[state]->GetCureentFrame() == 0)
+				animations[1]->Render(x - 18, y, 255);
+			else
+				animations[1]->Render(x - 12, y, 255);
+		}
 	}
 }
 
 void CBossBat::SetState(int state)
 {
 	CGameObject::SetState(state);
-	/*switch (state)
-	{
-	case BOSS_BAT_STATE_fLY:
-		vx = BOSS_BAT_SPEEDING_X;
-		vy = BOSS_BAT_SPEEDING_Y;
-	}*/
 }
 
 CBossBat::CBossBat()
 {
+	score = 1000;
+	health = 16;
+	damage = 2;
 	AddAnimation(20000);
 	AddAnimation(20001);
 	SetState(BOSS_BAT_STATE_SLEEP);

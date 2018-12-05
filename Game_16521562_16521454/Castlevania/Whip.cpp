@@ -12,7 +12,6 @@
 using namespace std;
 
 
-
 CWhip::CWhip()
 {
 	fight = false;
@@ -47,6 +46,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else
 				SetPosition(x + 21, y + 8);
 		}
+		IsSubHP = true;
 	}
 	else if (t > FRAME_TIME_WHIP && t <= FRAME_TIME_WHIP*2)
 	{
@@ -105,10 +105,13 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CMonster *> (e->obj))
 			{
 				CMonster *monster = dynamic_cast<CMonster *>(e->obj);
-
 				if (monster->state != MONSTER_STATE_DELETE && monster->state != MONSTER_STATE_DISAPPEAR)
 				{
-					monster->SetHealth(monster->GetHealth() - 1);
+					if (IsSubHP)
+					{
+						monster->SetHealth(monster->GetHealth() - 1);
+						IsSubHP = false;
+					}
 				}
 			}
 			else if (dynamic_cast<CBrick *>(e->obj))
