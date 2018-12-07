@@ -94,32 +94,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 					IsUp = 1;
 			}
 		}
-		else if (dynamic_cast<CDoor *>(e->obj))
-		{
-			CDoor *door = dynamic_cast<CDoor *>(e->obj);
-			if (door->GetIsHiden() == true && door->IsGo == true && door->nx == 1)
-			{
-				door->IsGo = false;
-				if (door->cx != 0 || door->cy != 0)
-				{
-					simon_x = door->cx;
-					simon_y = door->cy;
-				}
-				level1->SetIsNext(true);
-				level1->SetNextScene(door->GetScene());
-			}
-			else if (door->GetIsHiden() == true && door->IsGo == true && door->nx == -1 && stair == 2)
-			{
-				door->IsGo = false;
-				if (door->cx != 0 || door->cy != 0)
-				{
-					simon_x = door->cx;
-					simon_y = door->cy;
-				}
-				level1->SetIsFall(true);
-				level1->SetNextScene(door->GetScene());
-			}
-		}
+
 		else if (dynamic_cast<CHeart *>(e->obj))
 		{
 			CHeart *hearts = dynamic_cast<CHeart *>(e->obj);
@@ -247,7 +222,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (dynamic_cast<CHidenObject *> (e->obj))
+			if (dynamic_cast<CHidenObject *> (e->obj) && stair != 2)
 			{
 				CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
 
@@ -268,15 +243,44 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			else if (dynamic_cast<CDoor *>(e->obj))
 			{
 				CDoor *door = dynamic_cast<CDoor *>(e->obj);
-				if (door->GetIsHiden() == true && door->IsGo == true && door->nx == 1)
+				if (door->GetIsHiden() == true && door->IsGo == true)
 				{
-					door->IsGo = false;
-					state_auto = 5;
-					simon_x = door->x + door->size;
-					level1->SetNextScene(door->GetScene());
+					if (stair == 2)
+					{
+						if (door->nx == 1)
+						{
+							door->IsGo = false;
+							if (door->cx != 0 || door->cy != 0)
+							{
+								simon_x = door->cx;
+								simon_y = door->cy;
+							}
+							level1->SetIsNext(true);
+							level1->SetNextScene(door->GetScene());
+						}
+						else
+						{
+							door->IsGo = false;
+							if (door->cx != 0 || door->cy != 0)
+							{
+								simon_x = door->cx;
+								simon_y = door->cy;
+							}
+							level1->SetIsFall(true);
+							level1->SetNextScene(door->GetScene());
+						}
+					}
+					else
+					{
+						door->IsGo = false;
+						state_auto = 5;
+						simon_x = door->x + door->size;
+						level1->SetNextScene(door->GetScene());
+					}
 				}
 				else if (door->GetIsHiden() == false && door->IsGo == true)
 				{
+
 					SetState(SIMON_STATE_IDLE);
 					door->IsGo = false;
 					camera_auto = 2;
@@ -288,23 +292,13 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 
 		}
 	}
-	if (state == SIMON_STATE_STAIR_DOWN || state == SIMON_STATE_STAIR_UP)
-	{
-		DWORD now = GetTickCount();
-		test_stair = now - FrameStair;
-	}
-	else
-		test_stair = 0;
 	if (test)
 	{
 		x += dx;
 		y += dy;
 		test = true;
 	}
-	if (state == SIMON_STATE_STAIR_DOWN || state == SIMON_STATE_STAIR_UP)
-	{
-		camera_auto = 1;
-	}
+
 	DWORD now = GetTickCount();
 	if (now - FrameCollusion > 1000 && collusion == 1)
 	{
@@ -319,11 +313,13 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		Camera();
 	else
 		CameraAuto();
-	//DebugOut(L"up=%d\ndown=%d\n", IsUp, IsDown);
-	DebugOut(L"x=%f\ny=%f\n", x,y);
-	//DebugOut(L"heart=%d\n", heart);
-	//DebugOut(L"vx=%f\n", vx);
 	//DebugOut(L"stair=%d\n", stair);
+	//DebugOut(L"state=%d\n", state);
+	//DebugOut(L"up=%d\ndown=%d\n", IsUp, IsDown);
+	DebugOut(L"x=%f\ny=%f\n", x, y);
+	//DebugOut(L"vx=%f\nvy=%f\n", vx, vy);
+	//DebugOut(L"heart=%d\n", heart);
+
 }
 
 void CSimon::Render()
@@ -412,7 +408,7 @@ void CSimon::Render()
 							else
 								ani = SIMON_ANI_STAIR_IDLE_UP_LEFT;
 						}
-						else
+						else if (state == SIMON_STATE_STAIR_DOWN_IDLE)
 						{
 							if (nx > 0)
 								ani = SIMON_ANI_STAIR_IDLE_DOWN_RIGHT;
@@ -422,34 +418,6 @@ void CSimon::Render()
 					}
 				}
 
-			}
-			if (state == SIMON_STATE_STAIR_UP)
-			{
-				if (animations[ani]->GetCureentFrame() == 0 && test == 0)
-				{
-					test = 1;
-					if (nx > 0)
-						x += 8;
-					else
-						x -= 8;
-					y -= 8;
-				}
-				else if (animations[ani]->GetCureentFrame() == 1 && test == 1)
-					test = 0;
-			}
-			else if (state == SIMON_STATE_STAIR_DOWN)
-			{
-				if (animations[ani]->GetCureentFrame() == 0 && test == 0)
-					test = 1;
-				else if (animations[ani]->GetCureentFrame() == 1 && test == 1)
-				{
-					test = 0;
-					if (nx > 0)
-						x += 8;
-					else
-						x -= 8;
-					y += 8;
-				}
 			}
 			if (skill)
 			{
@@ -657,13 +625,39 @@ void CSimon::SetState(int state)
 	case SIMON_STATE_UPDATE:
 		vx = 0;
 		break;
-	case SIMON_STATE_STAIR_UP:
+	case SIMON_STATE_STAIR_UP_IDLE:
 		vx = 0;
 		vy = 0;
 		break;
-	case SIMON_STATE_STAIR_DOWN:
+	case SIMON_STATE_STAIR_DOWN_IDLE:
 		vx = 0;
 		vy = 0;
+		break;
+	case SIMON_STATE_STAIR_UP:
+		if (nx > 0)
+		{
+			vx = 8.0f / TIME_STAIR;
+			animations[SIMON_ANI_STAIR_UP_RIGHT]->SetCureentFrame(-1);
+		}
+		else
+		{
+			vx = -8.0f / TIME_STAIR;
+			animations[SIMON_ANI_STAIR_UP_LEFT]->SetCureentFrame(-1);
+		}
+		vy = -8.0f / TIME_STAIR;
+		break;
+	case SIMON_STATE_STAIR_DOWN:
+		if (nx > 0)
+		{
+			vx = 8.0f / TIME_STAIR;
+			animations[SIMON_ANI_STAIR_DOWN_RIGHT]->SetCureentFrame(-1);
+		}
+		else
+		{
+			vx = -8.0f / TIME_STAIR;
+			animations[SIMON_ANI_STAIR_DOWN_LEFT]->SetCureentFrame(-1);
+		}
+		vy = 8.0f / TIME_STAIR;
 		break;
 	case SIMON_STATE_COLLUSION:
 		if (collusion_nx > 0)
@@ -712,15 +706,12 @@ void CSimon::Auto()
 			if (stair == 1)
 			{
 				SetState(SIMON_STATE_STAIR_UP);
-				x += 8;
 			}
 			else
 			{
 				SetState(SIMON_STATE_STAIR_DOWN);
-				x -= 8;
 			}
 			SetFrameStair();
-			GetPosition(simon_x, simon_y);
 			stair = 2;
 			state_auto = 0;
 		}
@@ -734,15 +725,12 @@ void CSimon::Auto()
 			if (stair == 1)
 			{
 				SetState(SIMON_STATE_STAIR_UP);
-				x += 8;
 			}
 			else
 			{
 				SetState(SIMON_STATE_STAIR_DOWN);
-				x -= 8;
 			}
 			SetFrameStair();
-			GetPosition(simon_x, simon_y);
 			stair = 2;
 			state_auto = 0;
 		}
@@ -812,26 +800,8 @@ void CSimon::CameraAuto()
 	float min;
 	float max;
 	level1->GetSizeMap(min, max);
-	if (camera_auto == 1) //di chuyen camera theo cau thang
-	{
-		float x1;
-		if (nx > 0)
-			x1 = simon_x + (float)8 / TIME_STAIR * test_stair;
-		else
-			x1 = simon_x - (float)8 / TIME_STAIR * test_stair;
-		if (x1 - 128.0f < min)
-		{
-			game->SetCamera(min, 0.0f);
-		}
-		else if (x1 + 128.0f > max)
-		{
-			game->SetCamera(max - 256.0f, 0.0f);
-		}
-		else
-			game->SetCamera(x1 - 128.0f, 0.0f);
-		camera_auto = 0;
-	}
-	else if (camera_auto == 2) //di chuyen camera qua simon
+
+	if (camera_auto == 2) //di chuyen camera qua simon
 	{
 		float cx, cy;
 		game->GetCamera(cx, cy);

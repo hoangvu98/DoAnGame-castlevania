@@ -157,7 +157,7 @@ void CSampleKeyHander::OnKeyUp(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_DOWN:
-		if (simon->GetStair() != 2)
+		if (simon->GetStair() != 2 )
 		{
 			simon->SetState(SIMON_STATE_IDLE);
 		}
@@ -174,6 +174,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 			if (simon->GetFight() == false)
 			{
 				DWORD now = GetTickCount();
+				
 				if (now - simon->GetFrameStair() > TIME_STAIR)
 				{
 					if (simon->IsUp == 2)
@@ -200,7 +201,6 @@ void CSampleKeyHander::KeyState(BYTE *states)
 							simon->nx = -simon->nx;
 						simon->SetState(SIMON_STATE_STAIR_UP);
 						simon->SetFrameStair();
-						simon->GetPosition(simon->simon_x, simon->simon_y);
 					}
 					else if (game->IsKeyDown(DIK_DOWN))
 					{
@@ -213,7 +213,6 @@ void CSampleKeyHander::KeyState(BYTE *states)
 							simon->nx = -simon->nx;
 						simon->SetState(SIMON_STATE_STAIR_DOWN);
 						simon->SetFrameStair();
-						simon->GetPosition(simon->simon_x, simon->simon_y);
 					}
 					else
 					{
@@ -315,9 +314,10 @@ void LoadResources()
 	resource->LoadCastleGate();
 	simon = CSimon::GetInstance();
 	//simon->SetPosition(2053.0f, 28.0f);
-	//simon->SetPosition(1378.0f, 34.0f);
+	//simon->SetPosition(906.0f, 34.0f);
+	simon->SetPosition(1378.0f, 34.0f);
 	//simon->SetPosition(618.4f, 129.0f);
-	simon->SetPosition(10.0f, 80.0f); 
+	//simon->SetPosition(10.0f, 80.0f); 
 	//simon->SetPosition(226.0f, 130.0f); 
 	simon->SetState(SIMON_STATE_WALKING_LEFT);
 
@@ -555,6 +555,7 @@ int Run()
 			frameStart = now;
 			if (game->GetPause())
 			{
+				
 				if (simon->GetStateAuto() == 0 && simon->GetCollusion()!=1)
 					game->ProcessKeyboard();
 				Update(dt);
