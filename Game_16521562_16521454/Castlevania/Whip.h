@@ -43,6 +43,7 @@ public:
 	void Render();
 	void GetBoundingBox(float & left, float & top, float & right, float & bottom);
 	void SetState(int state);
+	void FindPosstion();
 	void SetStateWhip(int state_whip) { this->state_whip = state_whip; }
 	int GetSize() { return size; }
 	DWORD GetFrameWhip() { return FrameWhip; }

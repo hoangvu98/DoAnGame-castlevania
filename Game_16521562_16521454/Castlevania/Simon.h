@@ -88,7 +88,6 @@ class CSimon :public CGameObject
 	int collusion_nx = 0;
 	int state_auto = 0;
 	int camera_auto = 0;
-	bool IsResetWhip = false;
 public:
 	bool MeetBoss = false;
 	DWORD test_stair = 0;
@@ -120,8 +119,6 @@ public:
 	void SetStateAuto(int state_auto) { this-> state_auto= state_auto; }
 	void SetCameraAuto(int camera_auto) { this->camera_auto = camera_auto; }
 	DWORD GetFrameUpdate(){	return FrameUpdate;}
-	void SetResetWhip(int IsResetWhip) { this->IsResetWhip = IsResetWhip; }
-	bool GetRestWhip() { return this->IsResetWhip; }
 
 	int GetScore() { return score; }
 	void SetScore(int score) { this->score = score; }

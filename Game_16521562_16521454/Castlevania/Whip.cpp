@@ -31,71 +31,6 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	DWORD t = GetTickCount() - FrameWhip;
 	CSimon* simon = CSimon::GetInstance();
-	if (simon->GetRestWhip())
-	{
-		currentFrame = -1;
-		animations[0]->SetCureentFrame(-1);
-		animations[1]->SetCureentFrame(-1);
-		animations[2]->SetCureentFrame(-1);
-		animations[3]->SetCureentFrame(-1);
-		animations[4]->SetCureentFrame(-1);
-		animations[5]->SetCureentFrame(-1);
-		simon->SetResetWhip(false);
-	}
-	if (currentFrame == 0 || currentFrame == -1)
-	{
-		if (size == SHORT_WHIP)
-		{
-			if (state_whip == WHIP_STATE_RIGHT)
-				SetPosition(x - 6, y + 9);//
-			else
-				SetPosition(x + 24, y + 8);//
-		}
-		else
-		{
-			if (state_whip == WHIP_STATE_RIGHT)
-				SetPosition(x - 6, y + 9);//
-			else
-				SetPosition(x + 21, y + 8);
-		}
-		IsSubHP = true;
-	}
-	else if (currentFrame == 1)
-	{
-
-		if (size == SHORT_WHIP)
-		{
-			if (state_whip == WHIP_STATE_RIGHT)
-				SetPosition(x - 11, y + 6);//
-			else
-				SetPosition(x + 15, y + 6);//
-		}
-		else
-		{
-			if (state_whip == WHIP_STATE_RIGHT)
-				SetPosition(x - 11, y + 6);//
-			else
-				SetPosition(x + 14, y + 6);
-		}
-	}
-	else if (currentFrame == 2)
-	{
-
-		if (size == SHORT_WHIP)
-		{
-			if (state_whip == WHIP_STATE_RIGHT)
-				SetPosition(x + 22, y + 7);//
-			else
-				SetPosition(x - 22, y + 5);//
-		}
-		else
-		{
-			if (state_whip == WHIP_STATE_RIGHT)
-				SetPosition(x + 22, y + 7);//
-			else
-				SetPosition(x - 39, y + 5);
-		}
-	}
 	if (fight == true)
 	{
 		coEventsResult.clear();
@@ -142,6 +77,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 }
 void CWhip::Render()
 {
+	FindPosstion();
 	int ani = 2 * state + state_whip;
 	DWORD t = GetTickCount() - FrameWhip;
 	animations[ani]->SetCureentFrame(currentFrame);
@@ -187,6 +123,64 @@ void CWhip::SetState(int state)
 		size = LONG_WHIP;
 		damage = 2;
 		break;
+	}
+}
+
+void CWhip::FindPosstion()
+{
+	if (currentFrame==0)
+	{
+		if (size == SHORT_WHIP)
+		{
+			if (state_whip == WHIP_STATE_RIGHT)
+				SetPosition(x - 6, y + 9);
+			else
+				SetPosition(x + 24, y + 8);
+		}
+		else
+		{
+			if (state_whip == WHIP_STATE_RIGHT)
+				SetPosition(x - 6, y + 9);
+			else
+				SetPosition(x + 21, y + 8);
+		}
+		IsSubHP = true;
+	}
+	else if (currentFrame == 1)
+	{
+
+		if (size == SHORT_WHIP)
+		{
+			if (state_whip == WHIP_STATE_RIGHT)
+				SetPosition(x - 11, y + 6);
+			else
+				SetPosition(x + 15, y + 6);
+		}
+		else
+		{
+			if (state_whip == WHIP_STATE_RIGHT)
+				SetPosition(x - 11, y + 6);
+			else
+				SetPosition(x + 14, y + 6);
+		}
+	}
+	else if (currentFrame == 2)
+	{
+
+		if (size == SHORT_WHIP)
+		{
+			if (state_whip == WHIP_STATE_RIGHT)
+				SetPosition(x + 22, y + 7);
+			else
+				SetPosition(x - 22, y + 5);
+		}
+		else
+		{
+			if (state_whip == WHIP_STATE_RIGHT)
+				SetPosition(x + 22, y + 7);
+			else
+				SetPosition(x - 39, y + 5);
+		}
 	}
 }
 
