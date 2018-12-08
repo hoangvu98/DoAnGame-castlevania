@@ -317,12 +317,12 @@ void LoadResources()
 	simon = CSimon::GetInstance();
 	//simon->SetPosition(2053.0f, 28.0f);
 	//simon->SetPosition(906.0f, 34.0f);
-	simon->SetPosition(1378.0f, 34.0f);
+	//simon->SetPosition(1378.0f, 34.0f);
 	//simon->SetPosition(618.4f, 129.0f);
 	//simon->SetPosition(10.0f, 80.0f); 
 	//simon->SetPosition(226.0f, 130.0f); 
 	//simon->SetState(SIMON_STATE_WALKING_LEFT);
-
+	simon->SetPosition(190.0f, 48.0f);
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
 	level_1 = CEntranceLevel::GetInstance();
@@ -334,7 +334,7 @@ void LoadResources()
 	blackboard = new CBlackBoard();
 
 	level_6 = CClockTowerLevel::GetInstance();
-	level_6->SetScene(SCENE_1);
+	level_6->SetScene(SCENE_5);
 	screen = 3;
 	level_6->LoadMap();
 }
@@ -422,6 +422,13 @@ void Update(DWORD dt)
 		break;
 	case 3:
 		level_6->Update();
+		objects.clear();
+		objects.push_back(simon);
+		level_6->GetUpdateObjects(&objects);
+		for (int i = 0; i < objects.size() - 1; i++)
+			coObjects.push_back(objects[i]);
+		for (int i = 0; i < objects.size(); i++)
+			objects[i]->Update(dt, &coObjects);
 		break;
 	}
 }
@@ -481,6 +488,9 @@ void Render()
 			break;
 		case 3:
 			level_6->Render();
+			for (int i = 0; i < objects.size(); i++)
+				objects[i]->Render();
+			break;
 		}
 
 		spriteHandler->End();
