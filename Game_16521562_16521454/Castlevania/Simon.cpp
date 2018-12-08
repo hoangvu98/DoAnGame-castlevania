@@ -50,6 +50,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			}
 		}
 		whip->Update(dt, coObject);
+		whip->SetPosition(x, y);
 	}
 	if (skill)
 	{

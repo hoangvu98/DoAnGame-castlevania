@@ -31,6 +31,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	DWORD t = GetTickCount() - FrameWhip;
 	CSimon* simon = CSimon::GetInstance();
+	FindPosstion();
 	if (fight == true)
 	{
 		coEventsResult.clear();

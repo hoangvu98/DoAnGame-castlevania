@@ -124,7 +124,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 							simon->SetState(SIMON_STATE_STAIR_UP_IDLE);
 						else if (simon->state == SIMON_STATE_STAIR_DOWN || simon->state == SIMON_STATE_STAIR_DOWN_IDLE)
 							simon->SetState(SIMON_STATE_STAIR_DOWN_IDLE);
-						else
+						else if (simon->state != SIMON_STATE_JUMP)
 							simon->SetState(SIMON_STATE_IDLE);
 					}
 				}
@@ -137,11 +137,9 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 					simon->SetFight(true);
 					if (simon->GetStair() != 2)
 					{
-						if (game->IsKeyDown(DIK_LEFT) || game->IsKeyDown(DIK_RIGHT))
-							simon->SetState(SIMON_STATE_IDLE);
-						else if (game->IsKeyDown(DIK_DOWN))
+						if (game->IsKeyDown(DIK_DOWN))
 							simon->SetState(SIMON_STATE_KNEE);
-						else
+						else if (simon->state != SIMON_STATE_JUMP)
 							simon->SetState(SIMON_STATE_IDLE);
 					}
 				}
@@ -158,9 +156,12 @@ void CSampleKeyHander::OnKeyUp(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_DOWN:
-		if (simon->GetStair() != 2 )
+		if (simon->GetFight() == false)
 		{
-			simon->SetState(SIMON_STATE_IDLE);
+			if (simon->GetStair() != 2)
+			{
+				simon->SetState(SIMON_STATE_IDLE);
+			}
 		}
 		break;
 	}
@@ -333,10 +334,10 @@ void LoadResources()
 	//level_1->GetUpdateObjects(&objects);
 	blackboard = new CBlackBoard();
 
-	level_6 = CClockTowerLevel::GetInstance();
+	/*level_6 = CClockTowerLevel::GetInstance();
 	level_6->SetScene(SCENE_5);
 	screen = 3;
-	level_6->LoadMap();
+	level_6->LoadMap();*/
 }
 
 

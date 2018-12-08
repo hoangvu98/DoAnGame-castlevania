@@ -15,12 +15,23 @@ void CMonster::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			SetState(MONSTER_STATE_DISAPPEAR);
 			int points = simon->GetScore();
 			simon->SetScore(points + score);
+			Time_HitEffect = GetTickCount();
 		}
 	}
 }
 
 void CMonster::Render()
 {
+	if (state == MONSTER_STATE_DISAPPEAR)
+	{
+		int now = GetTickCount();
+		hiteffect->SetPosition(x, y);
+		if (items != NULL)
+			items->SetPosition(x + 5, y + 10);
+		hiteffect->Render();
+		if (now - Time_HitEffect >= FrameTime)
+			SetState(MONSTER_STATE_DELETE);
+	}
 }
 
 void CMonster::SetState(int state)

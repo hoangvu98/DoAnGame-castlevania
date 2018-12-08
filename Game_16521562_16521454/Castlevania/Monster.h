@@ -5,6 +5,8 @@
 using namespace std;
 #define MONSTER_STATE_DISAPPEAR 100
 #define MONSTER_STATE_DELETE    200
+
+#define FrameTime 200
 class CMonster : public CGameObject
 {
 protected:
@@ -13,6 +15,7 @@ protected:
 	int health;
 	int score;
 	int damage;
+	DWORD Time_HitEffect;
 public:
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);

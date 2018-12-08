@@ -48,28 +48,17 @@ void CGhoul::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void CGhoul::Render()
 {
+	CMonster::Render();
 	int ani;
 	if (state == GHOUL_STATE_LEFT)
 	{
 		ani = GHOUL_ANI_LEFT;
 		animations[ani]->Render(x, y);
-		Time_HitEffect = GetTickCount();
 	}
 	else if (state == GHOUL_STATE_RIGHT)
 	{
 		ani = GHOUL_ANI_RIGHT;
 		animations[ani]->Render(x, y);
-		Time_HitEffect = GetTickCount();
-	}
-	else if (state == MONSTER_STATE_DISAPPEAR)
-	{
-		int now = GetTickCount();
-		hiteffect->SetPosition(x, y);
-		if (items != NULL)
-			items->SetPosition(x + 5, y + 10);
-		hiteffect->Render();
-		if (now - Time_HitEffect >= FrameTime)
-			SetState(MONSTER_STATE_DELETE);
 	}
 }
 
@@ -120,6 +109,7 @@ void CGhoul::Reset()
 }
 CGhoul::CGhoul()
 {
+	CMonster::CMonster();
 	health = 1;
 	score = 100;
 	damage = 1;
