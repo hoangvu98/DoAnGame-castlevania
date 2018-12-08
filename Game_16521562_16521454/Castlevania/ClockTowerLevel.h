@@ -19,6 +19,7 @@
 #define SCENE_3		3
 #define SCENE_4		4
 #define SCENE_5		5
+
 class CClockTowerLevel :
 	public CMap
 {

@@ -19,6 +19,7 @@
 #include "Map.h"
 #include "HidenObject.h"
 #include "EntranceLevel.h"
+#include "ClockTowerLevel.h"
 #include "InputImage.h"
 #include "Resource.h"
 #include "BlackBoard.h"
@@ -55,6 +56,7 @@ CBlackBoard * blackboard;
 vector<LPGAMEOBJECT> objects;
 CHidenObject *hidenObject;
 CEntranceLevel *level_1;
+CClockTowerLevel *level_6;
 LPDIRECT3DTEXTURE9 texture_title;
 LPDIRECT3DTEXTURE9 texture_intro;
 int screen = 0;
@@ -327,10 +329,14 @@ void LoadResources()
 	level_1->SetScene(SCENE_2);
 	screen = 2;
 	level_1->LoadMap();
-	objects.push_back(simon);
+	//objects.push_back(simon);
 	//level_1->GetUpdateObjects(&objects);
 	blackboard = new CBlackBoard();
 
+	level_6 = CClockTowerLevel::GetInstance();
+	level_6->SetScene(SCENE_1);
+	screen = 3;
+	level_6->LoadMap();
 }
 
 
@@ -408,11 +414,14 @@ void Update(DWORD dt)
 		objects.clear();
 		objects.push_back(simon);
 		level_1->GetUpdateObjects(&objects);
-		vector<LPGAMEOBJECT> coObjects;
+		//vector<LPGAMEOBJECT> coObjects;
 		for (int i = 0; i < objects.size() - 1; i++)
 			coObjects.push_back(objects[i]);
 		for (int i = 0; i < objects.size(); i++)
 			objects[i]->Update(dt, &coObjects);
+		break;
+	case 3:
+		level_6->Update();
 		break;
 	}
 }
@@ -470,6 +479,8 @@ void Render()
 			for (int i = 0; i < objects.size(); i++)
 				objects[i]->Render();
 			break;
+		case 3:
+			level_6->Render();
 		}
 
 		spriteHandler->End();
