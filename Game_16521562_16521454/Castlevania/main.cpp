@@ -255,6 +255,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 			}
 		}
 	}
+	
 }
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -318,7 +319,7 @@ void LoadResources()
 	//simon->SetPosition(618.4f, 129.0f);
 	//simon->SetPosition(10.0f, 80.0f); 
 	//simon->SetPosition(226.0f, 130.0f); 
-	simon->SetState(SIMON_STATE_WALKING_LEFT);
+	//simon->SetState(SIMON_STATE_WALKING_LEFT);
 
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);

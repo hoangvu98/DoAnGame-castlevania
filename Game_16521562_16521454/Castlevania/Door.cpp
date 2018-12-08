@@ -30,6 +30,7 @@ CDoor::CDoor()
 	AddAnimation(11000);
 	AddAnimation(11001);
 	AddAnimation(11002);
+	IsStair = false;
 	stop = false;
 	i = 0;
 	nx = 1;

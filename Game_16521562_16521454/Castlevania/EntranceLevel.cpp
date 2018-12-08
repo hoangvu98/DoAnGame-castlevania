@@ -482,6 +482,7 @@ void CEntranceLevel::LoadMap()
 		door->cy = -10.63f;
 		door->SetIsHiDen(true);
 		door->IsGo = true;
+		door->SetIsStair(true);
 		door->SetScene(4);
 		cells->InitCells(door);
 
@@ -492,6 +493,7 @@ void CEntranceLevel::LoadMap()
 		door->cy = -10.06f;
 		door->SetIsHiDen(true);
 		door->IsGo = true;
+		door->SetIsStair(true);
 		door->SetScene(4);
 		cells->InitCells(door);
 
@@ -691,11 +693,11 @@ void CEntranceLevel::LoadMap()
 
 		cells = new CCells(column, row);
 
-		/*fishman = new CFishman();
+		fishman = new CFishman();
 		fishman->SetState(FISHMAN_STATE_JUMP);
 		fishman->SetPosition(164.0f, 164.0f);
 		fishman->Setnx(-1);
-		cells->InitCells(fishman);*/
+		cells->InitCells(fishman);
 
 		door = new CDoor();
 		door->SetState(DOOR_STATE_CLOSE);
@@ -705,6 +707,7 @@ void CEntranceLevel::LoadMap()
 		door->SetIsHiDen(true);
 		door->IsGo = true;
 		door->nx = -1;
+		door->SetIsStair (true);
 		door->SetScene(3);
 		cells->InitCells(door);
 
@@ -717,6 +720,7 @@ void CEntranceLevel::LoadMap()
 		door->SetIsHiDen(true);
 		door->IsGo = true;
 		door->nx = -1;
+		door->SetIsStair(true);
 		door->SetScene(3);
 		cells->InitCells(door);
 

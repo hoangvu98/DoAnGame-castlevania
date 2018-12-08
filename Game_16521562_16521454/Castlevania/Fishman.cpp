@@ -90,7 +90,6 @@ void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				y += dy;
 		}
 	}
-	DebugOut(L"state = %d\n", state);
 }
 
 void CFishman::Render()

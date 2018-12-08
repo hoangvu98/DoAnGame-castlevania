@@ -17,6 +17,7 @@ class CDoor :
 	bool stop;
 	int i;
 	int scene;
+	bool IsStair;
 public:
 	int size=0;
 	bool IsGo = true;
@@ -28,6 +29,8 @@ public:
 	bool GetIsHiden() { return IsHiden; }
 	void SetScene(int scene) { this->scene = scene; }
 	int GetScene() { return scene; }
+	void SetIsStair(bool IsStair) {this->IsStair = IsStair;}
+	bool GetIsStair() { return IsStair; }
 	CDoor();
 };
 

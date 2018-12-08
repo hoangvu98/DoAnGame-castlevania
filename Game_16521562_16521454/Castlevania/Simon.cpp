@@ -226,7 +226,10 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 					}
 					if (collusion == 1 && ny < 0)
 						if (state == SIMON_STATE_COLLUSION)
+						{
 							SetState(SIMON_STATE_KNEE);
+							FrameCollusion = GetTickCount();
+						}
 				}
 			}
 			else if (dynamic_cast<CDoor *>(e->obj))
@@ -234,29 +237,32 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				CDoor *door = dynamic_cast<CDoor *>(e->obj);
 				if (door->GetIsHiden() == true && door->IsGo == true)
 				{
-					if (stair == 2)
+					if (door->GetIsStair() == true)
 					{
-						if (door->nx == 1)
+						if (stair == 2)
 						{
-							door->IsGo = false;
-							if (door->cx != 0 || door->cy != 0)
+							if (door->nx == 1)
 							{
-								simon_x = door->cx;
-								simon_y = door->cy;
+								door->IsGo = false;
+								if (door->cx != 0 || door->cy != 0)
+								{
+									simon_x = door->cx;
+									simon_y = door->cy;
+								}
+								level1->SetIsNext(true);
+								level1->SetNextScene(door->GetScene());
 							}
-							level1->SetIsNext(true);
-							level1->SetNextScene(door->GetScene());
-						}
-						else
-						{
-							door->IsGo = false;
-							if (door->cx != 0 || door->cy != 0)
+							else
 							{
-								simon_x = door->cx;
-								simon_y = door->cy;
+								door->IsGo = false;
+								if (door->cx != 0 || door->cy != 0)
+								{
+									simon_x = door->cx;
+									simon_y = door->cy;
+								}
+								level1->SetIsFall(true);
+								level1->SetNextScene(door->GetScene());
 							}
-							level1->SetIsFall(true);
-							level1->SetNextScene(door->GetScene());
 						}
 					}
 					else
@@ -289,14 +295,15 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	}
 
 	DWORD now = GetTickCount();
-	if (now - FrameCollusion > 1000 && collusion == 1)
+	if (now - FrameCollusion > 100 && collusion == 1 && state== SIMON_STATE_KNEE)
 	{
 		collusion = 2;
 	}
-	else if (now - FrameCollusion > 3000)
+	else if (now - FrameCollusion > 2000 && collusion == 2)
 	{
 		collusion = 0;
 	}
+	
 	Auto();
 	if (camera_auto == 0)
 		Camera();
@@ -305,10 +312,9 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	//DebugOut(L"stair=%d\n", stair);
 	//DebugOut(L"state=%d\n", state);
 	//DebugOut(L"up=%d\ndown=%d\n", IsUp, IsDown);
-	DebugOut(L"x=%f\ny=%f\n", x, y);
+	//DebugOut(L"x=%f\ny=%f\n", x, y);
 	//DebugOut(L"vx=%f\nvy=%f\n", vx, vy);
 	//DebugOut(L"heart=%d\n", heart);
-
 }
 
 void CSimon::Render()
