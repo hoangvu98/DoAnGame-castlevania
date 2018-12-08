@@ -116,6 +116,33 @@ void CClockTowerLevel::LoadMap()
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cells->InitCells(hobj);
 
+		//nen
+		candle = new CCandle(SMALL_CANDLE, AXE);
+		candle->SetPosition(1501.0f, 84.0f);
+		candle->SetState(CANDLE_STATE_NORMAL);
+		cells->InitCells(candle);
+
+		for (int i = 0; i < 2; i++)
+		{
+			candle = new CCandle(SMALL_CANDLE);
+			candle->SetPosition(i * 68.0f + 1371.0f, 112.0f);
+			candle->SetState(CANDLE_STATE_NORMAL);
+			cells->InitCells(candle);
+		}
+
+		for (int i = 0; i < 3; i++)
+		{
+			candle = new CCandle(SMALL_CANDLE);
+			candle->SetPosition(i * 69.0f + 670.0f, 47.0f);
+			candle->SetState(CANDLE_STATE_NORMAL);
+			cells->InitCells(candle);
+		}
+
+		candle = new CCandle(SMALL_CANDLE);
+		candle->SetPosition(92.0f, 14.0f);
+		candle->SetState(CANDLE_STATE_NORMAL);
+		cells->InitCells(candle);
+
 		break;
 	case SCENE_2:
 		textures->Add(ID_MAP_LEVEL_6, LEVEL6_STAGE17A_PATH, D3DCOLOR_XRGB(255, 255, 255));
@@ -219,6 +246,31 @@ void CClockTowerLevel::LoadMap()
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cells->InitCells(hobj);
 
+		candle = new CCandle(SMALL_CANDLE);
+		candle->SetPosition(734.0f, 17.0f);
+		candle->SetState(CANDLE_STATE_NORMAL);
+		cells->InitCells(candle);
+
+		for (int i = 0; i < 3; i++)
+		{
+			candle = new CCandle(SMALL_CANDLE);
+			candle->SetPosition(i * 58.0f + 539.0f, 82.0f);
+			candle->SetState(CANDLE_STATE_NORMAL);
+			cells->InitCells(candle);
+		}
+
+		for (int i = 0; i < 3; i++)
+		{
+			candle = new CCandle(SMALL_CANDLE);
+			candle->SetPosition(i * 65.0f + 92.0f, 114.0f);
+			candle->SetState(CANDLE_STATE_NORMAL);
+			cells->InitCells(candle);
+		}
+
+		candle = new CCandle(SMALL_CANDLE);
+		candle->SetPosition(283.0f, 18.0f);
+		candle->SetState(CANDLE_STATE_NORMAL);
+		cells->InitCells(candle);
 		break;
 	case SCENE_3:
 		textures->Add(ID_MAP_LEVEL_6, LEVEL6_STAGE17B_PATH, D3DCOLOR_XRGB(255, 255, 255));
@@ -334,6 +386,41 @@ void CClockTowerLevel::LoadMap()
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cells->InitCells(hobj);
 
+		candle = new CCandle(SMALL_CANDLE);
+		candle->SetPosition(605.0f, 81.0f);
+		candle->SetState(CANDLE_STATE_NORMAL);
+		cells->InitCells(candle);
+
+		candle = new CCandle(SMALL_CANDLE);
+		candle->SetPosition(667.0f, 17.0f);
+		candle->SetState(CANDLE_STATE_NORMAL);
+		cells->InitCells(candle);
+
+		for (int i = 0; i < 2; i++)
+		{
+			candle = new CCandle(SMALL_CANDLE);
+			candle->SetPosition(i * 64.0f + 477.0f, 17.0f);
+			candle->SetState(CANDLE_STATE_NORMAL);
+			cells->InitCells(candle);
+		}
+
+		candle = new CCandle(SMALL_CANDLE);
+		candle->SetPosition(284.0f, 82.0f);
+		candle->SetState(CANDLE_STATE_NORMAL);
+		cells->InitCells(candle);
+
+		for (int i = 0; i < 2; i++)
+		{
+			candle = new CCandle(SMALL_CANDLE);
+			candle->SetPosition(i * 63.0f + 94.0f, 82.0f);
+			candle->SetState(CANDLE_STATE_NORMAL);
+			cells->InitCells(candle);
+		}
+
+		candle = new CCandle(SMALL_CANDLE);
+		candle->SetPosition(28.0f, 16.0f);
+		candle->SetState(CANDLE_STATE_NORMAL);
+		cells->InitCells(candle);
 		break;
 	case SCENE_4:
 		textures->Add(ID_MAP_LEVEL_6, LEVEL6_STAGE18A_PATH, D3DCOLOR_XRGB(255, 255, 255));
@@ -401,6 +488,18 @@ void CClockTowerLevel::LoadMap()
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cells->InitCells(hobj);
 
+		candle = new CCandle(SMALL_CANDLE);
+		candle->SetPosition(477.0f, 50.0f);
+		candle->SetState(CANDLE_STATE_NORMAL);
+		cells->InitCells(candle);
+
+		for (int i = 0; i < 7; i++)
+		{
+			candle = new CCandle(SMALL_CANDLE);
+			candle->SetPosition(i * 64.0f + 30.0f, 83.0f);
+			candle->SetState(CANDLE_STATE_NORMAL);
+			cells->InitCells(candle);
+		}
 		break;
 	}
 }
