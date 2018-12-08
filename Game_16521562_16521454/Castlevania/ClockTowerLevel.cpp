@@ -4,7 +4,7 @@
 #include "Candle.h"
 #include "HidenObject.h"
 #include "Simon.h"
-
+#include "Door.h"
 CClockTowerLevel *CClockTowerLevel::__instance = NULL;
 
 CClockTowerLevel::CClockTowerLevel()
@@ -21,6 +21,7 @@ void CClockTowerLevel::LoadMap()
 	CCandle *candle;
 	CSimon *simon = CSimon::GetInstance();
 	CHidenObject *hobj;
+	CDoor * door;
 	switch (scene)
 	{
 	case SCENE_1:
@@ -142,6 +143,30 @@ void CClockTowerLevel::LoadMap()
 		candle->SetPosition(92.0f, 14.0f);
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
+
+
+		hobj = new CHidenObject();
+		hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
+		hobj->SetSize(24.0f, 13.0f);
+		hobj->SetPosition(1360.0f, 68.0f);
+		hobj->SetStair_X(1369.0f);
+		hobj->nx = 1;
+		cells->InitCells(hobj);
+
+		hobj = new CHidenObject();
+		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
+		hobj->SetSize(28.0f, 9.0f);
+		hobj->SetPosition(1420.0f, 135.0f);
+		hobj->SetStair_X(1434.0f);
+		hobj->nx = -1;
+		cells->InitCells(hobj);
+
+		door = new CDoor();
+		door->SetPosition(90.0f, 50.0f);
+		door->size = 30;
+		door->SetIsHiDen(true);
+		door->SetScene(2);
+		cells->InitCells(door);
 
 		break;
 	case SCENE_2:
@@ -271,6 +296,63 @@ void CClockTowerLevel::LoadMap()
 		candle->SetPosition(283.0f, 18.0f);
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
+
+		hobj = new CHidenObject();
+		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
+		hobj->SetSize(25.0f, 10.0f);
+		hobj->SetPosition(538.0f, 104.0f);
+		hobj->SetStair_X(539.0f);
+		hobj->nx = 1;
+		cells->InitCells(hobj);
+
+		hobj = new CHidenObject();
+		hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
+		hobj->SetSize(21.0f, 8.0f);
+		hobj->SetPosition(604.0f, 42.0f);
+		hobj->SetStair_X(603.4f);
+		hobj->nx = -1;
+		cells->InitCells(hobj);
+
+		hobj = new CHidenObject();
+		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
+		hobj->SetSize(26.0f, 10.0f);
+		hobj->SetPosition(215.0f, 136.0f);
+		hobj->SetStair_X(216.0f);
+		hobj->nx = -1;
+		cells->InitCells(hobj);
+
+		hobj = new CHidenObject();
+		hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
+		hobj->SetSize(23.0f, 9.0f);
+		hobj->SetPosition(111.0f, 41.0f);
+		hobj->SetStair_X(120.0f);
+		hobj->nx = 1;
+		cells->InitCells(hobj);
+
+		hobj = new CHidenObject();
+		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
+		hobj->SetSize(26.0f, 11.0f);
+		hobj->SetPosition(54.0f, 39.0f);
+		hobj->SetStair_X(60.0f);
+		hobj->nx = 1;
+		cells->InitCells(hobj);
+
+		hobj = new CHidenObject();
+		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
+		hobj->SetSize(30.0f, 11.0f);
+		hobj->SetPosition(626.0f, 39.0f);
+		hobj->SetStair_X(634.0f);
+		hobj->nx = 1;
+		cells->InitCells(hobj);
+
+
+		hobj = new CHidenObject();
+		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
+		hobj->SetSize(19.0f, 10.0f);
+		hobj->SetPosition(279.0f, 40.0f);
+		hobj->SetStair_X(283.0f);
+		hobj->nx = 1;
+		cells->InitCells(hobj);
 		break;
 	case SCENE_3:
 		textures->Add(ID_MAP_LEVEL_6, LEVEL6_STAGE17B_PATH, D3DCOLOR_XRGB(255, 255, 255));
@@ -421,6 +503,46 @@ void CClockTowerLevel::LoadMap()
 		candle->SetPosition(28.0f, 16.0f);
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
+
+		hobj = new CHidenObject();
+		hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
+		hobj->SetSize(17.0f, 7.0f);
+		hobj->SetPosition(701.0f, 137.0f);
+		hobj->SetStair_X(702.0f);
+		hobj->nx = -1;
+		cells->InitCells(hobj);
+
+		hobj = new CHidenObject();
+		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
+		hobj->SetSize(26.0f, 10.0f);
+		hobj->SetPosition(629.0f, 135.0f);
+		hobj->SetStair_X(635.0f);
+		hobj->nx = 1;
+		cells->InitCells(hobj);
+
+		hobj = new CHidenObject();
+		hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
+		hobj->SetSize(23.0f, 7.0f);
+		hobj->SetPosition(656.0f, 42.0f);
+		hobj->SetStair_X(665.0f);
+		hobj->nx = 1;
+		cells->InitCells(hobj);
+
+		hobj = new CHidenObject();
+		hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
+		hobj->SetSize(23.0f, 8.0f);
+		hobj->SetPosition(303.0f, 105.0f);
+		hobj->SetStair_X(312.0f);
+		hobj->nx = 1;
+		cells->InitCells(hobj);
+
+		hobj = new CHidenObject();
+		hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
+		hobj->SetSize(22.0f, 8.0f);
+		hobj->SetPosition(42.0f, 72.0f);
+		hobj->SetStair_X(57.0f);
+		hobj->nx = 1;
+		cells->InitCells(hobj);
 		break;
 	case SCENE_4:
 		textures->Add(ID_MAP_LEVEL_6, LEVEL6_STAGE18A_PATH, D3DCOLOR_XRGB(255, 255, 255));
@@ -444,6 +566,14 @@ void CClockTowerLevel::LoadMap()
 		hobj->SetPosition(184.0f, 81.0f);
 		hobj->SetSize(65.0f, 15.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		cells->InitCells(hobj);
+
+		hobj = new CHidenObject();
+		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
+		hobj->SetSize(24.0f, 10.0f);
+		hobj->SetPosition(175.0f, 71.0f);
+		hobj->SetStair_X(177.0f);
+		hobj->nx = -1;
 		cells->InitCells(hobj);
 		break;
 	case SCENE_5:
@@ -500,6 +630,15 @@ void CClockTowerLevel::LoadMap()
 			candle->SetState(CANDLE_STATE_NORMAL);
 			cells->InitCells(candle);
 		}
+
+		hobj = new CHidenObject();
+		hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
+		hobj->SetSize(21.0f, 10.0f);
+		hobj->SetPosition(527.0f, 103.0f);
+		hobj->SetStair_X(535.0f);
+		hobj->nx = 1;
+		cells->InitCells(hobj);
+
 		break;
 	}
 }

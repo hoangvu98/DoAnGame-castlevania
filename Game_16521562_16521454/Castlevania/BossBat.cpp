@@ -29,7 +29,7 @@ void CBossBat::GetBoundingBox(float & left, float & top, float & right, float & 
 void CBossBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CMonster::Update(dt, coObjects);
-	DebugOut(L"health=%d\n", health);
+	//DebugOut(L"health=%d\n", health);
 	if (state == BOSS_BAT_STATE_fLY)
 	{
 		CEntranceLevel *level1 = CEntranceLevel::GetInstance();

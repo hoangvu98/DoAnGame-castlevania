@@ -270,13 +270,15 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 					{
 						door->IsGo = false;
 						state_auto = 5;
-						simon_x = door->x + door->size;
+						if(nx>0)
+							simon_x = door->x + door->size;
+						else
+							simon_x = door->x - door->size;
 						level1->SetNextScene(door->GetScene());
 					}
 				}
 				else if (door->GetIsHiden() == false && door->IsGo == true)
 				{
-
 					SetState(SIMON_STATE_IDLE);
 					door->IsGo = false;
 					camera_auto = 2;
@@ -313,7 +315,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	//DebugOut(L"stair=%d\n", stair);
 	//DebugOut(L"state=%d\n", state);
 	//DebugOut(L"up=%d\ndown=%d\n", IsUp, IsDown);
-	//DebugOut(L"x=%f\ny=%f\n", x, y);
+	DebugOut(L"x=%f\ny=%f\n", x, y);
 	//DebugOut(L"vx=%f\nvy=%f\n", vx, vy);
 	//DebugOut(L"heart=%d\n", heart);
 }
@@ -557,7 +559,7 @@ void CSimon::Render()
 		else
 			animations[ani]->Render(x, y, color);
 	}
-	//RenderBoundingBox(100);
+	////RenderBoundingBox(100);
 }
 
 void CSimon::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -743,13 +745,33 @@ void CSimon::Auto()
 	}
 	else if (state_auto == 5)//tu dong di qua cong an
 	{
-		SetState(SIMON_STATE_WALKING_RIGHT);
-		vx = SIMON_WALKING_SPEED / 2;
-		if (x > simon_x)
+		if (nx > 0)
 		{
-			simon_x = 0;
-			CEntranceLevel *level1 = CEntranceLevel::GetInstance();
-			level1->SetIsNext(true);
+			SetState(SIMON_STATE_WALKING_RIGHT);
+			vx = SIMON_WALKING_SPEED / 2;
+		}
+		else
+		{
+			SetState(SIMON_STATE_WALKING_LEFT);
+			vx = -SIMON_WALKING_SPEED / 2;
+		}
+		if (nx > 0)
+		{
+			if (x > simon_x)
+			{
+				simon_x = 0;
+				CEntranceLevel *level1 = CEntranceLevel::GetInstance();
+				level1->SetIsNext(true);
+			}
+		}
+		else
+		{
+			if (x < simon_x)
+			{
+				simon_x = 0;
+				CEntranceLevel *level1 = CEntranceLevel::GetInstance();
+				level1->SetIsNext(true);
+			}
 		}
 	}
 }
