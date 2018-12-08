@@ -34,6 +34,7 @@
 //#define ID_INTRO_SCREEN		16
 //#define ID_HEAL			18
 //#define ID_BLACKBOARD 19
+#define ID_MAP_LEVEL_6	20
 class CResource
 {
 public:
