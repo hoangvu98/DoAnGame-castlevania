@@ -20,6 +20,17 @@
 #define SCENE_4		4
 #define SCENE_5		5
 
+#define MIN_MAP_1 0
+#define MAX_MAP_1 1550
+#define MIN_MAP_2 0
+#define MAX_MAP_2 783
+#define MIN_MAP_3 0
+#define MAX_MAP_3 781
+#define MIN_MAP_4 0
+#define MAX_MAP_4 294 
+#define MIN_MAP_5 0
+#define MAX_MAP_5 751
+
 class CClockTowerLevel :
 	public CMap
 {
@@ -31,5 +42,6 @@ public:
 	void Render();
 	~CClockTowerLevel();
 	static CClockTowerLevel *GetInstance();
+	void GetSizeMap(float &min, float &max);
 };
 

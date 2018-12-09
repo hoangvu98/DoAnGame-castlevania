@@ -49,14 +49,12 @@ CSimon *simon;
 CBrick *brick;
 CGhoul *ghoul;
 CBat *bat;
-CMap *map1;
 CResource *resource;
 CBlackBoard * blackboard;
 
 vector<LPGAMEOBJECT> objects;
 CHidenObject *hidenObject;
-CEntranceLevel *level_1;
-CClockTowerLevel *level_6;
+CMap *level_1 = CClockTowerLevel::GetInstance();
 LPDIRECT3DTEXTURE9 texture_title;
 LPDIRECT3DTEXTURE9 texture_intro;
 int screen = 0;
@@ -324,27 +322,26 @@ void LoadResources()
 	//simon->SetPosition(226.0f, 130.0f); 
 	//simon->SetState(SIMON_STATE_WALKING_LEFT);
 	simon->SetPosition(1360.0f, 30.0f);//map 1
-	simon->SetPosition(550.0f, 30.0f);//map 2
-	simon->SetPosition(267.0f, 22.0f);//map 2
+	//simon->SetPosition(550.0f, 30.0f);//map 2
+	//simon->SetPosition(267.0f, 22.0f);//map 2
 	simon->SetPosition(629.0f, 10.0f);//map 3
-	simon->SetPosition(303.0f, 10.0f);//map 3
-	simon->SetPosition(40.0f, 10.0f);//map 3
+	//simon->SetPosition(303.0f, 10.0f);//map 3
+	//simon->SetPosition(40.0f, 10.0f);//map 3
 	//simon->SetPosition(180.0f, 30.0f);//map 4
-	//simon->SetPosition(190.0f, 30.0f);//map 5
+	simon->SetPosition(190.0f, 30.0f);//map 5
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
-	level_1 = CEntranceLevel::GetInstance();
-	level_1->SetScene(SCENE_2);
+	level_1->SetScene(SCENE_5);
 	screen = 2;
 	level_1->LoadMap();
 	//objects.push_back(simon);
 	//level_1->GetUpdateObjects(&objects);
 	blackboard = new CBlackBoard();
 
-	level_6 = CClockTowerLevel::GetInstance();
+	/*level_6 = CClockTowerLevel::GetInstance();
 	level_6->SetScene(SCENE_3);
 	screen = 3;
-	level_6->LoadMap();
+	level_6->LoadMap();*/
 }
 
 
@@ -428,7 +425,7 @@ void Update(DWORD dt)
 		for (int i = 0; i < objects.size(); i++)
 			objects[i]->Update(dt, &coObjects);
 		break;
-	case 3:
+	/*case 3:
 		level_6->Update();
 		objects.clear();
 		objects.push_back(simon);
@@ -437,7 +434,7 @@ void Update(DWORD dt)
 			coObjects.push_back(objects[i]);
 		for (int i = 0; i < objects.size(); i++)
 			objects[i]->Update(dt, &coObjects);
-		break;
+		break;*/
 	}
 }
 
@@ -494,11 +491,11 @@ void Render()
 			for (int i = 0; i < objects.size(); i++)
 				objects[i]->Render();
 			break;
-		case 3:
+		/*case 3:
 			level_6->Render();
 			for (int i = 0; i < objects.size(); i++)
 				objects[i]->Render();
-			break;
+			break;*/
 		}
 
 		spriteHandler->End();

@@ -161,12 +161,12 @@ void CClockTowerLevel::LoadMap()
 		hobj->nx = -1;
 		cells->InitCells(hobj);
 
-		door = new CDoor();
+		/*door = new CDoor();
 		door->SetPosition(90.0f, 50.0f);
 		door->size = 30;
 		door->SetIsHiDen(true);
 		door->SetScene(2);
-		cells->InitCells(door);
+		cells->InitCells(door);*/
 
 		break;
 	case SCENE_2:
@@ -666,4 +666,33 @@ CClockTowerLevel * CClockTowerLevel::GetInstance()
 {
 	if (__instance == NULL) __instance = new CClockTowerLevel();
 	return __instance;
+}
+
+void CClockTowerLevel::GetSizeMap(float & min, float & max)
+{
+	if (scene == SCENE_1)
+	{
+		min = MIN_MAP_1;
+		max = MAX_MAP_1;
+	}
+	else if (scene == SCENE_2)
+	{
+		min = MIN_MAP_2;
+		max = MAX_MAP_2;
+	}
+	else if (scene == SCENE_3)
+	{
+		min = MIN_MAP_3;
+		max = MAX_MAP_3;
+	}
+	else if (scene == SCENE_4)
+	{
+		min = MIN_MAP_4;
+		max = MAX_MAP_4;
+	}
+	else if (scene == SCENE_5)
+	{
+		min = MIN_MAP_5;
+		max = MAX_MAP_5;
+	}
 }

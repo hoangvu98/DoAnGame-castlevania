@@ -5,6 +5,7 @@
 #include "Panther.h"
 #include "HidenObject.h"
 #include "EntranceLevel.h"
+#include "ClockTowerLevel.h"
 #include "Ghoul.h"
 #include "Bat.h"
 DWORD FrameCollusion;
@@ -12,6 +13,7 @@ int color = 255;
 float stair_x = 0;
 int nx1;
 CSimon *CSimon::__instance = NULL;
+CMap *level1 = CClockTowerLevel::GetInstance();
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
 	CGameObject::Update(dt);
@@ -19,7 +21,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		IsUp = 0;
 	if (IsDown != 2)
 		IsDown = 0;
-	CEntranceLevel *level1 = CEntranceLevel::GetInstance();
 	if (stair != 2)
 		vy += SIMON_GRAVITY;
 	if (state != SIMON_STATE_KNEE && previousstate == SIMON_STATE_KNEE)
@@ -729,7 +730,7 @@ void CSimon::Auto()
 	}
 	else if (state_auto == 4) //tu dong di qua cong hien
 	{
-		CEntranceLevel *level1 = CEntranceLevel::GetInstance();
+		
 		float min;
 		float max;
 		level1->GetSizeMap(min, max);
@@ -760,7 +761,6 @@ void CSimon::Auto()
 			if (x > simon_x)
 			{
 				simon_x = 0;
-				CEntranceLevel *level1 = CEntranceLevel::GetInstance();
 				level1->SetIsNext(true);
 			}
 		}
@@ -769,7 +769,6 @@ void CSimon::Auto()
 			if (x < simon_x)
 			{
 				simon_x = 0;
-				CEntranceLevel *level1 = CEntranceLevel::GetInstance();
 				level1->SetIsNext(true);
 			}
 		}
@@ -778,7 +777,6 @@ void CSimon::Auto()
 
 void CSimon::Camera()
 {
-	CEntranceLevel *level1 = CEntranceLevel::GetInstance();
 	CGame *game = CGame::GetInstance();
 	float min;
 	float max;
@@ -807,7 +805,6 @@ void CSimon::Camera()
 
 void CSimon::CameraAuto()
 {
-	CEntranceLevel *level1 = CEntranceLevel::GetInstance();
 	CGame *game = CGame::GetInstance();
 	float min;
 	float max;

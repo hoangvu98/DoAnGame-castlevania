@@ -43,5 +43,6 @@ public:
 	virtual void LoadMap();
 	virtual void Update() = 0;
 	virtual void Render();
+	virtual void GetSizeMap(float &min, float &max)=0;
 };
 
