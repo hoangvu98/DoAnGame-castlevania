@@ -706,7 +706,6 @@ void CEntranceLevel::LoadMap()
 		door->cy = 142.1f;
 		door->SetIsHiDen(true);
 		door->IsGo = true;
-		door->nx = -1;
 		door->SetIsStair (true);
 		door->SetScene(3);
 		cells->InitCells(door);
@@ -719,7 +718,6 @@ void CEntranceLevel::LoadMap()
 		door->cy = 142.1f;
 		door->SetIsHiDen(true);
 		door->IsGo = true;
-		door->nx = -1;
 		door->SetIsStair(true);
 		door->SetScene(3);
 		cells->InitCells(door);
