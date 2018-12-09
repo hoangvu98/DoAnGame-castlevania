@@ -513,3 +513,49 @@ void CResource::LoadCastleGate()
 	CInputImage::AddAnimation(in, sprites, ani, texbullet, 1);
 	animations->Add(21001, ani);
 }
+
+void CResource::LoadSkeleton()
+{
+	CTextures *textures = CTextures::GetInstance();
+	textures->Add(ID_SKELETON, SKELETON_TEXTURE_PATH, D3DCOLOR_XRGB(96, 68, 106));
+
+	CSprites *sprites = CSprites::GetInstance();
+	CAnimations *animations = CAnimations::GetInstance();
+
+	LPDIRECT3DTEXTURE9 texskeleton;
+	texskeleton = textures->Get(ID_SKELETON);
+
+	LPANIMATION ani;
+	ani = new CAnimation(100);
+
+	ifstream in("Data\\Skeleton.txt");
+	CInputImage::AddAnimation(in, sprites, ani, texskeleton, 2);
+	animations->Add(220011, ani);
+
+	CInputImage::AddAnimation(in, sprites, ani, texskeleton, 2);
+	animations->Add(220012, ani);
+	in.close();
+}
+
+void CResource::LoadBone()
+{
+	CTextures *textures = CTextures::GetInstance();
+	textures->Add(ID_SKELETON, SKELETON_TEXTURE_PATH, D3DCOLOR_XRGB(96, 68, 106));
+
+	CSprites *sprites = CSprites::GetInstance();
+	CAnimations *animations = CAnimations::GetInstance();
+
+	LPDIRECT3DTEXTURE9 texbone;
+	texbone = textures->Get(ID_SKELETON);
+
+	LPANIMATION ani;
+	ani = new CAnimation(100);
+
+	ifstream in("Data\\Bone.txt");
+	CInputImage::AddAnimation(in, sprites, ani, texbone, 2);
+	animations->Add(220001, ani);
+
+	CInputImage::AddAnimation(in, sprites, ani, texbone, 2);
+	animations->Add(220002, ani);
+	in.close();
+}

@@ -14,6 +14,7 @@
 #define BOSS_BAT_TEXTURE_PATH L"castlevania_texture\\Enemy\\BossBat.png"
 #define BREAKINGWALL_TEXTEURE_PATH L"castlevania_texture\\Weapon\\BreakingWall.png"
 #define CASTLEGATE_TEXTEURE_PATH L"castlevania_texture\\Background\\Castle_Gate.png"
+#define SKELETON_TEXTURE_PATH	L"castlevania_texture\\Enemy\\Skeleton.png"
 
 #define ID_HITEFFECT 10
 #define ID_CANDLE	1
@@ -35,6 +36,7 @@
 //#define ID_HEAL			18
 //#define ID_BLACKBOARD 19
 #define ID_MAP_LEVEL_6	20
+#define ID_SKELETON		21
 class CResource
 {
 public:
@@ -60,4 +62,6 @@ public:
 	void LoadBossBat();
 	void LoadBreakingWall();
 	void LoadCastleGate();
+	void LoadSkeleton();
+	void LoadBone();
 };

@@ -1,5 +1,6 @@
 #pragma once
 #include "Map.h"
+#include "Skeleton.h"
 #define LEVEL6_STAGE16_PATH L"castlevania_texture\\Background\\tileset_map6_stage16.png"
 #define LEVEL6_STAGE17A_PATH L"castlevania_texture\\Background\\tileset_map6_stage_17A.png"
 #define LEVEL6_STAGE17B_PATH L"castlevania_texture\\Background\\tileset_map6_stage17B.png"

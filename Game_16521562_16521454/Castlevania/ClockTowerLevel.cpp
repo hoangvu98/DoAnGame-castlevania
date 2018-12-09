@@ -19,6 +19,7 @@ void CClockTowerLevel::LoadMap()
 	LPANIMATION ani = new CAnimation(100);
 	LPDIRECT3DTEXTURE9 texture_candle = textures->Get(ID_CANDLE);
 	CCandle *candle;
+	CSkeleton *skeleton;
 	CSimon *simon = CSimon::GetInstance();
 	CHidenObject *hobj;
 	CDoor * door;
@@ -364,6 +365,12 @@ void CClockTowerLevel::LoadMap()
 		door->SetIsStair(true);
 		door->SetScene(3);
 		cells->InitCells(door);
+
+		skeleton = new CSkeleton(612.0f, 79.0f);
+		skeleton->SetMinMax();
+		skeleton->SetState(SKELETON_STATE_WALKING_RIGHT);
+		cells->InitCells(skeleton);
+
 		break;
 	case SCENE_3:
 		textures->Add(ID_MAP_LEVEL_6, LEVEL6_STAGE17B_PATH, D3DCOLOR_XRGB(255, 255, 255));
