@@ -73,9 +73,10 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_UP:
-		if (simon->GetStair() == 1)
+		if (simon->GetStair() == 1 || simon->GetStair() == 4)
 		{
 			simon->SetStateAuto(1);
+			simon->SetStair(5);
 		}
 		break;
 	case DIK_RETURN:
@@ -96,9 +97,10 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		}
 		break;
 	case DIK_DOWN:
-		if (simon->GetStair() == 3)
+		if (simon->GetStair() == 3 || simon->GetStair() == 4)
 		{
 			simon->SetStateAuto(1);
+			simon->SetStair(6);
 		}
 		break;
 	case DIK_F:
@@ -156,7 +158,7 @@ void CSampleKeyHander::OnKeyUp(int KeyCode)
 	case DIK_DOWN:
 		if (simon->GetFight() == false)
 		{
-			if (simon->GetStair() != 2)
+			if (simon->GetStair() != 2 && simon->GetStair() != 6)
 			{
 				simon->SetState(SIMON_STATE_IDLE);
 			}
@@ -233,7 +235,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 			{
 				if (simon->GetFight() == false)
 				{
-					if (game->IsKeyDown(DIK_DOWN) && simon->GetStair() != 3)
+				if (game->IsKeyDown(DIK_DOWN) && simon->GetStair() != 3 && simon->GetStair() != 4 )
 					{
 						if (game->IsKeyDown(DIK_UP))
 							simon->SetState(SIMON_STATE_IDLE);
@@ -327,14 +329,14 @@ void LoadResources()
 	simon->SetPosition(550.0f, 30.0f);//map 2
 	//simon->SetPosition(267.0f, 22.0f);//map 2
 	simon->SetPosition(629.0f, 10.0f);//map 3
-	//simon->SetPosition(303.0f, 10.0f);//map 3
-	//simon->SetPosition(40.0f, 10.0f);//map 3
+	simon->SetPosition(303.0f, 10.0f);//map 3
+	simon->SetPosition(40.0f, 10.0f);//map 3
 	//simon->SetPosition(180.0f, 30.0f);//map 4
 	//simon->SetPosition(190.0f, 30.0f);//map 5
-	simon->SetPosition(/*190.0f, 30.0f*/719.0f, 45.0f);
+	//simon->SetPosition(/*190.0f, 30.0f*/719.0f, 45.0f);
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
-	level_1->SetScene(SCENE_2);
+	level_1->SetScene(SCENE_3);
 	screen = 2;
 	level_1->LoadMap();
 	//objects.push_back(simon);

@@ -578,6 +578,31 @@ void CClockTowerLevel::LoadMap()
 		hobj->SetStair_X(57.0f);
 		hobj->nx = 1;
 		cells->InitCells(hobj);
+
+		hobj = new CHidenObject();
+		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP_DOWN);
+		hobj->SetSize(22.0f, 11.0f);
+		hobj->SetPosition(702.0f, 69.0f);
+		hobj->SetStair_X(699.4f);
+		hobj->nx = -1;
+		cells->InitCells(hobj);
+
+		hobj = new CHidenObject();
+		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP_DOWN);
+		hobj->SetSize(24.0f, 11.0f);
+		hobj->SetPosition(349.0f, 133.0f);
+		hobj->SetStair_X(346.0f);
+		hobj->nx = -1;
+		cells->InitCells(hobj);
+
+		hobj = new CHidenObject();
+		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP_DOWN);
+		hobj->SetSize(27.0f, 15.0f);
+		hobj->SetPosition(127.0f, 129.0f);
+		hobj->SetStair_X(122.0f);
+		hobj->nx = -1;
+		cells->InitCells(hobj);
+
 		break;
 	case SCENE_4:
 		textures->Add(ID_MAP_LEVEL_6, LEVEL6_STAGE18A_PATH, D3DCOLOR_XRGB(255, 255, 255));

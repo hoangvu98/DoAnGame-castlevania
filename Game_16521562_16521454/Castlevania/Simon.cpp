@@ -32,7 +32,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEventsResult.clear();
-	if (stair != 2)
+	if (stair != 2 && stair != 5 && stair != 6)
 		stair = 0;
 	if (state != SIMON_STATE_DIE)
 		CalcPotentialCollisions(coObject, coEvents);
@@ -70,7 +70,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			{
 				nx1 = hidenobject->nx;
 				stair_x = hidenobject->GetStair_X();
-				if (stair != 2)
+				if (stair != 2 && stair != 4 )
 					stair = 1;
 				if (stair == 2 && IsDown != 2)
 					IsDown = 1;
@@ -79,9 +79,27 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			{
 				nx1 = hidenobject->nx;
 				stair_x = hidenobject->GetStair_X();
-				if (stair != 2)
+				if (stair != 2 && stair != 4)
 					stair = 3;
 				if (stair == 2 && IsUp != 2)
+					IsUp = 1;
+			}
+			else if (hidenobject->GetState() == HIDENOBJECT_STATE_STAIR_UP_DOWN)
+			{
+				int test;
+				float size_x, size_y;
+				hidenobject->GetSize(size_x,size_y);
+				if (hidenobject->y + size_y >= y + SIMON_BBOX_IDLE_HEIGHT)
+					test = 0;
+				else
+					test = 1;
+				nx1 = hidenobject->nx;
+				stair_x = hidenobject->GetStair_X();
+				if (stair != 2 && stair != 5 && stair != 6)
+					stair = 4;
+				if (stair == 2 && IsDown != 2 && test == 0)
+					IsDown = 1;
+				if (stair == 2 && IsUp != 2 && test==1)
 					IsUp = 1;
 			}
 		}
@@ -313,10 +331,11 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		Camera();
 	else
 		CameraAuto();
-	//DebugOut(L"stair=%d\n", stair);
+	//DebugOut(L"state_auto=%d\n", state_auto);
+	DebugOut(L"IsUp=%d\nIsDown=%d\n", IsUp,IsDown);
 	//DebugOut(L"state=%d\n", state);
 	//DebugOut(L"up=%d\ndown=%d\n", IsUp, IsDown);
-	DebugOut(L"x=%f\ny=%f\n", x, y);
+	//DebugOut(L"x=%f\ny=%f\n", x, y);
 	//DebugOut(L"vx=%f\nvy=%f\n", vx, vy);
 	//DebugOut(L"heart=%d\n", heart);
 }
@@ -560,7 +579,7 @@ void CSimon::Render()
 		else
 			animations[ani]->Render(x, y, color);
 	}
-	////RenderBoundingBox(100);
+	RenderBoundingBox(100);
 }
 
 void CSimon::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -700,7 +719,15 @@ void CSimon::Auto()
 			{
 				SetState(SIMON_STATE_STAIR_UP);
 			}
-			else
+			else if (stair == 3)
+			{
+				SetState(SIMON_STATE_STAIR_DOWN);
+			}
+			else if (stair == 5)
+			{
+				SetState(SIMON_STATE_STAIR_UP);
+			}
+			else if (stair == 6)
 			{
 				SetState(SIMON_STATE_STAIR_DOWN);
 			}
@@ -719,7 +746,15 @@ void CSimon::Auto()
 			{
 				SetState(SIMON_STATE_STAIR_UP);
 			}
-			else
+			else if (stair == 3)
+			{
+				SetState(SIMON_STATE_STAIR_DOWN);
+			}
+			else if (stair == 5)
+			{
+				SetState(SIMON_STATE_STAIR_UP);
+			}
+			else if (stair == 6)
 			{
 				SetState(SIMON_STATE_STAIR_DOWN);
 			}
