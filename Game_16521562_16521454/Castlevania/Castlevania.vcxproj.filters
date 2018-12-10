@@ -108,6 +108,9 @@
     <ClInclude Include="Bone.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Eagle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bat.cpp">
@@ -204,6 +207,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Bone.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Eagle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

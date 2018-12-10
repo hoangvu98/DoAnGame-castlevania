@@ -1,6 +1,5 @@
 #pragma once
 #include "GameObject.h"
-#include "Simon.h"
 #include "Monster.h"
 #define BAT_FLYING_SPEED_X 0.05f
 #define BAT_FLYING_SPEED_Y 0.1f

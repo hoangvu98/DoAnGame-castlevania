@@ -5,6 +5,7 @@
 #include "HidenObject.h"
 #include "Simon.h"
 #include "Door.h"
+#include "Eagle.h"
 CClockTowerLevel *CClockTowerLevel::__instance = NULL;
 
 CClockTowerLevel::CClockTowerLevel()
@@ -23,6 +24,7 @@ void CClockTowerLevel::LoadMap()
 	CSimon *simon = CSimon::GetInstance();
 	CHidenObject *hobj;
 	CDoor * door;
+	CEagle *eagle;
 	switch (scene)
 	{
 	case SCENE_1:
@@ -181,6 +183,11 @@ void CClockTowerLevel::LoadMap()
 		row = (int)height / CELL_HEIGHT + 1;
 
 		cells = new CCells(column, row);
+
+		/*eagle = new CEagle();
+		eagle->SetPosition(515.0f, 29.0f);
+		eagle->SetState(EAGLE_STATE_FLY_RIGHT);
+		cells->InitCells(eagle);*/
 
 		hobj = new CHidenObject();
 		hobj->SetPosition(738.0f, 80.0f);

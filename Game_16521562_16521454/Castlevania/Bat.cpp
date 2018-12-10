@@ -1,5 +1,5 @@
 #include "Bat.h"
-
+#include "Simon.h"
 CBat::CBat()
 {
 	damage = 1;

@@ -138,6 +138,7 @@
     <ClInclude Include="BreakingWall.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="ClockTowerLevel.h" />
+    <ClInclude Include="Eagle.h" />
     <ClInclude Include="Heal.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="debug.h" />
@@ -171,6 +172,7 @@
     <ClCompile Include="BreakingWall.cpp" />
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="ClockTowerLevel.cpp" />
+    <ClCompile Include="Eagle.cpp" />
     <ClCompile Include="Heal.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="debug.cpp" />

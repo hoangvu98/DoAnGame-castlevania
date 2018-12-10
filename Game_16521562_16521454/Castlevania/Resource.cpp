@@ -559,3 +559,25 @@ void CResource::LoadBone()
 	animations->Add(220002, ani);
 	in.close();
 }
+
+void CResource::LoadEagle()
+{
+	CTextures *textures = CTextures::GetInstance();
+	textures->Add(ID_EAGLE, EAGLE_TEXTURE_PATH, D3DCOLOR_XRGB(96, 68, 106));
+
+	CSprites *sprites = CSprites::GetInstance();
+	CAnimations *animations = CAnimations::GetInstance();
+
+	LPDIRECT3DTEXTURE9 texeagle;
+	texeagle = textures->Get(ID_EAGLE);
+
+	LPANIMATION ani;
+	ani = new CAnimation(100);
+
+	ifstream in("Data\\Eagle.txt");
+	CInputImage::AddAnimation(in, sprites, ani, texeagle, 2);
+	animations->Add(220003, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texeagle, 2);
+	animations->Add(220004, ani);
+	in.close();
+}
