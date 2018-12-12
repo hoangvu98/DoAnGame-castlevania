@@ -575,9 +575,39 @@ void CResource::LoadEagle()
 	ani = new CAnimation(100);
 
 	ifstream in("Data\\Eagle.txt");
-	CInputImage::AddAnimation(in, sprites, ani, texeagle, 2);
+	CInputImage::AddAnimation(in, sprites, ani, texeagle, 2,300);
 	animations->Add(220003, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texeagle, 2);
+	CInputImage::AddAnimation(in, sprites, ani, texeagle, 2, 300);
 	animations->Add(220004, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texeagle, 1);
+	animations->Add(220005, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texeagle, 1);
+	animations->Add(220006, ani);
+	in.close();
+}
+
+void CResource::LoadHunchback()
+{
+	CTextures *textures = CTextures::GetInstance();
+	textures->Add(ID_HUNCHBACK, HUNCHBACK_TEXTURE_PATH, D3DCOLOR_XRGB(96, 68, 106));
+
+	CSprites *sprites = CSprites::GetInstance();
+	CAnimations *animations = CAnimations::GetInstance();
+
+	LPDIRECT3DTEXTURE9 texhunchback;
+	texhunchback = textures->Get(ID_HUNCHBACK);
+
+	LPANIMATION ani;
+	ani = new CAnimation(100);
+
+	ifstream in("Data\\Hunchback.txt");
+	CInputImage::AddAnimation(in, sprites, ani, texhunchback, 1);
+	animations->Add(230001, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texhunchback, 1);
+	animations->Add(230002, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texhunchback, 1);
+	animations->Add(230003, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texhunchback, 1);
+	animations->Add(230004, ani);
 	in.close();
 }

@@ -140,6 +140,7 @@
     <ClInclude Include="ClockTowerLevel.h" />
     <ClInclude Include="Eagle.h" />
     <ClInclude Include="Heal.h" />
+    <ClInclude Include="Hunchback.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="Door.h" />
@@ -174,6 +175,7 @@
     <ClCompile Include="ClockTowerLevel.cpp" />
     <ClCompile Include="Eagle.cpp" />
     <ClCompile Include="Heal.cpp" />
+    <ClCompile Include="Hunchback.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Door.cpp" />

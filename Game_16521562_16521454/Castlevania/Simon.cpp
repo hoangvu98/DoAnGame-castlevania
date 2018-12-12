@@ -173,10 +173,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		else if (dynamic_cast<CMonster *> (e->obj))
 		{
 			CMonster *monster = dynamic_cast<CMonster *>(e->obj);
-			if (monster->state == BAT_STATE_FLY_LEFT || monster->state == BAT_STATE_FLY_RIGHT)
-			{
-				monster->SetHealth(monster->GetHealth() - 1);
-			}
 			if (collusion == 0 && monster->state != MONSTER_STATE_DELETE &&
 				monster->state != MONSTER_STATE_DISAPPEAR)
 			{
@@ -220,10 +216,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			}
 		}
 	}
-	if (coEvents.size() == 0)
-	{
-	}
-	else
+	if (coEvents.size() != 0)
 	{
 		coEventsResult.clear();
 		float min_tx, min_ty, nx = 0, ny;
@@ -332,7 +325,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	else
 		CameraAuto();
 	//DebugOut(L"state_auto=%d\n", state_auto);
-	DebugOut(L"IsUp=%d\nIsDown=%d\n", IsUp,IsDown);
+	//DebugOut(L"IsUp=%d\nIsDown=%d\n", IsUp,IsDown);
 	//DebugOut(L"state=%d\n", state);
 	//DebugOut(L"up=%d\ndown=%d\n", IsUp, IsDown);
 	//DebugOut(L"x=%f\ny=%f\n", x, y);

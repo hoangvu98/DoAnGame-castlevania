@@ -318,6 +318,8 @@ void LoadResources()
 	resource->LoadBone();
 	resource->LoadSkeleton();
 	resource->LoadEagle();
+	resource->LoadHunchback();
+
 	simon = CSimon::GetInstance();
 	//simon->SetPosition(2053.0f, 28.0f);
 	//simon->SetPosition(906.0f, 34.0f);
@@ -329,7 +331,7 @@ void LoadResources()
 	simon->SetPosition(1360.0f, 30.0f);//map 1
 	simon->SetPosition(550.0f, 80.0f);//map 2
 	//simon->SetPosition(267.0f, 22.0f);//map 2
-	//simon->SetPosition(629.0f, 10.0f);//map 3
+	simon->SetPosition(629.0f, 10.0f);//map 3
 	//simon->SetPosition(303.0f, 10.0f);//map 3
 	//simon->SetPosition(40.0f, 10.0f);//map 3
 	//simon->SetPosition(180.0f, 30.0f);//map 4
@@ -337,7 +339,7 @@ void LoadResources()
 	//simon->SetPosition(/*190.0f, 30.0f*/719.0f, 45.0f);
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
-	level_1->SetScene(SCENE_2);
+	level_1->SetScene(SCENE_3);
 	screen = 2;
 	level_1->LoadMap();
 	//objects.push_back(simon);

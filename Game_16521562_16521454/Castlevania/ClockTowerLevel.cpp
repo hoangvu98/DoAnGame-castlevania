@@ -6,6 +6,7 @@
 #include "Simon.h"
 #include "Door.h"
 #include "Eagle.h"
+#include "Hunchback.h"
 CClockTowerLevel *CClockTowerLevel::__instance = NULL;
 
 CClockTowerLevel::CClockTowerLevel()
@@ -25,6 +26,7 @@ void CClockTowerLevel::LoadMap()
 	CHidenObject *hobj;
 	CDoor * door;
 	CEagle *eagle;
+	CHunchback* hunchback;
 	switch (scene)
 	{
 	case SCENE_1:
@@ -184,10 +186,15 @@ void CClockTowerLevel::LoadMap()
 
 		cells = new CCells(column, row);
 
-		/*eagle = new CEagle();
-		eagle->SetPosition(515.0f, 29.0f);
+	/*	eagle = new CEagle();
+		eagle->SetPosition(515.0f, 34.0f);
 		eagle->SetState(EAGLE_STATE_FLY_RIGHT);
-		cells->InitCells(eagle);*/
+		cells->InitCells(eagle);
+
+		hunchback = new CHunchback();
+		hunchback->SetPosition(525.0f, 55.0f);
+		hunchback->SetState(HUNCHBACK_STATE_FLY_RIGHT);
+		cells->InitCells(hunchback);*/
 
 		hobj = new CHidenObject();
 		hobj->SetPosition(738.0f, 80.0f);
@@ -373,10 +380,10 @@ void CClockTowerLevel::LoadMap()
 		door->SetScene(3);
 		cells->InitCells(door);
 
-		skeleton = new CSkeleton(612.0f, 79.0f);
+	/*	skeleton = new CSkeleton(612.0f, 79.0f);
 		skeleton->SetMinMax();
 		skeleton->SetState(SKELETON_STATE_WALKING_RIGHT);
-		cells->InitCells(skeleton);
+		cells->InitCells(skeleton);*/
 
 		break;
 	case SCENE_3:
@@ -390,6 +397,13 @@ void CClockTowerLevel::LoadMap()
 		row = (int)height / CELL_HEIGHT + 1;
 
 		cells = new CCells(column, row);
+
+
+		hunchback = new CHunchback();
+		hunchback->SetPosition(521.0f, 71.0f);
+		hunchback->SetState(HUNCHBACK_STATE_FLY_RIGHT);
+		cells->InitCells(hunchback);
+
 
 		door = new CDoor();
 		door->SetState(DOOR_STATE_CLOSE);
