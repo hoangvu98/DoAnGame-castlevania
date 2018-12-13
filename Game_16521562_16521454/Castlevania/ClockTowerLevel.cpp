@@ -380,10 +380,25 @@ void CClockTowerLevel::LoadMap()
 		door->SetScene(3);
 		cells->InitCells(door);
 
-	/*	skeleton = new CSkeleton(612.0f, 79.0f);
+		skeleton = new CSkeleton(612.0f, 79.0f);
 		skeleton->SetMinMax();
+		skeleton->SetLeftRight();
 		skeleton->SetState(SKELETON_STATE_WALKING_RIGHT);
-		cells->InitCells(skeleton);*/
+		cells->InitCells(skeleton);
+
+		hobj = new CHidenObject();
+		hobj->SetPosition(675.0f, 106.0f);
+		hobj->SetSize(7.0f, 7.0f);
+		hobj->SetState(HIDENOBJECT_STATE_JUMP);
+		hobj->Setnx(1);
+		cells->InitCells(hobj);
+
+		hobj = new CHidenObject();
+		hobj->SetPosition(695.0f, 75.0f);
+		hobj->SetSize(7.0f, 7.0f);
+		hobj->SetState(HIDENOBJECT_STATE_JUMP);
+		hobj->Setnx(-1);
+		cells->InitCells(hobj);
 
 		break;
 	case SCENE_3:
@@ -399,10 +414,10 @@ void CClockTowerLevel::LoadMap()
 		cells = new CCells(column, row);
 
 
-		hunchback = new CHunchback();
+		/*hunchback = new CHunchback();
 		hunchback->SetPosition(521.0f, 71.0f);
 		hunchback->SetState(HUNCHBACK_STATE_FLY_RIGHT);
-		cells->InitCells(hunchback);
+		cells->InitCells(hunchback);*/
 
 
 		door = new CDoor();

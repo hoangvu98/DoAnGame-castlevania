@@ -21,10 +21,12 @@ void CBone::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vy = -BONE_SPEED_Y;
 	else
 	{
-		vy = BONE_SPEED_Y;
+		vy += BONE_GRAVITY * dt;
 		fall = true;
 	}
-	vx = BONE_SPEED_X;
+	if (nx > 0)
+		vx = BONE_SPEED_X;
+	else vx = -BONE_SPEED_X;
 	CGameObject::Update(dt);
 	this->x += dx;
 	this->y += dy;

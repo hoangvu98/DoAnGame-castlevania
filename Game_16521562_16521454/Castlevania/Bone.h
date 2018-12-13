@@ -1,8 +1,8 @@
 #pragma once
 #include "GameObject.h"
-#define BONE_SPEED_X		0.02f
+#define BONE_SPEED_X		0.08f
 #define BONE_SPEED_Y		0.1f
-
+#define BONE_GRAVITY		0.002f
 #define BONE_BBOX_WIDTH		15
 #define BONE_BBOX_HEIGHT	15
 
