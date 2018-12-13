@@ -43,8 +43,8 @@ void CHunchback::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (simon->x < x)
 				{
 					nx = -1;
-					vy = -HUNCHBACK_JUMP_SPEED/4;
-					vx = -HUNCHBACK_FLYING_SPEED*2;
+					vy = -HUNCHBACK_JUMP_SPEED / 4;
+					vx = -HUNCHBACK_FLYING_SPEED * 2;
 				}
 				else
 				{
@@ -73,7 +73,7 @@ void CHunchback::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 	CGameObject::Update(dt, coObjects);
-	if (state != HUNCHBACK_STATE_JUMP)
+	if (state == HUNCHBACK_STATE_IDLE || state == HUNCHBACK_STATE_JUMP)
 	{
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
@@ -83,9 +83,18 @@ void CHunchback::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
 				if (hidenobject->state == HIDENOBJECT_STATE_NORMAL)
 				{
-					vy = -HUNCHBACK_GRAVITY;
-					y += vy * dt;
-					test = false;
+					if (state == HUNCHBACK_STATE_IDLE)
+					{
+						vy = -HUNCHBACK_GRAVITY*2;
+						y += vy * dt;
+						test = false;
+					}
+					else if (state == HUNCHBACK_STATE_JUMP)
+					{
+						if (nx < 0)
+							if (x <= hidenobject->x - 10)
+								SetState(HUNCHBACK_STATE_IDLE);
+					}
 				}
 			}
 		}
@@ -103,15 +112,15 @@ void CHunchback::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				LPCOLLISIONEVENT e = coEventsResult[i];
 				if (dynamic_cast<CHidenObject *> (e->obj))
 				{
-					CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);				
+					CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
 					if (hidenobject->state == HIDENOBJECT_STATE_NORMAL)
 					{
-						if ( now-time_stop > 350 && state == HUNCHBACK_STATE_JUMP)
+						if (now - time_stop > 350 && state == HUNCHBACK_STATE_JUMP)
 						{
-							if(ny!=0)
+							if (ny != 0)
 								SetState(HUNCHBACK_STATE_IDLE);
 						}
-	
+
 						if (state == HUNCHBACK_STATE_IDLE)
 						{
 							if (test == true)
@@ -147,29 +156,32 @@ void CHunchback::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			SetState(HUNCHBACK_STATE_FLY_LEFT);
 	}
 	else*/
-	if (now - time_stop > 1000 && 
-	(state==HUNCHBACK_STATE_FLY_RIGHT || state == HUNCHBACK_STATE_FLY_LEFT))
+	if (now - time_stop > 1000 &&
+		(state == HUNCHBACK_STATE_FLY_RIGHT || state == HUNCHBACK_STATE_FLY_LEFT))
 		SetState(HUNCHBACK_STATE_IDLE);
 }
 
 void CHunchback::Render()
 {
 	int ani;
-	if (state == HUNCHBACK_STATE_JUMP)
+	if (state != MONSTER_STATE_DISAPPEAR && state != MONSTER_STATE_DELETE)
 	{
-		if (nx > 0)
-			ani = HUNCHBACK_ANI_JUMP_RIGHT;
+		if (state == HUNCHBACK_STATE_JUMP)
+		{
+			if (nx > 0)
+				ani = HUNCHBACK_ANI_JUMP_RIGHT;
+			else
+				ani = HUNCHBACK_ANI_JUMP_LEFT;
+		}
 		else
-			ani = HUNCHBACK_ANI_JUMP_LEFT;
+		{
+			if (nx > 0)
+				ani = HUNCHBACK_ANI_IDLE_RIGHT;
+			else
+				ani = HUNCHBACK_ANI_IDLE_LEFT;
+		}
+		animations[ani]->Render(x, y);
 	}
-	else
-	{
-		if (nx > 0)
-			ani = HUNCHBACK_ANI_IDLE_RIGHT;
-		else
-			ani = HUNCHBACK_ANI_IDLE_LEFT;
-	}
-	animations[ani]->Render(x, y);
 	//RenderBoundingBox(200);
 }
 
