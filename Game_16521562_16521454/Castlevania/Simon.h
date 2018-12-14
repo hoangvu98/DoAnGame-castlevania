@@ -7,7 +7,7 @@
 using namespace std;
 #define WHIP_TEXTURE_PATH L"castlevania_texture\\Weapon\\Whip.png"
 
-#define SIMON_WALKING_SPEED		/*0.075f*/ 0.1f
+#define SIMON_WALKING_SPEED		0.075f /*0.1f*/
 #define SIMON_JUMP_SPEED		0.22f
 #define SIMON_GRAVITY			0.01f
 #define SIMON_DEFLECT_SPEED		0.1f
@@ -57,10 +57,10 @@ using namespace std;
 #define SIMON_BBOX_IDLE_WIDTH		15
 #define SIMON_BBOX_IDLE_HEIGHT		30
 
-#define SIMON_BBOX_KNEE_WIDTH		18
+#define SIMON_BBOX_KNEE_WIDTH		15
 #define SIMON_BBOX_KNEE_HEIGHT		25
 
-#define SIMON_BBOX_KNEE_FIGHT_WIDTH		18
+#define SIMON_BBOX_KNEE_FIGHT_WIDTH		15
 #define SIMON_BBOX_KNEE_FIGHT_HEIGHT	25
 
 #define TIME_STAIR 400

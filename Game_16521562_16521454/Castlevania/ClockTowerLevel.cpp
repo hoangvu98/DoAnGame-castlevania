@@ -7,6 +7,7 @@
 #include "Door.h"
 #include "Eagle.h"
 #include "Hunchback.h"
+#include "Bat.h"
 CClockTowerLevel *CClockTowerLevel::__instance = NULL;
 
 CClockTowerLevel::CClockTowerLevel()
@@ -27,6 +28,7 @@ void CClockTowerLevel::LoadMap()
 	CDoor * door;
 	CEagle *eagle;
 	CHunchback* hunchback;
+	CBat* bat;
 	switch (scene)
 	{
 	case SCENE_1:
@@ -43,6 +45,10 @@ void CClockTowerLevel::LoadMap()
 		row = (int)height / CELL_HEIGHT + 1;
 
 		cells = new CCells(column, row);
+
+		bat = new CBat(BAT_SIZE_BIG);
+		bat->SetPosition(1300.0f, 20.0f);
+		cells->InitCells(bat);
 
 		hobj = new CHidenObject();
 		hobj->SetPosition(1345.0f, 143.0f);
@@ -419,6 +425,7 @@ void CClockTowerLevel::LoadMap()
 		hunchback->SetState(HUNCHBACK_STATE_FLY_RIGHT);
 		cells->InitCells(hunchback);*/
 
+		
 
 		door = new CDoor();
 		door->SetState(DOOR_STATE_CLOSE);

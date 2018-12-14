@@ -16,9 +16,9 @@ CBullet::~CBullet()
 void CBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt);
-	if (nx < 0) SetState(BULLET_STATE_LEFT);
-	else SetState(BULLET_STATE_RIGHT);
 	x += dx;
+	y += dy;
+	DebugOut(L"vx=%f\nvy=%f\n", vx, vy);
 }
 
 void CBullet::Render()
@@ -43,9 +43,25 @@ void CBullet::SetState(int state)
 	{
 	case BULLET_STATE_LEFT:
 		vx = -BULLET_SPEED;
+		nx = -1;
 		break;
 	case BULLET_STATE_RIGHT:
 		vx = BULLET_SPEED;
+		nx = 1;
 		break;
 	}
+}
+
+void CBullet::SetSpeed(float x1, float y1, float x2, float y2, int time)
+{
+	vx=(x2 - x1)/time;
+	vy = (y2 - y1) / time;
+}
+
+void CBullet::SetState(float x1, float x2)
+{
+	if (x1 < x2)
+		SetState(BULLET_STATE_RIGHT);
+	else
+		SetState(BULLET_STATE_LEFT);
 }

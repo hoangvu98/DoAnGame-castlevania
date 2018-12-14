@@ -66,8 +66,12 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		if (dynamic_cast<CHidenObject *> (e->obj))
 		{
 			CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
-			if (hidenobject->GetState() == HIDENOBJECT_STATE_STAIR_UP)
+			/*if (hidenobject->GetState() == HIDENOBJECT_STATE_STAIR_UP)
 			{
+
+			}*/
+			 if (hidenobject->GetState() == HIDENOBJECT_STATE_STAIR_UP)
+			 {
 				nx1 = hidenobject->nx;
 				stair_x = hidenobject->GetStair_X();
 				if (stair != 2 && stair != 4 )
@@ -103,7 +107,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 					IsUp = 1;
 			}
 		}
-
 		else if (dynamic_cast<CHeart *>(e->obj))
 		{
 			CHeart *hearts = dynamic_cast<CHeart *>(e->obj);
@@ -192,12 +195,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	for (UINT i = 0; i < coEvents.size(); i++)
 	{
 		LPCOLLISIONEVENT e = coEvents[i];
-		if (dynamic_cast<CCandle *> (e->obj))
-		{
-			coEvents.erase(coEvents.begin() + i);
-			i--;
-		}
-		else if (dynamic_cast<CHidenObject *> (e->obj))
+		if (dynamic_cast<CHidenObject *> (e->obj))
 		{
 			CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
 			if (hidenobject->GetState() != HIDENOBJECT_STATE_NORMAL)
@@ -215,22 +213,39 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				i--;
 			}
 		}
+		else
+		{
+			coEvents.erase(coEvents.begin() + i);
+			i--;
+		}
 	}
-	if (coEvents.size() != 0)
+	if (coEvents.size() == 0)
+	{
+		x += dx; 
+		y += dy;
+	}
+	else
 	{
 		coEventsResult.clear();
 		float min_tx, min_ty, nx = 0, ny;
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+		x += min_tx * dx + nx * 0.4f;
+		y += min_ty * dy + ny * 0.4f;
+	
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
+			
 			if (dynamic_cast<CHidenObject *> (e->obj) && stair != 2)
 			{
-				CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
-
-				x += min_tx * dx + nx * 0.4f;
-				y += min_ty * dy + ny * 0.4f;
-				test = false;
+				CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);	
+				//test = false;
+				/*if (nx != 0) {
+					vx = 0;
+				}
+				if (ny != 0) {
+					vy = 0; jump = 0;
+				}*/
 				DWORD now = GetTickCount();
 				if (now - FrameCollusion > 100)
 				{
@@ -299,16 +314,14 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				}
 				//door->SetState(DOOR_STATE_OPEN);
 			}
-
 		}
 	}
-	if (test)
+	/*if (test)
 	{
 		x += dx;
 		y += dy;
-		test = true;
 	}
-
+*/
 	DWORD now = GetTickCount();
 	if (now - FrameCollusion > 100 && collusion == 1 && state== SIMON_STATE_KNEE)
 	{
@@ -489,8 +502,6 @@ void CSimon::Render()
 					}
 					else
 					{
-						if (vx == 0)
-						{
 							if (mx == 1)
 							{
 								if (nx > 0)
@@ -498,21 +509,18 @@ void CSimon::Render()
 								else
 									ani = SIMON_ANI_JUMP_LEFT; //SIMON_ANI_KNEE_LEFT
 							}
-							else
+							else if(state==SIMON_STATE_WALKING_RIGHT)
+									ani = SIMON_ANI_WALKING_RIGHT;
+							else if (state == SIMON_STATE_WALKING_LEFT)
+									ani = SIMON_ANI_WALKING_LEFT;
+							else 
 							{
 								if (nx > 0)
 									ani = SIMON_ANI_IDLE_RIGHT;
 								else
 									ani = SIMON_ANI_IDLE_LEFT;
 							}
-						}
-						else
-						{
-							if (nx > 0)
-								ani = SIMON_ANI_WALKING_RIGHT;
-							else
-								ani = SIMON_ANI_WALKING_LEFT;
-						}
+			
 						if (vy < 0 && nx < 0)
 							ani = SIMON_ANI_JUMP_LEFT;
 						else if (vy < 0 && nx > 0)

@@ -72,12 +72,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	switch (KeyCode)
 	{
-	case DIK_UP:
-		if (simon->GetStair() == 1 || simon->GetStair() == 4)
-		{
-			simon->SetStateAuto(1);
-			simon->SetStair(5);
-		}
+	case DIK_UP:	
 		break;
 	case DIK_RETURN:
 		if (screen == 0)
@@ -97,11 +92,6 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		}
 		break;
 	case DIK_DOWN:
-		if (simon->GetStair() == 3 || simon->GetStair() == 4)
-		{
-			simon->SetStateAuto(1);
-			simon->SetStair(6);
-		}
 		break;
 	case DIK_F:
 		DWORD t = GetTickCount() - simon->GetWhip()->GetFrameWhip();
@@ -235,7 +225,19 @@ void CSampleKeyHander::KeyState(BYTE *states)
 			{
 				if (simon->GetFight() == false)
 				{
-				if (game->IsKeyDown(DIK_DOWN) && simon->GetStair() != 3 && simon->GetStair() != 4 )
+					if (game->IsKeyDown(DIK_UP) 
+						&& (simon->GetStair() == 1 || simon->GetStair() == 4))
+					{
+						simon->SetStateAuto(1);
+						simon->SetStair(5);
+					}
+					else if (game->IsKeyDown(DIK_DOWN)&&
+						(simon->GetStair() == 3 || simon->GetStair() == 4))
+					{
+						simon->SetStateAuto(1);
+						simon->SetStair(6);
+					}
+				   else if (game->IsKeyDown(DIK_DOWN) && simon->GetStair() != 3 && simon->GetStair() != 4 )
 					{
 						if (game->IsKeyDown(DIK_UP))
 							simon->SetState(SIMON_STATE_IDLE);
@@ -321,7 +323,7 @@ void LoadResources()
 	resource->LoadHunchback();
 
 	simon = CSimon::GetInstance();
-	//simon->SetPosition(2053.0f, 28.0f);
+	simon->SetPosition(2053.0f, 28.0f);
 	//simon->SetPosition(906.0f, 34.0f);
 	//simon->SetPosition(1378.0f, 34.0f);
 	//simon->SetPosition(618.4f, 129.0f);
@@ -329,9 +331,9 @@ void LoadResources()
 	//simon->SetPosition(226.0f, 130.0f); 
 	//simon->SetState(SIMON_STATE_WALKING_LEFT);
 	simon->SetPosition(1360.0f, 30.0f);//map 1
-	simon->SetPosition(550.0f, 80.0f);//map 2
+	//simon->SetPosition(550.0f, 80.0f);//map 2
 	//simon->SetPosition(267.0f, 22.0f);//map 2
-	simon->SetPosition(629.0f, 10.0f);//map 3
+	//simon->SetPosition(629.0f, 10.0f);//map 3
 	//simon->SetPosition(303.0f, 10.0f);//map 3
 	//simon->SetPosition(40.0f, 10.0f);//map 3
 	//simon->SetPosition(180.0f, 30.0f);//map 4
@@ -339,7 +341,7 @@ void LoadResources()
 	//simon->SetPosition(/*190.0f, 30.0f*/719.0f, 45.0f);
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
-	level_1->SetScene(SCENE_3);
+	level_1->SetScene(SCENE_1);
 	screen = 2;
 	level_1->LoadMap();
 	//objects.push_back(simon);

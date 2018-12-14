@@ -6,7 +6,6 @@
 CBossBat *CBossBat::__instance = NULL;
 
 DWORD time_route=GetTickCount();
-DWORD time_huong= GetTickCount();
 bool test=true;
 float min_x, min_y, max_x, max_y;
 void CBossBat::GetBoundingBox(float & left, float & top, float & right, float & bottom)

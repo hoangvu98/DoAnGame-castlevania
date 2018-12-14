@@ -10,6 +10,7 @@
 #define BULLET_STATE_LEFT	0
 #define BULLET_STATE_RIGHT	100
 
+
 #define BULLET_ANI_LEFT		0
 #define BULLET_ANI_RIGHT	1
 
@@ -23,5 +24,7 @@ public:
 	void Render();
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	void SetState(int state);
+	void SetSpeed(float x1, float y1, float x2, float y2, int time);
+	void SetState(float x1, float x2);
 };
 

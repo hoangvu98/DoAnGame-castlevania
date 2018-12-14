@@ -36,6 +36,7 @@ void CMonster::Render()
 
 void CMonster::SetState(int state)
 {
+	CGameObject::SetState(state);
 }
 
 CMonster::CMonster()

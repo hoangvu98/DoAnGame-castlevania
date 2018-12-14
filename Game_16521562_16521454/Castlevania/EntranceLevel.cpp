@@ -423,7 +423,7 @@ void CEntranceLevel::LoadMap()
 		/*brick->SetPosition(1792.0f, 128.0f);*/
 		cells->InitCells(brick);
 
-		bat = new CBat();
+		bat = new CBat(BAT_SIZE_SMALL);
 		bat->SetPosition(1760.0f, 35.0f);
 		bat->SetState(BAT_STATE_FLY_LEFT);
 		bat->SetHeightFly(35.0f);
@@ -872,7 +872,7 @@ void CEntranceLevel::LoadMap()
 		hidenObj = new CHidenObject();
 		hidenObj->SetPosition(2040.0f, 160.0f);
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
-		hidenObj->SetSize(767.0f, 16.0f);
+		hidenObj->SetSize(780.0f, 16.0f);
 		//hidenObj->SetSize(176.0f, 15.0f);
 		cells->InitCells(hidenObj);
 

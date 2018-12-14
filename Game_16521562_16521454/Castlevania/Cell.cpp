@@ -70,56 +70,30 @@ void CCells::InitCells(LPGAMEOBJECT object)
 			hidenobject->GetPosition(x, y);
 			int x1 = x / CELL_WIDTH;
 			int x2 = (x + width) / CELL_WIDTH;
-			int y1 = y / CELL_HEIGHT;
-			int y2 = (y + height) / CELL_HEIGHT;
+			int j = y / CELL_HEIGHT;
 			for (int i = x1; i <= x2; i++)
 			{
-				for (int j = y1; j <= y2; j++)
-				{
 					hidenobject = new CHidenObject();
 					hidenobject->SetState(HIDENOBJECT_STATE_NORMAL);
-					hidenobject->SetPosition(i*CELL_WIDTH, j*CELL_HEIGHT);
-					hidenobject->SetSize(CELL_WIDTH, CELL_HEIGHT);
+					hidenobject->SetPosition(i*CELL_WIDTH, y);
+					hidenobject->SetSize(CELL_WIDTH, height);
 					if (i == x1)
 					{
 						hidenobject->x = x;
-					}
-					if (j == y1)
-					{
-						hidenobject->y = y;
-					}
+					}					
 					if (x1 == x2)
 					{
-						hidenobject->SetSize(width, CELL_HEIGHT);
+						hidenobject->SetSize(width, height);
 					}
 					else if (i == x1)
 					{
-						hidenobject->SetSize((i + 1)*CELL_WIDTH - x, CELL_HEIGHT);
+						hidenobject->SetSize((i + 1)*CELL_WIDTH - x, height);
 					}
 					else if (i == x2)
 					{
-						hidenobject->SetSize(x + width - i * CELL_WIDTH, CELL_HEIGHT);
-					}
-					if (y1 == y2)
-					{
-						float size_x, size_y;
-						hidenobject->GetSize(size_x, size_y);
-						hidenobject->SetSize(size_x, height);
-					}
-					else if (j == y1)
-					{
-						float size_x, size_y;
-						hidenobject->GetSize(size_x, size_y);
-						hidenobject->SetSize(size_x, (j + 1)*CELL_HEIGHT - y);
-					}
-					else if (j == y2)
-					{
-						float size_x, size_y;
-						hidenobject->GetSize(size_x, size_y);
-						hidenobject->SetSize(size_x, y + height - j * CELL_HEIGHT);
+						hidenobject->SetSize(x + width - i * CELL_WIDTH, height);
 					}
 					cells[i][j].SetObjects(hidenobject);
-				}
 			}
 		}
 		else
