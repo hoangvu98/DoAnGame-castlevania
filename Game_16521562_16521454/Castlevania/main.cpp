@@ -321,7 +321,7 @@ void LoadResources()
 	resource->LoadSkeleton();
 	resource->LoadEagle();
 	resource->LoadHunchback();
-
+	resource->LoadDracula();
 	simon = CSimon::GetInstance();
 	simon->SetPosition(2053.0f, 28.0f);
 	//simon->SetPosition(906.0f, 34.0f);

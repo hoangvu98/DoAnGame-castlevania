@@ -17,6 +17,7 @@
 #define SKELETON_TEXTURE_PATH	L"castlevania_texture\\Enemy\\Skeleton.png"
 #define EAGLE_TEXTURE_PATH	L"castlevania_texture\\Enemy\\Eagle.png"
 #define HUNCHBACK_TEXTURE_PATH	L"castlevania_texture\\Enemy\\Monkey.png"
+#define DRACULA_TEXTURE_PATH	L"castlevania_texture\\Enemy\\Dracula.png"
 
 #define ID_HITEFFECT 10
 #define ID_CANDLE	1
@@ -41,6 +42,7 @@
 #define ID_SKELETON		21
 #define ID_EAGLE		22
 #define ID_HUNCHBACK	23
+#define ID_DRACULA		24
 class CResource
 {
 public:
@@ -70,4 +72,5 @@ public:
 	void LoadBone();
 	void LoadEagle();
 	void LoadHunchback();
+	void LoadDracula();
 };

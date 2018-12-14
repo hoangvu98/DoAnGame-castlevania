@@ -611,3 +611,36 @@ void CResource::LoadHunchback()
 	animations->Add(230004, ani);
 	in.close();
 }
+
+void CResource::LoadDracula()
+{
+	CTextures *textures = CTextures::GetInstance();
+	textures->Add(ID_DRACULA, DRACULA_TEXTURE_PATH, D3DCOLOR_XRGB(160, 32, 64));
+
+	CSprites *sprites = CSprites::GetInstance();
+	CAnimations *animations = CAnimations::GetInstance();
+
+	LPDIRECT3DTEXTURE9 texdracula;
+	texdracula = textures->Get(ID_DRACULA);
+
+	LPANIMATION ani;
+	ani = new CAnimation(100);
+
+	ifstream in("Data\\BodyDracula.txt");
+	CInputImage::AddAnimation(in, sprites, ani, texdracula, 1);
+	animations->Add(240001, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texdracula, 1);
+	animations->Add(240002, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texdracula, 1);
+	animations->Add(240003, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texdracula, 1);
+	animations->Add(240004, ani);
+	in.close();
+
+	in.open("Data\\HeadDracula.txt");
+	CInputImage::AddAnimation(in, sprites, ani, texdracula, 1);
+	animations->Add(240011, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texdracula, 1);
+	animations->Add(240012, ani);
+	in.close();
+}
