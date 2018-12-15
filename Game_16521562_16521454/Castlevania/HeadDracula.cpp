@@ -15,10 +15,13 @@ void CHeadDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CHeadDracula::Render()
 {
-	int ani;
-	if (nx > 0) ani = HEAD_ANI_RIGHT;
-	else ani = HEAD_ANI_LEFT;
-	animations[ani]->Render(x, y);
+	if (state != HEAD_STATE_INVISIBLE)
+	{
+		int ani;
+		if (nx > 0) ani = HEAD_ANI_RIGHT;
+		else ani = HEAD_ANI_LEFT;
+		animations[ani]->Render(x, y);
+	}
 }
 
 void CHeadDracula::GetBoundingBox(float & left, float & top, float & right, float & bottom)

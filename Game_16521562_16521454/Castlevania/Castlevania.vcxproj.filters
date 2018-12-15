@@ -114,6 +114,12 @@
     <ClInclude Include="Hunchback.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Dracula.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HeadDracula.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bat.cpp">
@@ -216,6 +222,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Hunchback.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Dracula.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HeadDracula.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

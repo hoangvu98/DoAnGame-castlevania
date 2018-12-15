@@ -635,6 +635,8 @@ void CResource::LoadDracula()
 	animations->Add(240003, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texdracula, 1);
 	animations->Add(240004, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texdracula, 1);
+	animations->Add(240005, ani);
 	in.close();
 
 	in.open("Data\\HeadDracula.txt");

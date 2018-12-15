@@ -8,6 +8,7 @@
 #include "Eagle.h"
 #include "Hunchback.h"
 #include "Bat.h"
+#include "Dracula.h"
 CClockTowerLevel *CClockTowerLevel::__instance = NULL;
 
 CClockTowerLevel::CClockTowerLevel()
@@ -29,6 +30,7 @@ void CClockTowerLevel::LoadMap()
 	CEagle *eagle;
 	CHunchback* hunchback;
 	CBat* bat;
+	CDracula *dracula;
 	switch (scene)
 	{
 	case SCENE_1:
@@ -785,6 +787,11 @@ void CClockTowerLevel::LoadMap()
 		hobj->nx = 1;
 		cells->InitCells(hobj);
 
+		dracula = new CDracula(204.0f, 95.0f);
+		//dracula->SetPosition(204.0f, 95.0f);
+		dracula->Setnx(-1);
+		dracula->SetState(DRACULA_STATE_INVISIBLE);
+		cells->InitCells(dracula);
 		break;
 	}
 }
