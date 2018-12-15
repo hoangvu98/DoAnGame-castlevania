@@ -37,12 +37,12 @@ public:
 	bool GetIsFall() { return IsFall; }
 	void SetNextScene(int NextScene) { this->NextScene = NextScene; }
 	int GetNextScene() { return NextScene; }
-	void NextScece(float &x,float &y);
 	void GetUpdateObjects(vector<LPGAMEOBJECT>* object);
 	void GetSizeOfMap(float &width, float &height);
 	virtual void LoadMap();
 	virtual void Update() = 0;
 	virtual void Render();
 	virtual void GetSizeMap(float &min, float &max)=0;
+	virtual void NextScece(float &x, float &y) = 0;
 };
 

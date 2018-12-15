@@ -70,11 +70,11 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			{
 
 			}*/
-			 if (hidenobject->GetState() == HIDENOBJECT_STATE_STAIR_UP)
-			 {
+			if (hidenobject->GetState() == HIDENOBJECT_STATE_STAIR_UP)
+			{
 				nx1 = hidenobject->nx;
 				stair_x = hidenobject->GetStair_X();
-				if (stair != 2 && stair != 4 )
+				if (stair != 2 && stair != 4)
 					stair = 1;
 				if (stair == 2 && IsDown != 2)
 					IsDown = 1;
@@ -92,7 +92,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			{
 				int test;
 				float size_x, size_y;
-				hidenobject->GetSize(size_x,size_y);
+				hidenobject->GetSize(size_x, size_y);
 				if (hidenobject->y + size_y >= y + SIMON_BBOX_IDLE_HEIGHT)
 					test = 0;
 				else
@@ -103,7 +103,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 					stair = 4;
 				if (stair == 2 && IsDown != 2 && test == 0)
 					IsDown = 1;
-				if (stair == 2 && IsUp != 2 && test==1)
+				if (stair == 2 && IsUp != 2 && test == 1)
 					IsUp = 1;
 			}
 		}
@@ -191,6 +191,59 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				FrameCollusion = GetTickCount();
 			}
 		}
+		//else if (dynamic_cast<CDoor *>(e->obj))
+		//{
+		//	CDoor *door = dynamic_cast<CDoor *>(e->obj);
+		//	if (door->GetIsHiden() == true && door->IsGo == true)
+		//	{
+		//		if (door->GetIsStair() == true)
+		//		{
+		//			if (stair == 2)
+		//			{
+		//				if (door->nx == 1)
+		//				{
+		//					door->IsGo = false;
+		//					if (door->cx != 0 || door->cy != 0)
+		//					{
+		//						simon_x = door->cx;
+		//						simon_y = door->cy;
+		//					}
+		//					level1->SetIsNext(true);
+		//					level1->SetNextScene(door->GetScene());
+		//				}
+		//				else
+		//				{
+		//					door->IsGo = false;
+		//					if (door->cx != 0 || door->cy != 0)
+		//					{
+		//						simon_x = door->cx;
+		//						simon_y = door->cy;
+		//					}
+		//					level1->SetIsFall(true);
+		//					level1->SetNextScene(door->GetScene());
+		//				}
+		//			}
+		//		}
+		//		else
+		//		{
+		//			door->IsGo = false;
+		//			state_auto = 5;
+		//			if (nx > 0)
+		//				simon_x = door->x + door->size;
+		//			else
+		//				simon_x = door->x - door->size;
+		//			level1->SetNextScene(door->GetScene());
+		//		}
+		//	}
+		//	else if (door->GetIsHiden() == false && door->IsGo == true)
+		//	{
+		//		SetState(SIMON_STATE_IDLE);
+		//		door->IsGo = false;
+		//		camera_auto = 2;
+		//		state_auto = -1;
+		//		level1->SetNextScene(door->GetScene());
+		//	}
+		//}
 	}
 	for (UINT i = 0; i < coEvents.size(); i++)
 	{
@@ -221,24 +274,29 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	}
 	if (coEvents.size() == 0)
 	{
-		x += dx; 
+		x += dx;
 		y += dy;
+		test = false;
 	}
 	else
 	{
 		coEventsResult.clear();
 		float min_tx, min_ty, nx = 0, ny;
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-		x += min_tx * dx + nx * 0.4f;
-		y += min_ty * dy + ny * 0.4f;
-	
+		
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			
-			if (dynamic_cast<CHidenObject *> (e->obj) && stair != 2)
+
+			if (dynamic_cast<CHidenObject *> (e->obj))
 			{
-				CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);	
+				CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
+				if (stair != 2)
+				{
+					x += min_tx * dx + nx * 0.4f;
+					y += min_ty * dy + ny * 0.4f;
+					test = false;
+				}
 				//test = false;
 				/*if (nx != 0) {
 					vx = 0;
@@ -249,7 +307,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				DWORD now = GetTickCount();
 				if (now - FrameCollusion > 100)
 				{
-					if (ny != 0) {
+					if (ny != 0 && stair != 2) {
 						vy = 0; jump = 0;
 					}
 					if (collusion == 1 && ny < 0)
@@ -259,7 +317,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 							FrameCollusion = GetTickCount();
 						}
 				}
-			}
+			}	
 			else if (dynamic_cast<CDoor *>(e->obj))
 			{
 				CDoor *door = dynamic_cast<CDoor *>(e->obj);
@@ -297,7 +355,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 					{
 						door->IsGo = false;
 						state_auto = 5;
-						if(nx>0)
+						if (nx > 0)
 							simon_x = door->x + door->size;
 						else
 							simon_x = door->x - door->size;
@@ -312,18 +370,16 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 					state_auto = -1;
 					level1->SetNextScene(door->GetScene());
 				}
-				//door->SetState(DOOR_STATE_OPEN);
 			}
 		}
 	}
-	/*if (test)
+	if (test)
 	{
 		x += dx;
 		y += dy;
 	}
-*/
 	DWORD now = GetTickCount();
-	if (now - FrameCollusion > 100 && collusion == 1 && state== SIMON_STATE_KNEE)
+	if (now - FrameCollusion > 100 && collusion == 1 && state == SIMON_STATE_KNEE)
 	{
 		collusion = 2;
 	}
@@ -331,7 +387,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	{
 		collusion = 0;
 	}
-	
+
 	Auto();
 	if (camera_auto == 0)
 		Camera();
@@ -341,9 +397,10 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	//DebugOut(L"IsUp=%d\nIsDown=%d\n", IsUp,IsDown);
 	//DebugOut(L"state=%d\n", state);
 	//DebugOut(L"up=%d\ndown=%d\n", IsUp, IsDown);
-	//DebugOut(L"x=%f\ny=%f\n", x, y);
-	//DebugOut(L"vx=%f\nvy=%f\n", vx, vy);
+	DebugOut(L"x=%f\ny=%f\n", x, y);
 	//DebugOut(L"heart=%d\n", heart);
+	//DebugOut(L"stair=%d\n", stair);
+
 }
 
 void CSimon::Render()
@@ -502,25 +559,25 @@ void CSimon::Render()
 					}
 					else
 					{
-							if (mx == 1)
-							{
-								if (nx > 0)
-									ani = SIMON_ANI_JUMP_RIGHT; //SIMON_ANI_KNEE_RIGHT
-								else
-									ani = SIMON_ANI_JUMP_LEFT; //SIMON_ANI_KNEE_LEFT
-							}
-							else if(state==SIMON_STATE_WALKING_RIGHT)
-									ani = SIMON_ANI_WALKING_RIGHT;
-							else if (state == SIMON_STATE_WALKING_LEFT)
-									ani = SIMON_ANI_WALKING_LEFT;
-							else 
-							{
-								if (nx > 0)
-									ani = SIMON_ANI_IDLE_RIGHT;
-								else
-									ani = SIMON_ANI_IDLE_LEFT;
-							}
-			
+						if (mx == 1)
+						{
+							if (nx > 0)
+								ani = SIMON_ANI_JUMP_RIGHT; //SIMON_ANI_KNEE_RIGHT
+							else
+								ani = SIMON_ANI_JUMP_LEFT; //SIMON_ANI_KNEE_LEFT
+						}
+						else if (state == SIMON_STATE_WALKING_RIGHT)
+							ani = SIMON_ANI_WALKING_RIGHT;
+						else if (state == SIMON_STATE_WALKING_LEFT)
+							ani = SIMON_ANI_WALKING_LEFT;
+						else
+						{
+							if (nx > 0)
+								ani = SIMON_ANI_IDLE_RIGHT;
+							else
+								ani = SIMON_ANI_IDLE_LEFT;
+						}
+
 						if (vy < 0 && nx < 0)
 							ani = SIMON_ANI_JUMP_LEFT;
 						else if (vy < 0 && nx > 0)
@@ -570,7 +627,7 @@ void CSimon::Render()
 		{
 			if (t <= FRAME_TIME_WHIP && nx > 0)
 				animations[ani]->Render(x - 7, y, color);
-			else if (t >= 2* FRAME_TIME_WHIP && nx < 0)
+			else if (t >= 2 * FRAME_TIME_WHIP && nx < 0)
 				animations[ani]->Render(x - 6, y, color);
 			else
 				animations[ani]->Render(x, y, color);
@@ -766,7 +823,7 @@ void CSimon::Auto()
 	}
 	else if (state_auto == 4) //tu dong di qua cong hien
 	{
-		
+
 		float min;
 		float max;
 		level1->GetSizeMap(min, max);

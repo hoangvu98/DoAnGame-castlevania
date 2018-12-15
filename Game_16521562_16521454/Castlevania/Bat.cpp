@@ -2,7 +2,7 @@
 #include "Simon.h"
 #include "ClockTowerLevel.h"
 #include "debug.h"
-DWORD bat_time_route = GetTickCount();
+DWORD bat_time_route = GetTickCount() - 10000;
 bool bat_test = true;
 float bat_min_x, bat_min_y, bat_max_x, bat_max_y;
 int ani_test = 1;
@@ -151,28 +151,54 @@ void CBat::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		x += dx;
 		y += dy;
 		DWORD now = GetTickCount();
-		if (now - bat_time_route > 1000)
+		if (now - bat_time_route > 10000)
+		{
+			bat_time_route = GetTickCount() - 3000;
+		}
+		else if (now - bat_time_route > 5000)
+		{
+			bat_time_route = GetTickCount() - 2000;
+		}
+		else if (now - bat_time_route > 4000)
 		{
 			vx = 0;
 			vy = 0;
 		}
-		if (now - bat_time_route > 2000)
+		else if (now - bat_time_route > 3000)
 		{
-			if (simon->x - x > 0)
-				vx = BAT_BIG_SPEEDING_X;
+			vx = BAT_BIG_SPEEDING_X / 5;
+			vy = BAT_BIG_SPEEDING_Y / 5;
+		}
+		else if (now - bat_time_route > 2000)
+		{
+			if ((x + BAT_BIG_LIMIT_X >= simon->x) && (x- BAT_BIG_LIMIT_X <= simon->x)
+				&& (y + BAT_BIG_LIMIT_Y >= simon->y) && (y - BAT_BIG_LIMIT_Y <= simon->y))
+			{
+				if (simon->x - x > 0)
+					vx = BAT_BIG_SPEEDING_X;
+				else
+					vx = -BAT_BIG_SPEEDING_X;
+				if (simon->y - y > 0)
+					vy = BAT_BIG_SPEEDING_Y;
+				else
+					vy = -BAT_BIG_SPEEDING_Y;
+			}
 			else
-				vx = -BAT_BIG_SPEEDING_X;
-			if (simon->y - y > 0)
-				vy = BAT_BIG_SPEEDING_Y;
-			else
-				vy = -BAT_BIG_SPEEDING_Y;
+			{
+				SetState(BAT_STATE_FIRE);
+				bullet->SetPosition(x, y);
+				bullet->SetState(x, simon->x);
+				bullet->SetSpeed(x, y, simon->x, simon->y, 800);
+			}
 			bat_time_route = GetTickCount();
 			bat_test = true;
-			SetState(BAT_STATE_FIRE);
-			bullet->SetPosition(x, y);
-			bullet->SetState(x, simon->x);
-			bullet->SetSpeed(x, y, simon->x, simon->y, 800);
 		}
+		else if (now - bat_time_route > 1000)
+		{
+			vx = 0;
+			vy = 0;
+		}
+		DebugOut(L"time=%d\n", now - bat_time_route);
 	}
 }
 

@@ -44,5 +44,6 @@ public:
 	~CClockTowerLevel();
 	static CClockTowerLevel *GetInstance();
 	void GetSizeMap(float &min, float &max);
+	void NextScece(float &x, float &y);
 };
 
