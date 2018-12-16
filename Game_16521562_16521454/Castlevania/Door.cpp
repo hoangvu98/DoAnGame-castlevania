@@ -10,8 +10,8 @@ void CDoor::GetBoundingBox(float & left, float & top, float & right, float & bot
 
 void CDoor::Render()
 {
-	/*if (IsHiden == false)
-	{*/
+	if (IsHiden == false)
+	{
 		if (state == DOOR_STATE_CLOSE)
 			animations[DOOR_ANI_CLOSE]->Render(x, y);
 		else if (state == DOOR_STATE_OPEN)
@@ -21,7 +21,7 @@ void CDoor::Render()
 			else
 				animations[DOOR_ANI_OPEN_2]->Render(x, y);
 		}
-	//}
+	}
 	RenderBoundingBox(200);
 }
 
@@ -31,7 +31,9 @@ CDoor::CDoor()
 	AddAnimation(11001);
 	AddAnimation(11002);
 	IsStair = false;
+	IsGo = true;
 	stop = false;
 	i = 0;
 	nx = 1;
+	IsAuto = true;
 }

@@ -283,7 +283,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		coEventsResult.clear();
 		float min_tx, min_ty, nx = 0, ny;
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-		
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
@@ -317,60 +316,71 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 							FrameCollusion = GetTickCount();
 						}
 				}
-			}	
+			}
 			else if (dynamic_cast<CDoor *>(e->obj))
 			{
 				CDoor *door = dynamic_cast<CDoor *>(e->obj);
-				if (door->GetIsHiden() == true && door->IsGo == true)
+				if (door->GetIsAuto() == true)
 				{
-					if (door->GetIsStair() == true)
+					if (door->GetIsHiden() == true && door->IsGo == true)
 					{
-						if (stair == 2)
+
+						if (door->GetIsStair() == true)
 						{
-							if (door->nx == 1)
+							if (stair == 2)
 							{
-								door->IsGo = false;
-								if (door->cx != 0 || door->cy != 0)
+								if (door->nx == 1)
 								{
-									simon_x = door->cx;
-									simon_y = door->cy;
+									door->IsGo = false;
+									if (door->cx != 0 || door->cy != 0)
+									{
+										simon_x = door->cx;
+										simon_y = door->cy;
+									}
+									level1->SetIsNext(true);
+									level1->SetNextScene(door->GetScene());
 								}
-								level1->SetIsNext(true);
-								level1->SetNextScene(door->GetScene());
-							}
-							else
-							{
-								door->IsGo = false;
-								if (door->cx != 0 || door->cy != 0)
+								else
 								{
-									simon_x = door->cx;
-									simon_y = door->cy;
+									door->IsGo = false;
+									if (door->cx != 0 || door->cy != 0)
+									{
+										simon_x = door->cx;
+										simon_y = door->cy;
+									}
+									level1->SetIsFall(true);
+									level1->SetNextScene(door->GetScene());
 								}
-								level1->SetIsFall(true);
-								level1->SetNextScene(door->GetScene());
 							}
 						}
-					}
-					else
-					{
-						door->IsGo = false;
-						state_auto = 5;
-						if (nx > 0)
-							simon_x = door->x + door->size;
 						else
-							simon_x = door->x - door->size;
+						{
+							door->IsGo = false;
+							state_auto = 5;
+							if (nx > 0)
+								simon_x = door->x + door->size;
+							else
+								simon_x = door->x - door->size;
+							level1->SetNextScene(door->GetScene());
+						}
+					}
+					else if (door->GetIsHiden() == false && door->IsGo == true)
+					{
+						SetState(SIMON_STATE_IDLE);
+						door->IsGo = false;
+						camera_auto = 2;
+						state_auto = -1;
 						level1->SetNextScene(door->GetScene());
 					}
 				}
-				else if (door->GetIsHiden() == false && door->IsGo == true)
+				else
 				{
-					SetState(SIMON_STATE_IDLE);
 					door->IsGo = false;
-					camera_auto = 2;
-					state_auto = -1;
+					level1->SetIsNext(true);
 					level1->SetNextScene(door->GetScene());
 				}
 			}
+
 		}
 	}
 	if (test)

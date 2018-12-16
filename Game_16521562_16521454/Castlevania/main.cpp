@@ -336,12 +336,13 @@ void LoadResources()
 	//simon->SetPosition(629.0f, 10.0f);//map 3
 	simon->SetPosition(303.0f, 10.0f);//map 3
 	simon->SetPosition(40.0f, 10.0f);//map 3
-	simon->SetPosition(180.0f, 30.0f);//map 4
-	simon->SetPosition(190.0f, 30.0f);//map 5
+	//simon->SetPosition(180.0f, 30.0f);//map 4
+	//simon->SetPosition(190.0f, 30.0f);//map 5
+	//simon->SetPosition(448.0f, 76.0f);//map 5
 	//simon->SetPosition(190.0f, 30.0f   /*719.0f, 45.0f*/);
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
-	level_1->SetScene(SCENE_5);
+	level_1->SetScene(SCENE_3);
 	screen = 2;
 	level_1->LoadMap();
 	//objects.push_back(simon);
@@ -430,7 +431,7 @@ void Update(DWORD dt)
 		objects.push_back(simon);
 		level_1->GetUpdateObjects(&objects);
 		//vector<LPGAMEOBJECT> coObjects;
-		for (int i = 0; i < objects.size() - 1; i++)
+		for (int i = 1; i < objects.size(); i++)
 			coObjects.push_back(objects[i]);
 		for (int i = 0; i < objects.size(); i++)
 			objects[i]->Update(dt, &coObjects);

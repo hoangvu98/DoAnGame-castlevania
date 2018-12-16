@@ -18,6 +18,7 @@ class CDoor :
 	int i;
 	int scene;
 	bool IsStair;
+	bool IsAuto;
 public:
 	int size=0;
 	bool IsGo = true;
@@ -27,6 +28,8 @@ public:
 	void SetStop(bool stop) { this->stop = stop; }
 	void SetIsHiDen(bool IsHiden) {this->IsHiden= IsHiden;}
 	bool GetIsHiden() { return IsHiden; }
+	void SetIsAuto(bool IsAuto) { this->IsAuto = IsAuto; }
+	bool GetIsAuto() { return IsAuto; }
 	void SetScene(int scene) { this->scene = scene; }
 	int GetScene() { return scene; }
 	void SetIsStair(bool IsStair) {this->IsStair = IsStair;}

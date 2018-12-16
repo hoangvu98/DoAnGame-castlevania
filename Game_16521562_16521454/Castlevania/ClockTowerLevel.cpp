@@ -210,7 +210,6 @@ void CClockTowerLevel::LoadMap()
 		door->cx = 91.08f;
 		door->cy = 146.52f;
 		door->SetIsHiDen(true);
-		door->IsGo = true;
 		door->SetIsStair(true);
 		door->SetScene(3);
 		cells->InitCells(door);
@@ -221,7 +220,6 @@ void CClockTowerLevel::LoadMap()
 		door->cx = 313.0f;
 		door->cy = 144.0f;
 		door->SetIsHiDen(true);
-		door->IsGo = true;
 		door->SetIsStair(true);
 		door->SetScene(3);
 		cells->InitCells(door);
@@ -405,7 +403,6 @@ void CClockTowerLevel::LoadMap()
 		door->cx = 669.84f;
 		door->cy = 142.76f;
 		door->SetIsHiDen(true);
-		door->IsGo = true;
 		door->SetIsStair(true);
 		door->SetScene(3);
 		cells->InitCells(door);
@@ -451,11 +448,19 @@ void CClockTowerLevel::LoadMap()
 
 		door = new CDoor();
 		door->SetState(DOOR_STATE_CLOSE);
+		door->SetPosition(0.0f, 45.0f);
+		door->SetIsAuto(false);
+		door->SetIsHiDen(true);
+		door->SetIsStair(true);
+		door->SetScene(4);
+		cells->InitCells(door);
+
+		door = new CDoor();
+		door->SetState(DOOR_STATE_CLOSE);
 		door->SetPosition(80.0f, 170.0f);
 		door->cx = 91.7f;
 		door->cy = -13.84f;
 		door->SetIsHiDen(true);
-		door->IsGo = true;
 		door->SetIsStair(true);
 		door->SetScene(2);
 		cells->InitCells(door);
@@ -467,7 +472,6 @@ void CClockTowerLevel::LoadMap()
 		door->cx = 662.76f;
 		door->cy = -11.16f;
 		door->SetIsHiDen(true);
-		door->IsGo = true;
 		door->SetIsStair(true);
 		door->SetScene(2);
 		cells->InitCells(door);
@@ -478,7 +482,6 @@ void CClockTowerLevel::LoadMap()
 		door->cx = 310.0f;
 		door->cy = -10.0f;
 		door->SetIsHiDen(true);
-		door->IsGo = true;
 		door->SetIsStair(true);
 		door->SetScene(2);
 		cells->InitCells(door);
@@ -704,6 +707,16 @@ void CClockTowerLevel::LoadMap()
 
 		cells = new CCells(column, row);
 
+		door = new CDoor();
+		door->SetState(DOOR_STATE_CLOSE);
+		door->SetPosition(100.0f, 0.0f);
+		door->cx = 597.5f;
+		door->cy = 145.1f;
+		door->SetIsHiDen(true);
+		door->SetIsStair(true);
+		door->SetScene(5);
+		cells->InitCells(door);
+
 		hobj = new CHidenObject();
 		hobj->SetPosition(249.0f, 0.0f);
 		hobj->SetSize(36.0f, 93.0f);
@@ -736,6 +749,16 @@ void CClockTowerLevel::LoadMap()
 
 		cells = new CCells(column, row);
 
+		door = new CDoor();
+		door->SetState(DOOR_STATE_CLOSE);
+		door->SetPosition(607.0f, 175.0f);
+		door->cx = 118.22f;
+		door->cy = -8.03f;
+		door->SetIsHiDen(true);
+		door->SetIsStair(true);
+		door->SetScene(4);
+		cells->InitCells(door);
+
 		hobj = new CHidenObject();
 		hobj->SetPosition(0.0f, 0.0f);
 		hobj->SetSize(2.0f, 146.0f);
@@ -749,8 +772,8 @@ void CClockTowerLevel::LoadMap()
 		cells->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(450.0f, 114.0f);
-		hobj->SetSize(95.0f, 30.0f);
+		hobj->SetPosition(447.0f, 113.0f);
+		hobj->SetSize(103.0f, 32.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cells->InitCells(hobj);
 
@@ -787,11 +810,11 @@ void CClockTowerLevel::LoadMap()
 		hobj->nx = 1;
 		cells->InitCells(hobj);
 
-		dracula = new CDracula(204.0f, 95.0f);
-		//dracula->SetPosition(204.0f, 95.0f);
-		dracula->Setnx(-1);
-		dracula->SetState(DRACULA_STATE_INVISIBLE);
-		cells->InitCells(dracula);
+		//dracula = new CDracula(204.0f, 95.0f);
+		////dracula->SetPosition(204.0f, 95.0f);
+		//dracula->Setnx(-1);
+		//dracula->SetState(DRACULA_STATE_INVISIBLE);
+		//cells->InitCells(dracula);
 		break;
 	}
 }
@@ -863,8 +886,8 @@ void CClockTowerLevel::NextScece(float &x, float &y)
 	}
 	else if (scene == 4)
 	{
-		x = 63.0f;
-		y = -5.0f;
+		x = 223.0f;
+		y = 50.0f;
 	}
 	else
 	{
