@@ -1031,3 +1031,19 @@ void CEntranceLevel::NextScece(float &x, float &y)
 		y = 0;
 	}
 }
+
+void CEntranceLevel::ResetScene()
+{
+	if (scene == SCENE_1)
+	{
+		scene = SCENE_1;
+	}
+	else if (scene == SCENE_2 || scene == SCENE_3)
+	{
+		scene = SCENE_2;
+	}
+	else if (scene == SCENE_4 || scene == SCENE_5)
+	{
+		scene = SCENE_4;
+	}
+}

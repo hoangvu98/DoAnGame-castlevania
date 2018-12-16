@@ -63,6 +63,10 @@ void CResource::LoadSimon()
 	animations->Add(902, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//collusion monster right
 	animations->Add(1000, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//simon die left
+	animations->Add(1001, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//simon die right
+	animations->Add(1002, ani);
 	in.close();
 }
 

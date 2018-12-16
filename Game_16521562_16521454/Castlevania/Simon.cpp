@@ -403,6 +403,12 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		Camera();
 	else
 		CameraAuto();
+	if (y >= 180.0f || health<=0)
+	{
+		vx = 0;
+		vy = 0;
+		Reset = true;
+	}
 	//DebugOut(L"state_auto=%d\n", state_auto);
 	//DebugOut(L"IsUp=%d\nIsDown=%d\n", IsUp,IsDown);
 	//DebugOut(L"state=%d\n", state);
@@ -974,6 +980,9 @@ CSimon::CSimon()
 	AddAnimation(901);
 	AddAnimation(902);
 	AddAnimation(1000);
+	AddAnimation(1001);
+	AddAnimation(1002);
+	Reset = false;
 	mx = 0;
 	whip = new CWhip();
 	whip->SetState(WHITE_WHIP);

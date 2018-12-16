@@ -88,6 +88,7 @@ class CSimon :public CGameObject
 	int collusion_nx = 0;
 	int state_auto = 0;
 	int camera_auto = 0;
+	bool Reset;
 public:
 	bool MeetBoss = false;
 	DWORD test_stair = 0;
@@ -122,12 +123,14 @@ public:
 
 	int GetScore() { return score; }
 	void SetScore(int score) { this->score = score; }
-	void SetHeart(int heart) { this->heart = heart; }
 	int GetHeart() { return this->heart; }
+	void SetHeart(int heart) { this->heart = heart; }
 	int GetHealth() { return this->health; }
+	void SetHealth(int health) { this->health = health; }
 	void SetStage(int stage) { this->stage = stage; }
 	int GetStage() { return this->stage; }
-
+	void SetReset(bool Reset) { this->Reset = Reset; }
+	bool GetReset() { return this->Reset; }
 	void Auto();
 	void Camera();
 	void CameraAuto();

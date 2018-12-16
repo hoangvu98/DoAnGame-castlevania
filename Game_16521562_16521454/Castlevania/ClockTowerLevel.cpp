@@ -874,24 +874,40 @@ void CClockTowerLevel::GetSizeMap(float & min, float & max)
 }
 void CClockTowerLevel::NextScece(float &x, float &y)
 {
-	if (scene == 1)
+	if (scene == SCENE_1)
 	{
 		x = 10.0f;
 		y = 114.5f;
 	}
-	else if (scene == 2)
+	else if (scene == SCENE_2)
 	{
 		x = 727.0f;
 		y = 41.0f;
 	}
-	else if (scene == 4)
+	else if (scene == SCENE_4)
 	{
 		x = 223.0f;
 		y = 50.0f;
 	}
-	else
+	else if(SCENE_5)
 	{
 		x = 0;
 		y = 0;
+	}
+}
+
+void CClockTowerLevel::ResetScene()
+{
+	if (scene == SCENE_1)
+	{
+		scene = SCENE_1;
+	}
+	else if (scene == SCENE_2 || scene == SCENE_3)
+	{
+		scene = SCENE_2;
+	}
+	else if (scene == SCENE_4 || scene == SCENE_5)
+	{
+		scene = SCENE_4;
 	}
 }

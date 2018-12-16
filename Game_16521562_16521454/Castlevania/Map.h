@@ -44,5 +44,6 @@ public:
 	virtual void Render();
 	virtual void GetSizeMap(float &min, float &max)=0;
 	virtual void NextScece(float &x, float &y) = 0;
+	virtual void ResetScene() = 0;
 };
 

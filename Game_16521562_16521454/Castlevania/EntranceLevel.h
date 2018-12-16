@@ -55,5 +55,6 @@ public:
 	void GetSizeMap(float &min,float &max);
 	static CEntranceLevel * GetInstance();
 	void NextScece(float &x, float &y);
+	void ResetScene();
 };
 

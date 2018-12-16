@@ -388,6 +388,18 @@ void Update(DWORD dt)
 			objects[i]->Update(dt, &coObjects);
 		break;
 	case 2:
+		if (simon->GetReset())
+		{
+			simon->SetHeart(5);
+			simon->SetHealth(16);
+			simon->SetReset(false);
+			level_1->ResetScene();
+			float x, y;
+			level_1->NextScece(x, y);
+			if (x != 0 || y != 0)
+				simon->SetPosition(x, y);
+			simon->Camera();
+		}
 		if(level_1->GetIsNext())
 		{ 
 			int scene;
