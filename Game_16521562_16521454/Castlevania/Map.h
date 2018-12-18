@@ -13,8 +13,8 @@ class CMap
 {
 protected:
 	int prev_scene, scene;
-
 	CCells *cells;
+
 
 	CTextures *textures;
 	CSprites *sprites;
@@ -45,5 +45,6 @@ public:
 	virtual void GetSizeMap(float &min, float &max)=0;
 	virtual void NextScece(float &x, float &y) = 0;
 	virtual void ResetScene() = 0;
+	CCells* GetCell() { return cells; }
+	void SetCell(CCells *cells) {this->cells= cells;}
 };
-

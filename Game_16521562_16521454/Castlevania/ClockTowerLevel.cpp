@@ -52,6 +52,7 @@ void CClockTowerLevel::LoadMap()
 
 		bat = new CBat(BAT_SIZE_BIG);
 		bat->SetPosition(1343.0f, 0.0f);
+		bat->SetPosstionAppear(1200.0f, 0.0f);
 		bat->SetSize(10, 70);
 		cells->InitCells(bat);
 
@@ -205,7 +206,7 @@ void CClockTowerLevel::LoadMap()
 
 		cells = new CCells(column, row);
 
-	/*	eagle = new CEagle();
+		/*eagle = new CEagle();
 		eagle->SetPosition(515.0f, 34.0f);
 		eagle->SetState(EAGLE_STATE_FLY_RIGHT);
 		cells->InitCells(eagle);
@@ -451,11 +452,18 @@ void CClockTowerLevel::LoadMap()
 
 		cells = new CCells(column, row);
 
+		eagle = new CEagle();
+		eagle->SetPosstionAppear(515.0f, 50.0f);
+		eagle->SetPosition(542, 32);
+		eagle->SetSize(16, 16);
+		eagle->SetState(EAGLE_STATE_SLEEPING);
+		eagle->SetStateAppear(EAGLE_STATE_FLY_RIGHT);
+		cells->InitCells(eagle);
 
-		/*hunchback = new CHunchback();
-		hunchback->SetPosition(521.0f, 71.0f);
-		hunchback->SetState(HUNCHBACK_STATE_FLY_RIGHT);
-		cells->InitCells(hunchback);*/
+		//hunchback = new CHunchback();
+		//hunchback->SetPosition(525.0f, 71.0f);
+		//hunchback->SetState(HUNCHBACK_STATE_FLY_RIGHT);
+		//cells->InitCells(hunchback);
 
 		door = new CDoor();
 		door->SetState(DOOR_STATE_CLOSE);

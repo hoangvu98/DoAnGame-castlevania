@@ -198,6 +198,7 @@ void CBat::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					SetState(BAT_STATE_FIRE);
 					bullet->SetPosition(x, y);
 					bullet->SetState(x, simon->x);
+					bullet->SetSpeed(x, y, simon->x, simon->y,400);
 				}
 				bat_time_route = GetTickCount();
 				bat_test = true;
@@ -234,8 +235,6 @@ void CBat::Render()
 				ani = BAT_BIG_ANI_FLY;
 			}
 			animations[ani]->Render(x, y);
-			if (state == BAT_STATE_FIRE)
-				bullet->Render();
 		}
 	}
 	RenderBoundingBox(200);

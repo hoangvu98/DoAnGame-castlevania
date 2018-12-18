@@ -54,8 +54,14 @@ void CBullet::SetState(int state)
 
 void CBullet::SetSpeed(float x1, float y1, float x2, float y2, int time)
 {
-	vx=(x2 - x1)/time;
-	vy = (y2 - y1) / time;
+	float v_x=(x2 - x1)/time;
+	float v_y = (y2 - y1) / time;
+	if (v_x <= 0)
+		vx = -BULLET_SPEED;
+	else
+		vx = BULLET_SPEED;
+	vy = vx * v_y / v_x;
+
 }
 
 void CBullet::SetState(float x1, float x2)

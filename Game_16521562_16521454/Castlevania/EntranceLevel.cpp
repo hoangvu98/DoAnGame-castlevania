@@ -261,7 +261,7 @@ void CEntranceLevel::LoadMap()
 		cells->InitCells(hidenObj);
 
 
-		panther = new CPanther();
+		/*panther = new CPanther();
 		panther->SetState(PANTHER_STATE_IDLE);
 		panther->Setnx(-1);
 		panther->SetTurn(0);
@@ -289,7 +289,7 @@ void CEntranceLevel::LoadMap()
 		panther->SetTurn(0);
 		panther->SetJump(false);
 		panther->InitMovingArea();
-		cells->InitCells(panther);
+		cells->InitCells(panther);*/
 
 		for (int i = 0; i < 5; i++)
 		{
@@ -371,12 +371,12 @@ void CEntranceLevel::LoadMap()
 		cells->InitCells(ghoul);
 
 		ghoul = new CGhoul();
-		ghoul->SetPosition(270.0f, 127.0f);
+		ghoul->SetPosition(290.0f, 127.0f);
 		ghoul->SetState(GHOUL_STATE_LEFT);
 		cells->InitCells(ghoul); 
 
 		ghoul = new CGhoul();
-		ghoul->SetPosition(290.0f, 127.0f);
+		ghoul->SetPosition(330.0f, 127.0f);
 		ghoul->SetState(GHOUL_STATE_LEFT);
 		cells->InitCells(ghoul);
 		for (int i = 0; i < 3; i++)
@@ -424,8 +424,11 @@ void CEntranceLevel::LoadMap()
 		cells->InitCells(brick);
 
 		bat = new CBat(BAT_SIZE_SMALL);
-		bat->SetPosition(1760.0f, 35.0f);
-		bat->SetState(BAT_STATE_FLY_LEFT);
+		bat->SetPosition(1600.0f, 46.0f);
+		bat->SetPosstionAppear(1770, 40);
+		bat->SetSize(16, 16);
+		bat->SetState(BAT_STATE_SLEEPING);
+		bat->SetStateAppear(BAT_STATE_FLY_LEFT);
 		bat->SetHeightFly(35.0f);
 		cells->InitCells(bat);
 
@@ -943,9 +946,9 @@ void CEntranceLevel::LoadMap()
 		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
 		cells->InitCells(hidenObj);
 
-		/*bossbat = CBossBat::GetInstance();
+		bossbat = CBossBat::GetInstance();
 		bossbat->SetPosition(2666.0f, 0.0f);
-		cells->InitCells(bossbat);*/
+		cells->InitCells(bossbat);
 		break;
 	}
 }

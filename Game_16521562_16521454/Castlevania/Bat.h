@@ -40,6 +40,8 @@ class CBat : public CMonster
 	float Height_Fly;
 	int size;
 	float weight, height;
+	float appear_x, appear_y;
+	int appear_state;
 public:
 	CBat(int size);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
@@ -50,5 +52,9 @@ public:
 	void SetSize(int size) { this->size = size; }
 	int GetSize() { return size; }
 	void SetSize(float weight, float height) {this->weight = weight; this->height= height;}
-
+	CBullet* GetBullet() { return bullet; }
+	void SetPosstionAppear(float appear_x, float appear_y) { this->appear_x = appear_x; this->appear_y = appear_y; }
+	void GetPositionAppear(float &appear_x, float &appear_y) { appear_x = this->appear_x; appear_y = this->appear_y; }
+	int GetStateAppear() {	return appear_state	;}
+	void SetStateAppear(int appear_state) { this->appear_state = appear_state; }
 };

@@ -38,11 +38,15 @@ void CGhoul::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		x += dx;
 		y += dy;
+		if (x > cx + 256.0f || x < cx)
+		{
+			x -= dx;
+			SetState(MONSTER_STATE_DELETE);
+		}
 	}
 	else if (state == MONSTER_STATE_DELETE)
 	{
-		if (cx >= min && cx + 256.0f <= max)
-			x = simon->x;
+		x = simon->x;
 	}
 }
 
@@ -60,6 +64,7 @@ void CGhoul::Render()
 		ani = GHOUL_ANI_RIGHT;
 		animations[ani]->Render(x, y);
 	}
+	//RenderBoundingBox(200);
 }
 
 void CGhoul::SetState(int state)

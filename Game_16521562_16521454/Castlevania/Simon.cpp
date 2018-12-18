@@ -8,6 +8,8 @@
 #include "ClockTowerLevel.h"
 #include "Ghoul.h"
 #include "Bat.h"
+#include "Eagle.h"
+#include "Hunchback.h"
 DWORD FrameCollusion;
 int color = 255;
 float stair_x = 0;
@@ -66,10 +68,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		if (dynamic_cast<CHidenObject *> (e->obj))
 		{
 			CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
-			/*if (hidenobject->GetState() == HIDENOBJECT_STATE_STAIR_UP)
-			{
-
-			}*/
 			if (hidenobject->GetState() == HIDENOBJECT_STATE_STAIR_UP)
 			{
 				nx1 = hidenobject->nx;
@@ -179,10 +177,38 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			CMonster *monster = dynamic_cast<CMonster *>(e->obj);
 			if (dynamic_cast<CBat *> (e->obj) && monster->state == BAT_STATE_SLEEPING)
 			{
-					monster->SetState(BAT_STATE_FLY);
-					float cx, cy;
-					monster->GetPosition(cx, cy);
-					monster->SetPosition(cx - 120.0f, cy);
+				CBat *bat = dynamic_cast<CBat *>(e->obj);
+				float cx, cy;
+				bat->GetPositionAppear(cx, cy);
+				bat->SetPosition(cx, cy);
+				if (bat->GetSize() == BAT_SIZE_SMALL)
+				{
+					int state;
+					state=bat->GetStateAppear();
+					bat->SetState(state);
+				}
+				else
+					bat->SetState(BAT_STATE_FLY);
+			}
+			else if (dynamic_cast<CEagle *> (e->obj) && monster->state == EAGLE_STATE_SLEEPING)
+			{
+				CEagle *eagle = dynamic_cast<CEagle *>(e->obj);
+				float cx, cy,tx,ty;
+				eagle->GetPositionAppear(cx, cy);
+				eagle->GetPosition(tx, ty);
+				eagle->SetPosstionAppear(tx, ty);
+				eagle->SetPosition(x-80.0f, cy);
+				eagle->GetPosition(tx, ty);
+				CHunchback* hunchback;
+				hunchback = new CHunchback();
+				hunchback->SetPosition(tx+10.0f, ty+21.0f);
+				hunchback->SetState(HUNCHBACK_STATE_FLY_RIGHT);
+				CCells* cell = level1->GetCell();
+				cell->InitCells(hunchback);
+				level1->SetCell(cell);
+				int state;
+				state = eagle->GetStateAppear();
+				eagle->SetState(state);
 			}
 			else if (collusion == 0 && monster->state != MONSTER_STATE_DELETE &&
 				monster->state != MONSTER_STATE_DISAPPEAR)
@@ -368,10 +394,9 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	//DebugOut(L"IsUp=%d\nIsDown=%d\n", IsUp,IsDown);
 	//DebugOut(L"state=%d\n", state);
 	//DebugOut(L"up=%d\ndown=%d\n", IsUp, IsDown);
-	DebugOut(L"x=%f\ny=%f\n", x, y);
+	//DebugOut(L"x=%f\ny=%f\n", x, y);
 	//DebugOut(L"heart=%d\n", heart);
 	//DebugOut(L"stair=%d\n", stair);
-
 }
 
 void CSimon::Render()

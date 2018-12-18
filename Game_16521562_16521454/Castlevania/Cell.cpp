@@ -123,7 +123,7 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 
 	xe = (int)(cam_x + 256.0f) / CELL_WIDTH;
 	ye = (int)(cam_y + 185.0f) / CELL_HEIGHT;
-	for (i = xs; i <= xe; i++)
+	for (i=xs; i <= xe; i++)
 		for (j = ys; j <= ye; j++)
 		{
 			if (cells[i][j].GetObjects().size() != 0)
@@ -137,9 +137,8 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 						if (a != i || b != j)
 						{
 							cells[i][j].XoaObject(k);
-							if (xs <= a && a <= xe)
-								if (ys <= b && b <= ye)
-									cells[a][b].SetObjects(e);
+							if (xs <= a && a <= xe && ys <= b && b <= ye)
+								cells[a][b].SetObjects(e);
 						}
 					}
 					if (dynamic_cast<CBullet *> (e))
@@ -171,8 +170,7 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 							CCandle *candle = dynamic_cast<CCandle *>(e);
 							if (candle->GetItems()->GetState() != ITEM_STATE_DELETE)
 								list_object->push_back(candle->GetItems());
-						}
-						
+						}					
 						else
 						{
 							list_object->push_back(e);
@@ -222,7 +220,16 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 						CSpiritDracula *spirit_dracula = dynamic_cast<CSpiritDracula *> (e);
 						list_object->push_back(spirit_dracula->GetHead());
 						list_object->push_back(e);
-
+					}
+					else if (dynamic_cast<CBat *> (e))
+					{
+						list_object->push_back(e);
+						CBat *bat = dynamic_cast<CBat *>(e);
+						if (bat->GetSize() == BAT_SIZE_BIG)
+						{
+							if (bat->state == BAT_STATE_FIRE)
+								list_object->push_back(bat->GetBullet());
+						}
 					}
 					else
 						list_object->push_back(e);
