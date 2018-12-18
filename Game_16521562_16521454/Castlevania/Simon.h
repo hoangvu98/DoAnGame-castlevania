@@ -67,7 +67,7 @@ using namespace std;
 class CSimon :public CGameObject
 {
 	static CSimon *__instance;
-	int heart = 0,score=0,health=/*12*/16;
+	int heart = 0,score=0,health=16;
 	int mx;
 	int stage;
 	int previousstate=NULL;

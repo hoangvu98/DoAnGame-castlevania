@@ -25,6 +25,7 @@
 #define BAT_STATE_FLY_RIGHT	1
 #define BAT_STATE_FLY       2
 #define BAT_STATE_FIRE      3
+#define BAT_STATE_SLEEPING  4
 
 #define BAT_SIZE_SMALL 0
 #define BAT_SIZE_BIG 1
@@ -38,6 +39,7 @@ class CBat : public CMonster
 	CBullet *bullet;
 	float Height_Fly;
 	int size;
+	float weight, height;
 public:
 	CBat(int size);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
@@ -47,5 +49,6 @@ public:
 	void SetHeightFly(float height_fly);
 	void SetSize(int size) { this->size = size; }
 	int GetSize() { return size; }
+	void SetSize(float weight, float height) {this->weight = weight; this->height= height;}
 
 };

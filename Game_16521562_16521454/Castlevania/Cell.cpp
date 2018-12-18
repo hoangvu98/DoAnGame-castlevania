@@ -7,6 +7,7 @@
 #include "BossBat.h"
 #include "Bat.h"
 #include "Fishman.h"
+#include "Bullet.h"
 void CCell::SetObjects(LPGAMEOBJECT object)
 {
 	objects.push_back(object);
@@ -129,6 +130,18 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 				{
 					LPGAMEOBJECT e = cells[i][j].GetObjects()[k];
 					if (dynamic_cast<CMonster *> (e))
+					{
+						int a = e->x / CELL_WIDTH;
+						int b = e->y / CELL_HEIGHT;
+						if (a != i || b != j)
+						{
+							cells[i][j].XoaObject(k);
+							if (xs <= a && a <= xe)
+								if (ys <= b && b <= ye)
+									cells[a][b].SetObjects(e);
+						}
+					}
+					if (dynamic_cast<CBullet *> (e))
 					{
 						int a = e->x / CELL_WIDTH;
 						int b = e->y / CELL_HEIGHT;

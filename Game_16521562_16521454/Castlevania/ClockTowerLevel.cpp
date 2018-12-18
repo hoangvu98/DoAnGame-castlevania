@@ -49,8 +49,17 @@ void CClockTowerLevel::LoadMap()
 		cells = new CCells(column, row);
 
 		bat = new CBat(BAT_SIZE_BIG);
-		bat->SetPosition(1200.0f, 10.0f);
+		bat->SetPosition(1343.0f, 0.0f);
+		bat->SetSize(10, 70);
 		cells->InitCells(bat);
+
+		/*bat = new CBat(BAT_SIZE_BIG);
+		bat->SetPosition(990.0f, 00.0f);
+		cells->InitCells(bat);
+
+		bat = new CBat(BAT_SIZE_BIG);
+		bat->SetPosition(690.0f, 00.0f);
+		cells->InitCells(bat);*/
 
 		hobj = new CHidenObject();
 		hobj->SetPosition(1345.0f, 143.0f);
@@ -168,8 +177,8 @@ void CClockTowerLevel::LoadMap()
 
 		hobj = new CHidenObject();
 		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
-		hobj->SetSize(28.0f, 9.0f);
-		hobj->SetPosition(1420.0f, 135.0f);
+		hobj->SetSize(28.0f, 14.0f);
+		hobj->SetPosition(1420.0f, 130.0f);
 		hobj->SetStair_X(1434.0f);
 		hobj->nx = -1;
 		cells->InitCells(hobj);
@@ -876,8 +885,8 @@ void CClockTowerLevel::NextScece(float &x, float &y)
 {
 	if (scene == SCENE_1)
 	{
-		x = 10.0f;
-		y = 114.5f;
+		x = 1462.0f;
+		y = 112.0f;
 	}
 	else if (scene == SCENE_2)
 	{

@@ -12,7 +12,7 @@ CSkeleton::CSkeleton()
 CSkeleton::CSkeleton(float x, float y)
 {
 	health = 1;
-	damage = 1;
+	damage = 4;
 	SetPosition(x, y);
 	AddAnimation(220011); //ani left
 	AddAnimation(220012); // ani right
