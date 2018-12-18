@@ -650,3 +650,40 @@ void CResource::LoadDracula()
 	animations->Add(240012, ani);
 	in.close();
 }
+
+void CResource::LoadSpiritDracula()
+{
+	CTextures *textures = CTextures::GetInstance();
+
+	CSprites *sprites = CSprites::GetInstance();
+	CAnimations *animations = CAnimations::GetInstance();
+
+	LPDIRECT3DTEXTURE9 texspiritdracula;
+	texspiritdracula = textures->Get(ID_DRACULA);
+
+	LPANIMATION ani;
+	ani = new CAnimation(100);
+
+	ifstream in("Data\\SpiritDracula.txt");
+	CInputImage::AddAnimation(in, sprites, ani, texspiritdracula, 1);
+	animations->Add(250001, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texspiritdracula, 1);
+	animations->Add(250002, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texspiritdracula, 1);
+	animations->Add(250003, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texspiritdracula, 1);
+	animations->Add(250004, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texspiritdracula, 1);
+	animations->Add(250005, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texspiritdracula, 1);
+	animations->Add(250006, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texspiritdracula, 1);
+	animations->Add(250007, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texspiritdracula, 1);
+	animations->Add(250008, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texspiritdracula, 1);
+	animations->Add(250009, ani);
+	CInputImage::AddAnimation(in, sprites, ani, texspiritdracula, 1);
+	animations->Add(250010, ani);
+	in.close();
+}

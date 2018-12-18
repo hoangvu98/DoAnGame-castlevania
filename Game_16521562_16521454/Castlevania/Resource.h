@@ -73,4 +73,6 @@ public:
 	void LoadEagle();
 	void LoadHunchback();
 	void LoadDracula();
+	void LoadSpiritDracula();
+
 };

@@ -7,6 +7,7 @@
 #define HIDENOBJECT_STATE_DOOR		    4
 #define HIDENOBJECT_STATE_CASTLE_GATE   5
 #define HIDENOBJECT_STATE_STAIR_UP_DOWN 6
+#define HIDENOBJECT_STATE_HEAD			7
 
 class CHidenObject :
 	public CGameObject

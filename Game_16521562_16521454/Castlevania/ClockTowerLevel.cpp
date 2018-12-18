@@ -9,6 +9,7 @@
 #include "Hunchback.h"
 #include "Bat.h"
 #include "Dracula.h"
+#include "SpiritDracula.h"
 CClockTowerLevel *CClockTowerLevel::__instance = NULL;
 
 CClockTowerLevel::CClockTowerLevel()
@@ -31,6 +32,7 @@ void CClockTowerLevel::LoadMap()
 	CHunchback* hunchback;
 	CBat* bat;
 	CDracula *dracula;
+	CSpiritDracula *spirit_dracula;
 	switch (scene)
 	{
 	case SCENE_1:
@@ -824,6 +826,11 @@ void CClockTowerLevel::LoadMap()
 		//dracula->Setnx(-1);
 		//dracula->SetState(DRACULA_STATE_INVISIBLE);
 		//cells->InitCells(dracula);
+
+		spirit_dracula = new CSpiritDracula(106.0f, 77.0f);
+		spirit_dracula->SetState(SPIRITDRACULA_STATE_IDLE);
+		spirit_dracula->Setnx(-1);
+		cells->InitCells(spirit_dracula);
 		break;
 	}
 }

@@ -8,6 +8,7 @@
 #include "Bat.h"
 #include "Fishman.h"
 #include "Bullet.h"
+#include "SpiritDracula.h"
 void CCell::SetObjects(LPGAMEOBJECT object)
 {
 	objects.push_back(object);
@@ -215,6 +216,13 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 							list_object->push_back(hidenobject);
 						}
 						list_object->push_back(e);
+					}
+					else if (dynamic_cast<CSpiritDracula *> (e))
+					{
+						CSpiritDracula *spirit_dracula = dynamic_cast<CSpiritDracula *> (e);
+						list_object->push_back(spirit_dracula->GetHead());
+						list_object->push_back(e);
+
 					}
 					else
 						list_object->push_back(e);

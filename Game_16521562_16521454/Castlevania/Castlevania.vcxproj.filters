@@ -120,6 +120,9 @@
     <ClInclude Include="HeadDracula.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SpiritDracula.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bat.cpp">
@@ -228,6 +231,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="HeadDracula.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpiritDracula.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

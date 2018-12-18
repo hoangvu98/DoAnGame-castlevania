@@ -159,6 +159,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Simon.h" />
     <ClInclude Include="Skeleton.h" />
+    <ClInclude Include="SpiritDracula.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="TileMap.h" />
@@ -197,6 +198,7 @@
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="Simon.cpp" />
     <ClCompile Include="Skeleton.cpp" />
+    <ClCompile Include="SpiritDracula.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="TileMap.cpp" />
