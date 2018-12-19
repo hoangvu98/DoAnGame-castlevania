@@ -1,9 +1,10 @@
 #include "Dracula.h"
 #include <cstdlib>
 #include "Simon.h"
+#include "Cell.h"
+#include "ClockTowerLevel.h"
 
 CDracula *CDracula::__instance = NULL;
-
 void CDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CSimon *simon = CSimon::GetInstance();
@@ -25,15 +26,15 @@ void CDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					StartWait(startwait1, wait_start1);
 				if (nx > 0)
 				{
-					bullets[0]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y + 10.0f, 800);
-					bullets[1]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y - 30.0f, 800);
-					bullets[2]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y + 60.0f, 800);
+					bullets[0]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y, 800);
+					bullets[1]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y - 5.0f, 800);
+					bullets[2]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y + 5.0f, 800);
 				}
 				else
 				{
-					bullets[0]->SetSpeed(x, y + BULLET_POSITION_Y, simon->x, simon->y + 10.0f, 800);
-					bullets[1]->SetSpeed(x, y + BULLET_POSITION_Y, simon->x, simon->y - 30.0f, 800);
-					bullets[2]->SetSpeed(x, y + BULLET_POSITION_Y, simon->x, simon->y + 60.0f, 800);
+					bullets[0]->SetSpeed(x, y + BULLET_POSITION_Y, simon->x, simon->y, 800);
+					bullets[1]->SetSpeed(x, y + BULLET_POSITION_Y, simon->x, simon->y - 5.0f, 800);
+					bullets[2]->SetSpeed(x, y + BULLET_POSITION_Y, simon->x, simon->y + 5.0f, 800);
 				}
 				if (GetTickCount() - wait_start1 > DRACULA_WAIT_TIME)
 				{
@@ -151,6 +152,10 @@ void CDracula::LoadSpirit()
 	spirit_dracula = new CSpiritDracula(this->x, this->y - 19.0f);
 	spirit_dracula->SetState(SPIRITDRACULA_STATE_IDLE);
 	spirit_dracula->Setnx(this->nx);
+	CClockTowerLevel *level = CClockTowerLevel::GetInstance();
+	CCells *cells = level->GetCell();
+	cells->InitCells(spirit_dracula);
+	level->SetCell(cells);
 	isSpirit = false;
 }
 
@@ -265,6 +270,14 @@ CDracula::CDracula()
 	bullets[0]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y + 20.0f, 800);
 	bullets[1]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y - 30.0f, 800);
 	bullets[2]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y + 60.0f, 800);
+
+	spirit_dracula = new CSpiritDracula(this->x, this->y - 19.0f);
+	spirit_dracula->SetState(SPIRITDRACULA_STATE_IDLE);
+	spirit_dracula->Setnx(this->nx);
+	CClockTowerLevel *level = CClockTowerLevel::GetInstance();
+	CCells *cells = level->GetCell();
+	cells->InitCells(spirit_dracula);
+	level->SetCell(cells);
 
 	AddAnimation(240001);
 	AddAnimation(240002);

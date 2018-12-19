@@ -162,7 +162,7 @@ void CFishman::Render()
 	}
 	else if (state == FISHMAN_STATE_WALKING_RIGHT)
 	{
-		ani = FISHMAN_ANI_WALKING_LEFT;
+		ani = FISHMAN_ANI_WALKING_RIGHT;
 		animations[ani]->Render(x, y);
 		Time_Fishman_HitEffect = GetTickCount();
 	}

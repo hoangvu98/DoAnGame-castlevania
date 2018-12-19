@@ -245,8 +245,8 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 							list_object->push_back(hidenobject);
 							CDracula *dracula = dynamic_cast<CDracula *>(e);
 							list_object->push_back(dracula->GetHead());
-							if (dracula->GetSpiritDracula() != NULL)
-								list_object->push_back(dracula->GetSpiritDracula());
+							/*if (dracula->GetSpiritDracula() != NULL)
+								list_object->push_back(dracula->GetSpiritDracula());*/
 							list_object->push_back(e);
 						}
 					}

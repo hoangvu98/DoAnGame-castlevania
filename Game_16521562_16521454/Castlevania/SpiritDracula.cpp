@@ -32,20 +32,43 @@ void CSpiritDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	if (state == SPIRITDRACULA_STATE_IDLE)
 	{
-		//if (abs(simon->x - this->x) > DISTANCE1 && abs(simon->x - this->x) < DISTANCE2 &&
-		//	fire == false)
-		//{
-		//	fire = true;
-		//	resetpos = true;
-		//	if (this->nx < 0)
-		//	{
-		//		/*Add code set bullet speed and position*/
-		//	}
-		//	else if (this->nx > 0)
-		//	{
-		//		/*Add code set bullet speed and position*/
-		//	}
-		//}
+		if (abs(simon->x - this->x + OFFSET) > DISTANCE1 && abs(simon->x - this->x + OFFSET) < DISTANCE2 &&
+			fire == false /*&& state == SPIRITDRACULA_STATE_IDLE*/)
+		{
+			fire = true;
+			resetpos = true;
+			if (this->nx < 0)
+			{
+				for (i = 0; i < 3; i++)
+				{
+					bullets[i]->SetPosition(x + BULLET_POSITION_X, y /*+ BULLET_POSITION_Y*/);
+					bullets[i]->Setnx(-1);
+				}
+
+				bullets[0]->SetSpeed(x + BULLET_POSITION_X, y /*+ BULLET_POSITION_Y*/,
+					simon->x + 5.0f, simon->y, 800);
+				bullets[1]->SetSpeed(x + BULLET_POSITION_X, y /*+ BULLET_POSITION_Y*/,
+					simon->x + 5.0f, simon->y - 6.0f, 800);
+				bullets[2]->SetSpeed(x + BULLET_POSITION_X, y /*+ BULLET_POSITION_Y*/,
+					simon->x + 5.0f, simon->y + 6.0f, 800);
+			}
+			else if (this->nx > 0)
+			{
+				for (i = 0; i < 3; i++)
+				{
+					bullets[i]->SetPosition(x + BULLET_POSITION_X1, y /*+ BULLET_POSITION_Y*/);
+					bullets[i]->Setnx(1);
+				}
+
+				bullets[0]->SetSpeed(x + BULLET_POSITION_X1, y /*+ BULLET_POSITION_Y*/,
+					simon->x + 5.0f, simon->y, 800);
+				bullets[1]->SetSpeed(x + BULLET_POSITION_X1, y/* + BULLET_POSITION_Y*/,
+					simon->x + 5.0f, simon->y - 6.0f, 800);
+				bullets[2]->SetSpeed(x + BULLET_POSITION_X1, y /*+ BULLET_POSITION_Y*/,
+					simon->x + 5.0f, simon->y + 6.0f, 800);
+			}
+		}
+
 		if (fire == false)
 		{
 			if (startwait1 == true)
@@ -65,21 +88,7 @@ void CSpiritDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (GetTickCount() - wait_start6 > SPIRITDRACULA_WAIT_TIME)
 			{
 				SetState(SPIRITDRACULA_STATE_FIRE);
-
-				for (int i = 0; i < 3; i++)
-					bullets[i]->Update(dt, coObjects);
 				wait_start6 = 0;
-
-				if (startwait7 == true)
-					StartWait(startwait7, wait_start7);
-
-				if (GetTickCount() - wait_start7 > SPIRITDRACULA_FIRE_TIME)
-				{
-					SetState(SPIRITDRACULA_STATE_IDLE);
-					vy += SPIRITDRACULA_GRAVITY * dt;
-					fire = false;
-					wait_start7 = 0;
-				}
 			}
 		}
 	}
@@ -91,6 +100,22 @@ void CSpiritDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		reset = true;
 	}
 
+	if (fire == true)
+	{
+		if (startwait7 == true)
+			StartWait(startwait7, wait_start7);
+
+		for (int i = 0; i < 3; i++)
+			bullets[i]->Update(dt, coObjects);
+
+		if (GetTickCount() - wait_start7 > SPIRITDRACULA_FIRE_TIME)
+		{
+			SetState(SPIRITDRACULA_STATE_IDLE);
+			vy += SPIRITDRACULA_GRAVITY * dt;
+			reset = true;
+			wait_start7 = 0;
+		}
+	}
 	bool test = true;
 	if (coEvents.size() != 0)
 	{
@@ -124,7 +149,8 @@ void CSpiritDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	
 	if (reset == true)
 		Reset();
-	DebugOut(L"reset %d\n", reset);
+	/*DebugOut(L"state %d\n", state);
+	DebugOut(L"fire %d\n", fire);*/
 }
 
 void CSpiritDracula::Render()
@@ -192,7 +218,8 @@ void CSpiritDracula::Render()
 	{
 		if (nx > 0) ani = SPIRITDRACULA_ANI_FIRE_RIGHT;
 		else ani = SPIRITDRACULA_ANI_FIRE_LEFT;
-		for (int i = 0; i < 3; i++)
+
+		for (int i = 0; i < 3; i++)		
 			bullets[i]->Render();
 	}
 	animations[ani]->Render(x, y);
@@ -275,6 +302,7 @@ void CSpiritDracula::Reset()
 		head->SetState(HIDENOBJECT_STATE_HEAD);
 	}
 }
+
 
 CSpiritDracula::CSpiritDracula()
 {
