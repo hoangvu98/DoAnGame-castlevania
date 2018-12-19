@@ -341,10 +341,10 @@ void LoadResources()
 	//simon->SetPosition(190.0f, 30.0f);//map 5
 	//simon->SetPosition(448.0f, 76.0f);//map 5
 	//simon->SetPosition(190.0f, 30.0f   /*719.0f, 45.0f*/);
-	simon->SetPosition(49.0f, 104.0f);
+	//simon->SetPosition(49.0f, 104.0f);
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
-	level_1->SetScene(SCENE_5);
+	level_1->SetScene(SCENE_2);
 	screen = 2;
 	level_1->LoadMap();
 	//objects.push_back(simon);
