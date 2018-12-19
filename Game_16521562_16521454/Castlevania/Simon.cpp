@@ -15,7 +15,6 @@ int color = 255;
 float stair_x = 0;
 int nx1;
 CSimon *CSimon::__instance = NULL;
-CMap *level1 = CClockTowerLevel::GetInstance();
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
 	CGameObject::Update(dt);
@@ -175,6 +174,10 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		else if (dynamic_cast<CMonster *> (e->obj))
 		{
 			CMonster *monster = dynamic_cast<CMonster *>(e->obj);
+			if (dynamic_cast<CBossBat *> (e->obj) && monster->state == MONSTER_STATE_DELETE)
+			{
+				ChangeMap(6);
+			}
 			if (dynamic_cast<CBat *> (e->obj) && monster->state == BAT_STATE_SLEEPING)
 			{
 				CBat *bat = dynamic_cast<CBat *>(e->obj);
@@ -203,9 +206,9 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				hunchback = new CHunchback();
 				hunchback->SetPosition(tx + 10.0f, ty + 21.0f);
 				hunchback->SetState(HUNCHBACK_STATE_FLY_RIGHT);
-				CCells* cell = level1->GetCell();
+				CCells* cell = map->GetCell();
 				cell->InitCells(hunchback);
-				level1->SetCell(cell);
+				map->SetCell(cell);
 				int state;
 				state = eagle->GetStateAppear();
 				eagle->SetState(state);
@@ -239,7 +242,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				DWORD now = GetTickCount();
 				if (now - door->GetTimeOpen() > 300)
 				{
-					if(door->state== DOOR_STATE_OPEN)
+					if (door->state == DOOR_STATE_OPEN)
 						state_auto = 4;
 					else if (door->state == DOOR_STATE_CLOSE)
 					{
@@ -349,8 +352,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 										simon_x = door->cx;
 										simon_y = door->cy;
 									}
-									level1->SetIsNext(true);
-									level1->SetNextScene(door->GetScene());
+									map->SetIsNext(true);
+									map->SetNextScene(door->GetScene());
 								}
 								else
 								{
@@ -360,8 +363,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 										simon_x = door->cx;
 										simon_y = door->cy;
 									}
-									level1->SetIsFall(true);
-									level1->SetNextScene(door->GetScene());
+									map->SetIsFall(true);
+									map->SetNextScene(door->GetScene());
 								}
 							}
 						}
@@ -373,7 +376,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 								simon_x = door->x + door->size;
 							else
 								simon_x = door->x - door->size;
-							level1->SetNextScene(door->GetScene());
+							map->SetNextScene(door->GetScene());
 						}
 					}
 					else if (door->GetIsHiden() == false && door->IsGo == true)
@@ -384,14 +387,14 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 						door->IsGo = false;
 						camera_auto = 2;
 						state_auto = -1;
-						level1->SetNextScene(door->GetScene());
+						map->SetNextScene(door->GetScene());
 					}
 				}
 				else
 				{
 					door->IsGo = false;
-					level1->SetIsNext(true);
-					level1->SetNextScene(door->GetScene());
+					map->SetIsNext(true);
+					map->SetNextScene(door->GetScene());
 				}
 			}
 
@@ -854,7 +857,7 @@ void CSimon::Auto()
 	{
 		float min;
 		float max;
-		level1->GetSizeMap(min, max);
+		map->GetSizeMap(min, max);
 		SetState(SIMON_STATE_WALKING_RIGHT);
 		if (x > max)
 		{
@@ -881,7 +884,7 @@ void CSimon::Auto()
 			if (x > simon_x)
 			{
 				simon_x = 0;
-				level1->SetIsNext(true);
+				map->SetIsNext(true);
 			}
 		}
 		else
@@ -889,7 +892,7 @@ void CSimon::Auto()
 			if (x < simon_x)
 			{
 				simon_x = 0;
-				level1->SetIsNext(true);
+				map->SetIsNext(true);
 			}
 		}
 	}
@@ -900,27 +903,47 @@ void CSimon::Camera()
 	CGame *game = CGame::GetInstance();
 	float min;
 	float max;
-	level1->GetSizeMap(min, max);
-	if (level1->GetScene() == SCENE_5 && x + 128.0f > max)
+	map->GetSizeMap(min, max);
+	if (dynamic_cast<CEntranceLevel *>(map))
 	{
-		MeetBoss = true;
+		if (map->GetScene() == SCENE_5 && x + 128.0f > max)
+		{
+			MeetBoss = true;
+		}
+		if (!MeetBoss)
+		{
+			if (x - 128.0f < min)
+			{
+				game->SetCamera(min, 0.0f);
+			}
+			else if (x + 128.0f > max)
+			{
+				game->SetCamera(max - 256.0f, 0.0f);
+			}
+			else
+				game->SetCamera(x - 128.0f, 0.0f);
+		}
 	}
-	if (!MeetBoss)
+	else if (dynamic_cast<CClockTowerLevel *>(map))
 	{
-		if (x - 128.0f < min)
+		if (map->GetScene() == SCENE_5 && x - 128.0f < min)
 		{
-			game->SetCamera(min, 0.0f);
+			MeetBoss = true;
 		}
-		else if (x + 128.0f > max)
+		if (!MeetBoss)
 		{
-			game->SetCamera(max - 256.0f, 0.0f);
+			if (x - 128.0f < min)
+			{
+				game->SetCamera(min, 0.0f);
+			}
+			else if (x + 128.0f > max)
+			{
+				game->SetCamera(max - 256.0f, 0.0f);
+			}
+			else
+				game->SetCamera(x - 128.0f, 0.0f);
 		}
-		else
-			game->SetCamera(x - 128.0f, 0.0f);
 	}
-	/*float cx, cy;
-	game->GetCamera(cx, cy);
-	DebugOut(L"camera=%f\n", cx);*/
 }
 
 void CSimon::CameraAuto()
@@ -928,7 +951,7 @@ void CSimon::CameraAuto()
 	CGame *game = CGame::GetInstance();
 	float min;
 	float max;
-	level1->GetSizeMap(min, max);
+	map->GetSizeMap(min, max);
 
 	if (camera_auto == 2) //di chuyen camera qua simon
 	{
@@ -956,12 +979,22 @@ void CSimon::CameraAuto()
 		{
 			camera_auto = -1;
 			state_auto = -1;
-			level1->SetIsNext(true);
+			map->SetIsNext(true);
 		}
 	}
 	//float cx, cy;
 	//game->GetCamera(cx, cy);
 	//DebugOut(L"camera=%f\n", cx);
+}
+
+void CSimon::ChangeMap(int stage)
+{
+	if (stage == 6)
+	{
+		map = CClockTowerLevel::GetInstance();
+		map->SetScene(SCENE_1);
+		SetPosition(1460.0f, 30.0f);
+	}
 }
 
 CSimon::CSimon()
@@ -997,6 +1030,7 @@ CSimon::CSimon()
 	mx = 0;
 	whip = new CWhip();
 	whip->SetState(WHITE_WHIP);
+	map = CClockTowerLevel::GetInstance();
 }
 
 CSimon * CSimon::GetInstance()

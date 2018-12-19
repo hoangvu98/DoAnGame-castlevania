@@ -4,6 +4,8 @@
 #include "InputImage.h"
 #include <vector>
 #include "Items.h"
+#include "EntranceLevel.h"
+#include "ClockTowerLevel.h"
 using namespace std;
 #define WHIP_TEXTURE_PATH L"castlevania_texture\\Weapon\\Whip.png"
 
@@ -67,10 +69,10 @@ using namespace std;
 class CSimon :public CGameObject
 {
 	static CSimon *__instance;
-	int heart = 0,score=0,health=16;
+	int heart = 0, score = 0, health = 16;
 	int mx;
 	int stage;
-	int previousstate=NULL;
+	int previousstate = NULL;
 	int state_update;
 	CWhip *whip;
 	DWORD FrameUpdate;
@@ -90,10 +92,11 @@ class CSimon :public CGameObject
 	int camera_auto = 0;
 	bool Reset;
 public:
+	CMap *map;
 	bool MeetBoss = false;
 	DWORD test_stair = 0;
-	float simon_x=0;
-	float simon_y=0;
+	float simon_x = 0;
+	float simon_y = 0;
 	int IsUp = 0;
 	int IsDown = 0;
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObject = NULL);
@@ -117,9 +120,9 @@ public:
 	int GetCollusion() { return collusion; }
 	DWORD GetFrameStair() { return FrameStair; }
 	int GetStateAuto() { return state_auto; }
-	void SetStateAuto(int state_auto) { this-> state_auto= state_auto; }
+	void SetStateAuto(int state_auto) { this->state_auto = state_auto; }
 	void SetCameraAuto(int camera_auto) { this->camera_auto = camera_auto; }
-	DWORD GetFrameUpdate(){	return FrameUpdate;}
+	DWORD GetFrameUpdate() { return FrameUpdate; }
 
 	int GetScore() { return score; }
 	void SetScore(int score) { this->score = score; }
@@ -134,6 +137,7 @@ public:
 	void Auto();
 	void Camera();
 	void CameraAuto();
+	void ChangeMap(int stage);
 	CSimon();
 	static CSimon *GetInstance();
 };

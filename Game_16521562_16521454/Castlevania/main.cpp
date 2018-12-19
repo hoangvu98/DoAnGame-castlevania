@@ -54,7 +54,6 @@ CBlackBoard * blackboard;
 
 vector<LPGAMEOBJECT> objects;
 CHidenObject *hidenObject;
-CMap *level_1 = CClockTowerLevel::GetInstance();
 LPDIRECT3DTEXTURE9 texture_title;
 LPDIRECT3DTEXTURE9 texture_intro;
 int screen = 0;
@@ -72,7 +71,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	switch (KeyCode)
 	{
-	case DIK_UP:	
+	case DIK_UP:
 		break;
 	case DIK_RETURN:
 		if (screen == 0)
@@ -95,46 +94,46 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		break;
 	case DIK_F:
 		DWORD t = GetTickCount() - simon->GetWhip()->GetFrameWhip();
-		if (t >= 3*FRAME_TIME_WHIP)
+		if (t >= 3 * FRAME_TIME_WHIP)
 		{
-				if (game->IsKeyDown(DIK_UP) && t >= 3 * FRAME_TIME_WHIP)
-				{
-					if (simon->GetOnSkill())
-					{
-						if (simon->nx > 0)
-							simon->GetWeapon()->SetState(ITEM_STATE_WEAPON_RIGHT);
-						else
-							simon->GetWeapon()->SetState(ITEM_STATE_WEAPON_LEFT);
-						simon->SetFrameWeapon();
-						simon->SetSkill(true);
-						float temp_x, temp_y;
-						simon->GetPosition(temp_x, temp_y);
-						simon->GetWeapon()->SetPosition(temp_x, temp_y + 5);
-						if (simon->state == SIMON_STATE_STAIR_UP || simon->state == SIMON_STATE_STAIR_UP_IDLE)
-							simon->SetState(SIMON_STATE_STAIR_UP_IDLE);
-						else if (simon->state == SIMON_STATE_STAIR_DOWN || simon->state == SIMON_STATE_STAIR_DOWN_IDLE)
-							simon->SetState(SIMON_STATE_STAIR_DOWN_IDLE);
-						else if (simon->state != SIMON_STATE_JUMP)
-							simon->SetState(SIMON_STATE_IDLE);
-					}
-				}
-				else
+			if (game->IsKeyDown(DIK_UP) && t >= 3 * FRAME_TIME_WHIP)
+			{
+				if (simon->GetOnSkill())
 				{
 					if (simon->nx > 0)
-						simon->GetWhip()->SetStateWhip(WHIP_STATE_RIGHT);
+						simon->GetWeapon()->SetState(ITEM_STATE_WEAPON_RIGHT);
 					else
-						simon->GetWhip()->SetStateWhip(WHIP_STATE_LEFT);
-					simon->SetFight(true);
-					if (simon->GetStair() != 2)
-					{
-						if (game->IsKeyDown(DIK_DOWN))
-							simon->SetState(SIMON_STATE_KNEE);
-						else if (simon->state != SIMON_STATE_JUMP)
-							simon->SetState(SIMON_STATE_IDLE);
-					}
+						simon->GetWeapon()->SetState(ITEM_STATE_WEAPON_LEFT);
+					simon->SetFrameWeapon();
+					simon->SetSkill(true);
+					float temp_x, temp_y;
+					simon->GetPosition(temp_x, temp_y);
+					simon->GetWeapon()->SetPosition(temp_x, temp_y + 5);
+					if (simon->state == SIMON_STATE_STAIR_UP || simon->state == SIMON_STATE_STAIR_UP_IDLE)
+						simon->SetState(SIMON_STATE_STAIR_UP_IDLE);
+					else if (simon->state == SIMON_STATE_STAIR_DOWN || simon->state == SIMON_STATE_STAIR_DOWN_IDLE)
+						simon->SetState(SIMON_STATE_STAIR_DOWN_IDLE);
+					else if (simon->state != SIMON_STATE_JUMP)
+						simon->SetState(SIMON_STATE_IDLE);
 				}
-				DWORD time = GetTickCount();
-				simon->GetWhip()->SetFrameWhip(time);
+			}
+			else
+			{
+				if (simon->nx > 0)
+					simon->GetWhip()->SetStateWhip(WHIP_STATE_RIGHT);
+				else
+					simon->GetWhip()->SetStateWhip(WHIP_STATE_LEFT);
+				simon->SetFight(true);
+				if (simon->GetStair() != 2)
+				{
+					if (game->IsKeyDown(DIK_DOWN))
+						simon->SetState(SIMON_STATE_KNEE);
+					else if (simon->state != SIMON_STATE_JUMP)
+						simon->SetState(SIMON_STATE_IDLE);
+				}
+			}
+			DWORD time = GetTickCount();
+			simon->GetWhip()->SetFrameWhip(time);
 		}
 		break;
 	}
@@ -166,7 +165,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 			if (simon->GetFight() == false)
 			{
 				DWORD now = GetTickCount();
-				
+
 				if (now - simon->GetFrameStair() > TIME_STAIR)
 				{
 					if (simon->IsUp == 2)
@@ -208,7 +207,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 					}
 					else
 					{
-						if(simon->GetState()== SIMON_STATE_STAIR_UP || simon->GetState() == SIMON_STATE_STAIR_UP_IDLE)
+						if (simon->GetState() == SIMON_STATE_STAIR_UP || simon->GetState() == SIMON_STATE_STAIR_UP_IDLE)
 							simon->SetState(SIMON_STATE_STAIR_UP_IDLE);
 						else
 							simon->SetState(SIMON_STATE_STAIR_DOWN_IDLE);
@@ -225,19 +224,19 @@ void CSampleKeyHander::KeyState(BYTE *states)
 			{
 				if (simon->GetFight() == false)
 				{
-					if (game->IsKeyDown(DIK_UP) 
+					if (game->IsKeyDown(DIK_UP)
 						&& (simon->GetStair() == 1 || simon->GetStair() == 4))
 					{
 						simon->SetStateAuto(1);
 						simon->SetStair(5);
 					}
-					else if (game->IsKeyDown(DIK_DOWN)&&
+					else if (game->IsKeyDown(DIK_DOWN) &&
 						(simon->GetStair() == 3 || simon->GetStair() == 4))
 					{
 						simon->SetStateAuto(1);
 						simon->SetStair(6);
 					}
-				   else if (game->IsKeyDown(DIK_DOWN) && simon->GetStair() != 3 && simon->GetStair() != 4 )
+					else if (game->IsKeyDown(DIK_DOWN) && simon->GetStair() != 3 && simon->GetStair() != 4)
 					{
 						if (game->IsKeyDown(DIK_UP))
 							simon->SetState(SIMON_STATE_IDLE);
@@ -260,7 +259,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 			}
 		}
 	}
-	
+
 }
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -328,7 +327,7 @@ void LoadResources()
 	//simon->SetPosition(906.0f, 34.0f);
 	//simon->SetPosition(1378.0f, 34.0f);
 	//simon->SetPosition(618.4f, 129.0f);
-	simon->SetPosition(10.0f, 80.0f); 
+	//simon->SetPosition(10.0f, 80.0f); 
 	//simon->SetPosition(226.0f, 130.0f); 
 	//simon->SetState(SIMON_STATE_WALKING_LEFT);
 	//simon->SetPosition(1460.0f, 30.0f);//map 1
@@ -344,17 +343,10 @@ void LoadResources()
 	//simon->SetPosition(49.0f, 104.0f);
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
-	level_1->SetScene(SCENE_5);
+	simon->map->SetScene(SCENE_4);
 	screen = 2;
-	level_1->LoadMap();
-	//objects.push_back(simon);
-	//level_1->GetUpdateObjects(&objects);
+	simon->map->LoadMap();
 	blackboard = new CBlackBoard();
-
-	/*level_6 = CClockTowerLevel::GetInstance();
-	level_6->SetScene(SCENE_3);
-	screen = 3;
-	level_6->LoadMap();*/
 }
 
 
@@ -395,54 +387,54 @@ void Update(DWORD dt)
 			simon->SetHeart(5);
 			simon->SetHealth(16);
 			simon->SetReset(false);
-			level_1->ResetScene();
+			simon->map->ResetScene();
 			float x, y;
-			level_1->NextScece(x, y);
+			simon->map->NextScece(x, y);
 			if (x != 0 || y != 0)
 				simon->SetPosition(x, y);
 			simon->Camera();
 		}
-		if(level_1->GetIsNext())
-		{ 
-			int scene;
-			scene=level_1->GetNextScene();
-			level_1->SetScene(scene);
-			float x, y;
-			if(simon->simon_x!=0 || simon->simon_y!=0)
-				simon->SetPosition(simon->simon_x, simon->simon_y);
-			else
-			{
-				level_1->NextScece(x, y);
-				if (x != 0 || y != 0)
-					simon->SetPosition(x, y);				
-			}
-			level_1->SetIsNext(false);
-			simon->SetCameraAuto(0);
-			simon->SetStateAuto(0);
-			simon->Camera();
-		}
-		else if (level_1->GetIsFall())
+		if (simon->map->GetIsNext())
 		{
 			int scene;
-			scene = level_1->GetNextScene();
-			level_1->SetScene(scene);
+			scene = simon->map->GetNextScene();
+			simon->map->SetScene(scene);
 			float x, y;
 			if (simon->simon_x != 0 || simon->simon_y != 0)
 				simon->SetPosition(simon->simon_x, simon->simon_y);
 			else
 			{
-				level_1->NextScece(x, y);
+				simon->map->NextScece(x, y);
 				if (x != 0 || y != 0)
 					simon->SetPosition(x, y);
 			}
-			level_1->SetIsFall(false);
+			simon->map->SetIsNext(false);
 			simon->SetCameraAuto(0);
 			simon->SetStateAuto(0);
 			simon->Camera();
 		}
-		level_1->Update();
+		else if (simon->map->GetIsFall())
+		{
+			int scene;
+			scene = simon->map->GetNextScene();
+			simon->map->SetScene(scene);
+			float x, y;
+			if (simon->simon_x != 0 || simon->simon_y != 0)
+				simon->SetPosition(simon->simon_x, simon->simon_y);
+			else
+			{
+				simon->map->NextScece(x, y);
+				if (x != 0 || y != 0)
+					simon->SetPosition(x, y);
+			}
+			simon->map->SetIsFall(false);
+			simon->SetCameraAuto(0);
+			simon->SetStateAuto(0);
+			simon->Camera();
+		}
+		simon->map->Update();
 		objects.clear();
-		level_1->GetUpdateObjects(&objects);
+		simon->map->GetUpdateObjects(&objects);
 		objects.push_back(simon);
 		//vector<LPGAMEOBJECT> coObjects;
 		for (int i = 0; i < objects.size(); i++)
@@ -450,16 +442,6 @@ void Update(DWORD dt)
 		for (int i = 0; i < objects.size(); i++)
 			objects[i]->Update(dt, &coObjects);
 		break;
-	/*case 3:
-		level_6->Update();
-		objects.clear();
-		objects.push_back(simon);
-		level_6->GetUpdateObjects(&objects);
-		for (int i = 0; i < objects.size() - 1; i++)
-			coObjects.push_back(objects[i]);
-		for (int i = 0; i < objects.size(); i++)
-			objects[i]->Update(dt, &coObjects);
-		break;*/
 	}
 }
 
@@ -488,8 +470,8 @@ void Render()
 			if (now - Time_screen > 3000)
 			{
 				screen = 2;
-				level_1->SetIsNext(true);
-				level_1->SetNextScene(1);
+				simon->map->SetIsNext(true);
+				simon->map->SetNextScene(1);
 				simon->SetStateAuto(0);
 				simon->SetCameraAuto(0);
 				simon->nx = 1;
@@ -510,17 +492,12 @@ void Render()
 			for (int i = 0; i < objects.size(); i++)
 				objects[i]->Render();
 			break;
-		case 2:				
-			level_1->Render();
+		case 2:
+			simon->map->Render();
 			blackboard->Render();
 			for (int i = 0; i < objects.size(); i++)
 				objects[i]->Render();
 			break;
-		/*case 3:
-			level_6->Render();
-			for (int i = 0; i < objects.size(); i++)
-				objects[i]->Render();
-			break;*/
 		}
 
 		spriteHandler->End();
@@ -606,8 +583,8 @@ int Run()
 			frameStart = now;
 			if (game->GetPause())
 			{
-				
-				if (simon->GetStateAuto() == 0 && simon->GetCollusion()!=1)
+
+				if (simon->GetStateAuto() == 0 && simon->GetCollusion() != 1)
 					game->ProcessKeyboard();
 				Update(dt);
 			}

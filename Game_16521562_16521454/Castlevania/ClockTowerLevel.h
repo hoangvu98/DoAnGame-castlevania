@@ -21,16 +21,16 @@
 #define SCENE_4		4
 #define SCENE_5		5
 
-#define MIN_MAP_1 0
-#define MAX_MAP_1 1550
-#define MIN_MAP_2 0
-#define MAX_MAP_2 783
-#define MIN_MAP_3 0
-#define MAX_MAP_3 781
-#define MIN_MAP_4 0
-#define MAX_MAP_4 294 
-#define MIN_MAP_5 0
-#define MAX_MAP_5 751
+#define MIN_MAP_6_1 0
+#define MAX_MAP_6_1 1550
+#define MIN_MAP_6_2 0
+#define MAX_MAP_6_2 783
+#define MIN_MAP_6_3 0
+#define MAX_MAP_6_3 781
+#define MIN_MAP_6_4 0
+#define MAX_MAP_6_4 294 
+#define MIN_MAP_6_5 0
+#define MAX_MAP_6_5 751
 
 class CClockTowerLevel :
 	public CMap

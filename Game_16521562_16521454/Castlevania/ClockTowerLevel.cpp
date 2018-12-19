@@ -483,7 +483,7 @@ void CClockTowerLevel::LoadMap()
 		door->SetIsStair(true);
 		door->SetScene(2);
 		cells->InitCells(door);
-		
+
 
 		door = new CDoor();
 		door->SetState(DOOR_STATE_NORMAL);
@@ -872,28 +872,28 @@ void CClockTowerLevel::GetSizeMap(float & min, float & max)
 {
 	if (scene == SCENE_1)
 	{
-		min = MIN_MAP_1;
-		max = MAX_MAP_1;
+		min = MIN_MAP_6_1;
+		max = MAX_MAP_6_1;
 	}
 	else if (scene == SCENE_2)
 	{
-		min = MIN_MAP_2;
-		max = MAX_MAP_2;
+		min = MIN_MAP_6_2;
+		max = MAX_MAP_6_2;
 	}
 	else if (scene == SCENE_3)
 	{
-		min = MIN_MAP_3;
-		max = MAX_MAP_3;
+		min = MIN_MAP_6_3;
+		max = MAX_MAP_6_3;
 	}
 	else if (scene == SCENE_4)
 	{
-		min = MIN_MAP_4;
-		max = MAX_MAP_4;
+		min = MIN_MAP_6_4;
+		max = MAX_MAP_6_4;
 	}
 	else if (scene == SCENE_5)
 	{
-		min = MIN_MAP_5;
-		max = MAX_MAP_5;
+		min = MIN_MAP_6_5;
+		max = MAX_MAP_6_5;
 	}
 }
 void CClockTowerLevel::NextScece(float &x, float &y)
@@ -913,7 +913,7 @@ void CClockTowerLevel::NextScece(float &x, float &y)
 		x = 223.0f;
 		y = 50.0f;
 	}
-	else if(SCENE_5)
+	else if (SCENE_5)
 	{
 		x = 0;
 		y = 0;

@@ -34,8 +34,8 @@ CBlackBoard::CBlackBoard()
 	/*simonHP = new CHeal(PLAYER);*/
 	for (int i = 0; i < 16; i++)
 		simonHP.push_back(CHeal(PLAYER));
-	/*for (int i = 0; i < 16; i++)
-		enemyHP.push_back(CHeal(ENEMY));*/
+	for (int i = 0; i < 16; i++)
+		enemyHP.push_back(CHeal(ENEMY));
 }
 
 void CBlackBoard::Render()

@@ -76,27 +76,27 @@ void CCells::InitCells(LPGAMEOBJECT object)
 			int j = y / CELL_HEIGHT;
 			for (int i = x1; i <= x2; i++)
 			{
-					hidenobject = new CHidenObject();
-					hidenobject->SetState(HIDENOBJECT_STATE_NORMAL);
-					hidenobject->SetPosition(i*CELL_WIDTH, y);
-					hidenobject->SetSize(CELL_WIDTH, height);
-					if (i == x1)
-					{
-						hidenobject->x = x;
-					}					
-					if (x1 == x2)
-					{
-						hidenobject->SetSize(width, height);
-					}
-					else if (i == x1)
-					{
-						hidenobject->SetSize((i + 1)*CELL_WIDTH - x, height);
-					}
-					else if (i == x2)
-					{
-						hidenobject->SetSize(x + width - i * CELL_WIDTH, height);
-					}
-					cells[i][j].SetObjects(hidenobject);
+				hidenobject = new CHidenObject();
+				hidenobject->SetState(HIDENOBJECT_STATE_NORMAL);
+				hidenobject->SetPosition(i*CELL_WIDTH, y);
+				hidenobject->SetSize(CELL_WIDTH, height);
+				if (i == x1)
+				{
+					hidenobject->x = x;
+				}
+				if (x1 == x2)
+				{
+					hidenobject->SetSize(width, height);
+				}
+				else if (i == x1)
+				{
+					hidenobject->SetSize((i + 1)*CELL_WIDTH - x, height);
+				}
+				else if (i == x2)
+				{
+					hidenobject->SetSize(x + width - i * CELL_WIDTH, height);
+				}
+				cells[i][j].SetObjects(hidenobject);
 			}
 		}
 		else
@@ -124,7 +124,7 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 
 	xe = (int)(cam_x + 256.0f) / CELL_WIDTH;
 	ye = (int)(cam_y + 185.0f) / CELL_HEIGHT;
-	for (i=xs; i <= xe; i++)
+	for (i = xs; i <= xe; i++)
 		for (j = ys; j <= ye; j++)
 		{
 			if (cells[i][j].GetObjects().size() != 0)
@@ -156,7 +156,7 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 					}
 				}
 		}
-		
+
 	for (i = xs; i <= xe; i++)
 		for (j = ys; j <= ye; j++)
 		{
@@ -171,7 +171,7 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 							CCandle *candle = dynamic_cast<CCandle *>(e);
 							if (candle->GetItems()->GetState() != ITEM_STATE_DELETE)
 								list_object->push_back(candle->GetItems());
-						}					
+						}
 						else
 						{
 							list_object->push_back(e);
@@ -183,8 +183,8 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 						{
 							CGhoul *ghoul = dynamic_cast<CGhoul *>(e);
 							if (ghoul->GetItems() != NULL)
-							if (ghoul->GetItems()->GetState() != ITEM_STATE_DELETE)
-								list_object->push_back(ghoul->GetItems());
+								if (ghoul->GetItems()->GetState() != ITEM_STATE_DELETE)
+									list_object->push_back(ghoul->GetItems());
 							list_object->push_back(e);
 						}
 						list_object->push_back(e);
@@ -234,11 +234,21 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 					}
 					else if (dynamic_cast<CDracula *> (e))
 					{
-						CDracula *dracula = dynamic_cast<CDracula *>(e);
-						list_object->push_back(dracula->GetHead());
-						if (dracula->GetSpiritDracula() != NULL)
-							list_object->push_back(dracula->GetSpiritDracula());
-						list_object->push_back(e);
+						CSimon* simon = CSimon::GetInstance();
+						if (simon->MeetBoss)
+						{
+							CHidenObject *hidenobject;
+							hidenobject = new CHidenObject();
+							hidenobject->SetState(HIDENOBJECT_STATE_NORMAL);
+							hidenobject->SetPosition(240, 0);
+							hidenobject->SetSize(6, 160);
+							list_object->push_back(hidenobject);
+							CDracula *dracula = dynamic_cast<CDracula *>(e);
+							list_object->push_back(dracula->GetHead());
+							if (dracula->GetSpiritDracula() != NULL)
+								list_object->push_back(dracula->GetSpiritDracula());
+							list_object->push_back(e);
+						}
 					}
 					else
 						list_object->push_back(e);
