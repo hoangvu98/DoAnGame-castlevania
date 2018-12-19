@@ -4,13 +4,10 @@
 
 void CHeadDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CMonster::Update(dt, coObjects);
-	if (state != MONSTER_STATE_DELETE && state != MONSTER_STATE_DISAPPEAR)
-	{
-		x += dx;
-		y += dy;
-		if (y <= HEAD_FLY_HEIGHT) SetState(HEAD_STATE_IDLE);
-	}
+	CGameObject::Update(dt, coObjects);
+	x += dx;
+	y += dy;
+	if (y <= HEAD_FLY_HEIGHT && state != HEAD_STATE_FLY_AWAY) SetState(HEAD_STATE_IDLE);
 }
 
 void CHeadDracula::Render()
@@ -43,13 +40,17 @@ void CHeadDracula::SetState(int state)
 	case HEAD_STATE_IDLE:
 		vy = 0;
 		break;
+	case HEAD_STATE_FLY_AWAY:
+		if (nx > 0) vx = -HEAD_SPEED_X;
+		else vx = HEAD_SPEED_X;
+
+		vy = -HEAD_SPEED_Y;
+		break;
 	}
 }
 
 CHeadDracula::CHeadDracula()
 {
-	health = 16;
-	damage = 4;
 	AddAnimation(240011);
 	AddAnimation(240012);
 }

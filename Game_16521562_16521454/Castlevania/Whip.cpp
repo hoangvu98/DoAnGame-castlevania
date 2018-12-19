@@ -7,6 +7,8 @@
 #include "Ghoul.h"
 #include "Brick.h"
 #include "Panther.h"
+#include "Dracula.h"
+#include "HeadDracula.h"
 #define WHIP_TEXTURE_PATH L"castlevania_texture\\Weapon\\Whip.png"
 #define ID_WHIP	6
 using namespace std;
@@ -72,6 +74,17 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					brick->SetState(BRICK_STATE_DELETE);
 
 
+			}
+			else if (dynamic_cast<CHeadDracula *>(e->obj))
+			{
+				CDracula *dracula = CDracula::GetInstance();
+				CHeadDracula *head = dynamic_cast<CHeadDracula *>(e->obj);
+				if (dracula->GetHealth() <= 0)
+				{
+					head->SetState(HEAD_STATE_FLY_AWAY);
+					dracula->SetState(DRACULA_STATE_DIE);
+				}
+				else dracula->SetHealth(dracula->GetHealth() - 1);
 			}
 		}
 	}

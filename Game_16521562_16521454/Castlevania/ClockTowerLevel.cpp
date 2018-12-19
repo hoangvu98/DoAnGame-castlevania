@@ -829,16 +829,16 @@ void CClockTowerLevel::LoadMap()
 		hobj->nx = 1;
 		cells->InitCells(hobj);
 
-		//dracula = new CDracula(204.0f, 95.0f);
-		////dracula->SetPosition(204.0f, 95.0f);
-		//dracula->Setnx(-1);
-		//dracula->SetState(DRACULA_STATE_INVISIBLE);
-		//cells->InitCells(dracula);
+		dracula = CDracula::GetInstance();
+		//dracula->SetPosition(204.0f, 95.0f);
+		dracula->Setnx(-1);
+		dracula->SetState(DRACULA_STATE_INVISIBLE);
+		cells->InitCells(dracula);
 
-		spirit_dracula = new CSpiritDracula(106.0f, 77.0f);
+		/*spirit_dracula = new CSpiritDracula(106.0f, 77.0f);
 		spirit_dracula->SetState(SPIRITDRACULA_STATE_IDLE);
 		spirit_dracula->Setnx(-1);
-		cells->InitCells(spirit_dracula);
+		cells->InitCells(spirit_dracula);*/
 		break;
 	}
 }

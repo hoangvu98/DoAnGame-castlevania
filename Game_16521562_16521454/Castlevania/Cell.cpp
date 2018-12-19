@@ -9,6 +9,7 @@
 #include "Fishman.h"
 #include "Bullet.h"
 #include "SpiritDracula.h"
+#include "Dracula.h"
 void CCell::SetObjects(LPGAMEOBJECT object)
 {
 	objects.push_back(object);
@@ -230,6 +231,14 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 							if (bat->state == BAT_STATE_FIRE)
 								list_object->push_back(bat->GetBullet());
 						}
+					}
+					else if (dynamic_cast<CDracula *> (e))
+					{
+						CDracula *dracula = dynamic_cast<CDracula *>(e);
+						list_object->push_back(dracula->GetHead());
+						if (dracula->GetSpiritDracula() != NULL)
+							list_object->push_back(dracula->GetSpiritDracula());
+						list_object->push_back(e);
 					}
 					else
 						list_object->push_back(e);
