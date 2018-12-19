@@ -242,7 +242,7 @@ void CResource::LoadDoor()
 	CInputImage::AddAnimation(in, sprites, ani, texdoor, 1);
 	animations->Add(11000, ani);
 	ani = new CAnimation(1000);
-	CInputImage::AddAnimation(in, sprites, ani, texdoor, 2);
+	CInputImage::AddAnimation(in, sprites, ani, texdoor, 1);
 	animations->Add(11001, ani);
 	ani = new CAnimation(100);
 	CInputImage::AddAnimation(in, sprites, ani, texdoor, 1);

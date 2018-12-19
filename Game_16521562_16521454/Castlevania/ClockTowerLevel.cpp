@@ -217,7 +217,7 @@ void CClockTowerLevel::LoadMap()
 		cells->InitCells(hunchback);*/
 
 		door = new CDoor();
-		door->SetState(DOOR_STATE_CLOSE);
+		door->SetState(DOOR_STATE_NORMAL);
 		door->SetPosition(100.0f, 0.0f);
 		door->cx = 91.08f;
 		door->cy = 146.52f;
@@ -227,7 +227,7 @@ void CClockTowerLevel::LoadMap()
 		cells->InitCells(door);
 
 		door = new CDoor();
-		door->SetState(DOOR_STATE_CLOSE);
+		door->SetState(DOOR_STATE_NORMAL);
 		door->SetPosition(325.0f, 0.0f);
 		door->cx = 313.0f;
 		door->cy = 144.0f;
@@ -410,7 +410,7 @@ void CClockTowerLevel::LoadMap()
 		cells->InitCells(hobj);
 
 		door = new CDoor();
-		door->SetState(DOOR_STATE_CLOSE);
+		door->SetState(DOOR_STATE_NORMAL);
 		door->SetPosition(680.0f, 0.0f);
 		door->cx = 669.84f;
 		door->cy = 142.76f;
@@ -466,7 +466,7 @@ void CClockTowerLevel::LoadMap()
 		//cells->InitCells(hunchback);
 
 		door = new CDoor();
-		door->SetState(DOOR_STATE_CLOSE);
+		door->SetState(DOOR_STATE_NORMAL);
 		door->SetPosition(0.0f, 45.0f);
 		door->SetIsAuto(false);
 		door->SetIsHiDen(true);
@@ -475,7 +475,7 @@ void CClockTowerLevel::LoadMap()
 		cells->InitCells(door);
 
 		door = new CDoor();
-		door->SetState(DOOR_STATE_CLOSE);
+		door->SetState(DOOR_STATE_NORMAL);
 		door->SetPosition(80.0f, 170.0f);
 		door->cx = 91.7f;
 		door->cy = -13.84f;
@@ -486,7 +486,7 @@ void CClockTowerLevel::LoadMap()
 		
 
 		door = new CDoor();
-		door->SetState(DOOR_STATE_CLOSE);
+		door->SetState(DOOR_STATE_NORMAL);
 		door->SetPosition(671.0f, 172.0f);
 		door->cx = 662.76f;
 		door->cy = -11.16f;
@@ -496,7 +496,7 @@ void CClockTowerLevel::LoadMap()
 		cells->InitCells(door);
 
 		door = new CDoor();
-		door->SetState(DOOR_STATE_CLOSE);
+		door->SetState(DOOR_STATE_NORMAL);
 		door->SetPosition(300.0f, 160.0f);
 		door->cx = 310.0f;
 		door->cy = -10.0f;
@@ -727,7 +727,7 @@ void CClockTowerLevel::LoadMap()
 		cells = new CCells(column, row);
 
 		door = new CDoor();
-		door->SetState(DOOR_STATE_CLOSE);
+		door->SetState(DOOR_STATE_NORMAL);
 		door->SetPosition(100.0f, 0.0f);
 		door->cx = 597.5f;
 		door->cy = 145.1f;
@@ -769,7 +769,7 @@ void CClockTowerLevel::LoadMap()
 		cells = new CCells(column, row);
 
 		door = new CDoor();
-		door->SetState(DOOR_STATE_CLOSE);
+		door->SetState(DOOR_STATE_NORMAL);
 		door->SetPosition(607.0f, 175.0f);
 		door->cx = 118.22f;
 		door->cy = -8.03f;

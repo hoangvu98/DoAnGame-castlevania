@@ -15,7 +15,7 @@ int color = 255;
 float stair_x = 0;
 int nx1;
 CSimon *CSimon::__instance = NULL;
-CMap *level1 = CClockTowerLevel::GetInstance();
+CMap *level1 = CEntranceLevel::GetInstance();
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
 	CGameObject::Update(dt);
@@ -171,7 +171,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			items->SetState(ITEM_STATE_DELETE);
 			FrameUpdate = GetTickCount();
 		}
-		
+
 		else if (dynamic_cast<CMonster *> (e->obj))
 		{
 			CMonster *monster = dynamic_cast<CMonster *>(e->obj);
@@ -184,7 +184,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				if (bat->GetSize() == BAT_SIZE_SMALL)
 				{
 					int state;
-					state=bat->GetStateAppear();
+					state = bat->GetStateAppear();
 					bat->SetState(state);
 				}
 				else
@@ -193,15 +193,15 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			else if (dynamic_cast<CEagle *> (e->obj) && monster->state == EAGLE_STATE_SLEEPING)
 			{
 				CEagle *eagle = dynamic_cast<CEagle *>(e->obj);
-				float cx, cy,tx,ty;
+				float cx, cy, tx, ty;
 				eagle->GetPositionAppear(cx, cy);
 				eagle->GetPosition(tx, ty);
 				eagle->SetPosstionAppear(tx, ty);
-				eagle->SetPosition(x-80.0f, cy);
+				eagle->SetPosition(x - 80.0f, cy);
 				eagle->GetPosition(tx, ty);
 				CHunchback* hunchback;
 				hunchback = new CHunchback();
-				hunchback->SetPosition(tx+10.0f, ty+21.0f);
+				hunchback->SetPosition(tx + 10.0f, ty + 21.0f);
 				hunchback->SetState(HUNCHBACK_STATE_FLY_RIGHT);
 				CCells* cell = level1->GetCell();
 				cell->InitCells(hunchback);
@@ -223,7 +223,38 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				health -= monster->GetDamage();
 				collusion_nx = nx;
 				FrameCollusion = GetTickCount();
-			}		
+			}
+		}
+		else if (dynamic_cast<CDoor *>(e->obj))
+		{
+			CDoor *door = dynamic_cast<CDoor *>(e->obj);
+			if (state_auto == 6)
+			{
+				door->SetStop(true);
+				door->SetState(DOOR_STATE_OPEN);
+				state_auto = 7;
+			}
+			else if (state_auto == 7)
+			{
+				DWORD now = GetTickCount();
+				if (now - door->GetTimeOpen() > 300)
+				{
+					if(door->state== DOOR_STATE_OPEN)
+						state_auto = 4;
+					else if (door->state == DOOR_STATE_CLOSE)
+					{
+						state_auto = -1;
+						camera_auto = 3;
+						door->SetState(DOOR_STATE_NORMAL);
+					}
+				}
+			}
+			else if (state_auto == 8)
+			{
+				door->SetStop(true);
+				door->SetState(DOOR_STATE_CLOSE);
+				state_auto = 7;
+			}
 		}
 	}
 	for (UINT i = 0; i < coEvents.size(); i++)
@@ -347,6 +378,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 					}
 					else if (door->GetIsHiden() == false && door->IsGo == true)
 					{
+						x += dx;
+						test = false;
 						SetState(SIMON_STATE_IDLE);
 						door->IsGo = false;
 						camera_auto = 2;
@@ -384,7 +417,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		Camera();
 	else
 		CameraAuto();
-	if (y >= 180.0f || health<=0)
+	if (y >= 180.0f || health <= 0)
 	{
 		vx = 0;
 		vy = 0;
@@ -819,16 +852,14 @@ void CSimon::Auto()
 	}
 	else if (state_auto == 4) //tu dong di qua cong hien
 	{
-
 		float min;
 		float max;
 		level1->GetSizeMap(min, max);
 		SetState(SIMON_STATE_WALKING_RIGHT);
 		if (x > max)
 		{
-			state_auto = -1;
+			state_auto = 8;
 			SetState(SIMON_STATE_IDLE);
-			camera_auto = 3;
 			simon_x = x;
 			simon_y = y;
 		}
@@ -910,7 +941,7 @@ void CSimon::CameraAuto()
 		else
 		{
 			camera_auto = -1;
-			state_auto = 4;
+			state_auto = 6;
 		}
 	}
 	else if (camera_auto == 3)// di chuyen camera ve simon

@@ -389,7 +389,7 @@ void CEntranceLevel::LoadMap()
 		}
 
 		door = new CDoor();
-		door->SetState(DOOR_STATE_CLOSE);
+		door->SetState(DOOR_STATE_NORMAL);
 		door->SetPosition(1530.0f, 15.0f);
 		door->SetIsHiDen(false);
 		door->SetScene(3);
@@ -479,7 +479,7 @@ void CEntranceLevel::LoadMap()
 		cells->InitCells(hidenObj);
 
 		door = new CDoor();
-		door->SetState(DOOR_STATE_CLOSE);
+		door->SetState(DOOR_STATE_NORMAL);
 		door->SetPosition(1921.0f, 166.0f);
 		door->cx = 375.8f;
 		door->cy = -10.63f;
@@ -490,7 +490,7 @@ void CEntranceLevel::LoadMap()
 		cells->InitCells(door);
 
 		door = new CDoor();
-		door->SetState(DOOR_STATE_CLOSE);
+		door->SetState(DOOR_STATE_NORMAL);
 		door->SetPosition(1600.0f, 166.0f);
 		door->cx = 57.3f;
 		door->cy = -10.06f;
@@ -501,7 +501,7 @@ void CEntranceLevel::LoadMap()
 		cells->InitCells(door);
 
 		door = new CDoor();
-		door->SetState(DOOR_STATE_CLOSE);
+		door->SetState(DOOR_STATE_NORMAL);
 		door->SetPosition(2042.0f, 13.0f);
 		door->SetIsHiDen(false);
 		door->IsGo = true;
@@ -703,7 +703,7 @@ void CEntranceLevel::LoadMap()
 		cells->InitCells(fishman);
 
 		door = new CDoor();
-		door->SetState(DOOR_STATE_CLOSE);
+		door->SetState(DOOR_STATE_NORMAL);
 		door->SetPosition(42.0f, 0.0f);
 		door->cx = 1587.5f;
 		door->cy = 142.1f;
@@ -715,7 +715,7 @@ void CEntranceLevel::LoadMap()
 
 
 		door = new CDoor();
-		door->SetState(DOOR_STATE_CLOSE);
+		door->SetState(DOOR_STATE_NORMAL);
 		door->SetPosition(360.0f, 0.0f);
 		door->cx = 1908.5f;
 		door->cy = 142.1f;

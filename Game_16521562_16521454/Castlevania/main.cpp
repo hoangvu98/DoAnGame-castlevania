@@ -54,7 +54,7 @@ CBlackBoard * blackboard;
 
 vector<LPGAMEOBJECT> objects;
 CHidenObject *hidenObject;
-CMap *level_1 = CClockTowerLevel::GetInstance();
+CMap *level_1 = CEntranceLevel::GetInstance();
 LPDIRECT3DTEXTURE9 texture_title;
 LPDIRECT3DTEXTURE9 texture_intro;
 int screen = 0;
@@ -324,17 +324,17 @@ void LoadResources()
 	resource->LoadDracula();
 	resource->LoadSpiritDracula();
 	simon = CSimon::GetInstance();
-	simon->SetPosition(2053.0f, 28.0f);
+	//simon->SetPosition(2053.0f, 28.0f);
 	//simon->SetPosition(906.0f, 34.0f);
 	//simon->SetPosition(1378.0f, 34.0f);
 	//simon->SetPosition(618.4f, 129.0f);
 	//simon->SetPosition(10.0f, 80.0f); 
-	//simon->SetPosition(226.0f, 130.0f); 
+	simon->SetPosition(226.0f, 130.0f); 
 	//simon->SetState(SIMON_STATE_WALKING_LEFT);
 	//simon->SetPosition(1460.0f, 30.0f);//map 1
 	//simon->SetPosition(550.0f, 80.0f);//map 2
 	//simon->SetPosition(267.0f, 0.0f);//map 2
-	simon->SetPosition(629.0f, 10.0f);//map 3
+	//simon->SetPosition(629.0f, 10.0f);//map 3
 	//simon->SetPosition(303.0f, 10.0f);//map 3
 	//simon->SetPosition(40.0f, 10.0f);//map 3
 	//simon->SetPosition(180.0f, 30.0f);//map 4
@@ -344,7 +344,7 @@ void LoadResources()
 	//simon->SetPosition(49.0f, 104.0f);
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
-	level_1->SetScene(SCENE_2);
+	level_1->SetScene(SCENE_4);
 	screen = 2;
 	level_1->LoadMap();
 	//objects.push_back(simon);
@@ -442,10 +442,10 @@ void Update(DWORD dt)
 		}
 		level_1->Update();
 		objects.clear();
-		objects.push_back(simon);
 		level_1->GetUpdateObjects(&objects);
+		objects.push_back(simon);
 		//vector<LPGAMEOBJECT> coObjects;
-		for (int i = 1; i < objects.size(); i++)
+		for (int i = 0; i < objects.size(); i++)
 			coObjects.push_back(objects[i]);
 		for (int i = 0; i < objects.size(); i++)
 			objects[i]->Update(dt, &coObjects);
