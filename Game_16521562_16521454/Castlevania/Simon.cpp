@@ -15,7 +15,7 @@ int color = 255;
 float stair_x = 0;
 int nx1;
 CSimon *CSimon::__instance = NULL;
-CMap *level1 = CEntranceLevel::GetInstance();
+CMap *level1 = CClockTowerLevel::GetInstance();
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
 	CGameObject::Update(dt);

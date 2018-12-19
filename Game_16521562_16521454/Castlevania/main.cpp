@@ -54,7 +54,7 @@ CBlackBoard * blackboard;
 
 vector<LPGAMEOBJECT> objects;
 CHidenObject *hidenObject;
-CMap *level_1 = CEntranceLevel::GetInstance();
+CMap *level_1 = CClockTowerLevel::GetInstance();
 LPDIRECT3DTEXTURE9 texture_title;
 LPDIRECT3DTEXTURE9 texture_intro;
 int screen = 0;
@@ -344,7 +344,7 @@ void LoadResources()
 	//simon->SetPosition(49.0f, 104.0f);
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
-	level_1->SetScene(SCENE_4);
+	level_1->SetScene(SCENE_5);
 	screen = 2;
 	level_1->LoadMap();
 	//objects.push_back(simon);
