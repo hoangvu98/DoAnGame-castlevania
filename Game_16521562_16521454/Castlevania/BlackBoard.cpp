@@ -75,14 +75,17 @@ void CBlackBoard::Render()
 	game->GetFont()->DrawTextW(game->GetSpriteHandler(), L"\nPLAYER ", -1, &rect, DT_LEFT,
 		D3DCOLOR_XRGB(255, 255, 255));
 
+	int k;
 	/*simonHP->Render(32.0f, 10.0f - 40.0f);*/
-	for (int i = 0; i < simonHP.size(); i++)
+	for (int i = 0; i < 16; i++)
 		simonHP[i].Render(i * 6.0f + 32.0f, 10.0f/* - 40.0f*/);
-	int k = simonHP.size() - simon->GetHealth();
+
+	if (simon->GetHealth() >= 0)
+		k = simonHP.size() - simon->GetHealth();
 
 	int j;
-	if (k != 0)
-		for (j = simonHP.size() - 1; j >= simonHP.size() - k; j--)
+	if (k >= 0)
+		for (j = simonHP.size() - 1; j >= 16 - k; j--)
 			simonHP[j].SetType(EMPTY);
 	/*DebugOut(L"k = %d\n", k);*/
 
@@ -90,8 +93,9 @@ void CBlackBoard::Render()
 		enemyHP[i].Render(i * 6.0f + 32.0f, 20.0f);
 
 	int n;
-	n = enemyHP.size() - bossbat->GetHealth();
-	if (n != 0)
+	if (bossbat->GetHealth() >= 0)
+		n = enemyHP.size() - bossbat->GetHealth();
+	if (n >= 0)
 		for (j = enemyHP.size() - 1; j >= enemyHP.size() - n; j--)
 			enemyHP[j].SetType(EMPTY);
 

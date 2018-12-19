@@ -65,8 +65,10 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	simon->GetPosition(x, y);
 	if (state != MONSTER_STATE_DISAPPEAR && state != MONSTER_STATE_DELETE)
 	{
-		if ((x <= left - DISTANCE /*&& x < right*/) || (x >= right + DISTANCE))
+		DebugOut(L"x %f, left - DISTANCE %f, right + DISTANCE %f\n", x, left - DISTANCE, right + DISTANCE);
+		if (x <= left - DISTANCE /*&& x < right*/ || x >= right + DISTANCE)
 			reset = true;
+		DebugOut(L"reset luc dau %d\n", reset);
 		//CGameObject::Update(dt);
 		CMonster::Update(dt, coObjects);
 		vy += PANTHER_GRAVITY * dt;
@@ -83,12 +85,29 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			if (dynamic_cast<CHidenObject *> (coEvents[i]->obj))
 			{
 				CHidenObject *hobj = dynamic_cast<CHidenObject *> (coEvents[i]->obj);
-				if (hobj->GetState() == HIDENOBJECT_STATE_STAIR_DOWN ||
-					hobj->GetState() == HIDENOBJECT_STATE_STAIR_UP)
+				if (hobj->GetState() != HIDENOBJECT_STATE_JUMP 
+					&& hobj->GetState()!= HIDENOBJECT_STATE_NORMAL)
+				{
 					coEvents.erase(coEvents.begin() + i);
+					i--;
+				}
+				/*if (hobj->GetState() == HIDENOBJECT_STATE_STAIR_DOWN ||
+					hobj->GetState() == HIDENOBJECT_STATE_STAIR_UP)
+				{
+					coEvents.erase(coEvents.begin() + i);
+					i--;
+				}*/
 			}
-			else if (dynamic_cast<CCandle *> (coEvents[i]->obj))
+			else
+			{
 				coEvents.erase(coEvents.begin() + i);
+				i--;
+			}
+			/*else if (dynamic_cast<CCandle *> (coEvents[i]->obj))
+			{
+				coEvents.erase(coEvents.begin() + i);
+				i--;
+			}*/
 		}
 		bool test=true;
 		if (coEvents.size() == 0)
@@ -126,12 +145,12 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				&& Getnx() < 0 && jump == false)
 			{
 				SetState(PANTHER_STATE_WALKING_LEFT);
-				reset = false;
+				//reset = false;
 			}
 			else if ((x >= left && x <= right) && Getnx() > 0 && jump == false)
 			{
 				SetState(PANTHER_STATE_WALKING_RIGHT);
-				reset = false;
+				//reset = false;
 			}
 
 			if ((x < left || x > right) && run == true && Getnx() < 0)
@@ -172,14 +191,15 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		else if (jump == true && Getnx() > 0)
 			SetState(PANTHER_STATE_JUMP_RIGHT);
 		//}
+		DebugOut(L"reset luc sau %d\n", reset);
 		if (reset == true)
 		{
 			Reset();
 			reset = false;
-			DebugOut(L"Da goi reset\n");
+			/*DebugOut(L"Da goi reset\n");*/
 		}
 	}
-	DebugOut(L"state = %d\n", state);
+	/*DebugOut(L"state = %d\n", state);*/
 }
 
 void CPanther::Render()

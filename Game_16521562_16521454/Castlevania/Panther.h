@@ -8,7 +8,7 @@
 
 #define PANTHER_WALKING_SPEED 0.3f
 
-#define PANTHER_JUMP_SPEED_X  0.2f
+#define PANTHER_JUMP_SPEED_X  0.4f
 #define PANTHER_JUMP_SPEED_Y  0.02f
 #define PANTHER_GRAVITY       0.002f
 

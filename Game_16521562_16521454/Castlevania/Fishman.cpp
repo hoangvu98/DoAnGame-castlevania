@@ -30,8 +30,16 @@ void CFishman::GetBoundingBox(float &left, float &top, float &right, float &bott
 {
 	left = x;
 	top = y;
-	right = x + FISHMAN_BBOX_WIDTH;
-	bottom = y + FISHMAN_BBOX_HEIGHT;
+	if (state == FISHMAN_STATE_FIRE)
+	{
+		right = x + FISHMAN_BBOX_FIRE_WIDTH;
+		bottom = y + FISHMAN_BBOX_FIRE_HEIGHT;
+	}
+	else
+	{
+		right = x + FISHMAN_BBOX_WIDTH;
+		bottom = y + FISHMAN_BBOX_HEIGHT;
+	}
 }
 
 void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -61,14 +69,19 @@ void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 				y += min_ty * dy + ny * 0.4f;
 				if (fire == false)
+				{
 					if (this->nx < 0 && this->x >= FISHMAN_TURN) SetState(FISHMAN_STATE_WALKING_LEFT);
 					else SetState(FISHMAN_STATE_WALKING_RIGHT);
-
+					SetPosition(this->x, this->y - OFFSET);
+				}
 				if (i >= 25 && fire == false)
 				{
 					SetState(FISHMAN_STATE_FIRE);
+					
 					bullet->SetPosition(x, y);
 					bullet->Setnx(this->nx);
+					if (this->nx > 0) bullet->SetState(BULLET_STATE_RIGHT);
+					else bullet->SetState(BULLET_STATE_LEFT);
 					i = 0;
 				}
 				else if (fire == false) i++;
@@ -77,6 +90,7 @@ void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					if (j >= 50)
 					{
 						fire = false;
+						
 						j = 0;
 					}
 					else
@@ -90,6 +104,7 @@ void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				y += dy;
 		}
 	}
+	DebugOut(L"state %d\n", state);
 }
 
 void CFishman::Render()
@@ -181,6 +196,7 @@ void CFishman::SetState(int state)
 		nx = 1;
 		break;
 	case FISHMAN_STATE_WALKING_LEFT:
+		
 		vx = -FISHMAN_WALKING_SPEED;
 		nx = -1;
 		break;

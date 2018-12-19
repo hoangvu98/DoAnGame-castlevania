@@ -328,8 +328,8 @@ void LoadResources()
 	//simon->SetPosition(906.0f, 34.0f);
 	//simon->SetPosition(1378.0f, 34.0f);
 	//simon->SetPosition(618.4f, 129.0f);
-	//simon->SetPosition(10.0f, 80.0f); 
-	simon->SetPosition(226.0f, 130.0f); 
+	simon->SetPosition(10.0f, 80.0f); 
+	//simon->SetPosition(226.0f, 130.0f); 
 	//simon->SetState(SIMON_STATE_WALKING_LEFT);
 	//simon->SetPosition(1460.0f, 30.0f);//map 1
 	//simon->SetPosition(550.0f, 80.0f);//map 2

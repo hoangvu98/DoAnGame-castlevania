@@ -7,11 +7,11 @@
 #define FISHMAN_JUMP_SPEED_Y  0.7f
 #define FISHMAN_GRAVITY       0.002f
 
-#define FISHMAN_BBOX_FIRE_WIDTH	16
+#define FISHMAN_BBOX_FIRE_WIDTH		16
 #define FISHMAN_BBOX_FIRE_HEIGHT	30
 
-#define FISHMAN_BBOX_WIDTH 17
-#define FISHMAN_BBOX_HEIGHT 34
+#define FISHMAN_BBOX_WIDTH 16
+#define FISHMAN_BBOX_HEIGHT 30
 
 #define FISHMAN_STATE_WALKING_RIGHT 0
 #define FISHMAN_STATE_WALKING_LEFT  300
@@ -28,6 +28,7 @@
 
 #define FISHMAN_TURN			30.0f
 #define FRAMETIME				200
+#define OFFSET			2
 class CFishman : public CMonster
 {
 	bool fire;

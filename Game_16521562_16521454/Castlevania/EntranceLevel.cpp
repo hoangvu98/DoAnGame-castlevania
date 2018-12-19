@@ -261,7 +261,7 @@ void CEntranceLevel::LoadMap()
 		cells->InitCells(hidenObj);
 
 
-		/*panther = new CPanther();
+		panther = new CPanther();
 		panther->SetState(PANTHER_STATE_IDLE);
 		panther->Setnx(-1);
 		panther->SetTurn(0);
@@ -289,7 +289,7 @@ void CEntranceLevel::LoadMap()
 		panther->SetTurn(0);
 		panther->SetJump(false);
 		panther->InitMovingArea();
-		cells->InitCells(panther);*/
+		cells->InitCells(panther);
 
 		for (int i = 0; i < 5; i++)
 		{
@@ -365,7 +365,7 @@ void CEntranceLevel::LoadMap()
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
 
-		ghoul = new CGhoul();
+	/*	ghoul = new CGhoul();
 		ghoul->SetPosition(250.0f, 127.0f);
 		ghoul->SetState(GHOUL_STATE_LEFT);
 		cells->InitCells(ghoul);
@@ -378,7 +378,7 @@ void CEntranceLevel::LoadMap()
 		ghoul = new CGhoul();
 		ghoul->SetPosition(330.0f, 127.0f);
 		ghoul->SetState(GHOUL_STATE_LEFT);
-		cells->InitCells(ghoul);
+		cells->InitCells(ghoul);*/
 		for (int i = 0; i < 3; i++)
 		{
 			hidenObj = new CHidenObject();
