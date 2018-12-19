@@ -44,7 +44,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		DWORD t = GetTickCount() - whip->GetFrameWhip();
 		if (t >= 2 * FRAME_TIME_WHIP)
 		{
-			whip->fight = true;
+			if(whip->GetCurrentFrame()==2)
+				whip->fight = true;
 			if (t >= 3 * FRAME_TIME_WHIP)
 			{
 				fight = false;
@@ -223,6 +224,9 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				}
 				else
 					collusion = 2;
+				fight = false;
+				whip->fight = false;
+				ResetFight();
 				health -= monster->GetDamage();
 				collusion_nx = nx;
 				FrameCollusion = GetTickCount();
@@ -778,6 +782,14 @@ void CSimon::SetState(int state)
 		vx = 0;
 		break;
 	}
+}
+
+void CSimon::ResetFight()
+{
+	animations[SIMON_ANI_FIGHT_LEFT]->SetCureentFrame(-1);
+	animations[SIMON_ANI_FIGHT_RIGHT]->SetCureentFrame(-1);
+	animations[SIMON_ANI_KNEE_FIGHT_LEFT]->SetCureentFrame(-1);
+	animations[SIMON_ANI_KNEE_FIGHT_RIGHT]->SetCureentFrame(-1);
 }
 
 void CSimon::Auto()

@@ -69,7 +69,7 @@ using namespace std;
 class CSimon :public CGameObject
 {
 	static CSimon *__instance;
-	int heart = 0, score = 0, health = 16;
+	int heart = 0, score = 0, health = 160;
 	int mx;
 	int stage;
 	int previousstate = NULL;
@@ -134,6 +134,7 @@ public:
 	int GetStage() { return this->stage; }
 	void SetReset(bool Reset) { this->Reset = Reset; }
 	bool GetReset() { return this->Reset; }
+	void ResetFight();
 	void Auto();
 	void Camera();
 	void CameraAuto();

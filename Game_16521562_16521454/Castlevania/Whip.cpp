@@ -147,14 +147,14 @@ void CWhip::FindPosstion()
 		if (size == SHORT_WHIP)
 		{
 			if (state_whip == WHIP_STATE_RIGHT)
-				SetPosition(x - 6, y + 9);
+				SetPosition(x - 12, y + 9);
 			else
 				SetPosition(x + 24, y + 8);
 		}
 		else
 		{
 			if (state_whip == WHIP_STATE_RIGHT)
-				SetPosition(x - 6, y + 9);
+				SetPosition(x - 12, y + 9);
 			else
 				SetPosition(x + 21, y + 8);
 		}
@@ -184,16 +184,16 @@ void CWhip::FindPosstion()
 		if (size == SHORT_WHIP)
 		{
 			if (state_whip == WHIP_STATE_RIGHT)
-				SetPosition(x + 22, y + 7);
+				SetPosition(x + 23, y + 8);
 			else
-				SetPosition(x - 22, y + 5);
+				SetPosition(x - 28, y + 5);
 		}
 		else
 		{
 			if (state_whip == WHIP_STATE_RIGHT)
-				SetPosition(x + 22, y + 7);
+				SetPosition(x + 23, y + 8);
 			else
-				SetPosition(x - 39, y + 5);
+				SetPosition(x - 45, y + 5);
 		}
 	}
 }

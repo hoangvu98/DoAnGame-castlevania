@@ -338,12 +338,12 @@ void LoadResources()
 	//simon->SetPosition(40.0f, 10.0f);//map 3
 	//simon->SetPosition(180.0f, 30.0f);//map 4
 	//simon->SetPosition(190.0f, 30.0f);//map 5
-	//simon->SetPosition(448.0f, 76.0f);//map 5
+	simon->SetPosition(448.0f, 76.0f);//map 5
 	//simon->SetPosition(190.0f, 30.0f   /*719.0f, 45.0f*/);
 	//simon->SetPosition(49.0f, 104.0f);
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
-	simon->map->SetScene(SCENE_4);
+	simon->map->SetScene(SCENE_5);
 	screen = 2;
 	simon->map->LoadMap();
 	blackboard = new CBlackBoard();
