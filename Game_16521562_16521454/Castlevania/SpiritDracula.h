@@ -63,7 +63,7 @@ class CSpiritDracula :
 	CHidenObject *head;
 	int height;
 	bool resetpos;
-
+	bool Bullet;
 	bool startwait1;
 	bool startwait2;
 	bool startwait3;

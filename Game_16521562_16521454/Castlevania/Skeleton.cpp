@@ -42,68 +42,83 @@ CSkeleton::CSkeleton(float x, float y)
 
 void CSkeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (is_back == true)
-	{
-		SetMinMax();
-		SetLeftRight();
-		is_back = false;
-	}
+	
 
-	float sx, sy;
 	CSimon *simon = CSimon::GetInstance();
-	simon->GetPosition(sx, sy);
-
-	if (abs(sx - this->x) < DISTANCE_WITH_SIMON && jump == false) //chay lui khi simon den gan
-	{
-		if ((nx > 0 && vx > 0) || (nx < 0 && vx < 0))
-		{
-			vx = -vx;
-			is_back = true;
-		}
-	}
-
-	if ((sx < left || sx > right) && jump == false) // Chay tro lai khi simon da di ra xa
-	{
-		if ((nx > 0 && vx < 0) || (nx < 0 && vx > 0))
-		{
-			vx = -vx;
-			is_back = true;
-		}
-	}
-
-	if ((this->x < min || this->x > max) && jump == false)
-		vx = -vx;
 	CMonster::Update(dt, coObjects);
 	if (state != MONSTER_STATE_DELETE && state != MONSTER_STATE_DISAPPEAR)
 	{
 		DWORD now = GetTickCount();
 
+		if (simon->x < this->x) Setnx(-1);
+		else Setnx(1);
+		
+		if (is_back == true)
+		{
+			SetMinMax();
+			SetLeftRight();
+			is_back = false;
+		}
+
+		if (isChange == false)
+			if ((this->x < min || this->x > max) && jump == false)
+				vx = -vx;
+
+		if (abs(simon->x - this->x) < DISTANCE_WITH_SIMON && jump == false) //chay lui khi simon den gan
+		{
+			isChange = true;
+			if ((nx > 0 && vx > 0) || (nx < 0 && vx < 0))
+			{
+				vx = -vx;
+				is_back = true;
+			}
+		}
+		else isChange = false;
+		if ((simon->x  < left || simon->x > right) && jump == false) // Chay tro lai khi simon da di ra xa
+		{
+			isChange = true;
+			if ((nx > 0 && vx < 0) || (nx < 0 && vx > 0))
+			{
+				vx = -vx;
+				is_back = true;
+			}
+		}
+		else isChange = false;
+
+		
+		CGameObject::Update(dt);
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
 
-		//vy += SKELETON_GRAVITY * dt;
+		vy += SKELETON_GRAVITY * dt;
 
 		coEventsResult.clear();
 		CalcPotentialCollisions(coObjects, coEvents);
-
-		if (sx < this->x) Setnx(-1);
-		else Setnx(1);
+		
+		
 
 		for (UINT i = 0; i < coEvents.size(); i++)//Xoa cac doi tuong khong can thiet
 		{
 			LPCOLLISIONEVENT e = coEvents[i];
 			if (dynamic_cast<CCandle *>(e->obj) || dynamic_cast<CDoor *>(e->obj))
+			{
 				coEvents.erase(coEvents.begin() + i);
+				i--;
+			}
 			else if (dynamic_cast<CHidenObject *>(e->obj))
 			{
 				CHidenObject *hobj = dynamic_cast<CHidenObject *>(e->obj);
 				if (hobj->GetState() == HIDENOBJECT_STATE_STAIR_UP ||
 					hobj->GetState() == HIDENOBJECT_STATE_STAIR_DOWN)
+				{
 					coEvents.erase(coEvents.begin() + i);
+					i--;
+				}
 			}
 		}
 
 		bool test = true;
+		
 		if (coEvents.size() != 0)
 		{
 			float min_tx, min_ty, nx = 0, ny;
@@ -124,9 +139,6 @@ void CSkeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						this->y += min_ty * dy + ny * 0.4f;
 						//jump = false;
 						test = false;
-
-						if (e->nx < 0)
-							vx = -vx;
 					}
 					else if (hobj->GetState() == HIDENOBJECT_STATE_JUMP)
 					{
@@ -136,7 +148,7 @@ void CSkeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 		}
-		int random = rand() % 3;
+		/*int random = rand() % 3;
 		number = random;
 		if (now - start_to_throw >= TIME_TO_THROW_BONES && fire == false)
 		{
@@ -163,12 +175,12 @@ void CSkeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		if (fire == true)
 			for (int i = 0; i < number; i++)
-				bone[i]->Update(dt, coObjects);
+				bone[i]->Update(dt, coObjects);*/
 
 		if (jump == true)
 		{
 			SetState(SKELETON_STATE_JUMP);
-			if (now - jump_time >= 300)
+			if (now - jump_time >= 280)
 				jump = false;
 		}
 		else
@@ -180,6 +192,7 @@ void CSkeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			this->y += dy;
 		}
 	}
+	DebugOut(L"min %f, x %f, max %f\n", min, x, max);
 }
 
 void CSkeleton::Render()
@@ -192,7 +205,7 @@ void CSkeleton::Render()
 	if (fire == true)
 		for (int i = 0; i < number; i++)
 			bone[i]->Render();
-	RenderBoundingBox(200);
+	//RenderBoundingBox(200);
 }
 
 void CSkeleton::GetBoundingBox(float & left, float & top, float & right, float & bottom)

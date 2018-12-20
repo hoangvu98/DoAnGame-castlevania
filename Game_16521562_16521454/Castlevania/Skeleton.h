@@ -2,7 +2,7 @@
 #include "Monster.h"
 #include "Bone.h"
 #define SKELETON_WALKING_SPEED	0.09f
-#define SKELETON_GRAVITY		0.002f
+#define SKELETON_GRAVITY		0.001f
 #define SKELETON_JUMP_SPEED_X  0.2f
 #define SKELETON_JUMP_SPEED_Y  0.09f
 
@@ -42,6 +42,8 @@ class CSkeleton :
 
 	bool fire;
 	bool jump;
+
+	bool isChange;
 
 	bool is_back;
 
