@@ -97,7 +97,6 @@ void CDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (isSpirit == true)
 			LoadSpirit();
 
-		spirit_dracula->Update(dt, coObjects);
 	}
 }
 
@@ -135,8 +134,6 @@ void CDracula::Render()
 		}
 		head->Render();
 	}
-	else
-		spirit_dracula->Render();
 }
 
 void CDracula::GetBoundingBox(float & left, float & top, float & right, float & bottom)

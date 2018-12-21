@@ -131,6 +131,14 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 				for (k = 0; k < cells[i][j].GetObjects().size(); k++)
 				{
 					LPGAMEOBJECT e = cells[i][j].GetObjects()[k];
+					if (dynamic_cast <CDracula *> (e))
+					{
+						CDracula *dracula = dynamic_cast<CDracula *>(e);
+						if (dracula->state == DRACULA_STATE_DIE && dracula->GetIsSpirit()==false)
+						{
+							cells[i][j].XoaObject(k);
+						}
+					}
 					if (dynamic_cast<CMonster *> (e))
 					{
 						int a = e->x / CELL_WIDTH;

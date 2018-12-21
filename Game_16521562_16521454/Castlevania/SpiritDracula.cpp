@@ -17,7 +17,7 @@ void CSpiritDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CalcPotentialCollisions(coObjects, coEvents);
 	
 	///tham khao ban
-	if (state == SPIRITDRACULA_STATE_FIRE)
+	/*if (state == SPIRITDRACULA_STATE_FIRE)
 	{
 		if (Bullet)
 		{
@@ -30,11 +30,11 @@ void CSpiritDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			simon->map->SetCell(cell);
 			Bullet = false;
 		}
-	}
-	else
-	{
+	}*/
+	/*else*/
+	/*{
 		Bullet = true;
-	}
+	}*/
 
 	if (simon->x < this->x + OFFSET) this->nx = -1;
 	else this->nx = 1;
@@ -56,6 +56,22 @@ void CSpiritDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			fire = true;
 			resetpos = true;
+			
+		}
+
+		if (fire == false)
+		{
+			if (startwait1 == true)
+				StartWait(startwait1, wait_start1);
+
+			if (GetTickCount() - wait_start1 > SPIRITDRACULA_WAIT_TIME)
+			{
+				SetState(SPIRITDRACULA_STATE_JUMP);
+				wait_start1 = 0;
+			}
+		}
+		else
+		{
 			if (this->nx < 0)
 			{
 				for (i = 0; i < 3; i++)
@@ -86,21 +102,7 @@ void CSpiritDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				bullets[2]->SetSpeed(x + BULLET_POSITION_X1, y /*+ BULLET_POSITION_Y*/,
 					simon->x + 5.0f, simon->y + 6.0f, 800);
 			}
-		}
 
-		if (fire == false)
-		{
-			if (startwait1 == true)
-				StartWait(startwait1, wait_start1);
-
-			if (GetTickCount() - wait_start1 > SPIRITDRACULA_WAIT_TIME)
-			{
-				SetState(SPIRITDRACULA_STATE_JUMP);
-				wait_start1 = 0;
-			}
-		}
-		else
-		{
 			if (startwait6 == true)
 				StartWait(startwait6, wait_start6);
 
@@ -134,6 +136,7 @@ void CSpiritDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			reset = true;
 			wait_start7 = 0;
 		}
+		
 	}
 	bool test = true;
 	if (coEvents.size() != 0)

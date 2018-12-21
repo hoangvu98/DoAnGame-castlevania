@@ -73,6 +73,7 @@ public:
 	void StartWait(bool &startwait, DWORD &wait_start);
 	void Reset();
 	void SetState(int state);
+	bool GetIsSpirit() { return isSpirit; }
 	CHeadDracula *GetHead() { return this->head; }
 	CSpiritDracula *GetSpiritDracula() { return this->spirit_dracula; }
 	CDracula();

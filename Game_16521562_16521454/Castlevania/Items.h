@@ -133,14 +133,20 @@ public:
 #define BOOMERANG_BBOX_WIDTH	15
 #define BOOMERANG_BBOX_HEIGHT	15
 
+#define BOOMERANG_STATE_DISAPPEAR	200
+
 #define BOOMERANG_ANI_ITEM		0
 #define BOOMERANG_ANI_FLY		1
 
 #define DISTANCE_OF_BOOMERANG	80
 
+//#define BOOMERANG_FLYING_TIME 2000
 class CBoomerang : public CItems
 {
 	int damage;
+	
+	bool fly;
+	//DWORD start_fly;
 public:
 	CBoomerang();
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
@@ -150,15 +156,15 @@ public:
 	void SetState(int state);
 };
 
-#define HOLLY_WATER_FALLING_SPEED_X		0.15f
-#define HOLLY_WATER_FALLING_SPEDD_Y		0.3f
-#define HOLLY_WATER_GRAVITY				0.001f
+#define HOLLY_WATER_FALLING_SPEED_X		0.3f
+#define HOLLY_WATER_FALLING_SPEDD_Y		0.1f
+#define HOLLY_WATER_GRAVITY				0.003f
 
-#define BOTTLE_BBOX_WIDTH 	9
-#define BOTTLE_BBOX_HEIGHT	10
+#define BOTTLE_BBOX_WIDTH 	10
+#define BOTTLE_BBOX_HEIGHT	11
 
-#define FIRE_BBOX_WIDTH		16
-#define FIRE_BBOX_HEIGHT	13
+#define FIRE_BBOX_WIDTH		18
+#define FIRE_BBOX_HEIGHT	15
 
 #define ITEM_BBOX_WIDTH		12
 #define ITEM_BBOX_HEIGHT	15

@@ -10,6 +10,7 @@
 #include "Bat.h"
 #include "Eagle.h"
 #include "Hunchback.h"
+#include "Dracula.h"
 DWORD FrameCollusion;
 int color = 255;
 float stair_x = 0;
@@ -175,6 +176,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		else if (dynamic_cast<CMonster *> (e->obj))
 		{
 			CMonster *monster = dynamic_cast<CMonster *>(e->obj);
+			if (dynamic_cast<CDracula *> (e->obj))
 			if (dynamic_cast<CBossBat *> (e->obj) && monster->state == MONSTER_STATE_DELETE)
 			{
 				ChangeMap(6);
@@ -622,7 +624,7 @@ void CSimon::Render()
 				}
 				if (skill)
 				{
-					if (now - FrameWeapon > 600)	skill = false;
+					if (now - FrameWeapon > /*600*/ 3000)	skill = false;
 					else weapon->Render();
 				}
 
@@ -1042,7 +1044,7 @@ CSimon::CSimon()
 	mx = 0;
 	whip = new CWhip();
 	whip->SetState(WHITE_WHIP);
-	map = CClockTowerLevel::GetInstance();
+	map = CEntranceLevel::GetInstance();
 }
 
 CSimon * CSimon::GetInstance()

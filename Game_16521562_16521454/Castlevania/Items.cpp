@@ -288,7 +288,7 @@ CBoomerang::CBoomerang()
 
 void CBoomerang::Render()
 {
-	int ani;
+	//int ani;
 	if (state == ITEM_STATE_ITEM)
 		animations[BOOMERANG_ANI_ITEM]->Render(x, y);
 	else if (state == ITEM_STATE_WEAPON_LEFT || state == ITEM_STATE_WEAPON_RIGHT)
@@ -313,30 +313,67 @@ void CBoomerang::SetState(int state)
 		break;
 	case ITEM_STATE_WEAPON_RIGHT:
 		vx = BOOMERANG_SPEED;
-		break;
+	/*case BOOMERANG_STATE_DISAPPEAR:
+		
+		break;*/
 	}
 }
 
 void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (state == ITEM_STATE_ITEM)
-		CItems::Update(dt, coObjects);
-	else
-	{
-		CSimon *simon = CSimon::GetInstance();
-		float sx, sy;
-		simon->GetPosition(sx, sy);
-		CGameObject::Update(dt);
-		float left_distance;
-		float right_distance;
-		left_distance = sx - DISTANCE_OF_BOOMERANG;
-		right_distance = sx + DISTANCE_OF_BOOMERANG;
-		if (x <= left_distance)
-			SetState(ITEM_STATE_WEAPON_RIGHT);
-		if (x >= right_distance)
-			SetState(ITEM_STATE_WEAPON_LEFT);
-		x += dx;
-	}
+		if (state == ITEM_STATE_ITEM)
+			CItems::Update(dt, coObjects);
+		else
+		{
+			if (state != ITEM_STATE_DELETE)
+			{
+				CSimon *simon = CSimon::GetInstance();
+				float sx, sy;
+				simon->GetPosition(sx, sy);
+				CGameObject::Update(dt);
+				float left_distance;
+				float right_distance;
+				left_distance = sx - DISTANCE_OF_BOOMERANG;
+				right_distance = sx + DISTANCE_OF_BOOMERANG;
+				if (x <= left_distance)
+				{
+					SetState(ITEM_STATE_WEAPON_RIGHT);
+					fly = true;
+				}
+				if (x >= right_distance)
+				{
+					SetState(ITEM_STATE_WEAPON_LEFT);
+					fly = true;
+				}
+				vector<LPCOLLISIONEVENT> coEvents;
+				vector<LPCOLLISIONEVENT> coEventsResult;
+
+				CalcPotentialCollisions(coObjects, coEvents);
+				if (coEvents.size() != 0)
+				{
+					FilterCollisionImmediately(coEvents, coEventsResult);
+					for (UINT i = 0; i < coEventsResult.size(); i++)
+					{
+						LPCOLLISIONEVENT e = coEventsResult[i];
+						if (dynamic_cast<CSimon *> (e->obj) && fly == true)
+						{
+							SetState(ITEM_STATE_DELETE);
+							simon->SetSkill(false);
+							fly = false;
+						}
+						/*else if (dynamic_cast<CCandle *> (e->obj))
+						{
+							CCandle *candle = dynamic_cast<CCandle *>(e->obj);
+							simon->SetSkill(false);
+							candle->SetState(CANDLE_STATE_DISAPPEAR);
+						}*/
+						
+					}
+				}
+				DebugOut(L"state %d\n", state);
+				x += dx;
+			}
+		}
 }
 	CHollyWater::CHollyWater()
 	{
@@ -350,12 +387,41 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (state == ITEM_STATE_ITEM)
 			CItems::Update(dt, coObjects);
 		else
+		{
+			CGameObject::Update(dt);
+			vector<LPCOLLISIONEVENT> coEvents;
+			vector<LPCOLLISIONEVENT> coEventsResult;
+			vy += HOLLY_WATER_GRAVITY * dt;
+			CalcPotentialCollisions(coObjects, coEvents);
+			bool test = true;
+			if (coEvents.size() != 0)
 			{
-				CGameObject::Update(dt);
-				vy += AXE_GRAVITY * dt;
-				y += dy;
-				x += dx;
+				FilterCollisionImmediately(coEvents, coEventsResult);
+				for (UINT i = 0; i < coEventsResult.size(); i++)
+				{
+					LPCOLLISIONEVENT e = coEventsResult[i];
+					if (dynamic_cast<CHidenObject *> (e->obj))
+					{
+						CHidenObject *hobj = dynamic_cast<CHidenObject *> (e->obj);
+						if (hobj->state == HIDENOBJECT_STATE_NORMAL)
+						{
+							SetState(HOLLY_WATER_STATE_EXPLODE);
+							test = false;
+						}
+					}
+					/*else if (dynamic_cast<CCandle *> (e->obj))
+					{
+						CCandle *candle = dynamic_cast<CCandle *>(e->obj);
+						candle->SetState(CANDLE_STATE_DISAPPEAR);
+					}*/
+				}
 			}
+			if (test == true)
+			{
+				x += dx;
+				y += dy;
+			}
+		}
 	}
 
 	void CHollyWater::Render()
@@ -365,7 +431,7 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else if (state == ITEM_STATE_WEAPON_LEFT || state == ITEM_STATE_WEAPON_RIGHT)
 			animations[HOLLY_WATER_ANI_FALLING]->Render(x, y);
 		else if (state == HOLLY_WATER_STATE_EXPLODE)
-			animations[HOLLY_WATER_ANI_EXPLODE]->Render(x, y);
+			animations[HOLLY_WATER_ANI_EXPLODE]->Render(x - 3, y - 3);
 	}
 
 	void CHollyWater::GetBoundingBox(float & left, float & top, float & right, float & bottom)
