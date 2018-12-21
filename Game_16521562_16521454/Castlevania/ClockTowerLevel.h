@@ -39,6 +39,7 @@ class CClockTowerLevel :
 public:
 	CClockTowerLevel();
 	void LoadMap();
+	void LoadObject();
 	void Update();
 	void Render();
 	~CClockTowerLevel();

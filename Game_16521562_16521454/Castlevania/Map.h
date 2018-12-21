@@ -14,7 +14,7 @@ class CMap
 protected:
 	int prev_scene, scene;
 	CCells *cells;
-
+	CCells *cellsobject;
 
 	CTextures *textures;
 	CSprites *sprites;
@@ -40,6 +40,7 @@ public:
 	void GetUpdateObjects(vector<LPGAMEOBJECT>* object);
 	void GetSizeOfMap(float &width, float &height);
 	virtual void LoadMap();
+	virtual void LoadObject() = 0;
 	virtual void Update() = 0;
 	virtual void Render();
 	virtual void GetSizeMap(float &min, float &max)=0;

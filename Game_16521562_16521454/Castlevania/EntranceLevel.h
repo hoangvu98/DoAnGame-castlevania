@@ -50,6 +50,7 @@ class CEntranceLevel :
 	static CEntranceLevel *__instance;
 public:
 	void LoadMap();
+	void LoadObject();
 	void Update();
 	void Render();
 	void GetSizeMap(float &min,float &max);

@@ -24,6 +24,7 @@ void CMap::GetUpdateObjects(vector<LPGAMEOBJECT>* objects)
 	CGame *game = CGame::GetInstance();
 	game->GetCamera(cam_x, cam_y);
 	cells->GetListOfObjects(objects, cam_x, cam_y);
+	cellsobject->GetListOfObjectsnotchange(objects, cam_x, cam_y);
 }
 
 void CMap::GetSizeOfMap(float &width, float &height)
@@ -33,12 +34,7 @@ void CMap::GetSizeOfMap(float &width, float &height)
 
 void CMap::LoadMap()
 {
-	/*int column, row;
-	float width, height;
-	tilemap->GetSize(width, height);
-	column = (int)width / CELL_WIDTH + 1;
-	row = (int)height / CELL_HEIGHT + 1;
-	cells = new CCells(row, column);*/
+
 }
 
 void CMap::Render()

@@ -345,7 +345,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				{
 					if (door->GetIsHiden() == true && door->IsGo == true)
 					{
-
 						if (door->GetIsStair() == true)
 						{
 							if (stair == 2)
@@ -378,7 +377,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 						{
 							door->IsGo = false;
 							state_auto = 5;
-							if (nx > 0)
+							if (this->nx > 0)
 								simon_x = door->x + door->size;
 							else
 								simon_x = door->x - door->size;
@@ -436,7 +435,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	//DebugOut(L"IsUp=%d\nIsDown=%d\n", IsUp,IsDown);
 	//DebugOut(L"state=%d\n", state);
 	//DebugOut(L"up=%d\ndown=%d\n", IsUp, IsDown);
-	//DebugOut(L"x=%f\ny=%f\n", x, y);
+	DebugOut(L"x=%f\ny=%f\n", x, y);
 	//DebugOut(L"heart=%d\n", heart);
 	//DebugOut(L"stair=%d\n", stair);
 }

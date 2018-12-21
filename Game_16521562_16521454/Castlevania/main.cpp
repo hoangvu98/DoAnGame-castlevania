@@ -325,16 +325,16 @@ void LoadResources()
 	simon = CSimon::GetInstance();
 	//simon->SetPosition(2053.0f, 28.0f);
 	//simon->SetPosition(906.0f, 34.0f);
-	//simon->SetPosition(1378.0f, 34.0f);
+	simon->SetPosition(1378.0f, 34.0f);
 	//simon->SetPosition(618.4f, 129.0f);
-	//simon->SetPosition(10.0f, 80.0f); 
+	simon->SetPosition(100.0f, 20.0f); 
 	//simon->SetPosition(226.0f, 130.0f); 
 	//simon->SetState(SIMON_STATE_WALKING_LEFT);
 	simon->SetPosition(1460.0f, 30.0f);//map 1
-	//simon->SetPosition(550.0f, 80.0f);//map 2
+	simon->SetPosition(550.0f, 80.0f);//map 2
 	//simon->SetPosition(267.0f, 0.0f);//map 2
 	//simon->SetPosition(629.0f, 10.0f);//map 3
-	//simon->SetPosition(303.0f, 10.0f);//map 3
+	simon->SetPosition(450.0f, 10.0f);//map 3
 	//simon->SetPosition(40.0f, 10.0f);//map 3
 	//simon->SetPosition(180.0f, 30.0f);//map 4
 	//simon->SetPosition(190.0f, 30.0f);//map 5
@@ -343,8 +343,9 @@ void LoadResources()
 	//simon->SetPosition(49.0f, 104.0f);
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
-	simon->map->SetScene(SCENE_1);
+	simon->map->SetScene(SCENE_3);
 	screen = 2;
+	simon->map->LoadObject();
 	simon->map->LoadMap();
 	blackboard = new CBlackBoard();
 }
@@ -393,6 +394,7 @@ void Update(DWORD dt)
 			if (x != 0 || y != 0)
 				simon->SetPosition(x, y);
 			simon->Camera();
+			simon->map->LoadMap();
 		}
 		if (simon->map->GetIsNext())
 		{

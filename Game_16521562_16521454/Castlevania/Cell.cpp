@@ -265,6 +265,28 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 
 }
 
+void CCells::GetListOfObjectsnotchange(vector<LPGAMEOBJECT>* list_object, float cam_x, float cam_y)
+{
+	int xs, ys;
+	int xe, ye;
+	int i, j, k;
+	xs = (int)cam_x / CELL_WIDTH;
+	ys = (int)cam_y / CELL_HEIGHT;
+
+	xe = (int)(cam_x + 256.0f) / CELL_WIDTH;
+	ye = (int)(cam_y + 185.0f) / CELL_HEIGHT;
+	for (i = xs; i <= xe; i++)
+		for (j = ys; j <= ye; j++)
+		{
+			if (cells[i][j].GetObjects().size() != 0)
+				for (k = 0; k < cells[i][j].GetObjects().size(); k++)
+				{
+					LPGAMEOBJECT e = cells[i][j].GetObjects()[k];
+					list_object->push_back(e);
+				}
+		}
+}
+
 void CCells::Update(DWORD dt, float cam_x, float cam_y)
 {
 	int xs, ys;
