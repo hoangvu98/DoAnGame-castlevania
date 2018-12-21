@@ -69,9 +69,12 @@ void CEagle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CEagle::Render()
 {
-	if(state!= EAGLE_STATE_SLEEPING)
-		animations[state]->Render(x,y);
-	RenderBoundingBox(200);
+	if (state != MONSTER_STATE_DELETE && state != MONSTER_STATE_DISAPPEAR)
+	{
+		if (state != EAGLE_STATE_SLEEPING)
+			animations[state]->Render(x, y);
+		RenderBoundingBox(200);
+	}
 }
 
 void CEagle::SetState(int state)

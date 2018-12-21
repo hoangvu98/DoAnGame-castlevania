@@ -139,7 +139,7 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 							cells[i][j].XoaObject(k);
 						}
 					}
-					if (dynamic_cast<CMonster *> (e))
+					else if (dynamic_cast<CMonster *> (e))
 					{
 						int a = e->x / CELL_WIDTH;
 						int b = e->y / CELL_HEIGHT;
@@ -150,7 +150,7 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 								cells[a][b].SetObjects(e);
 						}
 					}
-					if (dynamic_cast<CBullet *> (e))
+					else if (dynamic_cast<CBullet *> (e))
 					{
 						int a = e->x / CELL_WIDTH;
 						int b = e->y / CELL_HEIGHT;
@@ -253,8 +253,6 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 							list_object->push_back(hidenobject);
 							CDracula *dracula = dynamic_cast<CDracula *>(e);
 							list_object->push_back(dracula->GetHead());
-							/*if (dracula->GetSpiritDracula() != NULL)
-								list_object->push_back(dracula->GetSpiritDracula());*/
 							list_object->push_back(e);
 						}
 					}

@@ -154,10 +154,6 @@ void CBat::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 
 			}
-			else if (state == BAT_STATE_FIRE)
-			{
-				bullet->Update(dt, coObjects);
-			}
 			x += dx;
 			y += dy;
 			DWORD now = GetTickCount();
@@ -199,6 +195,9 @@ void CBat::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					bullet->SetPosition(x, y);
 					bullet->SetState(x, simon->x);
 					bullet->SetSpeed(x, y, simon->x, simon->y,400);
+					CCells* cell = simon->map->GetCell();
+					cell->InitCells(bullet);
+					simon->map->SetCell(cell);
 				}
 				bat_time_route = GetTickCount();
 				bat_test = true;

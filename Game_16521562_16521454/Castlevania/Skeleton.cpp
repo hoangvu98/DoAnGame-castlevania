@@ -127,7 +127,7 @@ void CSkeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 		}
-		/*int random = rand() % 3;
+		int random = rand() % 3;
 		number = random;
 		if (now - start_to_throw >= TIME_TO_THROW_BONES && fire == false)
 		{
@@ -139,7 +139,11 @@ void CSkeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (this->nx > 0) bone[i]->nx = 1;
 				else bone[i]->nx = -1;
 			}
-			fire = true;
+			CCells* cell = simon->map->GetCell();
+			for (int i = 0; i < number; i++)
+				cell->InitCells(bone[i]);
+			simon->map->SetCell(cell);
+
 			start_to_throw = GetTickCount();
 		}
 		else
@@ -152,9 +156,7 @@ void CSkeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				else SetState(SKELETON_STATE_WALKING_LEFT);
 				start_to_throw = GetTickCount();
 			}
-		if (fire == true)
-			for (int i = 0; i < number; i++)
-				bone[i]->Update(dt, coObjects);*/
+			
 
 		if (jump == true)
 		{
@@ -173,14 +175,13 @@ void CSkeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CSkeleton::Render()
 {
-	if (nx > 0)
-		animations[SKELETON_ANI_WALKING_RIGHT]->Render(x, y);
-	else
-		if (nx < 0)animations[SKELETON_ANI_WALKING_LEFT]->Render(x, y);
-
-	if (fire == true)
-		for (int i = 0; i < number; i++)
-			bone[i]->Render();
+	if (state != MONSTER_STATE_DELETE && state != MONSTER_STATE_DISAPPEAR)
+	{
+		if (nx > 0)
+			animations[SKELETON_ANI_WALKING_RIGHT]->Render(x, y);
+		else
+			if (nx < 0)animations[SKELETON_ANI_WALKING_LEFT]->Render(x, y);
+	}
 	//RenderBoundingBox(200);
 }
 

@@ -6,6 +6,7 @@ CBullet::CBullet()
 {
 	AddAnimation(19000);
 	AddAnimation(19001);
+	damage = 4;
 }
 
 
@@ -18,14 +19,15 @@ void CBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt);
 	x += dx;
 	y += dy;
+
 	DebugOut(L"vx=%f\nvy=%f\n", vx, vy);
 }
 
 void CBullet::Render()
 {
-	if (nx < 0)
-		animations[BULLET_ANI_LEFT]->Render(x, y);
-	else animations[BULLET_ANI_RIGHT]->Render(x, y);
+		if (nx < 0)
+			animations[BULLET_ANI_LEFT]->Render(x, y);
+		else animations[BULLET_ANI_RIGHT]->Render(x, y);
 }
 
 void CBullet::GetBoundingBox(float & left, float & top, float & right, float & bottom)

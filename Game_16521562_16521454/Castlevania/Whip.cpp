@@ -59,7 +59,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					if (IsSubHP)
 					{
-						monster->SetHealth(monster->GetHealth() - 1);
+						monster->SetHealth(monster->GetHealth() - damage);
 						IsSubHP = false;
 					}
 				}

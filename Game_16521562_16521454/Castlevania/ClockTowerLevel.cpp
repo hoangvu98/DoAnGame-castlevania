@@ -217,7 +217,6 @@ void CClockTowerLevel::LoadMap()
 		}
 
 		dracula = CDracula::GetInstance();
-		//dracula->SetPosition(204.0f, 95.0f);
 		dracula->Setnx(-1);
 		dracula->SetState(DRACULA_STATE_INVISIBLE);
 		cells->InitCells(dracula);

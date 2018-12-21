@@ -333,7 +333,8 @@ CSpiritDracula::CSpiritDracula()
 CSpiritDracula::CSpiritDracula(float x, float y)
 {
 	CSimon *simon = CSimon::GetInstance();
-
+	damage = 4;
+	health = 16;
 	SetPosition(x, y);
 	height = y - SPIRITDRACULA_JUMP_HEIGHT;
 

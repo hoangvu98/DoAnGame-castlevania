@@ -15,6 +15,7 @@ class CBone :
 {
 	float height;
 	bool fall;
+	int damage;
 public:
 	CBone();
 	void InitHeight();
@@ -23,6 +24,7 @@ public:
 	void SetFall(bool fall) { this->fall = fall; }
 	void SetHeight(float height) { this->height = height; }
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
+	int GetDamage() { return damage; }
 	~CBone();
 };
 

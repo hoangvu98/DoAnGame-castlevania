@@ -8,6 +8,7 @@ CBone::CBone()
 	AddAnimation(220002);//right
 	fall = false;
 	nx = 1;
+	damage = 4;
 }
 
 void CBone::InitHeight()

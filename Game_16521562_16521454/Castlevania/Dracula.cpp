@@ -188,19 +188,8 @@ void CDracula::Reset()
 		{
 			bullets[i]->SetPosition(x + BULLET_POSITION_X, y + BULLET_POSITION_Y);
 			bullets[i]->Setnx(1);
-			/*if (bullets[i]->vx < 0)
-				bullets[i]->vx = -bullets[i]->vx;*/
 		}
 		
-		/*bullets[0]->vx = -bullets[0]->vx;
-		bullets[1]->vx = -bullets[1]->vx;
-		bullets[2]->vx = -bullets[2]->vx;*/
-		/*if (simon->state == SIMON_STATE_JUMP)
-		{
-			bullets[0]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y + 10.0f, 800);
-			bullets[1]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y - 30.0f, 800);
-			bullets[2]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y + 60.0f, 800);
-		}*/
 	}
 	else
 	{
@@ -208,19 +197,8 @@ void CDracula::Reset()
 		{
 			bullets[i]->SetPosition(x, y + BULLET_POSITION_Y);
 			bullets[i]->Setnx(-1);
-			/*if (bullets[i]->vx > 0) 
-				bullets[i]->vx = -bullets[i]->vx;*/
 		}
 
-		
-		/*bullets[1]->vx = -bullets[1]->vx;
-		bullets[2]->vx = -bullets[2]->vx;*/
-		/*if (simon->state == SIMON_STATE_JUMP)
-		{
-			bullets[0]->SetSpeed(x , y + BULLET_POSITION_Y, simon->x, simon->y + 10.0f, 800);
-			bullets[1]->SetSpeed(x, y + BULLET_POSITION_Y, simon->x, simon->y - 30.0f, 800);
-			bullets[2]->SetSpeed(x, y + BULLET_POSITION_Y, simon->x, simon->y + 60.0f, 800);
-		}*/
 	}
 	
 }
@@ -262,19 +240,13 @@ CDracula::CDracula()
 	{
 		bullets[i]->SetPosition(x + BULLET_POSITION_X, y + BULLET_POSITION_Y);
 		bullets[i]->Setnx(-1);
+		bullets[i]->SetDamage(4);
 	}
 
 	bullets[0]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y, 800);
 	bullets[1]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y - 8.0f, 800);
 	bullets[2]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y + 8.0f, 800);
 
-	spirit_dracula = new CSpiritDracula(this->x, this->y - 19.0f);
-	spirit_dracula->SetState(SPIRITDRACULA_STATE_IDLE);
-	spirit_dracula->Setnx(this->nx);
-	CClockTowerLevel *level = CClockTowerLevel::GetInstance();
-	CCells *cells = level->GetCell();
-	cells->InitCells(spirit_dracula);
-	level->SetCell(cells);
 
 	AddAnimation(240001);
 	AddAnimation(240002);

@@ -85,6 +85,7 @@ void CHunchback::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					if (state == HUNCHBACK_STATE_IDLE)
 					{
+						vy = -HUNCHBACK_GRAVITY * 2;
 						y += vy * dt;
 						test = false;
 					}

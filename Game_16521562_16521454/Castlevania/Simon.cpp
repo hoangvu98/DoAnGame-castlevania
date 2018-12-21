@@ -45,7 +45,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		DWORD t = GetTickCount() - whip->GetFrameWhip();
 		if (t >= 2 * FRAME_TIME_WHIP)
 		{
-			if(whip->GetCurrentFrame()==2)
+			if (whip->GetCurrentFrame() == 2)
 				whip->fight = true;
 			if (t >= 3 * FRAME_TIME_WHIP)
 			{
@@ -176,12 +176,16 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		else if (dynamic_cast<CMonster *> (e->obj))
 		{
 			CMonster *monster = dynamic_cast<CMonster *>(e->obj);
-			if (dynamic_cast<CDracula *> (e->obj))
-			if (dynamic_cast<CBossBat *> (e->obj) && monster->state == MONSTER_STATE_DELETE)
+			if (dynamic_cast<CDracula *> (e->obj) && monster->state != DRACULA_STATE_FIRE
+				&& monster->state != DRACULA_STATE_IDLE)
+			{
+				break;
+			}
+			else if (dynamic_cast<CBossBat *> (e->obj) && monster->state == MONSTER_STATE_DELETE)
 			{
 				ChangeMap(6);
 			}
-			if (dynamic_cast<CBat *> (e->obj) && monster->state == BAT_STATE_SLEEPING)
+			else if (dynamic_cast<CBat *> (e->obj) && monster->state == BAT_STATE_SLEEPING)
 			{
 				CBat *bat = dynamic_cast<CBat *>(e->obj);
 				float cx, cy;
@@ -233,6 +237,40 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				collusion_nx = nx;
 				FrameCollusion = GetTickCount();
 			}
+		}
+		else if (dynamic_cast<CBullet *>(e->obj) && collusion == 0)
+		{
+			CBullet *bullet = dynamic_cast<CBullet *>(e->obj);
+			if (stair != 2)
+			{
+				collusion = 1;
+				SetState(SIMON_STATE_COLLUSION);
+			}
+			else
+				collusion = 2;
+			fight = false;
+			whip->fight = false;
+			ResetFight();
+			health -= bullet->GetDamage();
+			collusion_nx = nx;
+			FrameCollusion = GetTickCount();
+		}
+		else if (dynamic_cast<CBone *>(e->obj) && collusion == 0)
+		{
+			CBone *bone = dynamic_cast<CBone *>(e->obj);
+			if (stair != 2)
+			{
+				collusion = 1;
+				SetState(SIMON_STATE_COLLUSION);
+			}
+			else
+				collusion = 2;
+			fight = false;
+			whip->fight = false;
+			ResetFight();
+			health -= bone->GetDamage();
+			collusion_nx = nx;
+			FrameCollusion = GetTickCount();
 		}
 		else if (dynamic_cast<CDoor *>(e->obj))
 		{
