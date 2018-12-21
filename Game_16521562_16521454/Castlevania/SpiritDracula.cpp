@@ -83,9 +83,9 @@ void CSpiritDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				bullets[0]->SetSpeed(x + BULLET_POSITION_X, y /*+ BULLET_POSITION_Y*/,
 					simon->x + 5.0f, simon->y, 800);
 				bullets[1]->SetSpeed(x + BULLET_POSITION_X, y /*+ BULLET_POSITION_Y*/,
-					simon->x + 5.0f, simon->y - 6.0f, 800);
+					simon->x + 5.0f, simon->y - 8.0f, 800);
 				bullets[2]->SetSpeed(x + BULLET_POSITION_X, y /*+ BULLET_POSITION_Y*/,
-					simon->x + 5.0f, simon->y + 6.0f, 800);
+					simon->x + 5.0f, simon->y + 8.0f, 800);
 			}
 			else if (this->nx > 0)
 			{
@@ -98,9 +98,9 @@ void CSpiritDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				bullets[0]->SetSpeed(x + BULLET_POSITION_X1, y /*+ BULLET_POSITION_Y*/,
 					simon->x + 5.0f, simon->y, 800);
 				bullets[1]->SetSpeed(x + BULLET_POSITION_X1, y/* + BULLET_POSITION_Y*/,
-					simon->x + 5.0f, simon->y - 6.0f, 800);
+					simon->x + 5.0f, simon->y - 8.0f, 800);
 				bullets[2]->SetSpeed(x + BULLET_POSITION_X1, y /*+ BULLET_POSITION_Y*/,
-					simon->x + 5.0f, simon->y + 6.0f, 800);
+					simon->x + 5.0f, simon->y + 8.0f, 800);
 			}
 
 			if (startwait6 == true)

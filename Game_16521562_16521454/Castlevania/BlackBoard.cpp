@@ -67,6 +67,12 @@ void CBlackBoard::Render()
 	wstring textstage = L"\t\t\t\tSTAGE ";
 	ConversionToString(simon->GetStage(), L"00", textstage);
 
+	wstring texttime = L"\t\tTIME ";
+	ConversionToString(simon->GetTime(), L"0000", texttime);
+
+	wstring textlive = L"\n\n\t\t\t\t  P - ";
+	ConversionToString(simon->GetLive(), L"00", textlive);
+
 	game->Draw(cx, -40.0f, texblackboard, 0, 0, 256, 40);
 
 	game->GetFont()->DrawTextW(game->GetSpriteHandler(), textscore.c_str(), -1, &rect, DT_LEFT,
@@ -76,7 +82,6 @@ void CBlackBoard::Render()
 		D3DCOLOR_XRGB(255, 255, 255));
 
 	int k;
-	/*simonHP->Render(32.0f, 10.0f - 40.0f);*/
 	for (int i = 0; i < 16; i++)
 		simonHP[i].Render(i * 6.0f + 32.0f, 10.0f/* - 40.0f*/);
 
@@ -87,7 +92,6 @@ void CBlackBoard::Render()
 	if (k >= 0)
 		for (j = simonHP.size() - 1; j >= 16 - k; j--)
 			simonHP[j].SetType(EMPTY);
-	/*DebugOut(L"k = %d\n", k);*/
 
 	for (int i = 0; i < enemyHP.size(); i++)
 		enemyHP[i].Render(i * 6.0f + 32.0f, 20.0f);
@@ -105,10 +109,13 @@ void CBlackBoard::Render()
 	game->GetFont()->DrawTextW(game->GetSpriteHandler(), L"\n\nENEMY ", -1, &rect, DT_LEFT,
 		D3DCOLOR_XRGB(255, 255, 255));
 
-	game->GetFont()->DrawTextW(game->GetSpriteHandler(), L"\t\tTIME ", -1, &rect, DT_EXPANDTABS,
+	game->GetFont()->DrawTextW(game->GetSpriteHandler(), texttime.c_str(), -1, &rect, DT_EXPANDTABS,
 		D3DCOLOR_XRGB(255, 255, 255));
 
 	game->GetFont()->DrawTextW(game->GetSpriteHandler(), textstage.c_str(), -1, &rect, DT_EXPANDTABS,
+		D3DCOLOR_XRGB(255, 255, 255));
+
+	game->GetFont()->DrawTextW(game->GetSpriteHandler(), textlive.c_str(), -1, &rect, DT_EXPANDTABS,
 		D3DCOLOR_XRGB(255, 255, 255));
 }
 

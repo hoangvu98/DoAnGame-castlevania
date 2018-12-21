@@ -409,11 +409,11 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							test = false;
 						}
 					}
-					/*else if (dynamic_cast<CCandle *> (e->obj))
+					else if (dynamic_cast<CCandle *> (e->obj))
 					{
 						CCandle *candle = dynamic_cast<CCandle *>(e->obj);
 						candle->SetState(CANDLE_STATE_DISAPPEAR);
-					}*/
+					}
 				}
 			}
 			if (test == true)

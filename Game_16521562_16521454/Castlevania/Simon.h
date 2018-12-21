@@ -90,6 +90,10 @@ class CSimon :public CGameObject
 	int collusion_nx = 0;
 	int state_auto = 0;
 	int camera_auto = 0;
+
+	int time;
+	int live;
+
 	bool Reset;
 public:
 	CMap *map;
@@ -139,6 +143,9 @@ public:
 	void Camera();
 	void CameraAuto();
 	void ChangeMap(int stage);
+	int GetTime() { return time; }
+	int GetLive() { return live; }
+	void SetTime(int time) { this->time = time; }
 	CSimon();
 	static CSimon *GetInstance();
 };

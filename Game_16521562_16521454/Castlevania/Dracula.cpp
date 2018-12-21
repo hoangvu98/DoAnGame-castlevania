@@ -27,14 +27,14 @@ void CDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (nx > 0)
 				{
 					bullets[0]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y, 800);
-					bullets[1]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y - 5.0f, 800);
-					bullets[2]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y + 5.0f, 800);
+					bullets[1]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y - 8.0f, 800);
+					bullets[2]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y + 8.0f, 800);
 				}
 				else
 				{
 					bullets[0]->SetSpeed(x, y + BULLET_POSITION_Y, simon->x, simon->y, 800);
-					bullets[1]->SetSpeed(x, y + BULLET_POSITION_Y, simon->x, simon->y - 5.0f, 800);
-					bullets[2]->SetSpeed(x, y + BULLET_POSITION_Y, simon->x, simon->y + 5.0f, 800);
+					bullets[1]->SetSpeed(x, y + BULLET_POSITION_Y, simon->x, simon->y - 8.0f, 800);
+					bullets[2]->SetSpeed(x, y + BULLET_POSITION_Y, simon->x, simon->y + 8.0f, 800);
 				}
 				if (GetTickCount() - wait_start1 > DRACULA_WAIT_TIME)
 				{
@@ -264,9 +264,9 @@ CDracula::CDracula()
 		bullets[i]->Setnx(-1);
 	}
 
-	bullets[0]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y + 20.0f, 800);
-	bullets[1]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y - 30.0f, 800);
-	bullets[2]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y + 60.0f, 800);
+	bullets[0]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y, 800);
+	bullets[1]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y - 8.0f, 800);
+	bullets[2]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y + 8.0f, 800);
 
 	spirit_dracula = new CSpiritDracula(this->x, this->y - 19.0f);
 	spirit_dracula->SetState(SPIRITDRACULA_STATE_IDLE);

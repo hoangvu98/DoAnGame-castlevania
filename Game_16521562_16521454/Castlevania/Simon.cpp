@@ -1015,6 +1015,8 @@ void CSimon::ChangeMap(int stage)
 
 CSimon::CSimon()
 {
+	time = 400;
+	live = 3;
 	AddAnimation(101);
 	AddAnimation(102);
 	AddAnimation(201);
@@ -1046,7 +1048,7 @@ CSimon::CSimon()
 	mx = 0;
 	whip = new CWhip();
 	whip->SetState(WHITE_WHIP);
-	map = CEntranceLevel::GetInstance();
+	map = CClockTowerLevel::GetInstance();
 }
 
 CSimon * CSimon::GetInstance()
