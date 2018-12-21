@@ -804,11 +804,13 @@ void CSimon::Auto()
 	{
 		if (x > stair_x)
 		{
+			x = stair_x;
 			SetState(SIMON_STATE_WALKING_LEFT);
 			state_auto = 2;
 		}
 		else if (x < stair_x)
 		{
+			x = stair_x;
 			state_auto = 3;
 			SetState(SIMON_STATE_WALKING_RIGHT);
 		}

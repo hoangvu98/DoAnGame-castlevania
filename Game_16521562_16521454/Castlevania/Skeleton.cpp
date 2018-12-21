@@ -42,83 +42,53 @@ CSkeleton::CSkeleton(float x, float y)
 
 void CSkeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	
-
+	vy += SKELETON_GRAVITY;
 	CSimon *simon = CSimon::GetInstance();
 	CMonster::Update(dt, coObjects);
 	if (state != MONSTER_STATE_DELETE && state != MONSTER_STATE_DISAPPEAR)
 	{
 		DWORD now = GetTickCount();
 
-		if (simon->x < this->x) Setnx(-1);
-		else Setnx(1);
-		
-		if (is_back == true)
-		{
-			SetMinMax();
-			SetLeftRight();
-			is_back = false;
-		}
 
-		if (isChange == false)
-			if ((this->x < min || this->x > max) && jump == false)
-				vx = -vx;
-
-		if (abs(simon->x - this->x) < DISTANCE_WITH_SIMON && jump == false) //chay lui khi simon den gan
+		min = simon->x - DISTANCE;
+		max = simon->x - DISTANCE / 2;
+		if (state != SKELETON_STATE_JUMP)
 		{
-			isChange = true;
-			if ((nx > 0 && vx > 0) || (nx < 0 && vx < 0))
-			{
-				vx = -vx;
-				is_back = true;
-			}
+			if (x < min)
+				SetState(SKELETON_STATE_WALKING_RIGHT);
+			else if (x > max)
+				SetState(SKELETON_STATE_WALKING_LEFT);
 		}
-		else isChange = false;
-		if ((simon->x  < left || simon->x > right) && jump == false) // Chay tro lai khi simon da di ra xa
-		{
-			isChange = true;
-			if ((nx > 0 && vx < 0) || (nx < 0 && vx > 0))
-			{
-				vx = -vx;
-				is_back = true;
-			}
-		}
-		else isChange = false;
-
-		
 		CGameObject::Update(dt);
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
-
-		vy += SKELETON_GRAVITY * dt;
-
 		coEventsResult.clear();
 		CalcPotentialCollisions(coObjects, coEvents);
-		
-		
+
+
 
 		for (UINT i = 0; i < coEvents.size(); i++)//Xoa cac doi tuong khong can thiet
 		{
 			LPCOLLISIONEVENT e = coEvents[i];
-			if (dynamic_cast<CCandle *>(e->obj) || dynamic_cast<CDoor *>(e->obj))
-			{
-				coEvents.erase(coEvents.begin() + i);
-				i--;
-			}
-			else if (dynamic_cast<CHidenObject *>(e->obj))
+			if (dynamic_cast<CHidenObject *>(e->obj))
 			{
 				CHidenObject *hobj = dynamic_cast<CHidenObject *>(e->obj);
-				if (hobj->GetState() == HIDENOBJECT_STATE_STAIR_UP ||
-					hobj->GetState() == HIDENOBJECT_STATE_STAIR_DOWN)
+				if (hobj->GetState() != HIDENOBJECT_STATE_NORMAL
+					&& hobj->GetState() != HIDENOBJECT_STATE_JUMP)
 				{
 					coEvents.erase(coEvents.begin() + i);
 					i--;
 				}
 			}
+			else
+			{
+				coEvents.erase(coEvents.begin() + i);
+				i--;
+			}
 		}
 
 		bool test = true;
-		
+
 		if (coEvents.size() != 0)
 		{
 			float min_tx, min_ty, nx = 0, ny;
@@ -137,13 +107,22 @@ void CSkeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					{
 						this->x += min_tx * dx + nx * 0.4f;
 						this->y += min_ty * dy + ny * 0.4f;
-						//jump = false;
 						test = false;
+						if (state == SKELETON_STATE_JUMP)
+						{
+							if (vx > 0)
+								SetState(SKELETON_STATE_WALKING_LEFT);
+							else
+								SetState(SKELETON_STATE_WALKING_RIGHT);
+						}
 					}
 					else if (hobj->GetState() == HIDENOBJECT_STATE_JUMP)
 					{
-						jump = true;
-						jump_time = GetTickCount();
+						if ((hobj->nx > 0 && vx > 0) || (hobj->nx < 0 && vx < 0))
+						{
+							jump = true;
+							jump_time = GetTickCount();
+						}
 					}
 				}
 			}
@@ -180,11 +159,8 @@ void CSkeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (jump == true)
 		{
 			SetState(SKELETON_STATE_JUMP);
-			if (now - jump_time >= 280)
-				jump = false;
+			jump = false;
 		}
-		else
-			vy += SKELETON_GRAVITY * dt;
 
 		if (test == true)
 		{
@@ -192,7 +168,7 @@ void CSkeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			this->y += dy;
 		}
 	}
-	DebugOut(L"min %f, x %f, max %f\n", min, x, max);
+	DebugOut(L"state= %d\n", state);
 }
 
 void CSkeleton::Render()
@@ -222,15 +198,12 @@ void CSkeleton::SetState(int state)
 	switch (state)
 	{
 	case SKELETON_STATE_WALKING_LEFT:
-		//nx = -1;
 		vx = -SKELETON_WALKING_SPEED;
 		break;
 	case SKELETON_STATE_WALKING_RIGHT:
-		//nx = 1;
 		vx = SKELETON_WALKING_SPEED;
 		break;
 	case SKELETON_STATE_JUMP:
-		//vx = SKELETON_WALKING_SPEED;
 		vy = -SKELETON_JUMP_SPEED_Y;
 		break;
 	case SKELETON_STATE_THROW_BONE:
@@ -239,19 +212,6 @@ void CSkeleton::SetState(int state)
 		break;
 	}
 }
-
-void CSkeleton::SetMinMax()
-{
-	min = x - DISTANCE;
-	max = x + DISTANCE;
-}
-
-void CSkeleton::SetLeftRight()
-{
-	left = x - MOVING_AREA_WIDTH;
-	right = x + MOVING_AREA_WIDTH;
-}
-
 
 CSkeleton::~CSkeleton()
 {
