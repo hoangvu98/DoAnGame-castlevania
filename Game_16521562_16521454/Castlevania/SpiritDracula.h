@@ -11,6 +11,7 @@
 #define SPIRITDRACULA_STATE_JUMP			300
 #define SPIRITDRACULA_STATE_FALL			400
 #define SPIRITDRACULA_STATE_FIRE			500
+#define SPIRITDRACULA_STATE_DIE				600
 
 #define SPIRITDRACULA_ANI_IDLE_LEFT				0
 #define SPIRITDRACULA_ANI_PRE_JUMP_LEFT			1
@@ -59,6 +60,7 @@
 class CSpiritDracula :
 	public CMonster
 {
+	static CSpiritDracula *__instance;
 	vector<CBullet *> bullets;
 	CHidenObject *head;
 	int height;
@@ -94,6 +96,7 @@ public:
 	void StartWait(bool &startwait, DWORD &wait_start);
 	void SetState(int state);
 	void Reset();
+	static CSpiritDracula *GetInstance();
 	CHidenObject *GetHead() { return this->head; }
 	CSpiritDracula();
 	CSpiritDracula(float x, float y);

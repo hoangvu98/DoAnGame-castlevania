@@ -5,6 +5,7 @@
 #include "HidenObject.h"
 #include <math.h>
 
+CSpiritDracula * CSpiritDracula::__instance = NULL;
 void CSpiritDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CSimon *simon = CSimon::GetInstance();
@@ -323,6 +324,12 @@ void CSpiritDracula::Reset()
 		head->SetSize(HEAD_WIDTH, HEAD_HEIGHT);
 		head->SetState(HIDENOBJECT_STATE_HEAD);
 	}
+}
+
+CSpiritDracula * CSpiritDracula::GetInstance()
+{
+	if (__instance == NULL) __instance = new CSpiritDracula();
+	return __instance;
 }
 
 

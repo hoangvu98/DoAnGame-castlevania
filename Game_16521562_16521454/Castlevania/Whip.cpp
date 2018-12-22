@@ -86,6 +86,17 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				else dracula->SetHealth(dracula->GetHealth() - 1);
 			}
+			else if (dynamic_cast<CHidenObject *> (e->obj))
+			{
+				CSpiritDracula *spiritdracula = CSpiritDracula::GetInstance();
+				CHidenObject *head = dynamic_cast<CHidenObject *> (e->obj);
+				if (head->GetState() == HIDENOBJECT_STATE_HEAD)
+				{
+					if (spiritdracula->GetHealth() <= 0)
+						spiritdracula->SetState(SPIRITDRACULA_STATE_DIE);
+					else spiritdracula->SetHealth(spiritdracula->GetHealth() - 1);
+				}
+			}
 		}
 	}
 }

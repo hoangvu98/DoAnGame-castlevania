@@ -282,6 +282,7 @@ void CAxe::SetState(int state)
 
 CBoomerang::CBoomerang()
 {
+	damage = 1;
 	AddAnimation(15000);
 	AddAnimation(15001);
 }
@@ -361,13 +362,20 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							simon->SetSkill(false);
 							fly = false;
 						}
-						/*else if (dynamic_cast<CCandle *> (e->obj))
+						else if (dynamic_cast<CCandle *> (e->obj))
 						{
 							CCandle *candle = dynamic_cast<CCandle *>(e->obj);
-							simon->SetSkill(false);
+							/*simon->SetSkill(false);*/
 							candle->SetState(CANDLE_STATE_DISAPPEAR);
-						}*/
-						
+						}
+						else if (dynamic_cast<CMonster *> (e->obj))
+						{
+							CMonster *monster = dynamic_cast<CMonster *>(e->obj);
+							if (monster->state != MONSTER_STATE_DELETE && monster->state != MONSTER_STATE_DISAPPEAR)
+							{
+								monster->SetHealth(monster->GetHealth() - damage);
+							}
+						}
 					}
 				}
 				DebugOut(L"state %d\n", state);
@@ -377,6 +385,7 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 }
 	CHollyWater::CHollyWater()
 	{
+		damage = 1;
 		AddAnimation(16000);
 		AddAnimation(16001);
 		AddAnimation(16002);
@@ -413,6 +422,14 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					{
 						CCandle *candle = dynamic_cast<CCandle *>(e->obj);
 						candle->SetState(CANDLE_STATE_DISAPPEAR);
+					}
+					else if (dynamic_cast<CMonster *> (e->obj))
+					{
+						CMonster *monster = dynamic_cast<CMonster *>(e->obj);
+						if (monster->state != MONSTER_STATE_DELETE && monster->state != MONSTER_STATE_DISAPPEAR)
+						{
+							monster->SetHealth(monster->GetHealth() - damage);
+						}
 					}
 				}
 			}

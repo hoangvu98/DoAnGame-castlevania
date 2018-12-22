@@ -175,6 +175,7 @@ void CSkeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CSkeleton::Render()
 {
+	CMonster::Render();
 	if (state != MONSTER_STATE_DELETE && state != MONSTER_STATE_DISAPPEAR)
 	{
 		if (nx > 0)

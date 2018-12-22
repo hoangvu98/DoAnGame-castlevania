@@ -46,7 +46,7 @@ class CSkeleton :
 	bool isChange;
 
 	bool is_back;
-
+	DWORD time_skeleton_hiteffect;
 public:
 	CSkeleton();
 	CSkeleton(float x, float y);
