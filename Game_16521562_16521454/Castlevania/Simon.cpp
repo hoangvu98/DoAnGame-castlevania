@@ -298,6 +298,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			}
 			else if (state_auto == 8)
 			{
+				
 				door->SetStop(true);
 				door->SetState(DOOR_STATE_CLOSE);
 				state_auto = 7;
@@ -435,6 +436,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				}
 				else
 				{
+					simon_x = 0;
+					simon_y = 0;
 					door->IsGo = false;
 					map->SetIsNext(true);
 					map->SetNextScene(door->GetScene());
