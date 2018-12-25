@@ -81,6 +81,7 @@ class CSpiritDracula :
 	bool reset;
 
 	bool fire;
+	bool isAddBulletToCell;
 
 	DWORD wait_start1;
 	DWORD wait_start2;

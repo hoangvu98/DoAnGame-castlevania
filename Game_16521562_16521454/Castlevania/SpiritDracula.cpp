@@ -73,6 +73,7 @@ void CSpiritDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		else
 		{
+			isAddBulletToCell = true;
 			if (this->nx < 0)
 			{
 				for (i = 0; i < 3; i++)
@@ -110,6 +111,14 @@ void CSpiritDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (GetTickCount() - wait_start6 > SPIRITDRACULA_WAIT_TIME)
 			{
 				SetState(SPIRITDRACULA_STATE_FIRE);
+				if (isAddBulletToCell)
+				{
+					CCells* cell = simon->map->GetCell();
+					for (int i = 0; i < 3; i++)
+						cell->InitCells(bullets[i]);
+					simon->map->SetCell(cell);
+					isAddBulletToCell = false;
+				}
 				wait_start6 = 0;
 			}
 		}
@@ -357,6 +366,7 @@ CSpiritDracula::CSpiritDracula(float x, float y)
 	reset = false;
 	wait = false;
 	fire = false;
+	isAddBulletToCell = false;
 
 	int i;
 	for (i = 0; i < 3; i++)
