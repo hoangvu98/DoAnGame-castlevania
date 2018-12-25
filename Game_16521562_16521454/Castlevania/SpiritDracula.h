@@ -44,8 +44,8 @@
 
 
 #define OFFSET			19.0f
-#define DISTANCE1		50.0f
-#define DISTANCE2		60.0f
+#define DISTANCE1		40.0f
+#define DISTANCE2		50.0f
 
 #define BULLET_POSITION_X	17
 #define BULLET_POSITION_Y	26
