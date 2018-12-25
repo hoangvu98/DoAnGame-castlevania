@@ -136,8 +136,8 @@ void CSpiritDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (startwait7 == true)
 			StartWait(startwait7, wait_start7);
 
-		for (int i = 0; i < 3; i++)
-			bullets[i]->Update(dt, coObjects);
+		/*for (int i = 0; i < 3; i++)
+			bullets[i]->Update(dt, coObjects);*/
 
 		if (GetTickCount() - wait_start7 > SPIRITDRACULA_FIRE_TIME)
 		{
@@ -251,8 +251,8 @@ void CSpiritDracula::Render()
 		if (nx > 0) ani = SPIRITDRACULA_ANI_FIRE_RIGHT;
 		else ani = SPIRITDRACULA_ANI_FIRE_LEFT;
 
-		for (int i = 0; i < 3; i++)		
-			bullets[i]->Render();
+		/*for (int i = 0; i < 3; i++)		
+			bullets[i]->Render();*/
 	}
 	animations[ani]->Render(x, y);
 }
