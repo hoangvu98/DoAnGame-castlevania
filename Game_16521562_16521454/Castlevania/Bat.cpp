@@ -236,7 +236,7 @@ void CBat::Render()
 			animations[ani]->Render(x, y);
 		}
 	}
-	RenderBoundingBox(200);
+	//RenderBoundingBox(200);
 }
 
 void CBat::SetState(int state)

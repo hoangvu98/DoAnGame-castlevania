@@ -333,17 +333,17 @@ void LoadResources()
 	simon->SetPosition(1460.0f, 30.0f);//map 1
 	//simon->SetPosition(550.0f, 80.0f);//map 2
 	//simon->SetPosition(267.0f, 0.0f);//map 2
-	simon->SetPosition(629.0f, 10.0f);//map 3
+	//simon->SetPosition(629.0f, 10.0f);//map 3
 	//simon->SetPosition(450.0f, 10.0f);//map 3
 	//simon->SetPosition(40.0f, 10.0f);//map 3
 	//simon->SetPosition(180.0f, 30.0f);//map 4
-	//simon->SetPosition(190.0f, 30.0f);//map 5
+	simon->SetPosition(190.0f, 30.0f);//map 5
 	//simon->SetPosition(448.0f, 76.0f);//map 5
 	//simon->SetPosition(190.0f, 30.0f   /*719.0f, 45.0f*/);
 	//simon->SetPosition(49.0f, 104.0f);
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
-	simon->map->SetScene(SCENE_2);
+	simon->map->SetScene(SCENE_5);
 	screen = 2;
 	simon->map->LoadObject();
 	simon->map->LoadMap();
@@ -386,7 +386,7 @@ void Update(DWORD dt)
 		if (simon->GetReset())
 		{
 			simon->SetHeart(5);
-			simon->SetHealth(16);
+			simon->SetHealth(160);
 			simon->SetReset(false);
 			simon->map->ResetScene();
 			float x, y;

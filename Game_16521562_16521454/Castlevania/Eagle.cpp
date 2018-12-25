@@ -73,7 +73,7 @@ void CEagle::Render()
 	{
 		if (state != EAGLE_STATE_SLEEPING)
 			animations[state]->Render(x, y);
-		RenderBoundingBox(200);
+		//RenderBoundingBox(200);
 	}
 }
 

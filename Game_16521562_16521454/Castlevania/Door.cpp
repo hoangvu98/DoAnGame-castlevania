@@ -38,7 +38,7 @@ void CDoor::Render()
 				animations[DOOR_ANI_OPEN_1]->Render(x, y);
 		}
 	}	
-	RenderBoundingBox(200);
+	//RenderBoundingBox(200);
 }
 
 void CDoor::SetState(int state)

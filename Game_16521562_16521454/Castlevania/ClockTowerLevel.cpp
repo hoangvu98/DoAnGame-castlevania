@@ -90,6 +90,7 @@ void CClockTowerLevel::LoadMap()
 	case SCENE_2:
 
 
+
 		tilemap->GetSize(width, height);
 
 		column = (int)width / CELL_WIDTH + 1;
@@ -229,9 +230,11 @@ void CClockTowerLevel::LoadObject()
 	LPDIRECT3DTEXTURE9 texture_map;
 	CHidenObject *hobj;
 	CDoor* door;
+	CSimon * simon = CSimon::GetInstance();
 	switch (scene)
 	{
 	case SCENE_1:
+		simon->SetStage(16);
 		textures->Add(ID_MAP_LEVEL_6, LEVEL6_STAGE16_PATH, D3DCOLOR_XRGB(255, 255, 255));
 		texture_map = textures->Get(ID_MAP_LEVEL_6);
 		tilemap->LoadTileMap(STAGE_16_MAP_DATA, texture_map);
@@ -347,6 +350,7 @@ void CClockTowerLevel::LoadObject()
 		cellsobject->InitCells(door);
 		break;
 	case SCENE_2:
+		simon->SetStage(17);
 		textures->Add(ID_MAP_LEVEL_6, LEVEL6_STAGE17A_PATH, D3DCOLOR_XRGB(255, 255, 255));
 		texture_map = textures->Get(ID_MAP_LEVEL_6);
 		tilemap->LoadTileMap(STAGE_17A_MAP_DATA, texture_map);
@@ -550,6 +554,7 @@ void CClockTowerLevel::LoadObject()
 		cellsobject->InitCells(hobj);
 		break;
 	case SCENE_3:
+		//simon->SetStage(17);
 		textures->Add(ID_MAP_LEVEL_6, LEVEL6_STAGE17B_PATH, D3DCOLOR_XRGB(255, 255, 255));
 		texture_map = textures->Get(ID_MAP_LEVEL_6);
 		tilemap->LoadTileMap(STAGE_17B_MAP_DATA, texture_map);
@@ -774,6 +779,7 @@ void CClockTowerLevel::LoadObject()
 		cellsobject->InitCells(hobj);
 		break;
 	case SCENE_4:
+		simon->SetStage(18);
 		textures->Add(ID_MAP_LEVEL_6, LEVEL6_STAGE18A_PATH, D3DCOLOR_XRGB(255, 255, 255));
 		texture_map = textures->Get(ID_MAP_LEVEL_6);
 		tilemap->LoadTileMap(STAGE_18A_MAP_DATA, texture_map);

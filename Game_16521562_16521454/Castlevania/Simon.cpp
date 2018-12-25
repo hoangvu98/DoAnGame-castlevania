@@ -715,7 +715,7 @@ void CSimon::Render()
 		else
 			animations[ani]->Render(x, y, color);
 	}
-	RenderBoundingBox(100);
+	//RenderBoundingBox(100);
 }
 
 void CSimon::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -844,13 +844,13 @@ void CSimon::Auto()
 	{
 		if (x > stair_x)
 		{
-			x = stair_x;
+			//x = stair_x;
 			SetState(SIMON_STATE_WALKING_LEFT);
 			state_auto = 2;
 		}
 		else if (x < stair_x)
 		{
-			x = stair_x;
+			//x = stair_x;
 			state_auto = 3;
 			SetState(SIMON_STATE_WALKING_RIGHT);
 		}

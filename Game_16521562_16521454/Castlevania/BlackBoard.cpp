@@ -91,21 +91,21 @@ void CBlackBoard::Render()
 	}
 	else
 	{
-	
+
 		for (int i = 0; i < 16; i++)
 			simonHP[i].Render(i * 6.0f + 32.0f, 10.0f/* - 40.0f*/);
 
 		if (simon->GetHealth() >= 0)
 			k = simonHP.size() - simon->GetHealth();
 
-		
+
 		if (k >= 0)
 			for (j = simonHP.size() - 1; j >= 16 - k; j--)
 				simonHP[j].SetType(EMPTY);
-
+	}
 		for (int i = 0; i < enemyHP.size(); i++)
 			enemyHP[i].Render(i * 6.0f + 32.0f, 20.0f);
-	}
+	
 	int n;
 	if (bossbat->GetHealth() >= 0)
 		n = enemyHP.size() - bossbat->GetHealth();
