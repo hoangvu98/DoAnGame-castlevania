@@ -67,7 +67,7 @@ void CGameObject::CalcPotentialCollisions(
 	vector<LPCOLLISIONEVENT> &coEvents)
 {
 	for (UINT i = 0; i < coObjects->size(); i++)
-	{	
+	{
 		LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
 		if (e->t >= 0 && e->t <= 1.0f)
 			coEvents.push_back(e);
@@ -155,8 +155,33 @@ CGameObject::~CGameObject()
 
 }
 
+void Chiteffect::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+{
+	if (state == HITEFFECT_STATE_NORMAL)
+	{
+		DWORD now = GetTickCount();
+		if (now - time > TIME_EFFECT)
+		{
+			SetState(HITEFFECT_STATE_DELETE);
+		}
+	}
+}
+
 void Chiteffect::Render()
 {
-	animations[0]->Render(x, y, 255);
-	animations[1]->Render(x + 5, y + 5, 255);
+	if (state == HITEFFECT_STATE_NORMAL)
+	{
+		animations[0]->Render(x, y, 255);
+		animations[1]->Render(x + 5, y + 5, 255);
+	}
+}
+
+void Chiteffect::SetState(int state)
+{
+	CGameObject::SetState(state);
+	switch (state)
+	{
+	case HITEFFECT_STATE_NORMAL:
+		time = GetTickCount();
+	}
 }

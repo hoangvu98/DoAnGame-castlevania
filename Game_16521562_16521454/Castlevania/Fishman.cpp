@@ -48,7 +48,7 @@ void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	//CGameObject::Update(dt, coObjects);
 	vy += FISHMAN_GRAVITY * dt;
 	if (state != FISHMAN_STATE_DISAPEAR && state != MONSTER_STATE_DELETE)
-	{		
+	{
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
 		coEventsResult.clear();
@@ -77,7 +77,7 @@ void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				if (i >= 25 && fire == false)
 				{
 					SetState(FISHMAN_STATE_FIRE);
-					
+
 					bullet->SetPosition(x, y);
 					bullet->Setnx(this->nx);
 					if (this->nx > 0) bullet->SetState(BULLET_STATE_RIGHT);
@@ -90,7 +90,7 @@ void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					if (j >= 50)
 					{
 						fire = false;
-						
+
 						j = 0;
 					}
 					else
@@ -174,16 +174,6 @@ void CFishman::Render()
 		animations[ani]->Render(x, y);
 		bullet->Render();
 	}
-	else if (state == MONSTER_STATE_DISAPPEAR)
-	{
-		int now = GetTickCount();
-		hiteffect->SetPosition(x, y);
-		if (items != NULL)
-		items->SetPosition(x + 5, y + 10);
-		hiteffect->Render();
-		if (now - Time_Fishman_HitEffect >= FRAMETIME)
-			SetState(MONSTER_STATE_DELETE);
-	}
 }
 
 void CFishman::SetState(int state)
@@ -196,7 +186,7 @@ void CFishman::SetState(int state)
 		nx = 1;
 		break;
 	case FISHMAN_STATE_WALKING_LEFT:
-		
+
 		vx = -FISHMAN_WALKING_SPEED;
 		nx = -1;
 		break;

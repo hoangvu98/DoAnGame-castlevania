@@ -167,21 +167,21 @@ void CEntranceLevel::LoadMap()
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
 
-		/*	ghoul = new CGhoul();
-			ghoul->SetPosition(250.0f, 127.0f);
-			ghoul->SetState(GHOUL_STATE_LEFT);
-			cells->InitCells(ghoul);
+		ghoul = new CGhoul();
+		ghoul->SetPosition(250.0f, 127.0f);
+		ghoul->SetState(GHOUL_STATE_LEFT);
+		cells->InitCells(ghoul);
 
-			ghoul = new CGhoul();
-			ghoul->SetPosition(290.0f, 127.0f);
-			ghoul->SetState(GHOUL_STATE_LEFT);
-			cells->InitCells(ghoul);
+		ghoul = new CGhoul();
+		ghoul->SetPosition(290.0f, 127.0f);
+		ghoul->SetState(GHOUL_STATE_LEFT);
+		cells->InitCells(ghoul);
 
-			ghoul = new CGhoul();
-			ghoul->SetPosition(330.0f, 127.0f);
-			ghoul->SetState(GHOUL_STATE_LEFT);
-			cells->InitCells(ghoul);*/
-		
+		ghoul = new CGhoul();
+		ghoul->SetPosition(330.0f, 127.0f);
+		ghoul->SetState(GHOUL_STATE_LEFT);
+		cells->InitCells(ghoul);
+		break;
 	case SCENE_3:
 		simon->SetStage(2);
 
@@ -1002,8 +1002,6 @@ void CEntranceLevel::LoadObject()
 		hidenObj->nx = -1;
 		hidenObj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
 		cellsobject->InitCells(hidenObj);
-
-
 		break;
 	}
 }

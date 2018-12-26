@@ -131,7 +131,12 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 				for (k = 0; k < cells[i][j].GetObjects().size(); k++)
 				{
 					LPGAMEOBJECT e = cells[i][j].GetObjects()[k];
-					if (dynamic_cast <CDracula *> (e))
+					if (dynamic_cast <CItems *> (e))
+					{
+						if (e->state == ITEM_STATE_DELETE)
+							cells[i][j].XoaObject(k);
+					}
+					else if (dynamic_cast <CDracula *> (e))
 					{
 						CDracula *dracula = dynamic_cast<CDracula *>(e);
 						if (dracula->state == DRACULA_STATE_DIE && dracula->GetIsSpirit()==false)
@@ -171,86 +176,18 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 			if (cells[i][j].GetObjects().size() != 0)
 				for (k = 0; k < cells[i][j].GetObjects().size(); k++)
 				{
-					LPGAMEOBJECT e = cells[i][j].GetObjects()[k];
-					if (dynamic_cast<CCandle *> (e))
-					{
-						if (e->state == CANDLE_STATE_DELETE)
-						{
-							CCandle *candle = dynamic_cast<CCandle *>(e);
-							if (candle->GetItems()->GetState() != ITEM_STATE_DELETE)
-								list_object->push_back(candle->GetItems());
-						}
-						else
-						{
-							list_object->push_back(e);
-						}
-					}
-					else if (dynamic_cast<CGhoul *> (e))
-					{
-						if (e->state == MONSTER_STATE_DELETE)
-						{
-							CGhoul *ghoul = dynamic_cast<CGhoul *>(e);
-							if (ghoul->GetItems() != NULL)
-								if (ghoul->GetItems()->GetState() != ITEM_STATE_DELETE)
-									list_object->push_back(ghoul->GetItems());
-							list_object->push_back(e);
-						}
-						list_object->push_back(e);
-					}
-					else if (dynamic_cast<CFishman *>(e))
-					{
-						if (e->state == MONSTER_STATE_DELETE)
-						{
-							CFishman *fishman = dynamic_cast<CFishman *>(e);
-							if (fishman->GetItems() != NULL)
-								if (fishman->GetItems()->GetState() != ITEM_STATE_DELETE)
-									list_object->push_back(fishman->GetItems());
-							list_object->push_back(e);
-						}
-						list_object->push_back(e);
-					}
-					else if (dynamic_cast<CBossBat *> (e))
-					{
-						CSimon* simon = CSimon::GetInstance();
-						if (simon->MeetBoss)
-						{
-							e->SetState(BOSS_BAT_STATE_fLY);
-							CHidenObject *hidenobject;
-							hidenobject = new CHidenObject();
-							hidenobject->SetState(HIDENOBJECT_STATE_NORMAL);
-							hidenobject->SetPosition(2570, 0);
-							hidenobject->SetSize(6, 160);
-							list_object->push_back(hidenobject);
-						}
-						list_object->push_back(e);
-					}
-					else if (dynamic_cast<CSpiritDracula *> (e))
+					LPGAMEOBJECT e = cells[i][j].GetObjects()[k];				
+					 if (dynamic_cast<CSpiritDracula *> (e))
 					{
 						CSpiritDracula *spirit_dracula = dynamic_cast<CSpiritDracula *> (e);
 						list_object->push_back(spirit_dracula->GetHead());
 						list_object->push_back(e);
 					}
-					else if (dynamic_cast<CBat *> (e))
-					{
-						list_object->push_back(e);
-						CBat *bat = dynamic_cast<CBat *>(e);
-						if (bat->GetSize() == BAT_SIZE_BIG)
-						{
-							if (bat->state == BAT_STATE_FIRE)
-								list_object->push_back(bat->GetBullet());
-						}
-					}
 					else if (dynamic_cast<CDracula *> (e))
 					{
 						CSimon* simon = CSimon::GetInstance();
 						if (simon->MeetBoss)
-						{
-							CHidenObject *hidenobject;
-							hidenobject = new CHidenObject();
-							hidenobject->SetState(HIDENOBJECT_STATE_NORMAL);
-							hidenobject->SetPosition(240, 0);
-							hidenobject->SetSize(6, 160);
-							list_object->push_back(hidenobject);
+						{						
 							CDracula *dracula = dynamic_cast<CDracula *>(e);
 							list_object->push_back(dracula->GetHead());
 							list_object->push_back(e);

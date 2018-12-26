@@ -298,7 +298,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			}
 			else if (state_auto == 8)
 			{
-				
+
 				door->SetStop(true);
 				door->SetState(DOOR_STATE_CLOSE);
 				state_auto = 7;
@@ -715,7 +715,7 @@ void CSimon::Render()
 		else
 			animations[ani]->Render(x, y, color);
 	}
-	//RenderBoundingBox(100);
+	RenderBoundingBox(100);
 }
 
 void CSimon::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -844,13 +844,13 @@ void CSimon::Auto()
 	{
 		if (x > stair_x)
 		{
-			//x = stair_x;
+			x = stair_x;
 			SetState(SIMON_STATE_WALKING_LEFT);
 			state_auto = 2;
 		}
 		else if (x < stair_x)
 		{
-			//x = stair_x;
+			x = stair_x;
 			state_auto = 3;
 			SetState(SIMON_STATE_WALKING_RIGHT);
 		}
@@ -962,9 +962,19 @@ void CSimon::Camera()
 	map->GetSizeMap(min, max);
 	if (dynamic_cast<CEntranceLevel *>(map))
 	{
-		if (map->GetScene() == SCENE_5 && x + 128.0f > max)
+		if (map->GetScene() == SCENE_5 && x + 128.0f > max && !MeetBoss)
 		{
 			MeetBoss = true;
+			CHidenObject *hidenobject;
+			hidenobject = new CHidenObject();
+			hidenobject->SetState(HIDENOBJECT_STATE_NORMAL);
+			hidenobject->SetPosition(2570, 0);
+			hidenobject->SetSize(6, 160);
+			CCells* cell = map->GetCell();
+			cell->InitCells(hidenobject);
+			map->SetCell(cell);
+			CBossBat* bossbat = CBossBat::GetInstance();
+			bossbat->SetState(BOSS_BAT_STATE_fLY);
 		}
 		if (!MeetBoss)
 		{
@@ -985,6 +995,14 @@ void CSimon::Camera()
 		if (map->GetScene() == SCENE_5 && x - 128.0f < min)
 		{
 			MeetBoss = true;
+			CHidenObject *hidenobject;
+			hidenobject = new CHidenObject();
+			hidenobject->SetState(HIDENOBJECT_STATE_NORMAL);
+			hidenobject->SetPosition(240, 0);
+			hidenobject->SetSize(6, 160);
+			CCells* cell = map->GetCell();
+			cell->InitCells(hidenobject);
+			map->SetCell(cell);
 		}
 		if (!MeetBoss)
 		{
@@ -1088,7 +1106,7 @@ CSimon::CSimon()
 	mx = 0;
 	whip = new CWhip();
 	whip->SetState(WHITE_WHIP);
-	map = CClockTowerLevel::GetInstance();
+	map = CEntranceLevel::GetInstance();
 }
 
 CSimon * CSimon::GetInstance()

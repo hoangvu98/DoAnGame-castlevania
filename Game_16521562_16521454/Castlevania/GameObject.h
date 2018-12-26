@@ -86,12 +86,18 @@ public:
 	~CGameObject();
 };
 
+#define HITEFFECT_STATE_NORMAL 0
+#define HITEFFECT_STATE_DELETE 1
+
+#define TIME_EFFECT 200
 class Chiteffect :public CGameObject
 {
+	int time;
 public:
+	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	void Render();
 	void GetBoundingBox(float & left, float & top, float & right, float & bottom) {};
-	void SetState(int state) {};
+	void SetState(int state);
 
 	Chiteffect() :CGameObject()
 	{

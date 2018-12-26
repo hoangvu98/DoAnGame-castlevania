@@ -46,7 +46,6 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (dynamic_cast<CCandle *> (e->obj))
 			{
 				CCandle *candle = dynamic_cast<CCandle *>(e->obj);
-
 				if (candle->state != CANDLE_STATE_DELETE)
 				{
 					candle->SetState(CANDLE_STATE_DISAPPEAR);
@@ -153,7 +152,7 @@ void CWhip::SetState(int state)
 
 void CWhip::FindPosstion()
 {
-	if (currentFrame==0)
+	if (currentFrame == 0)
 	{
 		if (size == SHORT_WHIP)
 		{

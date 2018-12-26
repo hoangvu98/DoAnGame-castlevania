@@ -36,7 +36,6 @@
 #define TIME_ROUTE 4000
 class CBat : public CMonster
 {
-	CBullet *bullet;
 	float Height_Fly;
 	int size;
 	float weight, height;
@@ -51,10 +50,9 @@ public:
 	void SetHeightFly(float height_fly);
 	void SetSize(int size) { this->size = size; }
 	int GetSize() { return size; }
-	void SetSize(float weight, float height) {this->weight = weight; this->height= height;}
-	CBullet* GetBullet() { return bullet; }
+	void SetSize(float weight, float height) { this->weight = weight; this->height = height; }
 	void SetPosstionAppear(float appear_x, float appear_y) { this->appear_x = appear_x; this->appear_y = appear_y; }
 	void GetPositionAppear(float &appear_x, float &appear_y) { appear_x = this->appear_x; appear_y = this->appear_y; }
-	int GetStateAppear() {	return appear_state	;}
+	int GetStateAppear() { return appear_state; }
 	void SetStateAppear(int appear_state) { this->appear_state = appear_state; }
 };

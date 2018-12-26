@@ -2,7 +2,6 @@
 #include "debug.h"
 #include "Candle.h"
 #include "Game.h"
-DWORD Time_Panther_HitEffect = GetTickCount();
 DWORD Time_Panther_Rest = GetTickCount();
 
 void CPanther::InitMovingArea()
@@ -60,6 +59,7 @@ void CPanther::Reset()
 
 void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
+	CMonster::Update(dt, coObjects);
 	float x, y;
 	CSimon *simon = CSimon::GetInstance();
 	simon->GetPosition(x, y);
@@ -70,7 +70,6 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			reset = true;
 		DebugOut(L"reset luc dau %d\n", reset);
 		//CGameObject::Update(dt);
-		CMonster::Update(dt, coObjects);
 		vy += PANTHER_GRAVITY * dt;
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
@@ -85,8 +84,8 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			if (dynamic_cast<CHidenObject *> (coEvents[i]->obj))
 			{
 				CHidenObject *hobj = dynamic_cast<CHidenObject *> (coEvents[i]->obj);
-				if (hobj->GetState() != HIDENOBJECT_STATE_JUMP 
-					&& hobj->GetState()!= HIDENOBJECT_STATE_NORMAL)
+				if (hobj->GetState() != HIDENOBJECT_STATE_JUMP
+					&& hobj->GetState() != HIDENOBJECT_STATE_NORMAL)
 				{
 					coEvents.erase(coEvents.begin() + i);
 					i--;
@@ -109,7 +108,7 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				i--;
 			}*/
 		}
-		bool test=true;
+		bool test = true;
 		if (coEvents.size() == 0)
 		{
 			if (turn == 1)
@@ -134,7 +133,7 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
-			
+
 
 			if (nx != 0) vx = 0;
 			if (ny != 0) vy = 0;
@@ -170,7 +169,7 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					{
 						jump = true;
 						run = true;
-						
+
 					}
 					else if (hobj->GetState() == HIDENOBJECT_STATE_NORMAL)
 					{
@@ -178,7 +177,7 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						this->y += min_ty * dy + ny * 0.4f;
 						test = false;
 					}
-				}		
+				}
 			}
 		}
 		if (test)
@@ -211,41 +210,30 @@ void CPanther::Render()
 		else ani = PANTHER_ANI_IDLE_LEFT;
 		animations[ani]->Render(x, y);
 		//DebugOut(L"Dang render bao dung yen\n");
-		Time_Panther_HitEffect = GetTickCount();
 	}
 	else if (state == PANTHER_STATE_JUMP_RIGHT)
 	{
 		ani = PANTHER_ANI_JUMP_RIGHT;
 		animations[ani]->Render(x, y);
-		Time_Panther_HitEffect = GetTickCount();
 	}
 	else if (state == PANTHER_STATE_JUMP_LEFT)
 	{
 		ani = PANTHER_ANI_JUMP_LEFT;
 		animations[ani]->Render(x, y);
-		Time_Panther_HitEffect = GetTickCount();
 	}
 	else if (state == PANTHER_STATE_WALKING_RIGHT)
 	{
 		ani = PANTHER_ANI_WALKING_RIGHT;
 		animations[ani]->Render(x, y);
-		Time_Panther_HitEffect = GetTickCount();
 	}
 	else if (state == PANTHER_STATE_WALKING_LEFT)
 	{
 		ani = PANTHER_ANI_WALKING_LEFT;
 		animations[ani]->Render(x, y);
-		Time_Panther_HitEffect = GetTickCount();
 	}
 	else if (state == PANTHER_STATE_DIE)
 	{
-		int now = GetTickCount();
-		hiteffect->SetPosition(x, y);
-		if (items != NULL)
-		items->SetPosition(x + 5, y + 10);
-		hiteffect->Render();
-		if (now - Time_Panther_HitEffect >= FrameTime)
-			SetState(PANTHER_STATE_DELETE);
+		SetState(PANTHER_STATE_DELETE);
 	}
 
 }

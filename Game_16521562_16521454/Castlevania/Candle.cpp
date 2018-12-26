@@ -1,6 +1,24 @@
 #include "Candle.h"
+#include "Map.h"
+#include "Simon.h"
 
 
+void CCandle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
+{
+	if (state == CANDLE_STATE_DISAPPEAR)
+	{
+		Chiteffect *hiteffect = new Chiteffect();
+		hiteffect->SetPosition(x, y);
+		hiteffect->SetState(HITEFFECT_STATE_NORMAL);
+		items->SetPosition(x + 5, y + 10);
+		CSimon* simon = CSimon::GetInstance();
+		CCells* cell = simon->map->GetCell();
+		cell->InitCells(hiteffect);
+		cell->InitCells(items);
+		simon->map->SetCell(cell);
+		SetState(CANDLE_STATE_DELETE);
+	}
+}
 
 void CCandle::Render()
 {
@@ -10,16 +28,6 @@ void CCandle::Render()
 			animations[0]->Render(x, y);
 		else if (size == SMALL_CANDLE)
 			animations[1]->Render(x, y);
-	}
-	else if (state == CANDLE_STATE_DISAPPEAR)
-	{
-		int now = GetTickCount();
-		hiteffect->SetPosition(x, y);
-		//item->SetPosition(x+5, y+10);
-		items->SetPosition(x + 5, y + 10);
-		hiteffect->Render();
-		if (now - Time >= FrameTime)
-			SetState(CANDLE_STATE_DELETE);
 	}
 }
 
@@ -34,23 +42,15 @@ void CCandle::GetBoundingBox(float & left, float & top, float & right, float & b
 void CCandle::SetState(int state)
 {
 	CGameObject::SetState(state);
-	switch (state)
-	{
-	case CANDLE_STATE_DISAPPEAR:
-		Time = GetTickCount();
-		break;
-	}
 }
 
 CCandle::CCandle(int size)
 {
-	
+
 	this->size = size;
 	AddAnimation(11111);
 	AddAnimation(11112);
-	hiteffect = new Chiteffect();
 	int random;
-	//srand(time(NULL));
 	random = rand() % 10;
 	int size_bag;
 	if (random <= 8)
@@ -63,7 +63,7 @@ CCandle::CCandle(int size)
 		random = rand() % 10;
 		if (random <= 2) items = new CHeart(HEART_SMALL);
 		else items = new CHeart(HEART_BIG);
-		
+
 	}
 	else
 	{
@@ -72,7 +72,7 @@ CCandle::CCandle(int size)
 		if (random <= 2) items = new CMoneyBag(size_bag, MONEY_BAG_RED);
 		else if (random <= 3) items = new CMoneyBag(size_bag, MONEY_BAG_BLUE);
 		else items = new CMoneyBag(size_bag, MONEY_BAG_WHITE);
-		
+
 	}
 }
 
@@ -81,7 +81,6 @@ CCandle::CCandle(int size, int item)
 	this->size = size;
 	AddAnimation(11111);
 	AddAnimation(11112);
-	hiteffect = new Chiteffect();
 	int random = rand() % 2;
 	switch (item)
 	{

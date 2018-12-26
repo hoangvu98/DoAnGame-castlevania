@@ -12,28 +12,31 @@ void CMonster::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (GetHealth() <= 0)
 		{
 			CSimon* simon = CSimon::GetInstance();
-			SetState(MONSTER_STATE_DISAPPEAR);
 			int points = simon->GetScore();
 			simon->SetScore(points + score);
-			Time_HitEffect = GetTickCount();
+			SetState(MONSTER_STATE_DISAPPEAR);
 		}
 	}
-}
-
-void CMonster::Render()
-{
 	if (state == MONSTER_STATE_DISAPPEAR)
 	{
-		int now = GetTickCount();
+		CSimon* simon = CSimon::GetInstance();
+		Chiteffect* hiteffect = new Chiteffect();
 		hiteffect->SetPosition(x, y);
+		hiteffect->SetState(HITEFFECT_STATE_NORMAL);
+		CCells* cell = simon->map->GetCell();
+		cell->InitCells(hiteffect);
 		if (items != NULL)
+		{
 			items->SetPosition(x + 5, y + 10);
-		hiteffect->Render();
-		if (now - Time_HitEffect >= FrameTime)
-			SetState(MONSTER_STATE_DELETE);
+			cell->InitCells(items);
+		}
+		simon->map->SetCell(cell);
+		SetState(MONSTER_STATE_DELETE);
 	}
 }
-
+void CMonster::Render()
+{
+}
 void CMonster::SetState(int state)
 {
 	CGameObject::SetState(state);
@@ -41,7 +44,6 @@ void CMonster::SetState(int state)
 
 CMonster::CMonster()
 {
-	hiteffect = new Chiteffect();
 	/*int random;
 	srand(time(NULL));
 	random = rand() % 2;

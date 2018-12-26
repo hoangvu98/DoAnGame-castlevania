@@ -21,7 +21,6 @@ CBat::CBat(int size)
 		score = 1000;
 		health = 16;
 		damage = 4;
-		bullet = new CBullet();
 	}
 	this->size = size;
 	AddAnimation(12001);
@@ -192,9 +191,10 @@ void CBat::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				else
 				{
 					SetState(BAT_STATE_FIRE);
+					CBullet *bullet = new CBullet();;
 					bullet->SetPosition(x, y);
 					bullet->SetState(x, simon->x);
-					bullet->SetSpeed(x, y, simon->x, simon->y,400);
+					bullet->SetSpeed(x, y, simon->x, simon->y, 400);
 					CCells* cell = simon->map->GetCell();
 					cell->InitCells(bullet);
 					simon->map->SetCell(cell);
@@ -211,7 +211,7 @@ void CBat::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	else
 	{
-	bat_time_route = GetTickCount() - 10000;
+		bat_time_route = GetTickCount() - 10000;
 	}
 }
 
@@ -236,7 +236,7 @@ void CBat::Render()
 			animations[ani]->Render(x, y);
 		}
 	}
-	//RenderBoundingBox(200);
+	RenderBoundingBox(200);
 }
 
 void CBat::SetState(int state)

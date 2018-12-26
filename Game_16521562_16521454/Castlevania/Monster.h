@@ -10,12 +10,10 @@ using namespace std;
 class CMonster : public CGameObject
 {
 protected:
-	Chiteffect *hiteffect;
 	CItems *items;
 	int health;
 	int score;
 	int damage;
-	DWORD Time_HitEffect;
 public:
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);

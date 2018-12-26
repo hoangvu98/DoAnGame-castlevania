@@ -31,10 +31,9 @@ class CCandle :
 	public CGameObject
 {
 	int size;
-	Chiteffect *hiteffect;
 	CItems *items;
-	int Time;
 public:
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject);
 	void Render();
 	void GetBoundingBox(float & left, float & top, float &right, float & bottom);
 	void SetState(int state);
