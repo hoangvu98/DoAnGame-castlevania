@@ -25,6 +25,41 @@ CPanther::CPanther()
 	AddAnimation(4005);
 	damage = 1;
 	reset = false;
+
+	turn = 0;
+	jump = false;
+	InitMovingArea();
+	int random;
+	//srand(time(NULL));
+	random = rand() % 10;
+	if (random <= 1)
+		items = new CHeart(HEART_BIG);
+	else if (random <= 3)
+		items = new CHeart(HEART_SMALL);
+	else
+		items = NULL;
+}
+
+CPanther::CPanther(float x, float y)
+{
+	CMonster::CMonster();
+	SetPosition(x, y);
+	SetTmpPosition(x, y);
+	score = 100;
+	health = 1;
+	AddAnimation(4000);
+	AddAnimation(4001);
+	AddAnimation(4002);
+	AddAnimation(4003);
+	AddAnimation(4004);
+	AddAnimation(4005);
+	damage = 1;
+	reset = false;
+
+	turn = 0;
+	jump = false;
+	InitMovingArea();
+
 	int random;
 	//srand(time(NULL));
 	random = rand() % 10;

@@ -49,3 +49,9 @@ CHidenObject::CHidenObject()
 {
 	AddAnimation(21001);
 }
+
+CHidenObject::CHidenObject(float width, float height)
+{
+	SetSize(width, height);
+	AddAnimation(21001);
+}

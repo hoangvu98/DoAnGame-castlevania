@@ -49,6 +49,7 @@ class CPanther : public CMonster
 public:
 	void InitMovingArea();
 	CPanther();
+	CPanther(float x, float y);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	void Reset();

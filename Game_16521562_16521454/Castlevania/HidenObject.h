@@ -25,5 +25,6 @@ public:
 	void Render();
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	CHidenObject();
+	CHidenObject(float width, float height);
 };
 

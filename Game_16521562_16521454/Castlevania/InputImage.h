@@ -1,7 +1,20 @@
 #pragma once
 #include "Textures.h"
 #include "Sprites.h"
+#include "GameObject.h"
 #include <fstream>
+
+#define CANDLE		1 //roi
+#define HIDENOBJECT 2
+#define PANTHER		3 //roi
+#define GHOUL		4 //roi
+#define BAT			5
+#define FISHMAN		6 //roi
+#define SKELETON	7
+#define EAGLE		8
+#define HUNCHBACK	9
+#define BOSSBAT		10 //roi
+#define DRACULA		11
 
 class CInputImage
 {
@@ -13,5 +26,7 @@ public:
 	static void AddAnimation(ifstream &in, CSprites *sprites,
 		LPANIMATION &ani, LPDIRECT3DTEXTURE9 texture,
 		int n,int time=100);
+
+	static void LoadObjectFromFile(ifstream &in, LPGAMEOBJECT &object);
 };
 
