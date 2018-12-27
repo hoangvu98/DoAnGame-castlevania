@@ -39,6 +39,14 @@ class CFishman : public CMonster
 	float appear_x, appear_y;
 	int appear_state;
 	float weight, height;
+
+	bool wait1;
+	bool wait2;
+	bool isAddBulletToCell;
+
+	DWORD start_wait1;
+	DWORD start_wait2;
+
 public:
 	CFishman();
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
@@ -50,4 +58,6 @@ public:
 	int GetStateAppear() { return appear_state; }
 	void SetStateAppear(int appear_state) { this->appear_state = appear_state; }
 	void SetSize(float weight, float height) { this->weight = weight; this->height = height; }
+
+	void StartWait(bool &wait, DWORD &start_wait) { wait = false; start_wait = GetTickCount(); }
 };

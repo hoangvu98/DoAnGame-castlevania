@@ -1,5 +1,5 @@
 #include "Fishman.h"
-
+#include "Simon.h"
 CFishman::CFishman()
 {
 	CMonster::CMonster();
@@ -16,6 +16,9 @@ CFishman::CFishman()
 	j = 0;
 	fire = false;
 	int random;
+	wait1 = true;
+	wait2 = true;
+	isAddBulletToCell = false;
 	//srand(time(NULL));
 	random = rand() % 10;
 	if (random <= 1)
@@ -87,40 +90,53 @@ void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				if (ny < 0)
 				{
 					y += min_ty * dy + ny * 0.4f;
-					if (fire == false)
+					/*if (fire == false)
 					{
 						if (this->nx < 0 && this->x >= FISHMAN_TURN) SetState(FISHMAN_STATE_WALKING_LEFT);
 						else SetState(FISHMAN_STATE_WALKING_RIGHT);
 						SetPosition(this->x, this->y - OFFSET);
-					}
-					if (i >= 25 && fire == false)
-					{
-						SetState(FISHMAN_STATE_FIRE);
+					}*/
+					if (this->nx < 0 && this->x >= FISHMAN_TURN) SetState(FISHMAN_STATE_WALKING_LEFT);
+					else SetState(FISHMAN_STATE_WALKING_RIGHT);
+					//SetPosition(this->x, this->y - OFFSET);
 
-						bullet->SetPosition(x, y);
-						bullet->Setnx(this->nx);
-						if (this->nx > 0) bullet->SetState(BULLET_STATE_RIGHT);
-						else bullet->SetState(BULLET_STATE_LEFT);
-						i = 0;
-					}
-					else if (fire == false) i++;
-					if (fire == true)
-					{
-						if (j >= 50)
+					if (wait1)
+						StartWait(wait1, start_wait1);
+
+					if (GetTickCount() - start_wait1 > 2000)
+					{						
+						if (fire == false)
+						{
+							bullet->SetPosition(this->x, this->y);
+							bullet->Setnx(this->nx);
+							if (this->nx > 0) bullet->SetState(BULLET_STATE_RIGHT);
+							else bullet->SetState(BULLET_STATE_LEFT);
+
+							CSimon *simon = CSimon::GetInstance();
+							CCells *cells = simon->map->GetCell();
+							cells->InitCells(bullet);
+							simon->map->SetCell(cells);
+							isAddBulletToCell = true;
+						}
+						SetState(FISHMAN_STATE_FIRE);
+						
+						start_wait1 = 0;
+
+						if (wait2)
+							StartWait(wait2, start_wait2);
+
+						if (GetTickCount() - start_wait2 > 1000)
 						{
 							fire = false;
-
-							j = 0;
-						}
-						else
-						{
-							j++;
-							bullet->Update(dt, coObjects);
+							start_wait2 = 0;
+							wait1 = true;
+							wait2 = true;
 						}
 					}
+					
 				}
 				else
-					y += dy;
+					y += dy;				
 			}
 		}
 	}
@@ -135,7 +151,7 @@ void CFishman::Render()
 		else ani = FISHMAN_ANI_FIRE_RIGHT;
 		Time_Fishman_HitEffect = GetTickCount();
 		animations[ani]->Render(x, y);
-		bullet->Render();
+		//bullet->Render();
 	}
 	else if (state == FISHMAN_STATE_WALKING_LEFT)
 	{
@@ -155,7 +171,7 @@ void CFishman::Render()
 		else ani = FISHMAN_ANI_JUMP_RIGHT;
 		Time_Fishman_HitEffect = GetTickCount();
 		animations[ani]->Render(x, y);
-		bullet->Render();
+		//bullet->Render();
 	}
 	RenderBoundingBox(200);
 }
