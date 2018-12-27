@@ -36,10 +36,18 @@ class CFishman : public CMonster
 	DWORD Time_Fishman_HitEffect;
 	int i;
 	int j;
+	float appear_x, appear_y;
+	int appear_state;
+	float weight, height;
 public:
 	CFishman();
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render();
 	virtual void SetState(int state);
+	void SetPostionAppear(float appear_x, float appear_y) { this->appear_x = appear_x; this->appear_y = appear_y; }
+	void GetPositionAppear(float &appear_x, float &appear_y) { appear_x = this->appear_x; appear_y = this->appear_y; }
+	int GetStateAppear() { return appear_state; }
+	void SetStateAppear(int appear_state) { this->appear_state = appear_state; }
+	void SetSize(float weight, float height) { this->weight = weight; this->height = height; }
 };

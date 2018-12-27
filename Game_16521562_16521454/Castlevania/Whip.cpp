@@ -54,7 +54,8 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CMonster *> (e->obj))
 			{
 				CMonster *monster = dynamic_cast<CMonster *>(e->obj);
-				if (monster->state != MONSTER_STATE_DELETE && monster->state != MONSTER_STATE_DISAPPEAR)
+				if (monster->state != MONSTER_STATE_DELETE && monster->state != MONSTER_STATE_DISAPPEAR
+					&& monster->state!=MONSTER_STATE_SLEEPING)
 				{
 					if (IsSubHP)
 					{

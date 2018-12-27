@@ -17,7 +17,7 @@ void CMonster::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			SetState(MONSTER_STATE_DISAPPEAR);
 		}
 	}
-	if (state == MONSTER_STATE_DISAPPEAR)
+	else if (state == MONSTER_STATE_DISAPPEAR)
 	{
 		CSimon* simon = CSimon::GetInstance();
 		Chiteffect* hiteffect = new Chiteffect();

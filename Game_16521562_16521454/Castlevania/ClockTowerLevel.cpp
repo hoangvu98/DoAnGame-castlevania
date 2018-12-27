@@ -122,14 +122,11 @@ void CClockTowerLevel::LoadMap()
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
 
-		skeleton = new CSkeleton(612.0f, 79.0f);
+		/*skeleton = new CSkeleton(612.0f, 79.0f);
 		skeleton->SetState(SKELETON_STATE_WALKING_RIGHT);
-		cells->InitCells(skeleton);
+		cells->InitCells(skeleton);*/
 		break;
 	case SCENE_3:
-		textures->Add(ID_MAP_LEVEL_6, LEVEL6_STAGE17B_PATH, D3DCOLOR_XRGB(255, 255, 255));
-		texture_map = textures->Get(ID_MAP_LEVEL_6);
-		tilemap->LoadTileMap(STAGE_17B_MAP_DATA, texture_map);
 
 		tilemap->GetSize(width, height);
 
@@ -190,6 +187,14 @@ void CClockTowerLevel::LoadMap()
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
 
+		break;
+	case SCENE_4:
+		tilemap->GetSize(width, height);
+
+		column = (int)width / CELL_WIDTH + 1;
+		row = (int)height / CELL_HEIGHT + 1;
+
+		cells = new CCells(column, row);
 		break;
 	case SCENE_5:
 
@@ -324,7 +329,7 @@ void CClockTowerLevel::LoadObject()
 		hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
 		hobj->SetSize(24.0f, 13.0f);
 		hobj->SetPosition(1360.0f, 68.0f);
-		hobj->SetStair_XY(1369.0f);
+		hobj->SetStair_XY(1370.0f,50);
 		hobj->nx = 1;
 		cellsobject->InitCells(hobj);
 
@@ -332,7 +337,7 @@ void CClockTowerLevel::LoadObject()
 		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
 		hobj->SetSize(28.0f, 14.0f);
 		hobj->SetPosition(1420.0f, 130.0f);
-		hobj->SetStair_XY(1434.0f);
+		hobj->SetStair_XY(1434.0f,113);
 		hobj->nx = -1;
 		cellsobject->InitCells(hobj);
 
@@ -358,8 +363,8 @@ void CClockTowerLevel::LoadObject()
 		door = new CDoor();
 		door->SetState(DOOR_STATE_NORMAL);
 		door->SetPosition(100.0f, 0.0f);
-		door->cx = 91.08f;
-		door->cy = 146.52f;
+		door->cx = 92.0f;
+		door->cy = 144.0f;
 		door->SetIsHiDen(true);
 		door->SetIsStair(true);
 		door->SetScene(3);
@@ -368,8 +373,8 @@ void CClockTowerLevel::LoadObject()
 		door = new CDoor();
 		door->SetState(DOOR_STATE_NORMAL);
 		door->SetPosition(325.0f, 0.0f);
-		door->cx = 313.0f;
-		door->cy = 144.0f;
+		door->cx = 315.08f;
+		door->cy = 143.06f;
 		door->SetIsHiDen(true);
 		door->SetIsStair(true);
 		door->SetScene(3);
@@ -469,7 +474,7 @@ void CClockTowerLevel::LoadObject()
 		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
 		hobj->SetSize(25.0f, 10.0f);
 		hobj->SetPosition(538.0f, 104.0f);
-		hobj->SetStair_XY(539.0f);
+		hobj->SetStair_XY(538.0f,83);
 		hobj->nx = 1;
 		cellsobject->InitCells(hobj);
 
@@ -477,7 +482,7 @@ void CClockTowerLevel::LoadObject()
 		hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
 		hobj->SetSize(19.0f, 8.0f);
 		hobj->SetPosition(606.0f, 42.0f);
-		hobj->SetStair_XY(603.4f);
+		hobj->SetStair_XY(600,19);
 		hobj->nx = -1;
 		cellsobject->InitCells(hobj);
 
@@ -485,7 +490,7 @@ void CClockTowerLevel::LoadObject()
 		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
 		hobj->SetSize(26.0f, 10.0f);
 		hobj->SetPosition(215.0f, 136.0f);
-		hobj->SetStair_XY(216.0f);
+		hobj->SetStair_XY(216.0f,114);
 		hobj->nx = -1;
 		cellsobject->InitCells(hobj);
 
@@ -493,7 +498,7 @@ void CClockTowerLevel::LoadObject()
 		hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
 		hobj->SetSize(23.0f, 9.0f);
 		hobj->SetPosition(111.0f, 41.0f);
-		hobj->SetStair_XY(120.0f);
+		hobj->SetStair_XY(121.0f,19);
 		hobj->nx = 1;
 		cellsobject->InitCells(hobj);
 
@@ -501,15 +506,15 @@ void CClockTowerLevel::LoadObject()
 		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
 		hobj->SetSize(26.0f, 11.0f);
 		hobj->SetPosition(54.0f, 39.0f);
-		hobj->SetStair_XY(60.0f);
+		hobj->SetStair_XY(59.0f,19);
 		hobj->nx = 1;
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
 		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
-		hobj->SetSize(30.0f, 11.0f);
-		hobj->SetPosition(626.0f, 39.0f);
-		hobj->SetStair_XY(634.0f);
+		hobj->SetSize(30.0f, 12.0f);
+		hobj->SetPosition(626.0f, 38.0f);
+		hobj->SetStair_XY(634.0f,17);
 		hobj->nx = 1;
 		cellsobject->InitCells(hobj);
 
@@ -518,15 +523,15 @@ void CClockTowerLevel::LoadObject()
 		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
 		hobj->SetSize(19.0f, 10.0f);
 		hobj->SetPosition(279.0f, 40.0f);
-		hobj->SetStair_XY(283.0f);
+		hobj->SetStair_XY(283.0f,18);
 		hobj->nx = 1;
 		cellsobject->InitCells(hobj);
 
 		door = new CDoor();
 		door->SetState(DOOR_STATE_NORMAL);
 		door->SetPosition(680.0f, 0.0f);
-		door->cx = 669.84f;
-		door->cy = 142.76f;
+		door->cx = 672.02f;
+		door->cy = 139.38f;
 		door->SetIsHiDen(true);
 		door->SetIsStair(true);
 		door->SetScene(3);
@@ -570,8 +575,8 @@ void CClockTowerLevel::LoadObject()
 		door = new CDoor();
 		door->SetState(DOOR_STATE_NORMAL);
 		door->SetPosition(80.0f, 170.0f);
-		door->cx = 91.7f;
-		door->cy = -13.84f;
+		door->cx = 89.0f;
+		door->cy = -11.0f;
 		door->SetIsHiDen(true);
 		door->SetIsStair(true);
 		door->SetScene(2);
@@ -581,8 +586,8 @@ void CClockTowerLevel::LoadObject()
 		door = new CDoor();
 		door->SetState(DOOR_STATE_NORMAL);
 		door->SetPosition(671.0f, 172.0f);
-		door->cx = 662.76f;
-		door->cy = -11.16f;
+		door->cx = 663.04f;
+		door->cy = -12.04f;
 		door->SetIsHiDen(true);
 		door->SetIsStair(true);
 		door->SetScene(2);
@@ -591,8 +596,8 @@ void CClockTowerLevel::LoadObject()
 		door = new CDoor();
 		door->SetState(DOOR_STATE_NORMAL);
 		door->SetPosition(300.0f, 160.0f);
-		door->cx = 310.0f;
-		door->cy = -10.0f;
+		door->cx = 312.04f;
+		door->cy = -11.08f;
 		door->SetIsHiDen(true);
 		door->SetIsStair(true);
 		door->SetScene(2);
@@ -710,7 +715,7 @@ void CClockTowerLevel::LoadObject()
 		hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
 		hobj->SetSize(17.0f, 7.0f);
 		hobj->SetPosition(701.0f, 137.0f);
-		hobj->SetStair_XY(698.0f);
+		hobj->SetStair_XY(697.0f,115);
 		hobj->nx = -1;
 		cellsobject->InitCells(hobj);
 
@@ -718,7 +723,7 @@ void CClockTowerLevel::LoadObject()
 		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
 		hobj->SetSize(26.0f, 10.0f);
 		hobj->SetPosition(629.0f, 135.0f);
-		hobj->SetStair_XY(635.0f);
+		hobj->SetStair_XY(634.0f,113);
 		hobj->nx = 1;
 		cellsobject->InitCells(hobj);
 
@@ -726,7 +731,7 @@ void CClockTowerLevel::LoadObject()
 		hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
 		hobj->SetSize(23.0f, 7.0f);
 		hobj->SetPosition(656.0f, 42.0f);
-		hobj->SetStair_XY(665.0f);
+		hobj->SetStair_XY(665.0f,19);
 		hobj->nx = 1;
 		cellsobject->InitCells(hobj);
 
@@ -734,7 +739,7 @@ void CClockTowerLevel::LoadObject()
 		hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
 		hobj->SetSize(23.0f, 8.0f);
 		hobj->SetPosition(303.0f, 105.0f);
-		hobj->SetStair_XY(312.0f);
+		hobj->SetStair_XY(313.0f,83);
 		hobj->nx = 1;
 		cellsobject->InitCells(hobj);
 
@@ -742,7 +747,7 @@ void CClockTowerLevel::LoadObject()
 		hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
 		hobj->SetSize(25.0f, 8.0f);
 		hobj->SetPosition(42.0f, 72.0f);
-		hobj->SetStair_XY(57.0f);
+		hobj->SetStair_XY(57.0f,50);
 		hobj->nx = 1;
 		cellsobject->InitCells(hobj);
 
@@ -750,7 +755,7 @@ void CClockTowerLevel::LoadObject()
 		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP_DOWN);
 		hobj->SetSize(22.0f, 11.0f);
 		hobj->SetPosition(702.0f, 69.0f);
-		hobj->SetStair_XY(699.4f);
+		hobj->SetStair_XY(697,50);
 		hobj->nx = -1;
 		cellsobject->InitCells(hobj);
 
@@ -758,7 +763,7 @@ void CClockTowerLevel::LoadObject()
 		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP_DOWN);
 		hobj->SetSize(24.0f, 11.0f);
 		hobj->SetPosition(349.0f, 133.0f);
-		hobj->SetStair_XY(346.0f);
+		hobj->SetStair_XY(345.0f,114);
 		hobj->nx = -1;
 		cellsobject->InitCells(hobj);
 
@@ -766,7 +771,7 @@ void CClockTowerLevel::LoadObject()
 		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP_DOWN);
 		hobj->SetSize(27.0f, 15.0f);
 		hobj->SetPosition(127.0f, 129.0f);
-		hobj->SetStair_XY(122.0f);
+		hobj->SetStair_XY(122.0f,114);
 		hobj->nx = -1;
 		cellsobject->InitCells(hobj);
 		break;
@@ -785,8 +790,8 @@ void CClockTowerLevel::LoadObject()
 		door = new CDoor();
 		door->SetState(DOOR_STATE_NORMAL);
 		door->SetPosition(100.0f, 0.0f);
-		door->cx = 597.5f;
-		door->cy = 145.1f;
+		door->cx = 597.22f;
+		door->cy = 146.22f;
 		door->SetIsHiDen(true);
 		door->SetIsStair(true);
 		door->SetScene(5);
@@ -798,7 +803,7 @@ void CClockTowerLevel::LoadObject()
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
+		hobj = new CHidenObject(); 
 		hobj->SetPosition(184.0f, 81.0f);
 		hobj->SetSize(65.0f, 15.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
@@ -808,7 +813,7 @@ void CClockTowerLevel::LoadObject()
 		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
 		hobj->SetSize(24.0f, 10.0f);
 		hobj->SetPosition(175.0f, 71.0f);
-		hobj->SetStair_XY(177.0f);
+		hobj->SetStair_XY(177.0f,50);
 		hobj->nx = -1;
 		cellsobject->InitCells(hobj);
 		break;
@@ -827,8 +832,8 @@ void CClockTowerLevel::LoadObject()
 		door = new CDoor();
 		door->SetState(DOOR_STATE_NORMAL);
 		door->SetPosition(607.0f, 175.0f);
-		door->cx = 118.22f;
-		door->cy = -8.03f;
+		door->cx = 117.0f;
+		door->cy = -10.0f;
 		door->SetIsHiDen(true);
 		door->SetIsStair(true);
 		door->SetScene(4);
@@ -868,7 +873,7 @@ void CClockTowerLevel::LoadObject()
 		hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
 		hobj->SetSize(21.0f, 10.0f);
 		hobj->SetPosition(527.0f, 103.0f);
-		hobj->SetStair_XY(535.0f);
+		hobj->SetStair_XY(535.0f,84);
 		hobj->nx = 1;
 		cellsobject->InitCells(hobj);
 		break;

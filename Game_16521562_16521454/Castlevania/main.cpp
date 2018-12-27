@@ -330,21 +330,21 @@ void LoadResources()
 	simon->SetPosition(100.0f, 20.0f);
 	//simon->SetPosition(226.0f, 130.0f); 
 	simon->SetState(SIMON_STATE_WALKING_LEFT);
-	//simon->SetPosition(1460.0f, 30.0f);//map 1
-	//simon->SetPosition(550.0f, 80.0f);//map 2
+	simon->SetPosition(1460.0f, 30.0f);//map 1
+	simon->SetPosition(550.0f, 80.0f);//map 2
 	//simon->SetPosition(267.0f, 0.0f);//map 2
 	//simon->SetPosition(629.0f, 10.0f);//map 3
 	//simon->SetPosition(450.0f, 10.0f);//map 3
 	//simon->SetPosition(40.0f, 10.0f);//map 3
-	//simon->SetPosition(180.0f, 30.0f);//map 4
+	simon->SetPosition(180.0f, 30.0f);//map 4
 	//simon->SetPosition(190.0f, 30.0f);//map 5
-	//simon->SetPosition(448.0f, 76.0f);//map 5
+	simon->SetPosition(448.0f, 76.0f);//map 5
 	//simon->SetPosition(190.0f, 30.0f   /*719.0f, 45.0f*/);
 	//simon->SetPosition(49.0f, 104.0f);
-	simon->SetPosition(1600.0f, 0.0f);
+	simon->SetPosition(50.0f, 0.0f);
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
-	simon->map->SetScene(SCENE_3);
+	simon->map->SetScene(SCENE_4);
 	screen = 2;
 	simon->map->LoadObject();
 	simon->map->LoadMap();
@@ -386,16 +386,25 @@ void Update(DWORD dt)
 	case 2:
 		if (simon->GetReset())
 		{
-			simon->SetHeart(5);
-			simon->SetHealth(16);
-			simon->SetReset(false);
-			simon->map->ResetScene();
-			float x, y;
-			simon->map->NextScece(x, y);
-			if (x != 0 || y != 0)
-				simon->SetPosition(x, y);
-			simon->Camera();
-			simon->map->LoadMap();
+			int live = simon->GetLive();
+			if (live >= 1)
+			{
+				simon->SetLive(live-1);
+				simon->SetHeart(5);
+				simon->SetHealth(16);
+				simon->SetReset(false);
+				simon->map->ResetScene();
+				float x, y;
+				simon->map->NextScece(x, y);
+				if (x != 0 || y != 0)
+					simon->SetPosition(x, y);
+				simon->Camera();
+				simon->map->LoadMap();
+			}
+			else
+			{
+				LoadResources();
+			}
 		}
 		if (simon->map->GetIsNext())
 		{

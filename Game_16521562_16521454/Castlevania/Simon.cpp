@@ -200,6 +200,22 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				else
 					bat->SetState(BAT_STATE_FLY);
 			}
+			else if (dynamic_cast<CFishman *> (e->obj) && monster->state == MONSTER_STATE_SLEEPING)
+			{
+				CFishman *fishman = dynamic_cast<CFishman *>(e->obj);
+				float cx, cy, tx, ty;
+				fishman->GetPositionAppear(cx, cy);
+				fishman->GetPosition(tx, ty);
+				fishman->SetPostionAppear(tx, ty);
+				if(fishman->nx>0)
+					fishman->SetPosition(x + 80.0f, 164.0f);
+				if (fishman->nx < 0)
+					fishman->SetPosition(x - 80.0f, 164.0f);
+				fishman->GetPosition(tx, ty);
+				int state;
+				state = fishman->GetStateAppear();
+				fishman->SetState(state);
+			}
 			else if (dynamic_cast<CEagle *> (e->obj) && monster->state == EAGLE_STATE_SLEEPING)
 			{
 				CEagle *eagle = dynamic_cast<CEagle *>(e->obj);

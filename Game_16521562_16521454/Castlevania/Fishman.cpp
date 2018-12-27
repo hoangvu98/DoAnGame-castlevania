@@ -30,7 +30,14 @@ void CFishman::GetBoundingBox(float &left, float &top, float &right, float &bott
 {
 	left = x;
 	top = y;
-	if (state == FISHMAN_STATE_FIRE)
+	if (state == MONSTER_STATE_SLEEPING)
+	{
+		left = x;
+		top = y;
+		right = x + weight;
+		bottom = y + height;
+	}	
+	else if (state == FISHMAN_STATE_FIRE)
 	{
 		right = x + FISHMAN_BBOX_FIRE_WIDTH;
 		bottom = y + FISHMAN_BBOX_FIRE_HEIGHT;
@@ -47,105 +54,81 @@ void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CMonster::Update(dt, coObjects);
 	//CGameObject::Update(dt, coObjects);
 	vy += FISHMAN_GRAVITY * dt;
-	if (state != FISHMAN_STATE_DISAPEAR && state != MONSTER_STATE_DELETE)
+	if (health <= 0 && state == MONSTER_STATE_DELETE)
 	{
-		vector<LPCOLLISIONEVENT> coEvents;
-		vector<LPCOLLISIONEVENT> coEventsResult;
-		coEventsResult.clear();
-		CalcPotentialCollisions(coObjects, coEvents);
+		float cx, cy, tx, ty;
+		GetPositionAppear(cx, cy);
+		GetPosition(tx, ty);
+		SetPostionAppear(tx, ty);
+		SetPosition(cx, cy);
+		SetState(MONSTER_STATE_SLEEPING);
+		health=1;
+	}
+	if (state != MONSTER_STATE_SLEEPING)
+	{
+		if (state != FISHMAN_STATE_DISAPEAR && state != MONSTER_STATE_DELETE)
+		{
+			vector<LPCOLLISIONEVENT> coEvents;
+			vector<LPCOLLISIONEVENT> coEventsResult;
+			coEventsResult.clear();
+			CalcPotentialCollisions(coObjects, coEvents);
 
-		if (coEvents.size() == 0)
-		{
-			x += dx;
-			y += dy;
-		}
-		else
-		{
-			float min_tx, min_ty, nx = 0, ny;
-			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-			x += dx;
-			x += min_tx * dx + nx * 0.4f;
-			if (ny < 0)
+			if (coEvents.size() == 0)
 			{
-				y += min_ty * dy + ny * 0.4f;
-				if (fire == false)
-				{
-					if (this->nx < 0 && this->x >= FISHMAN_TURN) SetState(FISHMAN_STATE_WALKING_LEFT);
-					else SetState(FISHMAN_STATE_WALKING_RIGHT);
-					SetPosition(this->x, this->y - OFFSET);
-				}
-				if (i >= 25 && fire == false)
-				{
-					SetState(FISHMAN_STATE_FIRE);
-
-					bullet->SetPosition(x, y);
-					bullet->Setnx(this->nx);
-					if (this->nx > 0) bullet->SetState(BULLET_STATE_RIGHT);
-					else bullet->SetState(BULLET_STATE_LEFT);
-					i = 0;
-				}
-				else if (fire == false) i++;
-				if (fire == true)
-				{
-					if (j >= 50)
-					{
-						fire = false;
-
-						j = 0;
-					}
-					else
-					{
-						j++;
-						bullet->Update(dt, coObjects);
-					}
-				}
+				x += dx;
+				y += dy;
 			}
 			else
-				y += dy;
+			{
+				float min_tx, min_ty, nx = 0, ny;
+				FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+				x += dx;
+				x += min_tx * dx + nx * 0.4f;
+				if (ny < 0)
+				{
+					y += min_ty * dy + ny * 0.4f;
+					if (fire == false)
+					{
+						if (this->nx < 0 && this->x >= FISHMAN_TURN) SetState(FISHMAN_STATE_WALKING_LEFT);
+						else SetState(FISHMAN_STATE_WALKING_RIGHT);
+						SetPosition(this->x, this->y - OFFSET);
+					}
+					if (i >= 25 && fire == false)
+					{
+						SetState(FISHMAN_STATE_FIRE);
+
+						bullet->SetPosition(x, y);
+						bullet->Setnx(this->nx);
+						if (this->nx > 0) bullet->SetState(BULLET_STATE_RIGHT);
+						else bullet->SetState(BULLET_STATE_LEFT);
+						i = 0;
+					}
+					else if (fire == false) i++;
+					if (fire == true)
+					{
+						if (j >= 50)
+						{
+							fire = false;
+
+							j = 0;
+						}
+						else
+						{
+							j++;
+							bullet->Update(dt, coObjects);
+						}
+					}
+				}
+				else
+					y += dy;
+			}
 		}
 	}
-	DebugOut(L"state %d\n", state);
 }
 
 void CFishman::Render()
 {
 	int ani;
-	//if (state != MONSTER_STATE_DISAPPEAR)
-	//{
-	//	if (vx == 0)
-	//	{
-	//		if (nx < 0) ani = FISHMAN_ANI_FIRE_LEFT;
-	//		else ani = FISHMAN_ANI_FIRE_RIGHT;
-	//		Time_Fishman_HitEffect = GetTickCount();
-	//		animations[ani]->Render(x, y);
-	//		bullet->Render();
-	//	}
-	//	else
-	//	{
-	//		if (nx < 0) ani = FISHMAN_ANI_WALKING_LEFT;
-	//		else ani = FISHMAN_ANI_WALKING_RIGHT;
-	//		animations[ani]->Render(x, y);
-	//		Time_Fishman_HitEffect = GetTickCount();
-	//	}
-
-	//	if (vy < 0)
-	//	{
-	//		if (nx < 0) ani = FISHMAN_ANI_JUMP_LEFT;
-	//		else ani = FISHMAN_ANI_JUMP_RIGHT;
-	//		animations[ani]->Render(x, y);
-	//		Time_Fishman_HitEffect = GetTickCount();
-	//	}
-	//}
-	//else /*if (state == MONSTER_STATE_DISAPPEAR)*/
-	//{
-	//	int now = GetTickCount();
-	//	hiteffect->SetPosition(x, y);
-	//	if (items != NULL)
-	//		items->SetPosition(x + 5, y + 10);
-	//	hiteffect->Render();
-	//	if (now - Time_Fishman_HitEffect >= FRAMETIME)
-	//		SetState(MONSTER_STATE_DELETE);
-	//}
 	if (state == FISHMAN_STATE_FIRE)
 	{
 		if (nx < 0) ani = FISHMAN_ANI_FIRE_LEFT;
@@ -174,6 +157,7 @@ void CFishman::Render()
 		animations[ani]->Render(x, y);
 		bullet->Render();
 	}
+	RenderBoundingBox(200);
 }
 
 void CFishman::SetState(int state)

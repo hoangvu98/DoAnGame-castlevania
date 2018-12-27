@@ -145,6 +145,7 @@ public:
 	void ChangeMap(int stage);
 	int GetTime() { return time; }
 	int GetLive() { return live; }
+	void SetLive(int live) { this->live = live; }
 	void SetTime(int time) { this->time = time; }
 	CSimon();
 	static CSimon *GetInstance();

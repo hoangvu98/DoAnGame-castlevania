@@ -5,7 +5,7 @@
 using namespace std;
 #define MONSTER_STATE_DISAPPEAR 100
 #define MONSTER_STATE_DELETE    200
-
+#define MONSTER_STATE_SLEEPING  1000
 #define FrameTime 200
 class CMonster : public CGameObject
 {
