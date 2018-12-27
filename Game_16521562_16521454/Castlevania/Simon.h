@@ -53,8 +53,8 @@ using namespace std;
 #define SIMON_ANI_COLLUSION_LEFT            22
 #define SIMON_ANI_COLLUSION_RIGHT           23
 #define SIMON_ANI_BEHIND                    24
-//#define SIMON_ANI_DIE_LEFT			10
-//#define SIMON_ANI_DIE_RIGHT			11
+#define SIMON_ANI_DIE_LEFT			        25
+#define SIMON_ANI_DIE_RIGHT			        26
 
 #define SIMON_BBOX_IDLE_WIDTH		15
 #define SIMON_BBOX_IDLE_HEIGHT		30
@@ -66,10 +66,11 @@ using namespace std;
 #define SIMON_BBOX_KNEE_FIGHT_HEIGHT	25
 
 #define TIME_STAIR 400
+#define TIME_RESET 1000
 class CSimon :public CGameObject
 {
 	static CSimon *__instance;
-	int heart = 0, score = 0, health = 160;
+	int heart = 0, score = 0, health = 4;
 	int mx;
 	int stage;
 	int previousstate = NULL;
@@ -95,6 +96,8 @@ class CSimon :public CGameObject
 	int live;
 
 	bool Reset;
+	bool IsDie;
+	bool IsChangeMap;
 public:
 	CMap *map;
 	bool MeetBoss = false;
@@ -142,11 +145,11 @@ public:
 	void Auto();
 	void Camera();
 	void CameraAuto();
-	void ChangeMap(int stage);
-	int GetTime() { return time; }
 	int GetLive() { return live; }
 	void SetLive(int live) { this->live = live; }
+	int GetTime() { return time; }
 	void SetTime(int time) { this->time = time; }
+	bool GetIsChangeMap(){ return IsChangeMap; }
 	CSimon();
 	static CSimon *GetInstance();
 };

@@ -166,6 +166,14 @@ void CCells::ChangeCellOfObject(float cam_x, float cam_y)
 							cells[i][j].XoaObject(k);
 						}
 					}
+					else if (dynamic_cast <CBossBat *> (e))
+					{
+						CBossBat *bossbat = dynamic_cast<CBossBat *>(e);
+						if (bossbat->state == MONSTER_STATE_DELETE )
+						{
+							cells[i][j].XoaObject(k);
+						}
+					}
 					else if (dynamic_cast<CMonster *> (e))
 					{
 						int a = e->x / CELL_WIDTH;

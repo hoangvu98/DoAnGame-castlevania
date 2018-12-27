@@ -2,12 +2,13 @@
 #include "Simon.h"
 #include "EntranceLevel.h"
 #include "debug.h"
+#include "Items.h"
 
 CBossBat *CBossBat::__instance = NULL;
-
 DWORD time_route=GetTickCount();
 bool test=true;
 float min_x, min_y, max_x, max_y;
+bool IsInitOtherStuff=true;
 void CBossBat::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
 	if (state == BOSS_BAT_STATE_fLY)
@@ -28,14 +29,22 @@ void CBossBat::GetBoundingBox(float & left, float & top, float & right, float & 
 void CBossBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CMonster::Update(dt, coObjects);
-	//DebugOut(L"health=%d\n", health);
+	CSimon* simon = CSimon::GetInstance();
+	if (health <= 0 && IsInitOtherStuff)
+	{
+		COtherStuff* otherstuff = new COtherStuff();
+		otherstuff->SetPosition(2650, 70);
+		CCells* cell = simon->map->GetCell();
+		cell->InitCells(otherstuff);
+		simon->map->SetCell(cell);
+		IsInitOtherStuff = false;
+	}
 	if (state == BOSS_BAT_STATE_fLY)
 	{
 		CEntranceLevel *level1 = CEntranceLevel::GetInstance();
 		float min, max;
 		DWORD now = GetTickCount();
 		CGameObject::Update(dt);
-		CSimon* simon = CSimon::GetInstance();
 		level1->GetSizeMap(min, max);
 		min = 2576.0f;
 		if (test == true)
@@ -148,7 +157,7 @@ CBossBat * CBossBat::GetInstance()
 CBossBat::CBossBat()
 {
 	score = 1000;
-	health = 16;
+	health = 1;
 	damage = 2;
 	AddAnimation(20000);
 	AddAnimation(20001);

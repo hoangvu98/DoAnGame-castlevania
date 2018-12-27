@@ -185,3 +185,15 @@ public:
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	void SetState(int state);
 };
+
+#define OTHER_STUFF_WIDTH 16
+#define OTHER_STUFF_HEIGHT 16
+class COtherStuff :public CGameObject
+{
+public:
+	COtherStuff();
+	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
+	void Render();
+	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
+	void SetState(int state);
+};

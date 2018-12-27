@@ -490,3 +490,58 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			break;
 		}
 	}
+
+	COtherStuff::COtherStuff()
+	{
+		AddAnimation(260000);
+	}
+
+	void COtherStuff::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+	{
+		CGameObject::Update(dt);
+		vy = ITEM_GRAVITY * dt;
+
+		vector<LPCOLLISIONEVENT> coEvents;
+		vector<LPCOLLISIONEVENT> coEventsResult;
+		bool IsUpdatePossiton = false;
+		CalcPotentialCollisions(coObjects, coEvents);
+		if (coEvents.size() != 0)
+		{
+			float min_tx, min_ty, nx = 0, ny;
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+			for (UINT i = 0; i < coEventsResult.size(); i++)
+			{
+				LPCOLLISIONEVENT e = coEventsResult[i];
+				if (dynamic_cast<CHidenObject *> (e->obj))
+				{
+					CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
+					if (hidenobject->state == HIDENOBJECT_STATE_NORMAL)
+					{
+						IsUpdatePossiton = true;
+						y += min_ty * dy + ny * 0.4f;
+					}
+
+				}
+			}
+		}
+		if (!IsUpdatePossiton)
+			y += dy;
+	}
+
+	void COtherStuff::Render()
+	{
+		animations[0]->Render(x, y);
+	}
+
+	void COtherStuff::GetBoundingBox(float & left, float & top, float & right, float & bottom)
+	{
+		left = x;
+		top = y;
+		right = x + OTHER_STUFF_WIDTH;
+		bottom = y + OTHER_STUFF_HEIGHT;
+	}
+
+	void COtherStuff::SetState(int state)
+	{
+		CGameObject::SetState(state);
+	}

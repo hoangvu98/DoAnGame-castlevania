@@ -687,3 +687,23 @@ void CResource::LoadSpiritDracula()
 	animations->Add(250010, ani);
 	in.close();
 }
+
+void CResource::LoadOtherStuff()
+{
+	CTextures *textures = CTextures::GetInstance();
+	textures->Add(ID_OTHER_STUFF,OTHER_STUFF_TEXTURE_PATH, D3DCOLOR_XRGB(128, 0, 0));
+
+	CSprites *sprites = CSprites::GetInstance();
+	CAnimations *animations = CAnimations::GetInstance();
+
+	LPDIRECT3DTEXTURE9 texspiritdracula;
+	texspiritdracula = textures->Get(ID_OTHER_STUFF);
+
+	LPANIMATION ani;
+	ani = new CAnimation(100);
+
+	ifstream in("Data\\Other_stuff.txt");
+	CInputImage::AddAnimation(in, sprites, ani, texspiritdracula, 2);
+	animations->Add(260000, ani);
+	in.close();
+}

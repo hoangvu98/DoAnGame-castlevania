@@ -13,232 +13,251 @@
 #include "Dracula.h"
 DWORD FrameCollusion;
 int color = 255;
-float stair_x=0,stair_y = 0;
+float stair_x = 0, stair_y = 0;
 int nx1;
+DWORD time_reset;
 CSimon *CSimon::__instance = NULL;
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
-	CGameObject::Update(dt);
-	if (IsUp != 2)
-		IsUp = 0;
-	if (IsDown != 2)
-		IsDown = 0;
-	if (stair != 2)
-		vy += SIMON_GRAVITY;
-	if (state != SIMON_STATE_KNEE && previousstate == SIMON_STATE_KNEE)
+	if (time == 0)
+		Reset = true;
+	else
 	{
-		previousstate = NULL;
-		SetPosition(x, y - 5);
-		SetState(SIMON_STATE_IDLE);
-	}
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-	coEventsResult.clear();
-	if (stair != 2 && stair != 5 && stair != 6)
-		stair = 0;
-	if (state != SIMON_STATE_DIE)
-		CalcPotentialCollisions(coObject, coEvents);
+		CGameObject::Update(dt);
+		if (IsUp != 2)
+			IsUp = 0;
+		if (IsDown != 2)
+			IsDown = 0;
+		if (stair != 2)
+			vy += SIMON_GRAVITY;
+		if (state != SIMON_STATE_KNEE && previousstate == SIMON_STATE_KNEE)
+		{
+			previousstate = NULL;
+			SetPosition(x, y - 5);
+			SetState(SIMON_STATE_IDLE);
+		}
+		vector<LPCOLLISIONEVENT> coEvents;
+		vector<LPCOLLISIONEVENT> coEventsResult;
+		coEventsResult.clear();
+		if (stair != 2 && stair != 5 && stair != 6)
+			stair = 0;
+		if (state != SIMON_STATE_DIE)
+			CalcPotentialCollisions(coObject, coEvents);
 
-	if (fight == true)
-	{
-		whip->SetPosition(x, y);
-		DWORD t = GetTickCount() - whip->GetFrameWhip();
-		if (t >= 2 * FRAME_TIME_WHIP)
+		if (fight == true)
 		{
-			if (whip->GetCurrentFrame() == 2)
-				whip->fight = true;
-			if (t >= 3 * FRAME_TIME_WHIP)
+			whip->SetPosition(x, y);
+			DWORD t = GetTickCount() - whip->GetFrameWhip();
+			if (t >= 2 * FRAME_TIME_WHIP)
 			{
-				fight = false;
-				whip->fight = false;
-			}
-		}
-		whip->Update(dt, coObject);
-		whip->SetPosition(x, y);
-	}
-	if (skill)
-	{
-		weapon->Update(dt, coObject);
-	}
-	coEventsResult.clear();
-	FilterCollisionImmediately(coEvents, coEventsResult);
-	bool test = true;
-	for (UINT i = 0; i < coEventsResult.size(); i++)
-	{
-		LPCOLLISIONEVENT e = coEventsResult[i];
-		if (dynamic_cast<CHidenObject *> (e->obj))
-		{
-			CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
-			if (hidenobject->GetState() == HIDENOBJECT_STATE_STAIR_UP)
-			{
-				nx1 = hidenobject->nx;
-				hidenobject->GetStair_XY(stair_x, stair_y);
-				if (stair != 2 && stair != 4)
-					stair = 1;
-				if (stair == 2 && IsDown != 2)
-					IsDown = 1;
-			}
-			else if (hidenobject->GetState() == HIDENOBJECT_STATE_STAIR_DOWN)
-			{
-				nx1 = hidenobject->nx;
-				hidenobject->GetStair_XY(stair_x, stair_y);
-				if (stair != 2 && stair != 4)
-					stair = 3;
-				if (stair == 2 && IsUp != 2)
-					IsUp = 1;
-			}
-			else if (hidenobject->GetState() == HIDENOBJECT_STATE_STAIR_UP_DOWN)
-			{
-				int test;
-				float size_x, size_y;
-				hidenobject->GetSize(size_x, size_y);
-				if (hidenobject->y + size_y >= y + SIMON_BBOX_IDLE_HEIGHT)
-					test = 0;
-				else
-					test = 1;
-				nx1 = hidenobject->nx;
-				hidenobject->GetStair_XY(stair_x, stair_y);
-				if (stair != 2 && stair != 5 && stair != 6)
-					stair = 4;
-				if (stair == 2 && IsDown != 2 && test == 0)
-					IsDown = 1;
-				if (stair == 2 && IsUp != 2 && test == 1)
-					IsUp = 1;
-			}
-		}
-		else if (dynamic_cast<CHeart *>(e->obj))
-		{
-			CHeart *hearts = dynamic_cast<CHeart *>(e->obj);
-			heart += hearts->GetHearts();
-			hearts->SetState(ITEM_STATE_DELETE);
-		}
-		else if (dynamic_cast<CMoneyBag *>(e->obj))
-		{
-			CMoneyBag *moneybag = dynamic_cast<CMoneyBag *>(e->obj);
-			if (moneybag->GetSize() == MONEY_BAG_BIG)
-				score += 1000;
-			else
-			{
-				if (state == MONEY_BAG_RED)
-					score += 100;
-				else if (state == MONEY_BAG_BLUE)
-					score += 400;
-				else if (state == MONEY_BAG_WHITE)
-					score += 700;
-			}
-			moneybag->SetState(ITEM_STATE_DELETE);
-		}
-		else if (dynamic_cast<CDagger *>(e->obj))
-		{
-			OnSkill = true;
-			CItems *items = dynamic_cast<CDagger *>(e->obj);
-			weapon = new CDagger();
-			items->SetState(ITEM_STATE_DELETE);
-		}
-		else if (dynamic_cast<CAxe *>(e->obj))
-		{
-			OnSkill = true;
-			CItems *items = dynamic_cast<CAxe *>(e->obj);
-			weapon = new CAxe();
-			items->SetState(ITEM_STATE_DELETE);
-		}
-		else if (dynamic_cast<CBoomerang *>(e->obj))
-		{
-			OnSkill = true;
-			CItems *items = dynamic_cast<CBoomerang *>(e->obj);
-			weapon = new CBoomerang();
-			items->SetState(ITEM_STATE_DELETE);
-		}
-		else  if (dynamic_cast<CHollyWater *>(e->obj))
-		{
-			OnSkill = true;
-			CItems *items = dynamic_cast<CHollyWater *>(e->obj);
-			weapon = new CHollyWater();
-			items->SetState(ITEM_STATE_DELETE);
-		}
-		else if (dynamic_cast<CWhipUpdate *> (e->obj))
-		{
-			CItems *items = dynamic_cast<CWhipUpdate *>(e->obj);
-			if (whip->state == WHITE_WHIP)
-			{
-				whip->SetState(BLUE_WHIP);
-			}
-			else if (whip->state == BLUE_WHIP)
-			{
-				whip->SetState(YELLOW_WHIP);
-			}
-			state_update = state;
-			SetState(SIMON_STATE_UPDATE);
-			items->SetState(ITEM_STATE_DELETE);
-			FrameUpdate = GetTickCount();
-		}
-
-		else if (dynamic_cast<CMonster *> (e->obj))
-		{
-			CMonster *monster = dynamic_cast<CMonster *>(e->obj);
-			if (dynamic_cast<CDracula *> (e->obj) && monster->state != DRACULA_STATE_FIRE
-				&& monster->state != DRACULA_STATE_IDLE)
-			{
-				break;
-			}
-			else if (dynamic_cast<CBossBat *> (e->obj) && monster->state == MONSTER_STATE_DELETE)
-			{
-				ChangeMap(6);
-			}
-			else if (dynamic_cast<CBat *> (e->obj) && monster->state == BAT_STATE_SLEEPING)
-			{
-				CBat *bat = dynamic_cast<CBat *>(e->obj);
-				float cx, cy;
-				bat->GetPositionAppear(cx, cy);
-				bat->SetPosition(cx, cy);
-				if (bat->GetSize() == BAT_SIZE_SMALL)
+				if (whip->GetCurrentFrame() == 2)
+					whip->fight = true;
+				if (t >= 3 * FRAME_TIME_WHIP)
 				{
-					int state;
-					state = bat->GetStateAppear();
-					bat->SetState(state);
+					fight = false;
+					whip->fight = false;
 				}
+			}
+			whip->Update(dt, coObject);
+			whip->SetPosition(x, y);
+		}
+		if (skill)
+		{
+			weapon->Update(dt, coObject);
+		}
+		coEventsResult.clear();
+		FilterCollisionImmediately(coEvents, coEventsResult);
+		bool test = true;
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<CHidenObject *> (e->obj))
+			{
+				CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
+				if (hidenobject->GetState() == HIDENOBJECT_STATE_STAIR_UP)
+				{
+					nx1 = hidenobject->nx;
+					hidenobject->GetStair_XY(stair_x, stair_y);
+					if (stair != 2 && stair != 4)
+						stair = 1;
+					if (stair == 2 && IsDown != 2)
+						IsDown = 1;
+				}
+				else if (hidenobject->GetState() == HIDENOBJECT_STATE_STAIR_DOWN)
+				{
+					nx1 = hidenobject->nx;
+					hidenobject->GetStair_XY(stair_x, stair_y);
+					if (stair != 2 && stair != 4)
+						stair = 3;
+					if (stair == 2 && IsUp != 2)
+						IsUp = 1;
+				}
+				else if (hidenobject->GetState() == HIDENOBJECT_STATE_STAIR_UP_DOWN)
+				{
+					int test;
+					float size_x, size_y;
+					hidenobject->GetSize(size_x, size_y);
+					if (hidenobject->y + size_y >= y + SIMON_BBOX_IDLE_HEIGHT)
+						test = 0;
+					else
+						test = 1;
+					nx1 = hidenobject->nx;
+					hidenobject->GetStair_XY(stair_x, stair_y);
+					if (stair != 2 && stair != 5 && stair != 6)
+						stair = 4;
+					if (stair == 2 && IsDown != 2 && test == 0)
+						IsDown = 1;
+					if (stair == 2 && IsUp != 2 && test == 1)
+						IsUp = 1;
+				}
+			}
+			else if (dynamic_cast<CHeart *>(e->obj))
+			{
+				CHeart *hearts = dynamic_cast<CHeart *>(e->obj);
+				heart += hearts->GetHearts();
+				hearts->SetState(ITEM_STATE_DELETE);
+			}
+			else if (dynamic_cast<CMoneyBag *>(e->obj))
+			{
+				CMoneyBag *moneybag = dynamic_cast<CMoneyBag *>(e->obj);
+				if (moneybag->GetSize() == MONEY_BAG_BIG)
+					score += 1000;
 				else
-					bat->SetState(BAT_STATE_FLY);
+				{
+					if (state == MONEY_BAG_RED)
+						score += 100;
+					else if (state == MONEY_BAG_BLUE)
+						score += 400;
+					else if (state == MONEY_BAG_WHITE)
+						score += 700;
+				}
+				moneybag->SetState(ITEM_STATE_DELETE);
 			}
-			else if (dynamic_cast<CFishman *> (e->obj) && monster->state == MONSTER_STATE_SLEEPING)
+			else if (dynamic_cast<CDagger *>(e->obj))
 			{
-				CFishman *fishman = dynamic_cast<CFishman *>(e->obj);
-				float cx, cy, tx, ty;
-				fishman->GetPositionAppear(cx, cy);
-				fishman->GetPosition(tx, ty);
-				fishman->SetPostionAppear(tx, ty);
-				if(fishman->nx>0)
-					fishman->SetPosition(x + 80.0f, 164.0f);
-				if (fishman->nx < 0)
-					fishman->SetPosition(x - 80.0f, 164.0f);
-				fishman->GetPosition(tx, ty);
-				int state;
-				state = fishman->GetStateAppear();
-				fishman->SetState(state);
+				OnSkill = true;
+				CItems *items = dynamic_cast<CDagger *>(e->obj);
+				weapon = new CDagger();
+				items->SetState(ITEM_STATE_DELETE);
 			}
-			else if (dynamic_cast<CEagle *> (e->obj) && monster->state == EAGLE_STATE_SLEEPING)
+			else if (dynamic_cast<CAxe *>(e->obj))
 			{
-				CEagle *eagle = dynamic_cast<CEagle *>(e->obj);
-				float cx, cy, tx, ty;
-				eagle->GetPositionAppear(cx, cy);
-				eagle->GetPosition(tx, ty);
-				eagle->SetPosstionAppear(tx, ty);
-				eagle->SetPosition(x - 80.0f, cy);
-				eagle->GetPosition(tx, ty);
-				CHunchback* hunchback;
-				hunchback = new CHunchback();
-				hunchback->SetPosition(tx + 10.0f, ty + 21.0f);
-				hunchback->SetState(HUNCHBACK_STATE_FLY_RIGHT);
-				CCells* cell = map->GetCell();
-				cell->InitCells(hunchback);
-				map->SetCell(cell);
-				int state;
-				state = eagle->GetStateAppear();
-				eagle->SetState(state);
+				OnSkill = true;
+				CItems *items = dynamic_cast<CAxe *>(e->obj);
+				weapon = new CAxe();
+				items->SetState(ITEM_STATE_DELETE);
 			}
-			else if (collusion == 0 && monster->state != MONSTER_STATE_DELETE &&
-				monster->state != MONSTER_STATE_DISAPPEAR)
+			else if (dynamic_cast<CBoomerang *>(e->obj))
 			{
+				OnSkill = true;
+				CItems *items = dynamic_cast<CBoomerang *>(e->obj);
+				weapon = new CBoomerang();
+				items->SetState(ITEM_STATE_DELETE);
+			}
+			else  if (dynamic_cast<CHollyWater *>(e->obj))
+			{
+				OnSkill = true;
+				CItems *items = dynamic_cast<CHollyWater *>(e->obj);
+				weapon = new CHollyWater();
+				items->SetState(ITEM_STATE_DELETE);
+			}
+			else if (dynamic_cast<CWhipUpdate *> (e->obj))
+			{
+				CItems *items = dynamic_cast<CWhipUpdate *>(e->obj);
+				if (whip->state == WHITE_WHIP)
+				{
+					whip->SetState(BLUE_WHIP);
+				}
+				else if (whip->state == BLUE_WHIP)
+				{
+					whip->SetState(YELLOW_WHIP);
+				}
+				state_update = state;
+				SetState(SIMON_STATE_UPDATE);
+				items->SetState(ITEM_STATE_DELETE);
+				FrameUpdate = GetTickCount();
+			}
+
+			else if (dynamic_cast<CMonster *> (e->obj))
+			{
+				CMonster *monster = dynamic_cast<CMonster *>(e->obj);
+				if (dynamic_cast<CDracula *> (e->obj) && monster->state != DRACULA_STATE_FIRE
+					&& monster->state != DRACULA_STATE_IDLE)
+				{
+					break;
+				}
+				else if (dynamic_cast<CBat *> (e->obj) && monster->state == BAT_STATE_SLEEPING)
+				{
+					CBat *bat = dynamic_cast<CBat *>(e->obj);
+					float cx, cy;
+					bat->GetPositionAppear(cx, cy);
+					bat->SetPosition(cx, cy);
+					if (bat->GetSize() == BAT_SIZE_SMALL)
+					{
+						int state;
+						state = bat->GetStateAppear();
+						bat->SetState(state);
+					}
+					else
+						bat->SetState(BAT_STATE_FLY);
+				}
+				else if (dynamic_cast<CFishman *> (e->obj) && monster->state == MONSTER_STATE_SLEEPING)
+				{
+					CFishman *fishman = dynamic_cast<CFishman *>(e->obj);
+					float cx, cy, tx, ty;
+					fishman->GetPositionAppear(cx, cy);
+					fishman->GetPosition(tx, ty);
+					fishman->SetPostionAppear(tx, ty);
+					if (fishman->nx > 0)
+						fishman->SetPosition(x + 80.0f, 164.0f);
+					if (fishman->nx < 0)
+						fishman->SetPosition(x - 80.0f, 164.0f);
+					fishman->GetPosition(tx, ty);
+					int state;
+					state = fishman->GetStateAppear();
+					fishman->SetState(state);
+				}
+				else if (dynamic_cast<CEagle *> (e->obj) && monster->state == EAGLE_STATE_SLEEPING)
+				{
+					CEagle *eagle = dynamic_cast<CEagle *>(e->obj);
+					float cx, cy, tx, ty;
+					eagle->GetPositionAppear(cx, cy);
+					eagle->GetPosition(tx, ty);
+					eagle->SetPosstionAppear(tx, ty);
+					eagle->SetPosition(x - 80.0f, cy);
+					eagle->GetPosition(tx, ty);
+					CHunchback* hunchback;
+					hunchback = new CHunchback();
+					hunchback->SetPosition(tx + 10.0f, ty + 21.0f);
+					hunchback->SetState(HUNCHBACK_STATE_FLY_RIGHT);
+					CCells* cell = map->GetCell();
+					cell->InitCells(hunchback);
+					map->SetCell(cell);
+					int state;
+					state = eagle->GetStateAppear();
+					eagle->SetState(state);
+				}
+				else if (collusion == 0 && monster->state != MONSTER_STATE_DELETE &&
+					monster->state != MONSTER_STATE_DISAPPEAR)
+				{
+					if (stair != 2)
+					{
+						collusion = 1;
+						SetState(SIMON_STATE_COLLUSION);
+					}
+					else
+						collusion = 2;
+					fight = false;
+					whip->fight = false;
+					ResetFight();
+					health -= monster->GetDamage();
+					collusion_nx = nx;
+					FrameCollusion = GetTickCount();
+				}
+			}
+			else if (dynamic_cast<CBullet *>(e->obj) && collusion == 0)
+			{
+				CBullet *bullet = dynamic_cast<CBullet *>(e->obj);
 				if (stair != 2)
 				{
 					collusion = 1;
@@ -249,313 +268,311 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				fight = false;
 				whip->fight = false;
 				ResetFight();
-				health -= monster->GetDamage();
+				health -= bullet->GetDamage();
 				collusion_nx = nx;
 				FrameCollusion = GetTickCount();
 			}
-		}
-		else if (dynamic_cast<CBullet *>(e->obj) && collusion == 0)
-		{
-			CBullet *bullet = dynamic_cast<CBullet *>(e->obj);
-			if (stair != 2)
+			else if (dynamic_cast<CBone *>(e->obj) && collusion == 0)
 			{
-				collusion = 1;
-				SetState(SIMON_STATE_COLLUSION);
-			}
-			else
-				collusion = 2;
-			fight = false;
-			whip->fight = false;
-			ResetFight();
-			health -= bullet->GetDamage();
-			collusion_nx = nx;
-			FrameCollusion = GetTickCount();
-		}
-		else if (dynamic_cast<CBone *>(e->obj) && collusion == 0)
-		{
-			CBone *bone = dynamic_cast<CBone *>(e->obj);
-			if (stair != 2)
-			{
-				collusion = 1;
-				SetState(SIMON_STATE_COLLUSION);
-			}
-			else
-				collusion = 2;
-			fight = false;
-			whip->fight = false;
-			ResetFight();
-			health -= bone->GetDamage();
-			collusion_nx = nx;
-			FrameCollusion = GetTickCount();
-		}
-		else if (dynamic_cast<CDoor *>(e->obj))
-		{
-			CDoor *door = dynamic_cast<CDoor *>(e->obj);
-			if (state_auto == 6)
-			{
-				door->SetStop(true);
-				door->SetState(DOOR_STATE_OPEN);
-				state_auto = 7;
-			}
-			else if (state_auto == 7)
-			{
-				DWORD now = GetTickCount();
-				if (now - door->GetTimeOpen() > 300)
-				{
-					if (door->state == DOOR_STATE_OPEN)
-						state_auto = 4;
-					else if (door->state == DOOR_STATE_CLOSE)
-					{
-						state_auto = -1;
-						camera_auto = 3;
-						door->SetState(DOOR_STATE_NORMAL);
-					}
-				}
-			}
-			else if (state_auto == 8)
-			{
-
-				door->SetStop(true);
-				door->SetState(DOOR_STATE_CLOSE);
-				state_auto = 7;
-			}
-		}
-	}
-	for (UINT i = 0; i < coEvents.size(); i++)
-	{
-		LPCOLLISIONEVENT e = coEvents[i];
-		if (dynamic_cast<CHidenObject *> (e->obj))
-		{
-			CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
-			if (hidenobject->GetState() != HIDENOBJECT_STATE_NORMAL)
-			{
-				coEvents.erase(coEvents.begin() + i);
-				i--;
-			}
-		}
-		else if (dynamic_cast<CDoor *> (e->obj))
-		{
-			CDoor *door = dynamic_cast<CDoor *>(e->obj);
-			if (door->IsGo == false)
-			{
-				coEvents.erase(coEvents.begin() + i);
-				i--;
-			}
-		}
-		else
-		{
-			coEvents.erase(coEvents.begin() + i);
-			i--;
-		}
-	}
-	if (coEvents.size() == 0)
-	{
-		x += dx;
-		y += dy;
-		test = false;
-	}
-	else
-	{
-		coEventsResult.clear();
-		float min_tx, min_ty, nx = 0, ny;
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-
-			if (dynamic_cast<CHidenObject *> (e->obj))
-			{
-				CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
+				CBone *bone = dynamic_cast<CBone *>(e->obj);
 				if (stair != 2)
 				{
-					x += min_tx * dx + nx * 0.4f;
-					y += min_ty * dy + ny * 0.4f;
-					test = false;
+					collusion = 1;
+					SetState(SIMON_STATE_COLLUSION);
 				}
-				//test = false;
-				/*if (nx != 0) {
-					vx = 0;
-				}
-				if (ny != 0) {
-					vy = 0; jump = 0;
-				}*/
-				DWORD now = GetTickCount();
-				if (now - FrameCollusion > 100)
-				{
-					if (ny != 0 && stair != 2) {
-						vy = 0; jump = 0;
-					}
-					if (collusion == 1 && ny < 0)
-						if (state == SIMON_STATE_COLLUSION)
-						{
-							SetState(SIMON_STATE_KNEE);
-							FrameCollusion = GetTickCount();
-						}
-				}
+				else
+					collusion = 2;
+				fight = false;
+				whip->fight = false;
+				ResetFight();
+				health -= bone->GetDamage();
+				collusion_nx = nx;
+				FrameCollusion = GetTickCount();
 			}
 			else if (dynamic_cast<CDoor *>(e->obj))
 			{
 				CDoor *door = dynamic_cast<CDoor *>(e->obj);
-				if (door->GetIsAuto() == true)
+				if (state_auto == 6)
 				{
-					if (door->GetIsHiden() == true && door->IsGo == true)
+					door->SetStop(true);
+					door->SetState(DOOR_STATE_OPEN);
+					state_auto = 7;
+				}
+				else if (state_auto == 7)
+				{
+					DWORD now = GetTickCount();
+					if (now - door->GetTimeOpen() > 300)
 					{
-						if (door->GetIsStair() == true)
+						if (door->state == DOOR_STATE_OPEN)
+							state_auto = 4;
+						else if (door->state == DOOR_STATE_CLOSE)
 						{
-							if (stair == 2)
+							state_auto = -1;
+							camera_auto = 3;
+							door->SetState(DOOR_STATE_NORMAL);
+						}
+					}
+				}
+				else if (state_auto == 8)
+				{
+
+					door->SetStop(true);
+					door->SetState(DOOR_STATE_CLOSE);
+					state_auto = 7;
+				}
+			}
+			else if (dynamic_cast<COtherStuff *>(e->obj))
+			{
+				IsChangeMap = true;
+				stage = 6;
+			}
+		}
+		for (UINT i = 0; i < coEvents.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEvents[i];
+			if (dynamic_cast<CHidenObject *> (e->obj))
+			{
+				CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
+				if (hidenobject->GetState() != HIDENOBJECT_STATE_NORMAL)
+				{
+					coEvents.erase(coEvents.begin() + i);
+					i--;
+				}
+			}
+			else if (dynamic_cast<CDoor *> (e->obj))
+			{
+				CDoor *door = dynamic_cast<CDoor *>(e->obj);
+				if (door->IsGo == false)
+				{
+					coEvents.erase(coEvents.begin() + i);
+					i--;
+				}
+			}
+			else
+			{
+				coEvents.erase(coEvents.begin() + i);
+				i--;
+			}
+		}
+		if (coEvents.size() == 0)
+		{
+			x += dx;
+			y += dy;
+			test = false;
+		}
+		else
+		{
+			coEventsResult.clear();
+			float min_tx, min_ty, nx = 0, ny;
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+			for (UINT i = 0; i < coEventsResult.size(); i++)
+			{
+				LPCOLLISIONEVENT e = coEventsResult[i];
+
+				if (dynamic_cast<CHidenObject *> (e->obj))
+				{
+					CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
+					if (stair != 2)
+					{
+						x += min_tx * dx + nx * 0.4f;
+						y += min_ty * dy + ny * 0.4f;
+						test = false;
+					}
+					//test = false;
+					/*if (nx != 0) {
+						vx = 0;
+					}
+					if (ny != 0) {
+						vy = 0; jump = 0;
+					}*/
+					DWORD now = GetTickCount();
+					if (now - FrameCollusion > 100)
+					{
+						if (ny != 0 && stair != 2) {
+							vy = 0; jump = 0;
+						}
+						if (collusion == 1 && ny < 0)
+							if (state == SIMON_STATE_COLLUSION)
 							{
-								if (door->nx == 1)
+								SetState(SIMON_STATE_KNEE);
+								FrameCollusion = GetTickCount();
+							}
+					}
+				}
+				else if (dynamic_cast<CDoor *>(e->obj))
+				{
+					CDoor *door = dynamic_cast<CDoor *>(e->obj);
+					if (door->GetIsAuto() == true)
+					{
+						if (door->GetIsHiden() == true && door->IsGo == true)
+						{
+							if (door->GetIsStair() == true)
+							{
+								if (stair == 2)
 								{
-									door->IsGo = false;
-									if (door->cx != 0 || door->cy != 0)
+									if (door->nx == 1)
 									{
-										simon_x = door->cx;
-										simon_y = door->cy;
+										door->IsGo = false;
+										if (door->cx != 0 || door->cy != 0)
+										{
+											simon_x = door->cx;
+											simon_y = door->cy;
+										}
+										map->SetIsNext(true);
+										map->SetNextScene(door->GetScene());
 									}
-									map->SetIsNext(true);
-									map->SetNextScene(door->GetScene());
-								}
-								else
-								{
-									door->IsGo = false;
-									if (door->cx != 0 || door->cy != 0)
+									else
 									{
-										simon_x = door->cx;
-										simon_y = door->cy;
+										door->IsGo = false;
+										if (door->cx != 0 || door->cy != 0)
+										{
+											simon_x = door->cx;
+											simon_y = door->cy;
+										}
+										map->SetIsFall(true);
+										map->SetNextScene(door->GetScene());
 									}
-									map->SetIsFall(true);
-									map->SetNextScene(door->GetScene());
 								}
 							}
-						}
-						else
-						{
-							door->IsGo = false;
-							state_auto = 5;
-							if (this->nx > 0)
-								simon_x = door->x + door->size;
 							else
-								simon_x = door->x - door->size;
+							{
+								door->IsGo = false;
+								state_auto = 5;
+								if (this->nx > 0)
+									simon_x = door->x + door->size;
+								else
+									simon_x = door->x - door->size;
+								map->SetNextScene(door->GetScene());
+							}
+						}
+						else if (door->GetIsHiden() == false && door->IsGo == true)
+						{
+							x += dx;
+							test = false;
+							SetState(SIMON_STATE_IDLE);
+							door->IsGo = false;
+							camera_auto = 2;
+							state_auto = -1;
 							map->SetNextScene(door->GetScene());
 						}
 					}
-					else if (door->GetIsHiden() == false && door->IsGo == true)
+					else
 					{
-						x += dx;
-						test = false;
-						SetState(SIMON_STATE_IDLE);
+						simon_x = 0;
+						simon_y = 0;
 						door->IsGo = false;
-						camera_auto = 2;
-						state_auto = -1;
+						map->SetIsNext(true);
 						map->SetNextScene(door->GetScene());
 					}
 				}
-				else
-				{
-					simon_x = 0;
-					simon_y = 0;
-					door->IsGo = false;
-					map->SetIsNext(true);
-					map->SetNextScene(door->GetScene());
-				}
+
 			}
-
 		}
-	}
-	if (test)
-	{
-		x += dx;
-		y += dy;
-	}
-	DWORD now = GetTickCount();
-	if (now - FrameCollusion > 100 && collusion == 1 && state == SIMON_STATE_KNEE)
-	{
-		collusion = 2;
-	}
-	else if (now - FrameCollusion > 2000 && collusion == 2)
-	{
-		collusion = 0;
-	}
+		if (test)
+		{
+			x += dx;
+			y += dy;
+		}
+		DWORD now = GetTickCount();
+		if (now - FrameCollusion > 100 && collusion == 1 && state == SIMON_STATE_KNEE)
+		{
+			if (health <= 0)
+			{
+				IsDie = true;
+				y += 20;
+				time_reset = GetTickCount();
+				collusion = 0;
+			}
+			else
+				collusion = 2;
+		}
+		else if (now - FrameCollusion > 2000 && collusion == 2)
+		{
+			collusion = 0;
+		}
+		if (y >= 190.0f && !IsDie)
+		{
+			vx = 0;
+			vy = 0;
+			IsDie = true;
+			time_reset = GetTickCount();
+		}
 
-	Auto();
-	if (camera_auto == 0)
-		Camera();
-	else
-		CameraAuto();
-	if (y >= 180.0f || health <= 0)
-	{
-		vx = 0;
-		vy = 0;
-		Reset = true;
+		if (IsDie)
+		{
+			SetState(SIMON_STATE_DIE);
+			collusion = 0;
+			if (now - time_reset > TIME_RESET)
+			{
+				Reset = true;
+				IsDie = false;
+			}
+		}
+		Auto();
+		if (camera_auto == 0)
+			Camera();
+		else
+			CameraAuto();
+
+
+		//DebugOut(L"state_auto=%d\n", state_auto);
+		//DebugOut(L"IsUp=%d\nIsDown=%d\n", IsUp,IsDown);
+		//DebugOut(L"state=%d\n", state);
+		//DebugOut(L"up=%d\ndown=%d\n", IsUp, IsDown);
+		DebugOut(L"x=%f\ny=%f\n", x, y);
+		//DebugOut(L"heart=%d\n", heart);
+		//DebugOut(L"stair=%d\n", stair);
 	}
-	//DebugOut(L"state_auto=%d\n", state_auto);
-	//DebugOut(L"IsUp=%d\nIsDown=%d\n", IsUp,IsDown);
-	//DebugOut(L"state=%d\n", state);
-	//DebugOut(L"up=%d\ndown=%d\n", IsUp, IsDown);
-	DebugOut(L"x=%f\ny=%f\n", x, y);
-	//DebugOut(L"heart=%d\n", heart);
-	//DebugOut(L"stair=%d\n", stair);
 }
 
 void CSimon::Render()
 {
 	int ani;
 	bool IsRenDer = false;
-	if (collusion != 1)
+	if (state == SIMON_STATE_DIE)
 	{
-		if (collusion == 0)
-			color = 255;
+		color = 255;
+		if (nx > 0)
+			ani = SIMON_ANI_DIE_RIGHT;
 		else
+			ani = SIMON_ANI_DIE_LEFT;
+	}
+	else
+	{
+		if (collusion != 1)
 		{
-			if (color == 150)
-				color = 200;
-			else
-				color = 150;
-		}
-		if (stair == 2)
-		{
-			DWORD now = GetTickCount();
-			if (state == SIMON_STATE_STAIR_UP)
-			{
-				if (nx > 0)
-					ani = SIMON_ANI_STAIR_UP_RIGHT;
-				else
-					ani = SIMON_ANI_STAIR_UP_LEFT;
-			}
-			else if (state == SIMON_STATE_STAIR_DOWN)
-			{
-				if (nx > 0)
-					ani = SIMON_ANI_STAIR_DOWN_RIGHT;
-				else
-					ani = SIMON_ANI_STAIR_DOWN_LEFT;
-			}
+			if (collusion == 0)
+				color = 255;
 			else
 			{
-				if (skill == true && now - FrameWeapon < 3 * FRAME_TIME_WHIP)
+				if (color == 150)
+					color = 200;
+				else
+					color = 150;
+			}
+			if (stair == 2)
+			{
+				DWORD now = GetTickCount();
+				if (state == SIMON_STATE_STAIR_UP)
 				{
-					if (state == SIMON_STATE_STAIR_UP_IDLE)
-					{
-						if (nx > 0)
-							ani = SIMON_ANI_STAIR_FIGHT_UP_RIGHT;
-						else
-							ani = SIMON_ANI_STAIR_FIGHT_UP_LEFT;
-					}
+					if (nx > 0)
+						ani = SIMON_ANI_STAIR_UP_RIGHT;
 					else
-					{
-						if (nx > 0)
-							ani = SIMON_ANI_STAIR_FIGHT_DOWN_RIGHT;
-						else
-							ani = SIMON_ANI_STAIR_FIGHT_DOWN_LEFT;
-					}
-					animations[ani]->Render(x, y, color);
+						ani = SIMON_ANI_STAIR_UP_LEFT;
+				}
+				else if (state == SIMON_STATE_STAIR_DOWN)
+				{
+					if (nx > 0)
+						ani = SIMON_ANI_STAIR_DOWN_RIGHT;
+					else
+						ani = SIMON_ANI_STAIR_DOWN_LEFT;
 				}
 				else
 				{
-					if (fight == true)
+					if (skill == true && now - FrameWeapon < 3 * FRAME_TIME_WHIP)
 					{
 						if (state == SIMON_STATE_STAIR_UP_IDLE)
 						{
-
 							if (nx > 0)
 								ani = SIMON_ANI_STAIR_FIGHT_UP_RIGHT;
 							else
@@ -568,154 +585,178 @@ void CSimon::Render()
 							else
 								ani = SIMON_ANI_STAIR_FIGHT_DOWN_LEFT;
 						}
-						if (nx > 0)whip->SetStateWhip(WHIP_STATE_RIGHT);
-						else whip->SetStateWhip(WHIP_STATE_LEFT);
+						animations[ani]->Render(x, y, color);
 					}
 					else
 					{
-						if (state == SIMON_STATE_STAIR_UP_IDLE)
+						if (fight == true)
 						{
-							if (nx > 0)
-								ani = SIMON_ANI_STAIR_IDLE_UP_RIGHT;
-							else
-								ani = SIMON_ANI_STAIR_IDLE_UP_LEFT;
-						}
-						else if (state == SIMON_STATE_STAIR_DOWN_IDLE)
-						{
-							if (nx > 0)
-								ani = SIMON_ANI_STAIR_IDLE_DOWN_RIGHT;
-							else
-								ani = SIMON_ANI_STAIR_IDLE_DOWN_LEFT;
-						}
-					}
-				}
+							if (state == SIMON_STATE_STAIR_UP_IDLE)
+							{
 
-			}
-			if (skill)
-			{
-				if (now - FrameWeapon > 600) skill = false;
-				else weapon->Render();
-			}
-
-		}
-		else
-		{
-			if (state == SIMON_STATE_UPDATE)
-			{
-				IsRenDer = true;
-				if (state_update == SIMON_STATE_WALKING_LEFT)
-					ani = SIMON_ANI_WALKING_LEFT;
-				else
-					ani = SIMON_ANI_WALKING_RIGHT;
-				if (alpha == 255)
-				{
-					animations[ani]->Render_now(x, y, 255, alpha, 28, 36);
-					alpha = 237;
-				}
-				else
-				{
-					animations[ani]->Render_now(x, y);
-					alpha = 255;
-				}
-			}
-			else
-			{
-				DWORD now = GetTickCount();
-				if (state == SIMON_STATE_BEHIND)
-					ani = SIMON_ANI_BEHIND;
-				else if (skill == true && now - FrameWeapon < 450)
-				{
-					if (nx > 0)
-						ani = SIMON_ANI_FIGHT_RIGHT;
-					else
-						ani = SIMON_ANI_FIGHT_LEFT;
-				}
-				else
-				{
-					if (fight == true)
-					{
-						if (mx == 1)
-						{
-							if (nx > 0)
-								ani = SIMON_ANI_KNEE_FIGHT_RIGHT;
+								if (nx > 0)
+									ani = SIMON_ANI_STAIR_FIGHT_UP_RIGHT;
+								else
+									ani = SIMON_ANI_STAIR_FIGHT_UP_LEFT;
+							}
 							else
-								ani = SIMON_ANI_KNEE_FIGHT_LEFT;
+							{
+								if (nx > 0)
+									ani = SIMON_ANI_STAIR_FIGHT_DOWN_RIGHT;
+								else
+									ani = SIMON_ANI_STAIR_FIGHT_DOWN_LEFT;
+							}
+							if (nx > 0)whip->SetStateWhip(WHIP_STATE_RIGHT);
+							else whip->SetStateWhip(WHIP_STATE_LEFT);
 						}
 						else
 						{
-							if (nx > 0)
-								ani = SIMON_ANI_FIGHT_RIGHT;
-							else
-								ani = SIMON_ANI_FIGHT_LEFT;
+							if (state == SIMON_STATE_STAIR_UP_IDLE)
+							{
+								if (nx > 0)
+									ani = SIMON_ANI_STAIR_IDLE_UP_RIGHT;
+								else
+									ani = SIMON_ANI_STAIR_IDLE_UP_LEFT;
+							}
+							else if (state == SIMON_STATE_STAIR_DOWN_IDLE)
+							{
+								if (nx > 0)
+									ani = SIMON_ANI_STAIR_IDLE_DOWN_RIGHT;
+								else
+									ani = SIMON_ANI_STAIR_IDLE_DOWN_LEFT;
+							}
 						}
-						if (nx > 0)whip->SetStateWhip(WHIP_STATE_RIGHT);
-						else whip->SetStateWhip(WHIP_STATE_LEFT);
 					}
-					else
-					{
-						if (mx == 1)
-						{
-							if (nx > 0)
-								ani = SIMON_ANI_JUMP_RIGHT; //SIMON_ANI_KNEE_RIGHT
-							else
-								ani = SIMON_ANI_JUMP_LEFT; //SIMON_ANI_KNEE_LEFT
-						}
-						else if (state == SIMON_STATE_WALKING_RIGHT)
-							ani = SIMON_ANI_WALKING_RIGHT;
-						else if (state == SIMON_STATE_WALKING_LEFT)
-							ani = SIMON_ANI_WALKING_LEFT;
-						else
-						{
-							if (nx > 0)
-								ani = SIMON_ANI_IDLE_RIGHT;
-							else
-								ani = SIMON_ANI_IDLE_LEFT;
-						}
 
-						if (vy < 0 && nx < 0)
-							ani = SIMON_ANI_JUMP_LEFT;
-						else if (vy < 0 && nx > 0)
-							ani = SIMON_ANI_JUMP_RIGHT;
-					}
 				}
 				if (skill)
 				{
-					if (now - FrameWeapon > /*600*/ 3000)	skill = false;
+					if (now - FrameWeapon > 600) skill = false;
 					else weapon->Render();
 				}
 
 			}
-		}
-	}
-	else
-	{
-		if (state == SIMON_STATE_KNEE)
-		{
-			if (nx > 0)
-				ani = SIMON_ANI_JUMP_RIGHT;//knee
-			else
-				ani = SIMON_ANI_JUMP_LEFT;//knee
-			if (color == 200)
-			{
-				color = 150;
-			}
 			else
 			{
-				color = 200;
-			}
-		}
-		else if (state == SIMON_STATE_COLLUSION)
-		{
-			color = 255;
-			if (nx > 0)
-				ani = SIMON_ANI_COLLUSION_RIGHT;
-			else
-				ani = SIMON_ANI_COLLUSION_LEFT;
+				if (state == SIMON_STATE_UPDATE)
+				{
+					IsRenDer = true;
+					if (state_update == SIMON_STATE_WALKING_LEFT)
+						ani = SIMON_ANI_WALKING_LEFT;
+					else
+						ani = SIMON_ANI_WALKING_RIGHT;
+					if (alpha == 255)
+					{
+						animations[ani]->Render_now(x, y, 255, alpha, 28, 36);
+						alpha = 237;
+					}
+					else
+					{
+						animations[ani]->Render_now(x, y);
+						alpha = 255;
+					}
+				}
+				else
+				{
+					DWORD now = GetTickCount();
+					if (state == SIMON_STATE_BEHIND)
+						ani = SIMON_ANI_BEHIND;
+					else if (skill == true && now - FrameWeapon < 450)
+					{
+						if (nx > 0)
+							ani = SIMON_ANI_FIGHT_RIGHT;
+						else
+							ani = SIMON_ANI_FIGHT_LEFT;
+					}
+					else
+					{
+						if (fight == true)
+						{
+							if (mx == 1)
+							{
+								if (nx > 0)
+									ani = SIMON_ANI_KNEE_FIGHT_RIGHT;
+								else
+									ani = SIMON_ANI_KNEE_FIGHT_LEFT;
+							}
+							else
+							{
+								if (nx > 0)
+									ani = SIMON_ANI_FIGHT_RIGHT;
+								else
+									ani = SIMON_ANI_FIGHT_LEFT;
+							}
+							if (nx > 0)whip->SetStateWhip(WHIP_STATE_RIGHT);
+							else whip->SetStateWhip(WHIP_STATE_LEFT);
+						}
+						else
+						{
+							if (mx == 1)
+							{
+								if (nx > 0)
+									ani = SIMON_ANI_JUMP_RIGHT; //SIMON_ANI_KNEE_RIGHT
+								else
+									ani = SIMON_ANI_JUMP_LEFT; //SIMON_ANI_KNEE_LEFT
+							}
+							else if (state == SIMON_STATE_WALKING_RIGHT)
+								ani = SIMON_ANI_WALKING_RIGHT;
+							else if (state == SIMON_STATE_WALKING_LEFT)
+								ani = SIMON_ANI_WALKING_LEFT;
+							else
+							{
+								if (nx > 0)
+									ani = SIMON_ANI_IDLE_RIGHT;
+								else
+									ani = SIMON_ANI_IDLE_LEFT;
+							}
 
+							if (vy < 0 && nx < 0)
+								ani = SIMON_ANI_JUMP_LEFT;
+							else if (vy < 0 && nx > 0)
+								ani = SIMON_ANI_JUMP_RIGHT;
+						}
+					}
+					if (skill)
+					{
+						if (now - FrameWeapon > /*600*/ 3000)	skill = false;
+						else weapon->Render();
+					}
+
+				}
+			}
+		}
+		else
+		{
+			if (state == SIMON_STATE_KNEE)
+			{
+				if (nx > 0)
+					ani = SIMON_ANI_JUMP_RIGHT;//knee
+				else
+					ani = SIMON_ANI_JUMP_LEFT;//knee
+				if (color == 200)
+				{
+					color = 150;
+				}
+				else
+				{
+					color = 200;
+				}
+			}
+			else if (state == SIMON_STATE_COLLUSION)
+			{
+				color = 255;
+				if (nx > 0)
+					ani = SIMON_ANI_COLLUSION_RIGHT;
+				else
+					ani = SIMON_ANI_COLLUSION_LEFT;
+
+			}
 		}
 	}
 	if (!IsRenDer)
 	{
+		if (ani < 0)
+			ani = 0;
 		DWORD t = GetTickCount() - whip->GetFrameWhip();
 		if (fight == true)
 		{
@@ -739,7 +780,12 @@ void CSimon::GetBoundingBox(float & left, float & top, float & right, float & bo
 	left = x;
 	top = y;
 	DWORD t = GetTickCount() - whip->GetFrameWhip();
-	if (vy < 0)
+	if (state == SIMON_STATE_DIE)
+	{
+		right = x + 30;
+		bottom = y + 14;
+	}
+	else if (vy < 0)
 	{
 		right = x + SIMON_BBOX_KNEE_WIDTH;
 		bottom = y + SIMON_BBOX_KNEE_HEIGHT;
@@ -838,6 +884,10 @@ void CSimon::SetState(int state)
 		break;
 	case SIMON_STATE_BEHIND:
 		vx = 0;
+		break;
+	case SIMON_STATE_DIE:
+		vx = 0;
+		vy = 0;
 		break;
 	}
 }
@@ -1020,7 +1070,7 @@ void CSimon::Camera()
 			cell->InitCells(hidenobject);
 			map->SetCell(cell);
 			CDracula* dracula = CDracula::GetInstance();
-			dracula->SetState(DRACULA_STATE_INVISIBLE);		
+			dracula->SetState(DRACULA_STATE_INVISIBLE);
 		}
 		if (!MeetBoss)
 		{
@@ -1079,15 +1129,6 @@ void CSimon::CameraAuto()
 	//DebugOut(L"camera=%f\n", cx);
 }
 
-void CSimon::ChangeMap(int stage)
-{
-	if (stage == 6)
-	{
-		map = CClockTowerLevel::GetInstance();
-		map->SetScene(SCENE_1);
-		SetPosition(1460.0f, 30.0f);
-	}
-}
 
 CSimon::CSimon()
 {
@@ -1125,6 +1166,7 @@ CSimon::CSimon()
 	whip = new CWhip();
 	whip->SetState(WHITE_WHIP);
 	map = CEntranceLevel::GetInstance();
+	IsChangeMap = false;
 }
 
 CSimon * CSimon::GetInstance()

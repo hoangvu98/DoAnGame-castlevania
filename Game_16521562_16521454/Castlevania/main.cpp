@@ -58,6 +58,7 @@ LPDIRECT3DTEXTURE9 texture_title;
 LPDIRECT3DTEXTURE9 texture_intro;
 int screen = 0;
 DWORD Time_screen;
+DWORD time_route_blackboard;
 class CSampleKeyHander : public CKeyEventHandler
 {
 	virtual void KeyState(BYTE *states);
@@ -322,6 +323,7 @@ void LoadResources()
 	resource->LoadHunchback();
 	resource->LoadDracula();
 	resource->LoadSpiritDracula();
+	resource->LoadOtherStuff();
 	simon = CSimon::GetInstance();
 	simon->SetPosition(2053.0f, 28.0f);
 	//simon->SetPosition(906.0f, 34.0f);
@@ -331,7 +333,7 @@ void LoadResources()
 	//simon->SetPosition(226.0f, 130.0f); 
 	simon->SetState(SIMON_STATE_WALKING_LEFT);
 	simon->SetPosition(1460.0f, 30.0f);//map 1
-	simon->SetPosition(550.0f, 80.0f);//map 2
+	//simon->SetPosition(550.0f, 80.0f);//map 2
 	//simon->SetPosition(267.0f, 0.0f);//map 2
 	//simon->SetPosition(629.0f, 10.0f);//map 3
 	//simon->SetPosition(450.0f, 10.0f);//map 3
@@ -341,10 +343,10 @@ void LoadResources()
 	//simon->SetPosition(448.0f, 76.0f);//map 5
 	//simon->SetPosition(190.0f, 30.0f   /*719.0f, 45.0f*/);
 	//simon->SetPosition(49.0f, 104.0f);
-	simon->SetPosition(50.0f, 0.0f);
+	simon->SetPosition(2550.0f, 0.0f);
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
-	simon->map->SetScene(SCENE_4);
+	simon->map->SetScene(SCENE_5);
 	screen = 2;
 	simon->map->LoadObject();
 	simon->map->LoadMap();
@@ -384,6 +386,20 @@ void Update(DWORD dt)
 			objects[i]->Update(dt, &coObjects);
 		break;
 	case 2:
+		if (simon->GetIsChangeMap())
+		{
+			simon->MeetBoss = false;
+			if(simon->GetStage()==6)
+				simon->map = CClockTowerLevel::GetInstance();
+			simon->map->SetScene(SCENE_1);
+			simon->SetHealth(16);
+			simon->SetHeart(5);
+			float x, y;
+			simon->map->NextScece(x, y);
+			if (x != 0 || y != 0)
+				simon->SetPosition(x, y);
+			simon->Camera();
+		}
 		if (simon->GetReset())
 		{
 			int live = simon->GetLive();
@@ -394,6 +410,7 @@ void Update(DWORD dt)
 				simon->SetHealth(16);
 				simon->SetReset(false);
 				simon->map->ResetScene();
+				simon->SetState(SIMON_STATE_IDLE);
 				float x, y;
 				simon->map->NextScece(x, y);
 				if (x != 0 || y != 0)
@@ -405,6 +422,7 @@ void Update(DWORD dt)
 			{
 				LoadResources();
 			}
+			simon->SetTime(400);
 		}
 		if (simon->map->GetIsNext())
 		{
@@ -488,7 +506,7 @@ void Render()
 				simon->SetCameraAuto(0);
 				simon->nx = 1;
 			}
-			blackboard->Render();
+			//blackboard->Render();
 			if (now - Time_screen < 2100)
 			{
 				simon->vx = -SIMON_WALKING_SPEED / 2;
@@ -506,7 +524,7 @@ void Render()
 			break;
 		case 2:
 			simon->map->Render();
-			blackboard->Render();
+			//blackboard->Render();
 			for (int i = 0; i < objects.size(); i++)
 				objects[i]->Render();
 			break;
@@ -595,9 +613,14 @@ int Run()
 			frameStart = now;
 			if (game->GetPause())
 			{
-
-				if (simon->GetStateAuto() == 0 && simon->GetCollusion() != 1)
-					game->ProcessKeyboard();
+				if (now - time_route_blackboard > 1000)
+				{
+					simon->SetTime(simon->GetTime() - 1);
+					time_route_blackboard= GetTickCount();
+				}
+				if (simon->state != SIMON_STATE_DIE)
+					if (simon->GetStateAuto() == 0 && simon->GetCollusion() != 1)
+						game->ProcessKeyboard();
 				Update(dt);
 			}
 			DWORD now = GetTickCount();
@@ -626,6 +649,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	game->Init(hWnd);
 
 	keyHandler = new CSampleKeyHander();
+
 	game->InitKeyboard(keyHandler);
 
 

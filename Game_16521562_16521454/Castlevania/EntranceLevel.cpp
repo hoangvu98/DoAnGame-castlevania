@@ -327,9 +327,9 @@ void CEntranceLevel::LoadMap()
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
 
-		/*bossbat = CBossBat::GetInstance();
+		bossbat = CBossBat::GetInstance();
 		bossbat->SetPosition(2666.0f, 0.0f);
-		cells->InitCells(bossbat);*/
+		cells->InitCells(bossbat);
 		break;
 	}
 }
@@ -1094,16 +1094,16 @@ void CEntranceLevel::NextScece(float &x, float &y)
 
 void CEntranceLevel::ResetScene()
 {
-	if (scene == SCENE_1)
-	{
-		scene = SCENE_1;
-	}
-	else if (scene == SCENE_2 || scene == SCENE_3)
+	if (scene == SCENE_2 )
 	{
 		scene = SCENE_2;
 	}
-	else if (scene == SCENE_4 || scene == SCENE_5)
+	else if (scene == SCENE_3 || scene == SCENE_4)
 	{
-		scene = SCENE_4;
+		scene = SCENE_3;
+	}
+	else if (scene == SCENE_5)
+	{
+		scene == SCENE_5;
 	}
 }
