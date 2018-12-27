@@ -327,7 +327,7 @@ void LoadResources()
 	//simon->SetPosition(906.0f, 34.0f);
 	//simon->SetPosition(1378.0f, 34.0f);
 	//simon->SetPosition(618.4f, 129.0f);
-	//simon->SetPosition(100.0f, 20.0f);
+	simon->SetPosition(100.0f, 20.0f);
 	//simon->SetPosition(226.0f, 130.0f); 
 	simon->SetState(SIMON_STATE_WALKING_LEFT);
 	//simon->SetPosition(1460.0f, 30.0f);//map 1
@@ -341,9 +341,10 @@ void LoadResources()
 	//simon->SetPosition(448.0f, 76.0f);//map 5
 	//simon->SetPosition(190.0f, 30.0f   /*719.0f, 45.0f*/);
 	//simon->SetPosition(49.0f, 104.0f);
+	simon->SetPosition(1600.0f, 0.0f);
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
-	simon->map->SetScene(SCENE_5);
+	simon->map->SetScene(SCENE_3);
 	screen = 2;
 	simon->map->LoadObject();
 	simon->map->LoadMap();

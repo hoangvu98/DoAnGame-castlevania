@@ -7,157 +7,163 @@
 CDracula *CDracula::__instance = NULL;
 void CDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CSimon *simon = CSimon::GetInstance();
-	int i;
-	if (state != DRACULA_STATE_DIE)
+	if (state != DRACULA_STATE_SLEEPING)
 	{
-		head->Update(dt, coObjects);
-		if (head->GetState() != HEAD_STATE_FLY)
+		CSimon *simon = CSimon::GetInstance();
+		int i;
+		if (state != DRACULA_STATE_DIE)
 		{
-			SetState(DRACULA_STATE_IDLE);
-			if (start == true)
-				StartUntouchable();
-			if (GetTickCount() - untouchable_start > DRACULA_UNTOUCHABLE_TIME)
+			head->Update(dt, coObjects);
+			if (head->GetState() != HEAD_STATE_FLY)
 			{
-				untouchable_start = 0;
-				untouchable = false;
-
-				if (startwait1 == true)
-					StartWait(startwait1, wait_start1);
-				if (isfire == false)
+				SetState(DRACULA_STATE_IDLE);
+				if (start == true)
+					StartUntouchable();
+				if (GetTickCount() - untouchable_start > DRACULA_UNTOUCHABLE_TIME)
 				{
-					isAddBulletToCell = true;
-					if (nx > 0)
+					untouchable_start = 0;
+					untouchable = false;
+
+					if (startwait1 == true)
+						StartWait(startwait1, wait_start1);
+					if (isfire == false)
 					{
-						for (i = 0; i < 3; i++)
+						isAddBulletToCell = true;
+						if (nx > 0)
 						{
-							bullets[i]->SetPosition(x + BULLET_POSITION_X, y + BULLET_POSITION_Y);
-							bullets[i]->Setnx(1);
+							for (i = 0; i < 3; i++)
+							{
+								bullets[i]->SetPosition(x + BULLET_POSITION_X, y + BULLET_POSITION_Y);
+								bullets[i]->Setnx(1);
+							}
+							bullets[0]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y, 800);
+							bullets[1]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y - 8.0f, 800);
+							bullets[2]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y + 8.0f, 800);
 						}
-						bullets[0]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y, 800);
-						bullets[1]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y - 8.0f, 800);
-						bullets[2]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y + 8.0f, 800);
+						else
+						{
+							for (i = 0; i < 3; i++)
+							{
+								bullets[i]->SetPosition(x, y + BULLET_POSITION_Y);
+								bullets[i]->Setnx(-1);
+							}
+							bullets[0]->SetSpeed(x, y + BULLET_POSITION_Y, simon->x, simon->y, 800);
+							bullets[1]->SetSpeed(x, y + BULLET_POSITION_Y, simon->x, simon->y - 8.0f, 800);
+							bullets[2]->SetSpeed(x, y + BULLET_POSITION_Y, simon->x, simon->y + 8.0f, 800);
+						}
+
+
+					}
+
+					if (GetTickCount() - wait_start1 > DRACULA_WAIT_TIME)
+					{
+						SetState(DRACULA_STATE_FIRE);
+						isfire = true;
+						if (isAddBulletToCell)
+						{
+							CCells* cell = simon->map->GetCell();
+							for (int i = 0; i < 3; i++)
+								cell->InitCells(bullets[i]);
+							simon->map->SetCell(cell);
+							isAddBulletToCell = false;
+						}
+						/*for (int i = 0; i < 3; i++)
+							bullets[i]->Update(dt, coObjects);*/
+
+						wait_start1 = 0;
+
+						if (startwait2 == true)
+							StartWait(startwait2, wait_start2);
+
+						if (GetTickCount() - wait_start2 > DRACULA_ATTACKING_TIME)
+						{
+							SetState(DRACULA_STATE_INVISIBLE);
+							head->SetState(HEAD_STATE_INVISIBLE);
+							wait_start2 = 0;
+
+							if (startwait3)
+								StartWait(startwait3, wait_start3);
+
+							if (GetTickCount() - wait_start3 > DRACULA_TIME_TO_RESET)
+							{
+								reset = true;
+								wait_start3 = 0;
+							}
+						}
+					}
+				}
+
+				if (reset == true)
+				{
+					int random;
+					random = rand() % 218 + 11;
+					SetPosition((float)random, y);
+
+					float sx, sy;
+					CSimon *simon = CSimon::GetInstance();
+					simon->GetPosition(sx, sy);
+					if (sx < this->x)
+					{
+						this->nx = -1;
+						head->Setnx(-1);
+						head->SetPosition(this->x + HEAD_OFFSET_X, this->y - HEAD_OFFSET_Y);
 					}
 					else
 					{
-						for (i = 0; i < 3; i++)
-						{
-							bullets[i]->SetPosition(x, y + BULLET_POSITION_Y);
-							bullets[i]->Setnx(-1);
-						}
-						bullets[0]->SetSpeed(x, y + BULLET_POSITION_Y, simon->x, simon->y, 800);
-						bullets[1]->SetSpeed(x, y + BULLET_POSITION_Y, simon->x, simon->y - 8.0f, 800);
-						bullets[2]->SetSpeed(x, y + BULLET_POSITION_Y, simon->x, simon->y + 8.0f, 800);
+						this->nx = 1;
+						head->Setnx(1);
+						head->SetPosition(this->x + HEAD_OFFSET_X1, this->y - HEAD_OFFSET_Y);
 					}
 
-					
+					Reset();
 				}
-
-				if (GetTickCount() - wait_start1 > DRACULA_WAIT_TIME)
-				{
-					SetState(DRACULA_STATE_FIRE);
-					isfire = true;
-					if (isAddBulletToCell)
-					{
-						CCells* cell = simon->map->GetCell();
-						for (int i = 0; i < 3; i++)
-							cell->InitCells(bullets[i]);
-						simon->map->SetCell(cell);
-						isAddBulletToCell = false;
-					}
-					/*for (int i = 0; i < 3; i++)
-						bullets[i]->Update(dt, coObjects);*/
-					
-					wait_start1 = 0;
-
-					if (startwait2 == true)
-						StartWait(startwait2, wait_start2);
-
-					if (GetTickCount() - wait_start2 > DRACULA_ATTACKING_TIME)
-					{
-						SetState(DRACULA_STATE_INVISIBLE);
-						head->SetState(HEAD_STATE_INVISIBLE);
-						wait_start2 = 0;
-
-						if (startwait3)
-							StartWait(startwait3, wait_start3);
-
-						if (GetTickCount() - wait_start3 > DRACULA_TIME_TO_RESET)
-						{
-							reset = true;
-							wait_start3 = 0;
-						}
-					}
-				}
-			}
-
-			if (reset == true)
-			{
-				int random;
-				random = rand() % 218 + 11;
-				SetPosition((float)random, y);
-
-				float sx, sy;
-				CSimon *simon = CSimon::GetInstance();
-				simon->GetPosition(sx, sy);
-				if (sx < this->x)
-				{
-					this->nx = -1;
-					head->Setnx(-1);
-					head->SetPosition(this->x + HEAD_OFFSET_X, this->y - HEAD_OFFSET_Y);
-				}
-				else
-				{
-					this->nx = 1;
-					head->Setnx(1);
-					head->SetPosition(this->x + HEAD_OFFSET_X1, this->y - HEAD_OFFSET_Y);
-				}
-
-				Reset();
 			}
 		}
-	}
-	else
-	{
-		if (isSpirit == true)
-			LoadSpirit();
+		else
+		{
+			if (isSpirit == true)
+				LoadSpirit();
 
+		}
 	}
 }
 
 void CDracula::Render()
 {	
-	if (state != DRACULA_STATE_DIE)
+	if (state != DRACULA_STATE_SLEEPING)
 	{
-		if (state != DRACULA_STATE_INVISIBLE)
+		if (state != DRACULA_STATE_DIE)
 		{
-			int ani;
-			if (state == DRACULA_STATE_IDLE)
+			if (state != DRACULA_STATE_INVISIBLE)
 			{
-				if (nx > 0) ani = DRACULA_ANI_IDLE_RIGHT;
-				else ani = DRACULA_ANI_IDLE_LEFT;
-			}
-			else if (state == DRACULA_STATE_FIRE)
-			{
-				if (nx > 0)
+				int ani;
+				if (state == DRACULA_STATE_IDLE)
 				{
-					ani = DRACULA_ANI_FIRE_RIGHT;
-					animations[DRACULA_ANI_FIRE_RIGHT1]->Render(this->x - OFFSET, y);
+					if (nx > 0) ani = DRACULA_ANI_IDLE_RIGHT;
+					else ani = DRACULA_ANI_IDLE_LEFT;
 				}
-				else ani = DRACULA_ANI_FIRE_LEFT;
+				else if (state == DRACULA_STATE_FIRE)
+				{
+					if (nx > 0)
+					{
+						ani = DRACULA_ANI_FIRE_RIGHT;
+						animations[DRACULA_ANI_FIRE_RIGHT1]->Render(this->x - OFFSET, y);
+					}
+					else ani = DRACULA_ANI_FIRE_LEFT;
 
-				/*for (int i = 0; i < 3; i++)
-					bullets[i]->Render();*/
+					/*for (int i = 0; i < 3; i++)
+						bullets[i]->Render();*/
+				}
+				if (untouchable == true)
+				{
+					if (alpha == 128) alpha = 200;
+					else alpha = 128;
+				}
+				else alpha = 255;
+				animations[ani]->Render(x, y, alpha);
 			}
-			if (untouchable == true)
-			{
-				if (alpha == 128) alpha = 200;
-				else alpha = 128;
-			}
-			else alpha = 255;
-			animations[ani]->Render(x, y, alpha);
+			head->Render();
 		}
-		head->Render();
 	}
 }
 

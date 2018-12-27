@@ -15,13 +15,13 @@ class CHidenObject :
 protected:
 	float width;
 	float height;
-	float stair_x;
+	float stair_x,stair_y;
 public:
 	void GetSize(float &width, float &height) { width = this->width; height = this->height; }
 	void SetSize(float width, float height) { this->width = width; this->height = height; }
 	void SetState(int state);
-	void SetStair_X(float stair_x) {this->stair_x= stair_x;}
-	float GetStair_X() { return stair_x; }
+	void SetStair_XY(float stair_x, float stair_y=0) { this->stair_x = stair_x; this->stair_y = stair_y; }
+	void GetStair_XY(float &stair_x, float &stair_y) { stair_x=this->stair_x  ; stair_y= this->stair_y;}
 	void Render();
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	CHidenObject();

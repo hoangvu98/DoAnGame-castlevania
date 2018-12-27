@@ -130,6 +130,28 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 			if (cells[i][j].GetObjects().size() != 0)
 				for (k = 0; k < cells[i][j].GetObjects().size(); k++)
 				{
+					LPGAMEOBJECT e = cells[i][j].GetObjects()[k];				
+					list_object->push_back(e);
+				}
+		}
+}
+
+void CCells::ChangeCellOfObject(float cam_x, float cam_y)
+{
+	int xs, ys;
+	int xe, ye;
+	int i, j, k;
+	xs = (int)cam_x / CELL_WIDTH;
+	ys = (int)cam_y / CELL_HEIGHT;
+
+	xe = (int)(cam_x + 256.0f) / CELL_WIDTH;
+	ye = (int)(cam_y + 185.0f) / CELL_HEIGHT;
+	for (i = xs; i <= xe; i++)
+		for (j = ys; j <= ye; j++)
+		{
+			if (cells[i][j].GetObjects().size() != 0)
+				for (k = 0; k < cells[i][j].GetObjects().size(); k++)
+				{
 					LPGAMEOBJECT e = cells[i][j].GetObjects()[k];
 					if (dynamic_cast <CItems *> (e))
 					{
@@ -139,7 +161,7 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 					else if (dynamic_cast <CDracula *> (e))
 					{
 						CDracula *dracula = dynamic_cast<CDracula *>(e);
-						if (dracula->state == DRACULA_STATE_DIE && dracula->GetIsSpirit()==false)
+						if (dracula->state == DRACULA_STATE_DIE && dracula->GetIsSpirit() == false)
 						{
 							cells[i][j].XoaObject(k);
 						}
@@ -167,57 +189,6 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 									cells[a][b].SetObjects(e);
 						}
 					}
-				}
-		}
-
-	for (i = xs; i <= xe; i++)
-		for (j = ys; j <= ye; j++)
-		{
-			if (cells[i][j].GetObjects().size() != 0)
-				for (k = 0; k < cells[i][j].GetObjects().size(); k++)
-				{
-					LPGAMEOBJECT e = cells[i][j].GetObjects()[k];				
-					 if (dynamic_cast<CSpiritDracula *> (e))
-					{
-						CSpiritDracula *spirit_dracula = dynamic_cast<CSpiritDracula *> (e);
-						list_object->push_back(spirit_dracula->GetHead());
-						list_object->push_back(e);
-					}
-					else if (dynamic_cast<CDracula *> (e))
-					{
-						CSimon* simon = CSimon::GetInstance();
-						if (simon->MeetBoss)
-						{						
-							CDracula *dracula = dynamic_cast<CDracula *>(e);
-							list_object->push_back(dracula->GetHead());
-							list_object->push_back(e);
-						}
-					}
-					else
-						list_object->push_back(e);
-				}
-		}
-
-}
-
-void CCells::GetListOfObjectsnotchange(vector<LPGAMEOBJECT>* list_object, float cam_x, float cam_y)
-{
-	int xs, ys;
-	int xe, ye;
-	int i, j, k;
-	xs = (int)cam_x / CELL_WIDTH;
-	ys = (int)cam_y / CELL_HEIGHT;
-
-	xe = (int)(cam_x + 256.0f) / CELL_WIDTH;
-	ye = (int)(cam_y + 185.0f) / CELL_HEIGHT;
-	for (i = xs; i <= xe; i++)
-		for (j = ys; j <= ye; j++)
-		{
-			if (cells[i][j].GetObjects().size() != 0)
-				for (k = 0; k < cells[i][j].GetObjects().size(); k++)
-				{
-					LPGAMEOBJECT e = cells[i][j].GetObjects()[k];
-					list_object->push_back(e);
 				}
 		}
 }

@@ -36,7 +36,7 @@ public:
 
 	void InitCells(LPGAMEOBJECT object);
 	void GetListOfObjects(vector<LPGAMEOBJECT> *list_object, float cam_x, float cam_y);
-	void GetListOfObjectsnotchange(vector<LPGAMEOBJECT> *list_object, float cam_x, float cam_y);
+	void ChangeCellOfObject(float cam_x, float cam_y);
 	void Update(DWORD dt, float cam_x, float cam_y);
 	void Render(float cam_x, float cam_y);
 	CCell GetCell(int x, int y);

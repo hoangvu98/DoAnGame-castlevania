@@ -13,7 +13,7 @@
 #include "Dracula.h"
 DWORD FrameCollusion;
 int color = 255;
-float stair_x = 0;
+float stair_x=0,stair_y = 0;
 int nx1;
 CSimon *CSimon::__instance = NULL;
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
@@ -72,7 +72,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			if (hidenobject->GetState() == HIDENOBJECT_STATE_STAIR_UP)
 			{
 				nx1 = hidenobject->nx;
-				stair_x = hidenobject->GetStair_X();
+				hidenobject->GetStair_XY(stair_x, stair_y);
 				if (stair != 2 && stair != 4)
 					stair = 1;
 				if (stair == 2 && IsDown != 2)
@@ -81,7 +81,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			else if (hidenobject->GetState() == HIDENOBJECT_STATE_STAIR_DOWN)
 			{
 				nx1 = hidenobject->nx;
-				stair_x = hidenobject->GetStair_X();
+				hidenobject->GetStair_XY(stair_x, stair_y);
 				if (stair != 2 && stair != 4)
 					stair = 3;
 				if (stair == 2 && IsUp != 2)
@@ -97,7 +97,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				else
 					test = 1;
 				nx1 = hidenobject->nx;
-				stair_x = hidenobject->GetStair_X();
+				hidenobject->GetStair_XY(stair_x, stair_y);
 				if (stair != 2 && stair != 5 && stair != 6)
 					stair = 4;
 				if (stair == 2 && IsDown != 2 && test == 0)
@@ -844,13 +844,11 @@ void CSimon::Auto()
 	{
 		if (x > stair_x)
 		{
-			x = stair_x;
 			SetState(SIMON_STATE_WALKING_LEFT);
 			state_auto = 2;
 		}
 		else if (x < stair_x)
 		{
-			x = stair_x;
 			state_auto = 3;
 			SetState(SIMON_STATE_WALKING_RIGHT);
 		}
@@ -860,6 +858,7 @@ void CSimon::Auto()
 		if (x <= stair_x)
 		{
 			x = stair_x;
+			y = stair_y;
 			nx = nx1;
 			if (stair == 1)
 			{
@@ -887,6 +886,7 @@ void CSimon::Auto()
 		if (x >= stair_x)
 		{
 			x = stair_x;
+			y = stair_y;
 			nx = nx1;
 			if (stair == 1)
 			{
@@ -992,7 +992,7 @@ void CSimon::Camera()
 	}
 	else if (dynamic_cast<CClockTowerLevel *>(map))
 	{
-		if (map->GetScene() == SCENE_5 && x - 128.0f < min)
+		if (map->GetScene() == SCENE_5 && x - 128.0f < min && !MeetBoss)
 		{
 			MeetBoss = true;
 			CHidenObject *hidenobject;
@@ -1003,6 +1003,8 @@ void CSimon::Camera()
 			CCells* cell = map->GetCell();
 			cell->InitCells(hidenobject);
 			map->SetCell(cell);
+			CDracula* dracula = CDracula::GetInstance();
+			dracula->SetState(DRACULA_STATE_INVISIBLE);		
 		}
 		if (!MeetBoss)
 		{
