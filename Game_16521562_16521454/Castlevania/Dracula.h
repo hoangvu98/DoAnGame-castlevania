@@ -60,6 +60,7 @@ class CDracula :
 	bool isSpirit;
 	bool isfire;
 	bool isAddBulletToCell;
+	bool isAddHeadToCell;
 
 	DWORD wait_start1;
 	DWORD wait_start2;

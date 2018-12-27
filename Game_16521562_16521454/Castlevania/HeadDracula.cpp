@@ -7,7 +7,8 @@ void CHeadDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt, coObjects);
 	x += dx;
 	y += dy;
-	if (y <= HEAD_FLY_HEIGHT && state != HEAD_STATE_FLY_AWAY) SetState(HEAD_STATE_IDLE);
+	if (y <= HEAD_FLY_HEIGHT && state != HEAD_STATE_FLY_AWAY
+		&& state != HEAD_STATE_INVISIBLE) SetState(HEAD_STATE_IDLE);
 }
 
 void CHeadDracula::Render()

@@ -50,6 +50,15 @@ void CSpiritDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		
 	}
+
+	if (isAddHeadToCell == false)
+	{
+		CCells *cells = simon->map->GetCell();
+		cells->InitCells(head);
+		simon->map->SetCell(cells);
+		isAddHeadToCell = true;
+
+	}
 	if (state == SPIRITDRACULA_STATE_IDLE)
 	{
 		if (abs(simon->x - this->x + OFFSET) > DISTANCE1 && abs(simon->x - this->x + OFFSET) < DISTANCE2 &&
@@ -148,6 +157,20 @@ void CSpiritDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		
 	}
+
+	if (nx < 0)
+	{
+		head->SetPosition(x + HEAD_POSITION_X, y);
+		head->SetSize(HEAD_WIDTH, HEAD_HEIGHT);
+		head->SetState(HIDENOBJECT_STATE_HEAD);
+	}
+	else
+	{
+		head->SetPosition(x + HEAD_POSITION_X1, y);
+		head->SetSize(HEAD_WIDTH, HEAD_HEIGHT);
+		head->SetState(HIDENOBJECT_STATE_HEAD);
+	}
+
 	bool test = true;
 	if (coEvents.size() != 0)
 	{
@@ -367,6 +390,7 @@ CSpiritDracula::CSpiritDracula(float x, float y)
 	wait = false;
 	fire = false;
 	isAddBulletToCell = false;
+	isAddHeadToCell = false;
 
 	int i;
 	for (i = 0; i < 3; i++)

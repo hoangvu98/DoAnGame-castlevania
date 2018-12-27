@@ -13,7 +13,31 @@ void CDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		int i;
 		if (state != DRACULA_STATE_DIE)
 		{
-			head->Update(dt, coObjects);
+			if (state != DRACULA_STATE_DIE)
+			{
+				if (simon->x < this->x)
+				{
+					this->nx = -1;
+					head->Setnx(-1);
+					head->SetPosition(this->x + HEAD_OFFSET_X, this->y - HEAD_OFFSET_Y);
+				}
+				else
+				{
+					this->nx = 1;
+					head->Setnx(1);
+					head->SetPosition(this->x + HEAD_OFFSET_X1, this->y - HEAD_OFFSET_Y);
+				}
+			}
+
+			if (isAddHeadToCell)
+			{
+				CCells *cells = simon->map->GetCell();
+				cells->InitCells(head);
+				simon->map->SetCell(cells);
+				isAddHeadToCell = false;
+			}
+
+			//head->Update(dt, coObjects);
 			if (head->GetState() != HEAD_STATE_FLY)
 			{
 				SetState(DRACULA_STATE_IDLE);
@@ -102,6 +126,7 @@ void CDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					float sx, sy;
 					CSimon *simon = CSimon::GetInstance();
 					simon->GetPosition(sx, sy);
+					head->SetState(HEAD_STATE_IDLE);
 					if (sx < this->x)
 					{
 						this->nx = -1;
@@ -162,7 +187,7 @@ void CDracula::Render()
 				else alpha = 255;
 				animations[ani]->Render(x, y, alpha);
 			}
-			head->Render();
+			//head->Render();
 		}
 	}
 }
@@ -253,11 +278,15 @@ CDracula::CDracula()
 
 	reset = false;
 	wait = false;
+	isfire = false;
 
 	startwait1 = true;
 	startwait2 = true;
 	startwait3 = true;
 	isSpirit = true;
+
+	isAddBulletToCell = false;
+	isAddHeadToCell = true;
 
 	head = new CHeadDracula();
 	head->SetPosition(211.0f, 146.0f);
@@ -302,6 +331,7 @@ CDracula::CDracula(float x, float y)
 	wait = false;
 	isfire = false;
 	isAddBulletToCell = false;
+	isAddHeadToCell = true;
 
 	startwait1 = true;
 	startwait2 = true;
