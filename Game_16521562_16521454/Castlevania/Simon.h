@@ -70,7 +70,7 @@ using namespace std;
 class CSimon :public CGameObject
 {
 	static CSimon *__instance;
-	int heart = 0, score = 0, health = 4;
+	int heart = 0, score = 0, health = 2;
 	int mx;
 	int stage;
 	int previousstate = NULL;
@@ -150,6 +150,7 @@ public:
 	int GetTime() { return time; }
 	void SetTime(int time) { this->time = time; }
 	bool GetIsChangeMap(){ return IsChangeMap; }
+	void SetIsChangeMap(bool IsChangeMap) { this->IsChangeMap=IsChangeMap; }
 	CSimon();
 	static CSimon *GetInstance();
 };

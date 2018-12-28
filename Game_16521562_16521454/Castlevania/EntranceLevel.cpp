@@ -167,20 +167,20 @@ void CEntranceLevel::LoadMap()
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
 
-		//ghoul = new CGhoul();
-		//ghoul->SetPosition(250.0f, 127.0f);
-		//ghoul->SetState(GHOUL_STATE_LEFT);
-		//cells->InitCells(ghoul);
+		ghoul = new CGhoul();
+		ghoul->SetPosition(250.0f, 127.0f);
+		ghoul->SetState(GHOUL_STATE_LEFT);
+		cells->InitCells(ghoul);
 
-		//ghoul = new CGhoul();
-		//ghoul->SetPosition(290.0f, 127.0f);
-		//ghoul->SetState(GHOUL_STATE_LEFT);
-		//cells->InitCells(ghoul);
+		ghoul = new CGhoul();
+		ghoul->SetPosition(290.0f, 127.0f);
+		ghoul->SetState(GHOUL_STATE_LEFT);
+		cells->InitCells(ghoul);
 
-		//ghoul = new CGhoul();
-		//ghoul->SetPosition(330.0f, 127.0f);
-		//ghoul->SetState(GHOUL_STATE_LEFT);
-		//cells->InitCells(ghoul);
+		ghoul = new CGhoul();
+		ghoul->SetPosition(330.0f, 127.0f);
+		ghoul->SetState(GHOUL_STATE_LEFT);
+		cells->InitCells(ghoul);
 		break;
 	case SCENE_3:
 		simon->SetStage(2);
@@ -1011,11 +1011,18 @@ void CEntranceLevel::LoadObject()
 
 void CEntranceLevel::Update()
 {
+	CSimon* simon = CSimon::GetInstance();
 	if (prev_scene != scene)
 	{
 		LoadObject();
 		LoadMap();
 		prev_scene = scene;
+		simon->SetReset(false);
+	}
+	else if (simon->GetReset())
+	{
+		LoadMap();
+		simon->SetReset(false);
 	}
 }
 
@@ -1070,25 +1077,25 @@ CEntranceLevel * CEntranceLevel::GetInstance()
 }
 void CEntranceLevel::NextScece(float &x, float &y)
 {
-	if (scene == 1)
+	if (scene == SCENE_1)
 	{
 		x = 10.0f;
 		y = 114.5f;
 	}
-	else if (scene == 2)
+	else if (scene == SCENE_2)
 	{
 		x = 10.0f;
 		y = 127.0f;
 	}
-	else if (scene == 4)
+	else if (scene == SCENE_3)
 	{
-		x = 63.0f;
-		y = -5.0f;
+		x = 1555.7f;
+		y = 34.6f;
 	}
-	else
+	else if(scene== SCENE_5)
 	{
-		x = 0;
-		y = 0;
+		x = 2062.1;
+		y = 34.6;
 	}
 }
 

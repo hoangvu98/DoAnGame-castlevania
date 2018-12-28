@@ -883,11 +883,18 @@ void CClockTowerLevel::LoadObject()
 
 void CClockTowerLevel::Update()
 {
+	CSimon* simon = CSimon::GetInstance();
 	if (prev_scene != scene)
 	{
 		LoadObject();
 		LoadMap();
 		prev_scene = scene;
+		simon->SetReset(false);
+	}
+	else if (simon->GetReset())
+	{
+		LoadMap();
+		simon->SetReset(false);
 	}
 }
 

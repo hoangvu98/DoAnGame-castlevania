@@ -343,10 +343,10 @@ void LoadResources()
 	//simon->SetPosition(448.0f, 76.0f);//map 5
 	//simon->SetPosition(190.0f, 30.0f   /*719.0f, 45.0f*/);
 	//simon->SetPosition(49.0f, 104.0f);
-	simon->SetPosition(2550.0f, 0.0f);
+	simon->SetPosition(2000.0f, 0.0f);
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
-	simon->map->SetScene(SCENE_5);
+	simon->map->SetScene(SCENE_3);
 	screen = 2;
 	simon->map->LoadObject();
 	simon->map->LoadMap();
@@ -389,6 +389,7 @@ void Update(DWORD dt)
 		if (simon->GetIsChangeMap())
 		{
 			simon->MeetBoss = false;
+			simon->SetIsChangeMap(false);
 			if(simon->GetStage()==6)
 				simon->map = CClockTowerLevel::GetInstance();
 			simon->map->SetScene(SCENE_1);
@@ -405,10 +406,10 @@ void Update(DWORD dt)
 			int live = simon->GetLive();
 			if (live >= 1)
 			{
+				simon->MeetBoss = false;
 				simon->SetLive(live-1);
 				simon->SetHeart(5);
 				simon->SetHealth(16);
-				simon->SetReset(false);
 				simon->map->ResetScene();
 				simon->SetState(SIMON_STATE_IDLE);
 				float x, y;
@@ -416,7 +417,6 @@ void Update(DWORD dt)
 				if (x != 0 || y != 0)
 					simon->SetPosition(x, y);
 				simon->Camera();
-				simon->map->LoadMap();
 			}
 			else
 			{
@@ -506,7 +506,7 @@ void Render()
 				simon->SetCameraAuto(0);
 				simon->nx = 1;
 			}
-			//blackboard->Render();
+			blackboard->Render();
 			if (now - Time_screen < 2100)
 			{
 				simon->vx = -SIMON_WALKING_SPEED / 2;
@@ -524,7 +524,7 @@ void Render()
 			break;
 		case 2:
 			simon->map->Render();
-			//blackboard->Render();
+			blackboard->Render();
 			for (int i = 0; i < objects.size(); i++)
 				objects[i]->Render();
 			break;

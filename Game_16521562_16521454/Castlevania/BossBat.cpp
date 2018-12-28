@@ -157,7 +157,7 @@ CBossBat * CBossBat::GetInstance()
 CBossBat::CBossBat()
 {
 	score = 1000;
-	health = 1;
+	health = 16;
 	damage = 2;
 	AddAnimation(20000);
 	AddAnimation(20001);

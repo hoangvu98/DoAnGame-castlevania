@@ -482,13 +482,23 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				y += 20;
 				time_reset = GetTickCount();
 				collusion = 0;
+				stair = 0;
 			}
 			else
 				collusion = 2;
 		}
-		else if (now - FrameCollusion > 2000 && collusion == 2)
+		else if ( collusion == 2)
 		{
-			collusion = 0;
+			if (health <= 0)
+			{
+				IsDie = true;
+				y += 20;
+				time_reset = GetTickCount();
+				collusion = 0;
+				stair = 0;
+			}
+			if (now - FrameCollusion > 2000)
+				collusion = 0;
 		}
 		if (y >= 190.0f && !IsDie)
 		{
@@ -755,8 +765,6 @@ void CSimon::Render()
 	}
 	if (!IsRenDer)
 	{
-		if (ani < 0)
-			ani = 0;
 		DWORD t = GetTickCount() - whip->GetFrameWhip();
 		if (fight == true)
 		{
