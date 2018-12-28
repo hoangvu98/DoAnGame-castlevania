@@ -45,7 +45,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		if (state != SIMON_STATE_DIE)
 			CalcPotentialCollisions(coObject, coEvents);
 
-		if (fight == true)
+		if (fight)
 		{
 			whip->SetPosition(x, y);
 			DWORD t = GetTickCount() - whip->GetFrameWhip();
@@ -62,10 +62,17 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			whip->Update(dt, coObject);
 			whip->SetPosition(x, y);
 		}
+		DWORD t = GetTickCount() - FrameWeapon;
 		if (skill)
 		{
-			weapon->Update(dt, coObject);
+			if (t >= 3 * FRAME_TIME_WHIP)
+			{
+				skill = false;
+				ResetFight();
+			}
 		}
+		if (t < 2000)
+			weapon->Update(dt, coObject);
 		coEventsResult.clear();
 		FilterCollisionImmediately(coEvents, coEventsResult);
 		bool test = true;
@@ -146,31 +153,43 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			}
 			else if (dynamic_cast<CDagger *>(e->obj))
 			{
-				OnSkill = true;
 				CItems *items = dynamic_cast<CDagger *>(e->obj);
-				weapon = new CDagger();
-				items->SetState(ITEM_STATE_DELETE);
+				if (items->state == ITEM_STATE_ITEM)
+				{
+					OnSkill = true;
+					weapon = new CDagger();
+					items->SetState(ITEM_STATE_DELETE);
+				}
 			}
 			else if (dynamic_cast<CAxe *>(e->obj))
 			{
-				OnSkill = true;
 				CItems *items = dynamic_cast<CAxe *>(e->obj);
-				weapon = new CAxe();
-				items->SetState(ITEM_STATE_DELETE);
+				if (items->state == ITEM_STATE_ITEM)
+				{
+					OnSkill = true;
+					weapon = new CAxe();
+					items->SetState(ITEM_STATE_DELETE);
+				}
 			}
 			else if (dynamic_cast<CBoomerang *>(e->obj))
 			{
-				OnSkill = true;
 				CItems *items = dynamic_cast<CBoomerang *>(e->obj);
-				weapon = new CBoomerang();
-				items->SetState(ITEM_STATE_DELETE);
+				if (items->state == ITEM_STATE_ITEM)
+				{
+					OnSkill = true;
+					weapon = new CBoomerang();
+					items->SetState(ITEM_STATE_DELETE);
+				}
 			}
 			else  if (dynamic_cast<CHollyWater *>(e->obj))
 			{
-				OnSkill = true;
 				CItems *items = dynamic_cast<CHollyWater *>(e->obj);
-				weapon = new CHollyWater();
-				items->SetState(ITEM_STATE_DELETE);
+				if (items->state == ITEM_STATE_ITEM)
+				{
+					OnSkill = true;
+					weapon = new CHollyWater();
+					items->SetState(ITEM_STATE_DELETE);
+				}
 			}
 			else if (dynamic_cast<CWhipUpdate *> (e->obj))
 			{
@@ -467,6 +486,13 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 						else if (door->GetIsHiden() == false && door->IsGo == true)
 						{
 							x += dx;
+							CCells* cell = map->GetCell();
+							float width, height, column, row;
+							map->GetTileMap()->GetSize(width, height);
+							column = (int)width / CELL_WIDTH + 1;
+							row = (int)height / CELL_HEIGHT + 1;
+							cell = new CCells(column, row);
+							map->SetCell(cell);
 							test = false;
 							SetState(SIMON_STATE_IDLE);
 							door->IsGo = false;
@@ -506,7 +532,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			else
 				collusion = 2;
 		}
-		else if ( collusion == 2)
+		else if (collusion == 2)
 		{
 			if (health <= 0)
 			{
@@ -519,7 +545,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			if (now - FrameCollusion > 2000)
 				collusion = 0;
 		}
-		if (y >= 190.0f && !IsDie)
+		if (y >= 190.0f || time == 0 && !IsDie)
 		{
 			vx = 0;
 			vy = 0;
@@ -548,7 +574,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		//DebugOut(L"IsUp=%d\nIsDown=%d\n", IsUp,IsDown);
 		//DebugOut(L"state=%d\n", state);
 		//DebugOut(L"up=%d\ndown=%d\n", IsUp, IsDown);
-		DebugOut(L"x=%f\ny=%f\n", x, y);
+		//DebugOut(L"x=%f\ny=%f\n", x, y);
 		//DebugOut(L"heart=%d\n", heart);
 		//DebugOut(L"stair=%d\n", stair);
 	}
@@ -598,10 +624,11 @@ void CSimon::Render()
 				}
 				else
 				{
-					if (skill == true && now - FrameWeapon < 3 * FRAME_TIME_WHIP)
+					if (fight == true || skill == true)
 					{
 						if (state == SIMON_STATE_STAIR_UP_IDLE)
 						{
+
 							if (nx > 0)
 								ani = SIMON_ANI_STAIR_FIGHT_UP_RIGHT;
 							else
@@ -614,56 +641,30 @@ void CSimon::Render()
 							else
 								ani = SIMON_ANI_STAIR_FIGHT_DOWN_LEFT;
 						}
-						animations[ani]->Render(x, y, color);
-					}
-					else
-					{
 						if (fight == true)
 						{
-							if (state == SIMON_STATE_STAIR_UP_IDLE)
-							{
-
-								if (nx > 0)
-									ani = SIMON_ANI_STAIR_FIGHT_UP_RIGHT;
-								else
-									ani = SIMON_ANI_STAIR_FIGHT_UP_LEFT;
-							}
-							else
-							{
-								if (nx > 0)
-									ani = SIMON_ANI_STAIR_FIGHT_DOWN_RIGHT;
-								else
-									ani = SIMON_ANI_STAIR_FIGHT_DOWN_LEFT;
-							}
 							if (nx > 0)whip->SetStateWhip(WHIP_STATE_RIGHT);
 							else whip->SetStateWhip(WHIP_STATE_LEFT);
 						}
-						else
+					}
+					else
+					{
+						if (state == SIMON_STATE_STAIR_UP_IDLE)
 						{
-							if (state == SIMON_STATE_STAIR_UP_IDLE)
-							{
-								if (nx > 0)
-									ani = SIMON_ANI_STAIR_IDLE_UP_RIGHT;
-								else
-									ani = SIMON_ANI_STAIR_IDLE_UP_LEFT;
-							}
-							else if (state == SIMON_STATE_STAIR_DOWN_IDLE)
-							{
-								if (nx > 0)
-									ani = SIMON_ANI_STAIR_IDLE_DOWN_RIGHT;
-								else
-									ani = SIMON_ANI_STAIR_IDLE_DOWN_LEFT;
-							}
+							if (nx > 0)
+								ani = SIMON_ANI_STAIR_IDLE_UP_RIGHT;
+							else
+								ani = SIMON_ANI_STAIR_IDLE_UP_LEFT;
+						}
+						else if (state == SIMON_STATE_STAIR_DOWN_IDLE)
+						{
+							if (nx > 0)
+								ani = SIMON_ANI_STAIR_IDLE_DOWN_RIGHT;
+							else
+								ani = SIMON_ANI_STAIR_IDLE_DOWN_LEFT;
 						}
 					}
-
 				}
-				if (skill)
-				{
-					if (now - FrameWeapon > 600) skill = false;
-					else weapon->Render();
-				}
-
 			}
 			else
 			{
@@ -690,16 +691,9 @@ void CSimon::Render()
 					DWORD now = GetTickCount();
 					if (state == SIMON_STATE_BEHIND)
 						ani = SIMON_ANI_BEHIND;
-					else if (skill == true && now - FrameWeapon < 450)
-					{
-						if (nx > 0)
-							ani = SIMON_ANI_FIGHT_RIGHT;
-						else
-							ani = SIMON_ANI_FIGHT_LEFT;
-					}
 					else
 					{
-						if (fight == true)
+						if (fight == true || skill == true)
 						{
 							if (mx == 1)
 							{
@@ -745,12 +739,6 @@ void CSimon::Render()
 								ani = SIMON_ANI_JUMP_RIGHT;
 						}
 					}
-					if (skill)
-					{
-						if (now - FrameWeapon > /*600*/ 3000)	skill = false;
-						else weapon->Render();
-					}
-
 				}
 			}
 		}
@@ -799,6 +787,9 @@ void CSimon::Render()
 		else
 			animations[ani]->Render(x, y, color);
 	}
+	DWORD t = GetTickCount() - FrameWeapon;
+	if (t < 2000)
+		weapon->Render();
 	RenderBoundingBox(100);
 }
 

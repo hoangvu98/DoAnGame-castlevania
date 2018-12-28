@@ -97,8 +97,12 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		DWORD t = GetTickCount() - simon->GetWhip()->GetFrameWhip();
 		if (t >= 3 * FRAME_TIME_WHIP)
 		{
-			if (game->IsKeyDown(DIK_UP) && t >= 3 * FRAME_TIME_WHIP)
+			int k = -1;
+			if (simon->GetOnSkill())
+				k = simon->GetHeart() - simon->GetWeapon()->GetMana();
+			if (k >= 0 && game->IsKeyDown(DIK_UP) && t >= 3 * FRAME_TIME_WHIP)
 			{
+				simon->SetHeart(k);
 				if (simon->GetOnSkill())
 				{
 					if (simon->nx > 0)
@@ -331,20 +335,20 @@ void LoadResources()
 	//simon->SetPosition(1378.0f, 34.0f);
 	//simon->SetPosition(618.4f, 129.0f);
 	simon->SetPosition(100.0f, 20.0f);
-	//simon->SetPosition(226.0f, 130.0f); 
+	simon->SetPosition(226.0f, 130.0f);
 	simon->SetState(SIMON_STATE_WALKING_LEFT);
-	simon->SetPosition(1460.0f, 30.0f);//map 1
-	//simon->SetPosition(550.0f, 80.0f);//map 2
+	//simon->SetPosition(1460.0f, 30.0f);//map 1
+	//simon->SetPosition(727.0f, 51.0f);//map 2
 	//simon->SetPosition(267.0f, 0.0f);//map 2
 	//simon->SetPosition(629.0f, 10.0f);//map 3
 	//simon->SetPosition(450.0f, 10.0f);//map 3
 	//simon->SetPosition(40.0f, 10.0f);//map 3
 	//simon->SetPosition(180.0f, 30.0f);//map 4
-	//simon->SetPosition(190.0f, 30.0f);//map 5
+	////simon->SetPosition(190.0f, 30.0f);//map 5
 	//simon->SetPosition(448.0f, 76.0f);//map 5
 	//simon->SetPosition(190.0f, 30.0f   /*719.0f, 45.0f*/);
 	//simon->SetPosition(49.0f, 104.0f);
-	simon->SetPosition(1558, 31);
+	simon->SetPosition(2000.0f, 0.0f);
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
 	simon->map->SetScene(SCENE_3);
@@ -391,7 +395,7 @@ void Update(DWORD dt)
 		{
 			simon->MeetBoss = false;
 			simon->SetIsChangeMap(false);
-			if(simon->GetStage()==6)
+			if (simon->GetStage() == 6)
 				simon->map = CClockTowerLevel::GetInstance();
 			simon->map->SetScene(SCENE_1);
 			simon->SetHealth(16);
@@ -408,10 +412,12 @@ void Update(DWORD dt)
 			if (live >= 1)
 			{
 				simon->MeetBoss = false;
-				simon->SetLive(live-1);
+				simon->SetLive(live - 1);
 				simon->SetHeart(5);
 				simon->SetHealth(16);
 				simon->map->ResetScene();
+				simon->SetStateAuto(0);
+				simon->SetCollusion(0);
 				simon->SetState(SIMON_STATE_IDLE);
 				float x, y;
 				simon->map->NextScece(x, y);
@@ -421,7 +427,19 @@ void Update(DWORD dt)
 			}
 			else
 			{
-				LoadResources();
+				simon->MeetBoss = false;
+				simon->SetLive(3);
+				simon->SetHeart(5);
+				simon->SetHealth(16);
+				simon->SetStateAuto(0);
+				simon->SetCollusion(0);
+				simon->SetPosition(226.0f, 130.0f);
+				simon->SetReset(false);
+				simon->map->SetScene(SCENE_1);
+				screen = 0;
+				simon->SetState(SIMON_STATE_WALKING_LEFT);
+				CGame *game = CGame::GetInstance();
+				game->SetCamera(0, 0);
 			}
 			simon->SetTime(400);
 		}
@@ -463,15 +481,18 @@ void Update(DWORD dt)
 			simon->SetStateAuto(0);
 			simon->Camera();
 		}
-		simon->map->Update();
-		objects.clear();
-		simon->map->GetUpdateObjects(&objects);
-		objects.push_back(simon);
-		//vector<LPGAMEOBJECT> coObjects;
-		for (int i = 0; i < objects.size(); i++)
-			coObjects.push_back(objects[i]);
-		for (int i = 0; i < objects.size(); i++)
-			objects[i]->Update(dt, &coObjects);
+		if (screen == 2)
+		{
+			simon->map->Update();
+			objects.clear();
+			simon->map->GetUpdateObjects(&objects);
+			objects.push_back(simon);
+			//vector<LPGAMEOBJECT> coObjects;
+			for (int i = 0; i < objects.size(); i++)
+				coObjects.push_back(objects[i]);
+			for (int i = 0; i < objects.size(); i++)
+				objects[i]->Update(dt, &coObjects);
+		}
 		break;
 	}
 }
@@ -498,7 +519,7 @@ void Render()
 			game->Draw(0.0f, -40.0f, texture_title, 0, 0, 258, 225);
 			break;
 		case 1:
-			if (now - Time_screen > 3000)
+			if (now - Time_screen > 3500)
 			{
 				screen = 2;
 				simon->map->SetIsNext(true);
@@ -508,8 +529,9 @@ void Render()
 				simon->nx = 1;
 			}
 			blackboard->Render();
-			if (now - Time_screen < 2100)
+			if (now - Time_screen < 2900)
 			{
+				simon->SetState(SIMON_STATE_WALKING_LEFT);
 				simon->vx = -SIMON_WALKING_SPEED / 2;
 			}
 			else
@@ -616,8 +638,10 @@ int Run()
 			{
 				if (now - time_route_blackboard > 1000)
 				{
-					simon->SetTime(simon->GetTime() - 1);
-					time_route_blackboard= GetTickCount();
+					int time = simon->GetTime() - 1;
+					if (time >= 0)
+						simon->SetTime(time);
+					time_route_blackboard = GetTickCount();
 				}
 				if (simon->state != SIMON_STATE_DIE)
 					if (simon->GetStateAuto() == 0 && simon->GetCollusion() != 1)

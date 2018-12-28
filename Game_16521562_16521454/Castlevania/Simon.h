@@ -70,7 +70,7 @@ using namespace std;
 class CSimon :public CGameObject
 {
 	static CSimon *__instance;
-	int heart = 0, score = 0, health = /*160*/10;
+	int heart = 5, score = 0, health = /*160*/1;
 	int mx;
 	int stage;
 	int previousstate = NULL;
@@ -83,11 +83,11 @@ class CSimon :public CGameObject
 	int jump = 0;
 	bool fight = false;
 	int alpha = 255;
-	int stair = 0; //0 b?nh thư?ng 1 g?p c?c 2 đang lên
+	int stair = 0;
 	CItems* weapon;
 	DWORD FrameStair = 0;
 	int test = 0;
-	int collusion = 0;//0 co the đụng 1 đã đụng -đứng 2 đã đụng - có thể di chuyển 
+	int collusion = 0;
 	int collusion_nx = 0;
 	int state_auto = 0;
 	int camera_auto = 0;
@@ -125,6 +125,7 @@ public:
 	void SetStair(int stair) { this->stair = stair; }
 	void SetFrameStair() { FrameStair = GetTickCount(); }
 	int GetCollusion() { return collusion; }
+	void SetCollusion(int collusion) { this->collusion = collusion; }
 	DWORD GetFrameStair() { return FrameStair; }
 	int GetStateAuto() { return state_auto; }
 	void SetStateAuto(int state_auto) { this->state_auto = state_auto; }
@@ -149,8 +150,8 @@ public:
 	void SetLive(int live) { this->live = live; }
 	int GetTime() { return time; }
 	void SetTime(int time) { this->time = time; }
-	bool GetIsChangeMap(){ return IsChangeMap; }
-	void SetIsChangeMap(bool IsChangeMap) { this->IsChangeMap=IsChangeMap; }
+	bool GetIsChangeMap() { return IsChangeMap; }
+	void SetIsChangeMap(bool IsChangeMap) { this->IsChangeMap = IsChangeMap; }
 	CSimon();
 	static CSimon *GetInstance();
 };

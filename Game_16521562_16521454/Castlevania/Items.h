@@ -13,6 +13,7 @@
 class CItems :
 	public CGameObject
 {
+	int mana = 1;
 public:
 	CItems();
 	~CItems();
@@ -20,11 +21,12 @@ public:
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	virtual void Render() = 0;
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom) = 0;
+	int GetMana() { return mana; }
 };
 
 #define DAGGER_BBOX_WIDTH	19
 #define DAGGER_BBOX_HEIGHT	10
-#define SPEED_DAGGER 0.2f
+#define SPEED_DAGGER 0.25f
 class CDagger : public CItems
 {
 	int damage = 1;

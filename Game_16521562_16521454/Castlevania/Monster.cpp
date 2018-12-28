@@ -7,6 +7,12 @@ void CMonster::GetBoundingBox(float & left, float & top, float & right, float & 
 void CMonster::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
+	if (!IsInjure)
+	{
+		DWORD now = GetTickCount();
+		if (now - time_injure > TIME_INJURE)
+			IsInjure = true;
+	}
 	if (state != MONSTER_STATE_DISAPPEAR && state != MONSTER_STATE_DELETE)
 	{
 		if (GetHealth() <= 0)

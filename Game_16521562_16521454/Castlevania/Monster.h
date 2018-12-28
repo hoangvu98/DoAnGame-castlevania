@@ -7,6 +7,7 @@ using namespace std;
 #define MONSTER_STATE_DELETE    200
 #define MONSTER_STATE_SLEEPING  1000
 #define FrameTime 200
+#define TIME_INJURE 1000
 class CMonster : public CGameObject
 {
 protected:
@@ -14,6 +15,8 @@ protected:
 	int health;
 	int score;
 	int damage;
+	bool IsInjure = true;
+	DWORD time_injure;
 public:
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
@@ -24,5 +27,8 @@ public:
 	int GetHealth() { return health; }
 	int GetScore() { return score; }
 	int GetDamage() { return damage; }
+	void SetIsInjure(int IsInjure) { this->IsInjure = IsInjure; }
+	int GetIsInjure() { return IsInjure; }
+	void SetTimeInjure() { time_injure = GetTickCount(); }
 	CMonster();
 };

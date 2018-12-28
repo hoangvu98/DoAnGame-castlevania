@@ -130,7 +130,7 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 			if (cells[i][j].GetObjects().size() != 0)
 				for (k = 0; k < cells[i][j].GetObjects().size(); k++)
 				{
-					LPGAMEOBJECT e = cells[i][j].GetObjects()[k];				
+					LPGAMEOBJECT e = cells[i][j].GetObjects()[k];
 					list_object->push_back(e);
 				}
 		}
@@ -169,7 +169,7 @@ void CCells::ChangeCellOfObject(float cam_x, float cam_y)
 					else if (dynamic_cast <CBossBat *> (e))
 					{
 						CBossBat *bossbat = dynamic_cast<CBossBat *>(e);
-						if (bossbat->state == MONSTER_STATE_DELETE )
+						if (bossbat->state == MONSTER_STATE_DELETE)
 						{
 							cells[i][j].XoaObject(k);
 						}
@@ -246,3 +246,4 @@ CCell CCells::GetCell(int x, int y)
 {
 	return cells[x][y];
 }
+

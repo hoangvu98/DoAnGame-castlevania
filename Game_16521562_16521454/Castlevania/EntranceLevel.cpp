@@ -491,7 +491,7 @@ void CEntranceLevel::ResetScene()
 	}
 	else if (scene == SCENE_4 || scene == SCENE_3)
 	{
-		scene = SCENE_4;
+		scene = SCENE_3;
 	}
 	else if (scene == SCENE_5)
 	{

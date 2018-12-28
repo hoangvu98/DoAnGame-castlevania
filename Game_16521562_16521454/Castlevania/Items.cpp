@@ -122,11 +122,9 @@ void CDagger::SetState(int state)
 	{
 	case ITEM_STATE_WEAPON_LEFT:
 		vx = -SPEED_DAGGER;
-		//vy = -0.1f;
 		break;
 	case ITEM_STATE_WEAPON_RIGHT:
 		vx = SPEED_DAGGER;
-		//vy = -0.1f;
 	}
 }
 void CHeart::Render()
@@ -420,14 +418,20 @@ void CHollyWater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				else if (dynamic_cast<CCandle *> (e->obj))
 				{
 					CCandle *candle = dynamic_cast<CCandle *>(e->obj);
-					candle->SetState(CANDLE_STATE_DISAPPEAR);
+					if (candle->state != CANDLE_STATE_DELETE)
+						candle->SetState(CANDLE_STATE_DISAPPEAR);
 				}
 				else if (dynamic_cast<CMonster *> (e->obj))
 				{
 					CMonster *monster = dynamic_cast<CMonster *>(e->obj);
 					if (monster->state != MONSTER_STATE_DELETE && monster->state != MONSTER_STATE_DISAPPEAR)
 					{
-						monster->SetHealth(monster->GetHealth() - damage);
+						if (monster->GetIsInjure())
+						{
+							monster->SetHealth(monster->GetHealth() - damage);
+							monster->SetIsInjure(false);
+							monster->SetTimeInjure();
+						}
 					}
 				}
 			}
