@@ -197,3 +197,18 @@ public:
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	void SetState(int state);
 };
+
+#define POT_ROAST_BBOX_WIDTH 16
+#define POT_ROAST_BBOX_HEIGHT	13
+
+class CPotRoast :public CItems
+{
+	int health;
+public:
+	CPotRoast();
+	//void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
+	void Render();
+	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
+	void SetState(int state) { CGameObject::SetState(state); }
+	int GetHealth() { return health; }
+};

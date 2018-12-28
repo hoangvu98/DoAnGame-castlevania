@@ -707,3 +707,16 @@ void CResource::LoadOtherStuff()
 	animations->Add(260000, ani);
 	in.close();
 }
+
+void CResource::LoadPotRoast()
+{
+	CTextures *textures = CTextures::GetInstance();
+	CSprites *sprites = CSprites::GetInstance();
+	CAnimations *animations = CAnimations::GetInstance();
+
+	LPANIMATION ani = new CAnimation(100);
+	ifstream in("Data\\PotRoast.txt");
+	LPDIRECT3DTEXTURE9 texpotroast = textures->Get(ID_ITEM);
+	CInputImage::AddAnimation(in, sprites, ani, texpotroast, 1);
+	animations->Add(270000, ani);
+}

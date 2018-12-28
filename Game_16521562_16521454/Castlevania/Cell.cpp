@@ -197,6 +197,12 @@ void CCells::ChangeCellOfObject(float cam_x, float cam_y)
 									cells[a][b].SetObjects(e);
 						}
 					}
+					else if (dynamic_cast<CBrick *>(e))
+					{
+						CBrick *brick = dynamic_cast<CBrick *>(e);
+						if (brick->state == BRICK_STATE_DELETE)
+							cells[i][j].XoaObject(k);
+					}
 				}
 		}
 }

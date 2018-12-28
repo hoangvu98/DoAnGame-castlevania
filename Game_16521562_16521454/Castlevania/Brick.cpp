@@ -1,5 +1,5 @@
 #include "Brick.h"
-
+#include "Simon.h"
 
 
 CBrick::CBrick(float x, float y)
@@ -11,6 +11,9 @@ CBrick::CBrick(float x, float y)
 	render = false;
 	loop = 0;
 	breakingwall = new CBreakingWall[4];
+	item = new CPotRoast();
+	item->SetPosition(1792.0f, 147.0f);
+	item->SetState(ITEM_STATE_ITEM);
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -42,7 +45,7 @@ CBrick::CBrick(float x, float y)
 
 void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (state == BRICK_STATE_HALF || state == BRICK_STATE_DELETE)
+	if (state == BRICK_STATE_HALF || state == BRICK_STATE_DISAPPEAR)
 	{
 		for (int i = 0; i < 4; i++)
 			breakingwall[i].Update(dt);
@@ -62,6 +65,16 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 	}
+	//DebugOut(L"state %d\n", state);
+	if (state == BRICK_STATE_DISAPPEAR)
+	{
+		CSimon *simon = CSimon::GetInstance();
+		CCells *cells = simon->map->GetCell();
+		cells->InitCells(item);
+		simon->map->SetCell(cells);
+
+		state = BRICK_STATE_DELETE;
+	}
 }
 
 void CBrick::Render()
@@ -75,7 +88,7 @@ void CBrick::Render()
 			for (int i = 0; i < 4; i++)
 				breakingwall[i].Render();
 	}
-	else if (state == BRICK_STATE_DELETE)
+	else if (state == BRICK_STATE_DISAPPEAR)
 	{
 		if (render == true)
 			for (int i = 0; i < 4; i++)

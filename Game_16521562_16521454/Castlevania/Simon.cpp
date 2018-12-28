@@ -11,6 +11,7 @@
 #include "Eagle.h"
 #include "Hunchback.h"
 #include "Dracula.h"
+#include "Brick.h"
 DWORD FrameCollusion;
 int color = 255;
 float stair_x = 0, stair_y = 0;
@@ -116,6 +117,16 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				CHeart *hearts = dynamic_cast<CHeart *>(e->obj);
 				heart += hearts->GetHearts();
 				hearts->SetState(ITEM_STATE_DELETE);
+			}
+			else if (dynamic_cast<CPotRoast *>(e->obj))
+			{
+				CPotRoast *potroast = dynamic_cast<CPotRoast *>(e->obj);
+				if (potroast->state != ITEM_STATE_DELETE)
+				{
+					health += potroast->GetHealth();
+					if (health > 16) health = 16;
+				}
+				potroast->SetState(ITEM_STATE_DELETE);
 			}
 			else if (dynamic_cast<CMoneyBag *>(e->obj))
 			{
@@ -348,6 +359,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 					i--;
 				}
 			}
+			else if (dynamic_cast <CBrick *> (e->obj))
+				continue;
 			else
 			{
 				coEvents.erase(coEvents.begin() + i);
@@ -398,6 +411,12 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 								FrameCollusion = GetTickCount();
 							}
 					}
+				}
+				else if (dynamic_cast<CBrick *> (e->obj))
+				{
+					x += min_tx * dx + nx * 0.4f;
+					y += min_ty * dy + ny * 0.4f;
+					test = false;
 				}
 				else if (dynamic_cast<CDoor *>(e->obj))
 				{
@@ -529,7 +548,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		//DebugOut(L"IsUp=%d\nIsDown=%d\n", IsUp,IsDown);
 		//DebugOut(L"state=%d\n", state);
 		//DebugOut(L"up=%d\ndown=%d\n", IsUp, IsDown);
-		DebugOut(L"x=%f\ny=%f\n", x, y);
+		DebugOut(L"y=%f\n"/*, x*/, y + 30);
 		//DebugOut(L"heart=%d\n", heart);
 		//DebugOut(L"stair=%d\n", stair);
 	}

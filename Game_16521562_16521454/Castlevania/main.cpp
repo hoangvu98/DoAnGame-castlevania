@@ -324,6 +324,7 @@ void LoadResources()
 	resource->LoadDracula();
 	resource->LoadSpiritDracula();
 	resource->LoadOtherStuff();
+	resource->LoadPotRoast();
 	simon = CSimon::GetInstance();
 	simon->SetPosition(2053.0f, 28.0f);
 	//simon->SetPosition(906.0f, 34.0f);

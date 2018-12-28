@@ -248,73 +248,73 @@ void CClockTowerLevel::LoadObject()
 
 		cellsobject = new CCells(column, row);
 		hobj = new CHidenObject();
-		hobj->SetPosition(1345.0f, 143.0f);
+		hobj->SetPosition(1345.0f, /*143.0f*/145.0f);
 		hobj->SetSize(192.0f, 15.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(1217.0f, 80.0f);
+		hobj->SetPosition(1217.0f, 81.0f);
 		hobj->SetSize(161.0f, 15.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(1153.0f, 80.0f);
+		hobj->SetPosition(1153.0f, 81.0f);
 		hobj->SetSize(33.0f, 15.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(1089.0f, 80.0f);
+		hobj->SetPosition(1089.0f, 81.0f);
 		hobj->SetSize(33.0f, 15.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(992.0f, 80.0f);
+		hobj->SetPosition(992.0f, 81.0f);
 		hobj->SetSize(66.0f, 15.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(895.0f, 80.0f);
+		hobj->SetPosition(895.0f, 81.0f);
 		hobj->SetSize(66.0f, 15.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(673.0f, 80.0f);
+		hobj->SetPosition(673.0f, 81.0f);
 		hobj->SetSize(192.0f, 15.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(607.0f, 80.0f);
+		hobj->SetPosition(607.0f, 81.0f);
 		hobj->SetSize(33.0f, 15.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(480.0f, 80.0f);
+		hobj->SetPosition(480.0f, 81.0f);
 		hobj->SetSize(98.0f, 15.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(352.0f, 80.0f);
+		hobj->SetPosition(352.0f, 81.0f);
 		hobj->SetSize(33.0f, 15.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(417.0f, 80.0f);
+		hobj->SetPosition(417.0f, 81.0f);
 		hobj->SetSize(33.0f, 15.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(33.0f, 77.0f);
+		hobj->SetPosition(33.0f, /*77.0f*/ 81.0f);
 		hobj->SetSize(288.0f, 15.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
@@ -381,31 +381,31 @@ void CClockTowerLevel::LoadObject()
 		cellsobject->InitCells(door);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(738.0f, 80.0f);
+		hobj->SetPosition(738.0f, /*80.0f*/82.0f);
 		hobj->SetSize(30.0f, 98.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(706.0f, 80.0f);
+		hobj->SetPosition(706.0f, /*80.0f*/82.0f);
 		hobj->SetSize(30.0f, 15.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(610.0f, 48.0f);
+		hobj->SetPosition(610.0f, /*48.0f*/50.0f);
 		hobj->SetSize(30.0f, 15.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(642.0f, 113.0f);
+		hobj->SetPosition(642.0f, /*113.0f*/114.0f);
 		hobj->SetSize(30.0f, 15.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(512.0f, 113.0f);
+		hobj->SetPosition(512.0f, /*113.0f*/114.0f);
 		hobj->SetSize(130.0f, 62.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
@@ -417,31 +417,31 @@ void CClockTowerLevel::LoadObject()
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(418.0f, 113.0f);
+		hobj->SetPosition(418.0f, /*113.0f*/114.0f);
 		hobj->SetSize(62.0f, 29.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(366.0f, 18.0f);
+		hobj->SetPosition(366.0f, /*18.0f*/19.0f);
 		hobj->SetSize(80.0f, 18.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(305.0f, 80.0f);
+		hobj->SetPosition(305.0f, /*80.0f*/81.0f);
 		hobj->SetSize(80.0f, 18.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(224.0f, 143.0f);
+		hobj->SetPosition(224.0f, /*143.0f*/146.0f);
 		hobj->SetSize(64.0f, 32.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(161.0f, 143.0f);
+		hobj->SetPosition(161.0f, /*143.0f*/146.0f);
 		hobj->SetSize(30.0f, 15.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
@@ -459,7 +459,7 @@ void CClockTowerLevel::LoadObject()
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(33.0f, 48.0f);
+		hobj->SetPosition(33.0f, /*48.0f*/50.0f);
 		hobj->SetSize(95.0f, 15.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
@@ -610,7 +610,7 @@ void CClockTowerLevel::LoadObject()
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(1.0f, 81.0f);
+		hobj->SetPosition(1.0f, /*81.0f*/82.0f);
 		hobj->SetSize(32.0f, 94.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
@@ -628,43 +628,43 @@ void CClockTowerLevel::LoadObject()
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(257.0f, 113.0f);
+		hobj->SetPosition(257.0f, /*113.0f*/114.0f);
 		hobj->SetSize(62.0f, 30.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(336.0f, 145.0f);
-		hobj->SetSize(47.0f, 17.0f);
+		hobj->SetPosition(/*336.0f*/352.0f, /*145.0f*/146.0f);
+		hobj->SetSize(33.0f, 17.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(434.0f, 144.0f);
+		hobj->SetPosition(434.0f, /*144.0f*/146.0f);
 		hobj->SetSize(47.0f, 18.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(368.0f, 113.0f);
+		hobj->SetPosition(368.0f, /*113.0f*/114.0f);
 		hobj->SetSize(79.0f, 16.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(336.0f, 47.0f);
+		hobj->SetPosition(336.0f, /*47.0f*/49.0f);
 		hobj->SetSize(79.0f, 16.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(449.0f, 47.0f);
+		hobj->SetPosition(449.0f, /*47.0f*/49.0f);
 		hobj->SetSize(32.0f, 31.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(481.0f, 47.0f);
+		hobj->SetPosition(481.0f, /*47.0f*/49.0f);
 		hobj->SetSize(190.0f, 14.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
@@ -676,7 +676,7 @@ void CClockTowerLevel::LoadObject()
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(514.0f, 145.0f);
+		hobj->SetPosition(514.0f, /*145.0f*/146.0f);
 		hobj->SetSize(126.0f, 30.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
@@ -700,7 +700,7 @@ void CClockTowerLevel::LoadObject()
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(33.0f, 81.0f);
+		hobj->SetPosition(33.0f, /*81.0f*/82.0f);
 		hobj->SetSize(32.0f, 16.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
@@ -804,7 +804,7 @@ void CClockTowerLevel::LoadObject()
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject(); 
-		hobj->SetPosition(184.0f, 81.0f);
+		hobj->SetPosition(184.0f, /*81.0f*/82.0f);
 		hobj->SetSize(65.0f, 15.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
@@ -852,7 +852,7 @@ void CClockTowerLevel::LoadObject()
 		cellsobject->InitCells(hobj);
 
 		hobj = new CHidenObject();
-		hobj->SetPosition(447.0f, 113.0f);
+		hobj->SetPosition(447.0f, /*113.0f*/114.0f);
 		hobj->SetSize(103.0f, 32.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
 		cellsobject->InitCells(hobj);
@@ -883,18 +883,11 @@ void CClockTowerLevel::LoadObject()
 
 void CClockTowerLevel::Update()
 {
-	CSimon* simon = CSimon::GetInstance();
 	if (prev_scene != scene)
 	{
 		LoadObject();
 		LoadMap();
 		prev_scene = scene;
-		simon->SetReset(false);
-	}
-	else if (simon->GetReset())
-	{
-		LoadMap();
-		simon->SetReset(false);
 	}
 }
 

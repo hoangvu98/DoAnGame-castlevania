@@ -77,4 +77,5 @@ public:
 	void LoadDracula();
 	void LoadSpiritDracula();
 	void LoadOtherStuff();
+	void LoadPotRoast();
 };

@@ -167,20 +167,20 @@ void CEntranceLevel::LoadMap()
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
 
-		ghoul = new CGhoul();
-		ghoul->SetPosition(250.0f, 127.0f);
-		ghoul->SetState(GHOUL_STATE_LEFT);
-		cells->InitCells(ghoul);
+		//ghoul = new CGhoul();
+		//ghoul->SetPosition(250.0f, 127.0f);
+		//ghoul->SetState(GHOUL_STATE_LEFT);
+		//cells->InitCells(ghoul);
 
-		ghoul = new CGhoul();
-		ghoul->SetPosition(290.0f, 127.0f);
-		ghoul->SetState(GHOUL_STATE_LEFT);
-		cells->InitCells(ghoul);
+		//ghoul = new CGhoul();
+		//ghoul->SetPosition(290.0f, 127.0f);
+		//ghoul->SetState(GHOUL_STATE_LEFT);
+		//cells->InitCells(ghoul);
 
-		ghoul = new CGhoul();
-		ghoul->SetPosition(330.0f, 127.0f);
-		ghoul->SetState(GHOUL_STATE_LEFT);
-		cells->InitCells(ghoul);
+		//ghoul = new CGhoul();
+		//ghoul->SetPosition(330.0f, 127.0f);
+		//ghoul->SetState(GHOUL_STATE_LEFT);
+		//cells->InitCells(ghoul);
 		break;
 	case SCENE_3:
 		simon->SetStage(2);
@@ -327,9 +327,9 @@ void CEntranceLevel::LoadMap()
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
 
-		bossbat = CBossBat::GetInstance();
+		/*bossbat = CBossBat::GetInstance();
 		bossbat->SetPosition(2666.0f, 0.0f);
-		cells->InitCells(bossbat);
+		cells->InitCells(bossbat);*/
 		break;
 	}
 }
@@ -361,7 +361,7 @@ void CEntranceLevel::LoadObject()
 
 		hidenObj = new CHidenObject();
 		hidenObj->SetSize(768.0f, 16.0f);
-		hidenObj->SetPosition(0, 145);
+		hidenObj->SetPosition(0, 147);
 		cellsobject->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
@@ -399,12 +399,12 @@ void CEntranceLevel::LoadObject()
 
 		hidenObj = new CHidenObject();
 		hidenObj->SetSize(1530.0f, 15.0f);
-		hidenObj->SetPosition(0.0f, 160.0f);
+		hidenObj->SetPosition(0.0f, /*160.0f*/161.0f);
 		cellsobject->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
 		hidenObj->SetSize(147, 14);
-		hidenObj->SetPosition(1386.0f, 66.0f);
+		hidenObj->SetPosition(1386.0f, 67.0f);
 		cellsobject->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
@@ -414,7 +414,7 @@ void CEntranceLevel::LoadObject()
 
 		hidenObj = new CHidenObject();
 		hidenObj->SetSize(1.0f, 81.0f);
-		hidenObj->SetPosition(1527.0f, 77.0f);
+		hidenObj->SetPosition(1527.0f, 78.0f);
 		cellsobject->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
@@ -520,51 +520,57 @@ void CEntranceLevel::LoadObject()
 
 		hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
-		hidenObj->SetSize(55.0f, 15.0f);
-		hidenObj->SetPosition(681.0f, 96.0f);
+		hidenObj->SetSize(48.0f, 15.0f);
+		hidenObj->SetPosition(688.0f, 98.0f);
 		cellsobject->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
-		hidenObj->SetPosition(752.0f, 64.0f);
-		hidenObj->SetSize(64.0f, 15.0f);
+		hidenObj->SetPosition(752.0f, 66.0f);
+		hidenObj->SetSize(160.0, 15.0f);
 		cellsobject->InitCells(hidenObj);
 
-		hidenObj = new CHidenObject();
+		/*hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
 		hidenObj->SetPosition(816.0f, 64.0f);
 		hidenObj->SetSize(64.0f, 15.0f);
-		cellsobject->InitCells(hidenObj);
+		cellsobject->InitCells(hidenObj);*/
 
-		hidenObj = new CHidenObject();
+		/*hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
 		hidenObj->SetPosition(879.0f, 64.0f);
 		hidenObj->SetSize(32.0f, 15.0f);
+		cellsobject->InitCells(hidenObj);*/
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
+		hidenObj->SetPosition(928.0f, 98.0f);
+		hidenObj->SetSize(96.0f, 15.0f);
 		cellsobject->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
-		hidenObj->SetPosition(928.0f, 96.0f);
-		hidenObj->SetSize(64.0f, 15.0f);
+		hidenObj->SetPosition(1535.0f , 67.0f);
+		hidenObj->SetSize(130.0f , 14.0f);
 		cellsobject->InitCells(hidenObj);
 
-		hidenObj = new CHidenObject();
+		/*hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
 		hidenObj->SetPosition(992.0f, 96.0f);
 		hidenObj->SetSize(32.0f, 15.0f);
-		cellsobject->InitCells(hidenObj);
+		cellsobject->InitCells(hidenObj);*/
 
 
 
 
-		for (int i = 0; i < 3; i++)
+		/*for (int i = 0; i < 3; i++)
 		{
 			hidenObj = new CHidenObject();
 			hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
-			hidenObj->SetPosition(i * 48.0f + 1392.0f, 65.0f);
+			hidenObj->SetPosition(i * 48.0f + 1392.0f, 66.0f);
 			hidenObj->SetSize(48.0f, 15.0f);
 			cellsobject->InitCells(hidenObj);
-		}
+		}*/
 
 		door = new CDoor();
 		door->SetState(DOOR_STATE_NORMAL);
@@ -572,14 +578,14 @@ void CEntranceLevel::LoadObject()
 		door->SetIsHiDen(false);
 		door->SetScene(3);
 		cellsobject->InitCells(door);
-		for (int i = 0; i < 3; i++)
+		/*for (int i = 0; i < 3; i++)
 		{
 			hidenObj = new CHidenObject();
 			hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
-			hidenObj->SetPosition(i * 64.0f + 1550.0f, 65.0f);
+			hidenObj->SetPosition(i * 64.0f + 1550.0f, 66.0f);
 			hidenObj->SetSize(64.0f, 15.0f);
 			cellsobject->InitCells(hidenObj);
-		}
+		}*/
 		break;
 	case SCENE_3:
 		simon->SetStage(2);
@@ -602,13 +608,13 @@ void CEntranceLevel::LoadObject()
 
 		hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
-		hidenObj->SetPosition(1792.0f, 79.0f);
+		hidenObj->SetPosition(1792.0f, 81.0f);
 		hidenObj->SetSize(33.0f, 32.0f);
 		cellsobject->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
-		hidenObj->SetPosition(1824.0f, 79.0f);
+		hidenObj->SetPosition(1824.0f, 81.0f);
 		hidenObj->SetSize(33.0f, 80.0f);
 		cellsobject->InitCells(hidenObj);
 
@@ -654,25 +660,32 @@ void CEntranceLevel::LoadObject()
 		door->SetScene(5);
 		cellsobject->InitCells(door);
 
-		for (int i = 0; i < 2; i++)
+		/*for (int i = 0; i < 2; i++)
 		{
 			hidenObj = new CHidenObject();
 			hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
 			hidenObj->SetPosition(i * 64.0f + 1535.0f, 65.0f);
 			hidenObj->SetSize(64.0f, 15.0f);
 			cellsobject->InitCells(hidenObj);
-		}
+		}*/
+
 		hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
-		hidenObj->SetPosition(1539.0f, 160.0f);
-		hidenObj->SetSize(64.0f, 15.0f);
+		hidenObj->SetPosition(1535.0f, /*66.0f*/67.0f);
+		hidenObj->SetSize(128.0f, 15.0f);
 		cellsobject->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
+		hidenObj->SetPosition(1539.0f, 162.0f);
+		hidenObj->SetSize(/*64.0f*/513.0f, 15.0f);
+		cellsobject->InitCells(hidenObj);
+
+		/*hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
 		hidenObj->SetPosition(1904.0f, 160.0f);
 		hidenObj->SetSize(18.0f, 15.0f);
-		cellsobject->InitCells(hidenObj);
+		cellsobject->InitCells(hidenObj);*/
 
 		hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
@@ -688,7 +701,7 @@ void CEntranceLevel::LoadObject()
 
 		hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
-		hidenObj->SetPosition(1952, 63);
+		hidenObj->SetPosition(1953, 65);
 		hidenObj->SetSize(129.0f, 15.0f);
 		cellsobject->InitCells(hidenObj);
 
@@ -703,32 +716,32 @@ void CEntranceLevel::LoadObject()
 		hidenObj->SetPosition(2016, 0);
 		hidenObj->SetSize(32.0f, 12.0f);
 		cellsobject->InitCells(hidenObj);
-		for (int i = 0; i < 4; i++)
+		/*for (int i = 0; i < 4; i++)
 		{
 			hidenObj = new CHidenObject();
 			hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
 			hidenObj->SetPosition(i * 64.0f + 1600.0f, 160.0f);
 			hidenObj->SetSize(64.0f, 15.0f);
 			cellsobject->InitCells(hidenObj);
-		}
+		}*/
 
-		for (int i = 0; i < 2; i++)
+		/*for (int i = 0; i < 2; i++)
 		{
 			hidenObj = new CHidenObject();
 			hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
 			hidenObj->SetPosition(i * 64.0f + 1922.0f, 160.0f);
 			hidenObj->SetSize(64.0f, 15.0f);
 			cellsobject->InitCells(hidenObj);
-		}
+		}*/
 
-		for (int i = 0; i < 2; i++)
+		/*for (int i = 0; i < 2; i++)
 		{
 			hidenObj = new CHidenObject();
 			hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
 			hidenObj->SetPosition(i * 48.0f + 1953.0f, 160.0f);
 			hidenObj->SetSize(48.0f, 15.0f);
 			cellsobject->InitCells(hidenObj);
-		}
+		}*/
 
 		hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
@@ -736,11 +749,11 @@ void CEntranceLevel::LoadObject()
 		hidenObj->SetSize(48.0f, 15.0f);
 		cellsobject->InitCells(hidenObj);
 
-		hidenObj = new CHidenObject();
+		/*hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
 		hidenObj->SetPosition(1857.0f, 160.0f);
 		hidenObj->SetSize(48.0f, 15.0f);
-		cellsobject->InitCells(hidenObj);
+		cellsobject->InitCells(hidenObj);*/
 
 		hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
@@ -859,32 +872,49 @@ void CEntranceLevel::LoadObject()
 		cellsobject->InitCells(hidenObj);
 
 
-		for (int i = 0; i < 7; i++)
+		/*for (int i = 0; i < 7; i++)
 		{
 			hidenObj = new CHidenObject();
 			hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
-			hidenObj->SetPosition(i * 32.0f, 82.0f);
+			hidenObj->SetPosition(i * 32.0f, 83.0f);
 			hidenObj->SetSize(32.0f, 15.0f);
 			cellsobject->InitCells(hidenObj);
-		}
+		}*/
 
-		for (int i = 0; i < 5; i++)
+		hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
+		hidenObj->SetPosition(0.0f, 83.0f);
+		hidenObj->SetSize(224.0f , 15.0f);
+		cellsobject->InitCells(hidenObj);
+		/*for (int i = 0; i < 5; i++)
 		{
 			hidenObj = new CHidenObject();
 			hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
 			hidenObj->SetPosition(i * 32.0f + 320.0f, 82.0f);
 			hidenObj->SetSize(32.0f, 15.0f);
 			cellsobject->InitCells(hidenObj);
-		}
+		}*/
 
-		for (int i = 0; i < 7; i++)
+		hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
+		hidenObj->SetPosition(320.0f, 83.0f);
+		hidenObj->SetSize(161.0f, 14.0f);
+		cellsobject->InitCells(hidenObj);
+
+		/*for (int i = 0; i < 7; i++)
 		{
 			hidenObj = new CHidenObject();
 			hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
 			hidenObj->SetPosition(504.0f, i * 16.0f);
 			hidenObj->SetSize(8.0f, 16.0f);
 			cellsobject->InitCells(hidenObj);
-		}
+		}*/
+
+		hidenObj = new CHidenObject();
+		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
+		hidenObj->SetPosition(504.0f, 0.0f);
+		hidenObj->SetSize(8.0f, 96.0f);
+		cellsobject->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
@@ -894,7 +924,7 @@ void CEntranceLevel::LoadObject()
 
 		hidenObj = new CHidenObject();
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
-		hidenObj->SetPosition(257.0f, 82.0f);
+		hidenObj->SetPosition(257.0f, 83.0f);
 		hidenObj->SetSize(32.0f, 15.0f);
 		cellsobject->InitCells(hidenObj);
 
@@ -927,32 +957,32 @@ void CEntranceLevel::LoadObject()
 
 
 		hidenObj = new CHidenObject();
-		hidenObj->SetPosition(2049.0f, 65.0f);
+		hidenObj->SetPosition(2049.0f, /*65.0f*/66.0f);
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
 		hidenObj->SetSize(112.0f, 15.0f);
 		cellsobject->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
-		hidenObj->SetPosition(2040.0f, 160.0f);
+		hidenObj->SetPosition(2040.0f, /*160.0f*/161.0f);
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
 		hidenObj->SetSize(780.0f, 16.0f);
 		//hidenObj->SetSize(176.0f, 15.0f);
 		cellsobject->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
-		hidenObj->SetPosition(2177.0f, 97.0f);
+		hidenObj->SetPosition(2177.0f, /*97.0f*/98.0f);
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
 		hidenObj->SetSize(176.0f, 15.0f);
 		cellsobject->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
-		hidenObj->SetPosition(2721.0f, 127.0f);
+		hidenObj->SetPosition(2721.0f, /*127.0f*/129.0f);
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
 		hidenObj->SetSize(30.0f, 13.0f);
 		cellsobject->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();
-		hidenObj->SetPosition(2771.0f, 94.0f);
+		hidenObj->SetPosition(2771.0f, /*94.0f*/98.0f);
 		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
 		hidenObj->SetSize(44.0f, 14.0f);
 		cellsobject->InitCells(hidenObj);
@@ -1011,18 +1041,11 @@ void CEntranceLevel::LoadObject()
 
 void CEntranceLevel::Update()
 {
-	CSimon* simon = CSimon::GetInstance();
 	if (prev_scene != scene)
 	{
 		LoadObject();
 		LoadMap();
 		prev_scene = scene;
-		simon->SetReset(false);
-	}
-	else if (simon->GetReset())
-	{
-		LoadMap();
-		simon->SetReset(false);
 	}
 }
 
@@ -1077,40 +1100,40 @@ CEntranceLevel * CEntranceLevel::GetInstance()
 }
 void CEntranceLevel::NextScece(float &x, float &y)
 {
-	if (scene == SCENE_1)
+	if (scene == 1)
 	{
 		x = 10.0f;
 		y = 114.5f;
 	}
-	else if (scene == SCENE_2)
+	else if (scene == 2)
 	{
 		x = 10.0f;
 		y = 127.0f;
 	}
-	else if (scene == SCENE_3)
+	else if (scene == 4)
 	{
-		x = 1555.7f;
-		y = 34.6f;
+		x = 63.0f;
+		y = -5.0f;
 	}
-	else if(scene== SCENE_5)
+	else
 	{
-		x = 2062.1;
-		y = 34.6;
+		x = 0;
+		y = 0;
 	}
 }
 
 void CEntranceLevel::ResetScene()
 {
-	if (scene == SCENE_2 )
+	if (scene == SCENE_1)
+	{
+		scene = SCENE_1;
+	}
+	else if (scene == SCENE_2 || scene == SCENE_3)
 	{
 		scene = SCENE_2;
 	}
-	else if (scene == SCENE_3 || scene == SCENE_4)
+	else if (scene == SCENE_4 || scene == SCENE_5)
 	{
-		scene = SCENE_3;
-	}
-	else if (scene == SCENE_5)
-	{
-		scene == SCENE_5;
+		scene = SCENE_4;
 	}
 }

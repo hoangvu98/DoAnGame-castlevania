@@ -71,7 +71,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (brick->GetDel() <= 10)
 					brick->SetState(BRICK_STATE_HALF);
 				else
-					brick->SetState(BRICK_STATE_DELETE);
+					brick->SetState(BRICK_STATE_DISAPPEAR);
 
 
 			}

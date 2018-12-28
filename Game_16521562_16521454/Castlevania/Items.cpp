@@ -545,3 +545,23 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		CGameObject::SetState(state);
 	}
+
+	CPotRoast::CPotRoast()
+	{
+		health = 6;
+		AddAnimation(270000);
+	}
+
+	void CPotRoast::Render()
+	{
+		if (state == ITEM_STATE_ITEM)
+			animations[0]->Render(x, y);
+	}
+
+	void CPotRoast::GetBoundingBox(float & left, float & top, float & right, float & bottom)
+	{
+		left = x;
+		top = y;
+		right = x + POT_ROAST_BBOX_WIDTH;
+		bottom = y + POT_ROAST_BBOX_HEIGHT;
+	}
