@@ -1192,7 +1192,7 @@ CSimon::CSimon()
 	mx = 0;
 	whip = new CWhip();
 	whip->SetState(WHITE_WHIP);
-	map = CClockTowerLevel::GetInstance();
+	map = CEntranceLevel::GetInstance();
 	IsChangeMap = false;
 }
 

@@ -71,9 +71,9 @@ void CEntranceLevel::LoadMap()
 		panther->SetTmpPosition(690.0f, 79.0f);
 		panther->SetJump(false);
 		panther->InitMovingArea();
-		cells->InitCells(panther);
+		cells->InitCells(panther);*/
 
-		panther = new CPanther();
+		/*panther = new CPanther();
 		panther->Setnx(-1);
 		panther->SetState(PANTHER_STATE_IDLE);
 		panther->SetPosition(870.0f, 46.0f);
@@ -81,9 +81,9 @@ void CEntranceLevel::LoadMap()
 		panther->SetTurn(0);
 		panther->SetJump(false);
 		panther->InitMovingArea();
-		cells->InitCells(panther);
+		cells->InitCells(panther);*/
 
-		panther = new CPanther();
+		/*panther = new CPanther();
 		panther->Setnx(-1);
 		panther->SetState(PANTHER_STATE_IDLE);
 		panther->SetPosition(931.0f, 79.0f);
@@ -361,7 +361,7 @@ void CEntranceLevel::LoadObject()
 
 		hidenObj = new CHidenObject();
 		hidenObj->SetSize(768.0f, 16.0f);
-		hidenObj->SetPosition(0, 147);
+		hidenObj->SetPosition(0, 146);
 		cellsobject->InitCells(hidenObj);
 
 		hidenObj = new CHidenObject();

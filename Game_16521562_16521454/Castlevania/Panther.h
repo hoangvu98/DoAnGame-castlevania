@@ -6,7 +6,7 @@
 #define PANTHER_TEXTURE_PATH L"castlevania_texture\\Enemy\\Panther.png"
 #define ID_PANTHER 9
 
-#define PANTHER_WALKING_SPEED 0.3f
+#define PANTHER_WALKING_SPEED 0.1f
 
 #define PANTHER_JUMP_SPEED_X  0.4f
 #define PANTHER_JUMP_SPEED_Y  0.02f

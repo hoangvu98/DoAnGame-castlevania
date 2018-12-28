@@ -125,6 +125,8 @@ void CClockTowerLevel::LoadMap()
 		/*skeleton = new CSkeleton(612.0f, 79.0f);
 		skeleton->SetState(SKELETON_STATE_WALKING_RIGHT);
 		cells->InitCells(skeleton);*/
+
+		
 		break;
 	case SCENE_3:
 		simon->SetStage(17);
@@ -150,6 +152,14 @@ void CClockTowerLevel::LoadMap()
 		eagle->SetState(EAGLE_STATE_SLEEPING);
 		eagle->SetStateAppear(EAGLE_STATE_FLY_RIGHT);
 		cells->InitCells(eagle);
+
+		/*skeleton = new CSkeleton(592.0f, 113.0f);
+		skeleton->SetState(SKELETON_STATE_WALKING_RIGHT);
+		cells->InitCells(skeleton);
+
+		skeleton = new CSkeleton(613.0f, 15.0f);
+		skeleton->SetState(SKELETON_STATE_WALKING_RIGHT);
+		cells->InitCells(skeleton);*/
 
 		candle = new CCandle(SMALL_CANDLE);
 		candle->SetPosition(605.0f, 81.0f);
