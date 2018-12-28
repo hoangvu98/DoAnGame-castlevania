@@ -548,7 +548,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		//DebugOut(L"IsUp=%d\nIsDown=%d\n", IsUp,IsDown);
 		//DebugOut(L"state=%d\n", state);
 		//DebugOut(L"up=%d\ndown=%d\n", IsUp, IsDown);
-		DebugOut(L"y=%f\n"/*, x*/, y + 30);
+		DebugOut(L"x=%f\ny=%f\n", x, y);
 		//DebugOut(L"heart=%d\n", heart);
 		//DebugOut(L"stair=%d\n", stair);
 	}
@@ -1192,7 +1192,7 @@ CSimon::CSimon()
 	mx = 0;
 	whip = new CWhip();
 	whip->SetState(WHITE_WHIP);
-	map = CEntranceLevel::GetInstance();
+	map = CClockTowerLevel::GetInstance();
 	IsChangeMap = false;
 }
 

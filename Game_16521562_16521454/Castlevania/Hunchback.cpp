@@ -75,32 +75,6 @@ void CHunchback::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt, coObjects);
 	if (state == HUNCHBACK_STATE_IDLE || state == HUNCHBACK_STATE_JUMP)
 	{
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (dynamic_cast<CHidenObject *> (e->obj))
-			{
-				CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
-				if (hidenobject->state == HIDENOBJECT_STATE_NORMAL)
-				{
-					if (state == HUNCHBACK_STATE_IDLE)
-					{
-						vy = -HUNCHBACK_GRAVITY * 2;
-						y += vy * dt;
-						test = false;
-					}
-					else if (state == HUNCHBACK_STATE_JUMP)
-					{
-						if (nx < 0)
-							if (x <= hidenobject->x - 10)
-								SetState(HUNCHBACK_STATE_IDLE);
-					}
-				}
-			}
-		}
-	}
-	if (state == HUNCHBACK_STATE_IDLE || state == HUNCHBACK_STATE_JUMP)
-	{
 		coEventsResult.clear();
 		if (coEvents.size() != 0)
 		{
@@ -115,6 +89,12 @@ void CHunchback::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
 					if (hidenobject->state == HIDENOBJECT_STATE_NORMAL)
 					{
+						if (ny != 0)
+						{
+							y += min_ty * dy + ny * 0.4f;
+							test = false;
+						}
+
 						if (now - time_stop > 350 && state == HUNCHBACK_STATE_JUMP)
 						{
 							if (ny != 0)
@@ -123,11 +103,7 @@ void CHunchback::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 						if (state == HUNCHBACK_STATE_IDLE)
 						{
-							if (test == true)
-							{
-								y += min_ty * dy + ny * 0.4f;
-								test = false;
-							}
+							if(ny<0)
 							if (!IsJump)
 							{
 								time_stop = GetTickCount();
@@ -145,17 +121,9 @@ void CHunchback::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		test = true;
 	}
 	x += dx;
-	DebugOut(L"vx=%f\n", vx);
+	DebugOut(L"vy=%f\n", vy);
 
 
-	//if (state != HUNCHBACK_STATE_IDLE && now - time_stop > 1500)
-/*	{
-		if (nx > 0)
-			SetState(HUNCHBACK_STATE_FLY_RIGHT);
-		else
-			SetState(HUNCHBACK_STATE_FLY_LEFT);
-	}
-	else*/
 	if (now - time_stop > 1000 &&
 		(state == HUNCHBACK_STATE_FLY_RIGHT || state == HUNCHBACK_STATE_FLY_LEFT))
 		SetState(HUNCHBACK_STATE_IDLE);
