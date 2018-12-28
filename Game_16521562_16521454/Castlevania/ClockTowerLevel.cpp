@@ -32,7 +32,7 @@ void CClockTowerLevel::LoadMap()
 	switch (scene)
 	{
 	case SCENE_1:
-
+		simon->SetStage(16);
 		int column, row;
 
 		float width, height;
@@ -88,7 +88,7 @@ void CClockTowerLevel::LoadMap()
 		cells->InitCells(candle);
 		break;
 	case SCENE_2:
-
+		simon->SetStage(17);
 		tilemap->GetSize(width, height);
 
 		column = (int)width / CELL_WIDTH + 1;
@@ -127,7 +127,7 @@ void CClockTowerLevel::LoadMap()
 		cells->InitCells(skeleton);*/
 		break;
 	case SCENE_3:
-
+		simon->SetStage(17);
 		tilemap->GetSize(width, height);
 
 		column = (int)width / CELL_WIDTH + 1;
@@ -189,6 +189,7 @@ void CClockTowerLevel::LoadMap()
 
 		break;
 	case SCENE_4:
+		simon->SetStage(18);
 		tilemap->GetSize(width, height);
 
 		column = (int)width / CELL_WIDTH + 1;
@@ -197,7 +198,7 @@ void CClockTowerLevel::LoadMap()
 		cells = new CCells(column, row);
 		break;
 	case SCENE_5:
-
+		simon->SetStage(18);
 		tilemap->GetSize(width, height);
 
 		column = (int)width / CELL_WIDTH + 1;

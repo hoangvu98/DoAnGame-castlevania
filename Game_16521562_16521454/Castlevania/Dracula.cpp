@@ -202,7 +202,8 @@ void CDracula::GetBoundingBox(float & left, float & top, float & right, float & 
 
 void CDracula::LoadSpirit()
 {
-	spirit_dracula = new CSpiritDracula(this->x, this->y - 19.0f);
+	spirit_dracula = CSpiritDracula::GetInstance();
+	spirit_dracula->SetPosition(this->x, this->y - 19.0f);
 	spirit_dracula->SetState(SPIRITDRACULA_STATE_IDLE);
 	spirit_dracula->Setnx(this->nx);
 	CClockTowerLevel *level = CClockTowerLevel::GetInstance();

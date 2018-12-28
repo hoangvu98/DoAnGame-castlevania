@@ -4,7 +4,8 @@
 #include <string.h>
 #include "Simon.h"
 #include "BossBat.h"
-
+#include "Dracula.h"
+#include "SpiritDracula.h"
 void CBlackBoard::ConversionToString(long number, wstring strFormat, wstring & text)
 {
 	wstring tmp;
@@ -52,6 +53,8 @@ void CBlackBoard::Render()
 
 	CSimon *simon = CSimon::GetInstance();
 	CBossBat *bossbat = CBossBat::GetInstance();
+	CDracula *dracula = CDracula::GetInstance();
+	CSpiritDracula *spiritdracula = CSpiritDracula::GetInstance();
 
 	/*wstring strtmp;
 	strtmp.append(to_wstring(simon->GetScore()));
@@ -83,35 +86,42 @@ void CBlackBoard::Render()
 
 	int k;
 	int j;
-	if (simon->GetReset() == true)
-	{
-		k = -1;
-		for (int i = 0; i < 16; i++)
-			simonHP[i].SetType(PLAYER);
-	}
-	else
-	{
+	k = simon->GetHealth();
+	if (k < 0) k = 0;
+	else if (k > 16) k = 16;
 
-		for (int i = 0; i < 16; i++)
-			simonHP[i].Render(i * 6.0f + 32.0f, 10.0f/* - 40.0f*/);
+	for (int i = 0; i <= k - 1; i++)
+		simonHP[i].SetType(PLAYER);
 
-		if (simon->GetHealth() >= 0)
-			k = simonHP.size() - simon->GetHealth();
+	for (int i = k; i < 16; i++)
+		simonHP[i].SetType(EMPTY);
 
+	for (int i = 0; i < 16; i++)
+		simonHP[i].Render(i * 6.0f + 32.0f, 10.0f);
 
-		if (k >= 0)
-			for (j = simonHP.size() - 1; j >= 16 - k; j--)
-				simonHP[j].SetType(EMPTY);
-	}
-		for (int i = 0; i < enemyHP.size(); i++)
-			enemyHP[i].Render(i * 6.0f + 32.0f, 20.0f);
-	
 	int n;
-	if (bossbat->GetHealth() >= 0)
-		n = enemyHP.size() - bossbat->GetHealth();
-	if (n >= 0)
-		for (j = enemyHP.size() - 1; j >= enemyHP.size() - n; j--)
-			enemyHP[j].SetType(EMPTY);
+	if (simon->GetStage() <= 3)
+		n = bossbat->GetHealth();
+	else if (simon->GetStage() <= 18)
+	{
+		CSpiritDracula *spiritdracula = CSpiritDracula::GetInstance();
+		n = dracula->GetHealth();
+		if (dracula->GetState() == DRACULA_STATE_DIE)
+			n = spiritdracula->GetHealth();
+	}
+
+	if (n < 0) n = 0;
+	else if (n > 16) n = 16;
+
+	for (int i = 0; i <= n - 1; i++)
+		enemyHP[i].SetType(ENEMY);
+
+	for (int i = n; i < 16; i++)
+		enemyHP[i].SetType(EMPTY);
+
+	for (int i = 0; i < enemyHP.size(); i++)
+		enemyHP[i].Render(i * 6.0f + 32.0f, 20.0f);
+
 
 	game->GetFont()->DrawTextW(game->GetSpriteHandler(), textheart.c_str(), -1, &rect, DT_EXPANDTABS,
 		D3DCOLOR_XRGB(255, 255, 255));
