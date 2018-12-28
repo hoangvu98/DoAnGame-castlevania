@@ -39,7 +39,7 @@ void CFishman::GetBoundingBox(float &left, float &top, float &right, float &bott
 		top = y;
 		right = x + weight;
 		bottom = y + height;
-	}	
+	}
 	else if (state == FISHMAN_STATE_FIRE)
 	{
 		right = x + FISHMAN_BBOX_FIRE_WIDTH;
@@ -65,7 +65,7 @@ void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		SetPostionAppear(tx, ty);
 		SetPosition(cx, cy);
 		SetState(MONSTER_STATE_SLEEPING);
-		health=1;
+		health = 1;
 	}
 	if (state != MONSTER_STATE_SLEEPING)
 	{
@@ -104,7 +104,7 @@ void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						StartWait(wait1, start_wait1);
 
 					if (GetTickCount() - start_wait1 > 2000)
-					{						
+					{
 						if (fire == false)
 						{
 							bullet->SetPosition(this->x, this->y);
@@ -119,7 +119,7 @@ void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 							isAddBulletToCell = true;
 						}
 						SetState(FISHMAN_STATE_FIRE);
-						
+
 						start_wait1 = 0;
 
 						if (wait2)
@@ -133,10 +133,10 @@ void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 							wait2 = true;
 						}
 					}
-					
+
 				}
 				else
-					y += dy;				
+					y += dy;
 			}
 		}
 	}
@@ -173,7 +173,7 @@ void CFishman::Render()
 		animations[ani]->Render(x, y);
 		//bullet->Render();
 	}
-	RenderBoundingBox(200);
+	//RenderBoundingBox(200);
 }
 
 void CFishman::SetState(int state)

@@ -31,12 +31,23 @@ CBat::CBat(int size)
 
 void CBat::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
+
 	if (size == BAT_SIZE_SMALL)
 	{
-		left = x;
-		top = y;
-		right = x + BAT_SMALL_BBOX_WIDTH;
-		bottom = y + BAT_SMALL_BBOX_HEIGHT;
+		if (state == BAT_STATE_SLEEPING)
+		{
+			left = x;
+			top = y;
+			right = left + weight;
+			bottom = top + height;
+		}
+		else
+		{
+			left = x;
+			top = y;
+			right = x + BAT_SMALL_BBOX_WIDTH;
+			bottom = y + BAT_SMALL_BBOX_HEIGHT;
+		}
 	}
 	else
 	{
@@ -63,10 +74,6 @@ void CBat::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 void CBat::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CMonster::Update(dt, coObjects);
-	//
-	// TO-DO: make sure Goomba can interact with the world and to each of them too!
-	// 
-
 	CSimon *simon = CSimon::GetInstance();
 	if (state != BAT_STATE_SLEEPING)
 	{
