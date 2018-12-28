@@ -49,6 +49,7 @@ class CFishman : public CMonster
 
 public:
 	CFishman();
+	CFishman(float width, float height, float a_x, float a_y, int nx);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render();
