@@ -51,6 +51,30 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					candle->SetState(CANDLE_STATE_DISAPPEAR);
 				}
 			}
+			else if (dynamic_cast<CHeadDracula *>(e->obj))
+			{
+				CDracula *dracula = CDracula::GetInstance();
+				CHeadDracula *head = dynamic_cast<CHeadDracula *>(e->obj);
+				if (dracula->state == DRACULA_STATE_FIRE || dracula->state == DRACULA_STATE_IDLE)
+				{
+					if (dracula->GetIsInjure())
+					{
+						if (dracula->GetHealth() <= 0)
+						{
+							head->SetState(HEAD_STATE_FLY_AWAY);
+							dracula->SetState(DRACULA_STATE_DIE);
+						}
+						else
+							dracula->SetHealth(dracula->GetHealth() - 1);
+						dracula->SetIsInjure(false);
+						dracula->SetTimeInjure();
+					}
+				}
+			}
+			else if (dynamic_cast<CDracula *>(e->obj))
+			{
+
+			}
 			else if (dynamic_cast<CMonster *> (e->obj))
 			{
 				CMonster *monster = dynamic_cast<CMonster *>(e->obj);
@@ -74,17 +98,6 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					brick->SetState(BRICK_STATE_DISAPPEAR);
 
 
-			}
-			else if (dynamic_cast<CHeadDracula *>(e->obj))
-			{
-				CDracula *dracula = CDracula::GetInstance();
-				CHeadDracula *head = dynamic_cast<CHeadDracula *>(e->obj);
-				if (dracula->GetHealth() <= 0)
-				{
-					head->SetState(HEAD_STATE_FLY_AWAY);
-					dracula->SetState(DRACULA_STATE_DIE);
-				}
-				else dracula->SetHealth(dracula->GetHealth() - 1);
 			}
 			else if (dynamic_cast<CHidenObject *> (e->obj))
 			{

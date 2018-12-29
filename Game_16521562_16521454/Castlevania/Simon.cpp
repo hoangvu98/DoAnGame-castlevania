@@ -405,18 +405,16 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				{
 					CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
 					if (stair != 2)
-					{
-						x += min_tx * dx + nx * 0.4f;
-						y += min_ty * dy + ny * 0.4f;
-						test = false;
+					{						
+						if (test)
+						{
+							if (y + min_ty * dy + ny * 0.4f >= 132)
+								DebugOut(L"y=%f\n", y + min_ty * dy + ny * 0.4f);
+							x += min_tx * dx + nx * 0.4f;
+							y += min_ty * dy + ny * 0.4f;
+							test = false;
+						}
 					}
-					//test = false;
-					/*if (nx != 0) {
-						vx = 0;
-					}
-					if (ny != 0) {
-						vy = 0; jump = 0;
-					}*/
 					DWORD now = GetTickCount();
 					if (now - FrameCollusion > 100)
 					{
@@ -433,8 +431,13 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				}
 				else if (dynamic_cast<CBrick *> (e->obj))
 				{
-					x += min_tx * dx + nx * 0.4f;
-					y += min_ty * dy + ny * 0.4f;
+					if (test)
+					{
+						if (y + min_ty * dy + ny * 0.4f >= 132)
+							DebugOut(L"y=%f\n", y + min_ty * dy + ny * 0.4f);
+						x += min_tx * dx + nx * 0.4f;
+						y += min_ty * dy + ny * 0.4f;
+					}
 					test = false;
 				}
 				else if (dynamic_cast<CDoor *>(e->obj))
@@ -515,6 +518,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		}
 		if (test)
 		{
+			if (y+dy >= 132)
+				DebugOut(L"y=%f\n",  y);
 			x += dx;
 			y += dy;
 		}
@@ -574,7 +579,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		//DebugOut(L"IsUp=%d\nIsDown=%d\n", IsUp,IsDown);
 		//DebugOut(L"state=%d\n", state);
 		//DebugOut(L"up=%d\ndown=%d\n", IsUp, IsDown);
-		//DebugOut(L"x=%f\ny=%f\n", x, y);
+		//DebugOut(L"x=%f\ny=%f\n", x, y);	
+		//DebugOut(L"y=%f\n",  y);
 		//DebugOut(L"heart=%d\n", heart);
 		//DebugOut(L"stair=%d\n", stair);
 	}
@@ -1183,7 +1189,7 @@ CSimon::CSimon()
 	mx = 0;
 	whip = new CWhip();
 	whip->SetState(WHITE_WHIP);
-	map = CEntranceLevel::GetInstance();
+	map = CClockTowerLevel::GetInstance();
 	IsChangeMap = false;
 }
 

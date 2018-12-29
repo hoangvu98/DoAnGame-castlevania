@@ -56,7 +56,6 @@ void CFishman::GetBoundingBox(float &left, float &top, float &right, float &bott
 void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CMonster::Update(dt, coObjects);
-	//CGameObject::Update(dt, coObjects);
 	vy += FISHMAN_GRAVITY * dt;
 	if (health <= 0 && state == MONSTER_STATE_DELETE)
 	{
@@ -70,7 +69,7 @@ void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	if (state != MONSTER_STATE_SLEEPING)
 	{
-		if (state != FISHMAN_STATE_DISAPEAR && state != MONSTER_STATE_DELETE)
+		if (state != MONSTER_STATE_DISAPPEAR && state != MONSTER_STATE_DELETE)
 		{
 			vector<LPCOLLISIONEVENT> coEvents;
 			vector<LPCOLLISIONEVENT> coEventsResult;
@@ -174,7 +173,7 @@ void CFishman::Render()
 		animations[ani]->Render(x, y);
 		//bullet->Render();
 	}
-	//RenderBoundingBox(200);
+	RenderBoundingBox(200);
 }
 
 void CFishman::SetState(int state)

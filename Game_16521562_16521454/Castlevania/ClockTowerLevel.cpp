@@ -218,6 +218,9 @@ void CClockTowerLevel::LoadMap()
 		row = (int)height / CELL_HEIGHT + 1;
 
 		cells = new CCells(column, row);
+
+		dracula = CDracula::GetInstance();
+		dracula->SetHealth(16);
 		break;
 	case SCENE_5:
 		simon->SetStage(18);
@@ -233,7 +236,23 @@ void CClockTowerLevel::LoadMap()
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
 
-		for (int i = 0; i < 7; i++)
+		candle = new CCandle(SMALL_CANDLE,HOLLYWATER);
+		candle->SetPosition(0 * 64.0f + 30.0f, 83.0f);
+		candle->SetState(CANDLE_STATE_NORMAL);
+		cells->InitCells(candle);
+
+		candle = new CCandle(SMALL_CANDLE,BOOMERANG);
+		candle->SetPosition(3 * 64.0f + 30.0f, 83.0f);
+		candle->SetState(CANDLE_STATE_NORMAL);
+		cells->InitCells(candle);
+		for (int i = 0; i < 3; i++)
+		{
+			candle = new CCandle(SMALL_CANDLE);
+			candle->SetPosition(i * 64.0f + 30.0f, 83.0f);
+			candle->SetState(CANDLE_STATE_NORMAL);
+			cells->InitCells(candle);
+		}
+		for (int i = 4; i < 7; i++)
 		{
 			candle = new CCandle(SMALL_CANDLE);
 			candle->SetPosition(i * 64.0f + 30.0f, 83.0f);
@@ -241,10 +260,11 @@ void CClockTowerLevel::LoadMap()
 			cells->InitCells(candle);
 		}
 
-		dracula = CDracula::GetInstance();
+
+		/*dracula = CDracula::GetInstance();
 		dracula->Setnx(-1);
 		dracula->SetState(DRACULA_STATE_SLEEPING);
-		cells->InitCells(dracula);
+		cells->InitCells(dracula);*/
 		break;
 	}
 }

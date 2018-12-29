@@ -10,6 +10,9 @@
 #define VIEWPORT_WIDTH		256
 #define VIEWPORT_HEIGHT		180
 
+#define SCREEN_WIDTH  256
+#define SCREEN_HEIGHT 262
+
 #define OFFSET		40.0f
 /*
 Abstract class to define keyboard event handlers

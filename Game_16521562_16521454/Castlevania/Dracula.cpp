@@ -269,7 +269,7 @@ CDracula::CDracula()
 {
 	CSimon *simon = CSimon::GetInstance();
 	SetPosition(DEFAULT_POSITION_X, DEFAULT_POSITION_Y);
-	health = 1;
+	health = 16;
 	damage = 4;
 
 	alpha = 255;

@@ -140,7 +140,7 @@ public:
 #define BOOMERANG_ANI_ITEM		0
 #define BOOMERANG_ANI_FLY		1
 
-#define DISTANCE_OF_BOOMERANG	80
+#define DISTANCE_OF_BOOMERANG	300
 
 //#define BOOMERANG_FLYING_TIME 2000
 class CBoomerang : public CItems
@@ -148,7 +148,8 @@ class CBoomerang : public CItems
 	int damage;
 
 	bool fly;
-	//DWORD start_fly;
+	bool IsSetDistance;
+	float left_distance, right_distance;
 public:
 	CBoomerang();
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);

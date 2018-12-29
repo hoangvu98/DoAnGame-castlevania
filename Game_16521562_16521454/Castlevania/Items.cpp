@@ -279,6 +279,8 @@ void CAxe::SetState(int state)
 
 CBoomerang::CBoomerang()
 {
+	fly = false;
+	IsSetDistance = true;
 	damage = 1;
 	AddAnimation(15000);
 	AddAnimation(15001);
@@ -326,19 +328,24 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (state != ITEM_STATE_DELETE)
 		{
 			CSimon *simon = CSimon::GetInstance();
-			float sx, sy;
-			simon->GetPosition(sx, sy);
 			CGameObject::Update(dt);
-			float left_distance;
-			float right_distance;
-			left_distance = sx - DISTANCE_OF_BOOMERANG;
-			right_distance = sx + DISTANCE_OF_BOOMERANG;
-			if (x <= left_distance)
+			if (IsSetDistance)
+			{
+				IsSetDistance = false;
+				float sx, sy;
+				simon->GetPosition(sx, sy);
+				left_distance = sx - DISTANCE_OF_BOOMERANG;
+				right_distance = sx + DISTANCE_OF_BOOMERANG;
+			}
+			CGame* game = CGame::GetInstance();
+			float cx, cy;
+			game->GetCamera(cx, cy);
+			if (x <= left_distance || x <= cx-10.0f)
 			{
 				SetState(ITEM_STATE_WEAPON_RIGHT);
 				fly = true;
 			}
-			if (x >= right_distance)
+			if (x >= right_distance || x >= cx+ VIEWPORT_WIDTH)
 			{
 				SetState(ITEM_STATE_WEAPON_LEFT);
 				fly = true;
@@ -362,8 +369,8 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					else if (dynamic_cast<CCandle *> (e->obj))
 					{
 						CCandle *candle = dynamic_cast<CCandle *>(e->obj);
-						/*simon->SetSkill(false);*/
-						candle->SetState(CANDLE_STATE_DISAPPEAR);
+						if(candle->state!=CANDLE_STATE_DELETE)
+							candle->SetState(CANDLE_STATE_DISAPPEAR);
 					}
 					else if (dynamic_cast<CMonster *> (e->obj))
 					{
@@ -377,6 +384,10 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			DebugOut(L"state %d\n", state);
 			x += dx;
+		}
+		else
+		{
+			IsSetDistance = true;
 		}
 	}
 }
