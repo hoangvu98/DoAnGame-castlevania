@@ -19,9 +19,9 @@ protected:
 	CTextures *textures;
 	CSprites *sprites;
 	CAnimations *animations;
-
+	
 	CTileMap *tilemap;
-	bool IsNext = false;
+	bool IsNext=false;
 	bool IsFall = false;
 	int NextScene;
 public:
@@ -33,7 +33,7 @@ public:
 	int GetScene() { return scene; }
 	void SetIsNext(bool IsNext) { this->IsNext = IsNext; };
 	void SetIsFall(bool IsFall) { this->IsFall = IsFall; };
-	bool GetIsNext() { return IsNext; }
+	bool GetIsNext() {return IsNext;}
 	bool GetIsFall() { return IsFall; }
 	void SetNextScene(int NextScene) { this->NextScene = NextScene; }
 	int GetNextScene() { return NextScene; }
@@ -43,10 +43,10 @@ public:
 	virtual void LoadObject() = 0;
 	virtual void Update() = 0;
 	virtual void Render();
-	virtual void GetSizeMap(float &min, float &max) = 0;
+	virtual void GetSizeMap(float &min, float &max)=0;
 	virtual void NextScece(float &x, float &y) = 0;
 	virtual void ResetScene() = 0;
 	CCells* GetCell() { return cells; }
-	void SetCell(CCells *cells) { this->cells = cells; }
+	void SetCell(CCells *cells) {this->cells= cells;}
 	CTileMap* GetTileMap() { return tilemap; }
 };

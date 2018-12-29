@@ -20,7 +20,6 @@ class CEagle : public CMonster
 	float weight, height;
 public:
 	CEagle();
-	CEagle(float width, float height, float a_x, float a_y);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render();

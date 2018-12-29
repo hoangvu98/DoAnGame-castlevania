@@ -13,7 +13,7 @@
 class CItems :
 	public CGameObject
 {
-	int mana = 1;
+	int mana=1;
 public:
 	CItems();
 	~CItems();
@@ -29,9 +29,9 @@ public:
 #define SPEED_DAGGER 0.25f
 class CDagger : public CItems
 {
-	int damage=1;
+	int damage = 1;
 public:
-	CDagger() :CItems() {AddAnimation(6000); AddAnimation(6001); }
+	CDagger() :CItems() { AddAnimation(6000); AddAnimation(6001); }
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	void Render();
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
@@ -47,7 +47,7 @@ public:
 #define HEART_BBOX_SMALL_WIDTH	8
 #define HEART_BBOX_SMALL_HEIGHT	9
 
-class CHeart:public CItems
+class CHeart :public CItems
 {
 	int hearts;
 	int size;
@@ -117,11 +117,11 @@ public:
 #define AXE_BBOX_HEIGHT 14
 
 #define SPEED_AXE_X 0.15f
-#define SPEED_AXE_Y 0.3f
+#define SPEED_AXE_Y 0.35f
 #define AXE_GRAVITY	0.001f
 class CAxe : public CItems
 {
-	int damage=2;
+	int damage = 2;
 public:
 	CAxe() :CItems() { AddAnimation(14001); AddAnimation(14002); }
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
@@ -146,7 +146,7 @@ public:
 class CBoomerang : public CItems
 {
 	int damage;
-	
+
 	bool fly;
 	//DWORD start_fly;
 public:

@@ -55,11 +55,3 @@ CHidenObject::CHidenObject(float width, float height)
 	SetSize(width, height);
 	AddAnimation(21001);
 }
-
-CHidenObject::CHidenObject(float width, float height, float stair_x, float stair_y, int nx)
-{
-	SetSize(width, height);
-	AddAnimation(21001);
-	SetStair_XY(stair_x, stair_y);
-	Setnx(nx);
-}

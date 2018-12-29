@@ -26,6 +26,5 @@ public:
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	CHidenObject();
 	CHidenObject(float width, float height);
-	CHidenObject(float width, float height, float stair_x, float stair_y, int nx);
 };
 

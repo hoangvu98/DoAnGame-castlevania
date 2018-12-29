@@ -15,7 +15,7 @@ protected:
 	int health;
 	int score;
 	int damage;
-	bool IsInjure = true;
+	bool IsInjure=true;
 	DWORD time_injure;
 public:
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);

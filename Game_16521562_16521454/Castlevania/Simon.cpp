@@ -532,7 +532,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			else
 				collusion = 2;
 		}
-		else if (collusion == 2)
+		else if ( collusion == 2)
 		{
 			if (health <= 0)
 			{
@@ -545,7 +545,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			if (now - FrameCollusion > 2000)
 				collusion = 0;
 		}
-		if (y >= 190.0f || time == 0 && !IsDie)
+		if (y >= 190.0f || time==0 && !IsDie)
 		{
 			vx = 0;
 			vy = 0;
@@ -624,46 +624,46 @@ void CSimon::Render()
 				}
 				else
 				{
-					if (fight == true || skill == true)
-					{
-						if (state == SIMON_STATE_STAIR_UP_IDLE)
+					    if (fight == true || skill==true)
 						{
+							if (state == SIMON_STATE_STAIR_UP_IDLE)
+							{
 
-							if (nx > 0)
-								ani = SIMON_ANI_STAIR_FIGHT_UP_RIGHT;
+								if (nx > 0)
+									ani = SIMON_ANI_STAIR_FIGHT_UP_RIGHT;
+								else
+									ani = SIMON_ANI_STAIR_FIGHT_UP_LEFT;
+							}
 							else
-								ani = SIMON_ANI_STAIR_FIGHT_UP_LEFT;
+							{
+								if (nx > 0)
+									ani = SIMON_ANI_STAIR_FIGHT_DOWN_RIGHT;
+								else
+									ani = SIMON_ANI_STAIR_FIGHT_DOWN_LEFT;
+							}
+							if (fight == true)
+							{
+								if (nx > 0)whip->SetStateWhip(WHIP_STATE_RIGHT);
+								else whip->SetStateWhip(WHIP_STATE_LEFT);
+							}
 						}
 						else
 						{
-							if (nx > 0)
-								ani = SIMON_ANI_STAIR_FIGHT_DOWN_RIGHT;
-							else
-								ani = SIMON_ANI_STAIR_FIGHT_DOWN_LEFT;
+							if (state == SIMON_STATE_STAIR_UP_IDLE)
+							{
+								if (nx > 0)
+									ani = SIMON_ANI_STAIR_IDLE_UP_RIGHT;
+								else
+									ani = SIMON_ANI_STAIR_IDLE_UP_LEFT;
+							}
+							else if (state == SIMON_STATE_STAIR_DOWN_IDLE)
+							{
+								if (nx > 0)
+									ani = SIMON_ANI_STAIR_IDLE_DOWN_RIGHT;
+								else
+									ani = SIMON_ANI_STAIR_IDLE_DOWN_LEFT;
+							}
 						}
-						if (fight == true)
-						{
-							if (nx > 0)whip->SetStateWhip(WHIP_STATE_RIGHT);
-							else whip->SetStateWhip(WHIP_STATE_LEFT);
-						}
-					}
-					else
-					{
-						if (state == SIMON_STATE_STAIR_UP_IDLE)
-						{
-							if (nx > 0)
-								ani = SIMON_ANI_STAIR_IDLE_UP_RIGHT;
-							else
-								ani = SIMON_ANI_STAIR_IDLE_UP_LEFT;
-						}
-						else if (state == SIMON_STATE_STAIR_DOWN_IDLE)
-						{
-							if (nx > 0)
-								ani = SIMON_ANI_STAIR_IDLE_DOWN_RIGHT;
-							else
-								ani = SIMON_ANI_STAIR_IDLE_DOWN_LEFT;
-						}
-					}
 				}
 			}
 			else
@@ -738,7 +738,7 @@ void CSimon::Render()
 							else if (vy < 0 && nx > 0)
 								ani = SIMON_ANI_JUMP_RIGHT;
 						}
-					}
+					}				
 				}
 			}
 		}
@@ -788,7 +788,7 @@ void CSimon::Render()
 			animations[ani]->Render(x, y, color);
 	}
 	DWORD t = GetTickCount() - FrameWeapon;
-	if (t < 2000)
+	if (t< 2000)
 		weapon->Render();
 	RenderBoundingBox(100);
 }

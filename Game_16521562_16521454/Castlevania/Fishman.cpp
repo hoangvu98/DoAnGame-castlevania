@@ -12,6 +12,7 @@ CFishman::CFishman()
 	AddAnimation(18004);
 	AddAnimation(18005);
 	bullet = new CBullet();
+	bullet->SetDamage(1);
 	i = 0;
 	j = 0;
 	fire = false;
@@ -27,40 +28,6 @@ CFishman::CFishman()
 		items = new CHeart(HEART_SMALL);
 	else
 		items = NULL;
-}
-
-CFishman::CFishman(float width, float height, float a_x, float a_y, int nx)
-{
-	CMonster::CMonster();
-	health = 1;
-	damage = 1;
-	AddAnimation(18000);
-	AddAnimation(18001);
-	AddAnimation(18002);
-	AddAnimation(18003);
-	AddAnimation(18004);
-	AddAnimation(18005);
-	bullet = new CBullet();
-	i = 0;
-	j = 0;
-	fire = false;
-	int random;
-	wait1 = true;
-	wait2 = true;
-	isAddBulletToCell = false;
-	//srand(time(NULL));
-	random = rand() % 10;
-	if (random <= 1)
-		items = new CHeart(HEART_BIG);
-	else if (random <= 3)
-		items = new CHeart(HEART_SMALL);
-	else
-		items = NULL;
-
-	SetPostionAppear(a_x, a_y);	
-	SetSize(width, height);
-	SetStateAppear(FISHMAN_STATE_JUMP);
-	Setnx(nx);
 }
 
 void CFishman::GetBoundingBox(float &left, float &top, float &right, float &bottom)
@@ -73,7 +40,7 @@ void CFishman::GetBoundingBox(float &left, float &top, float &right, float &bott
 		top = y;
 		right = x + weight;
 		bottom = y + height;
-	}	
+	}
 	else if (state == FISHMAN_STATE_FIRE)
 	{
 		right = x + FISHMAN_BBOX_FIRE_WIDTH;
@@ -99,7 +66,7 @@ void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		SetPostionAppear(tx, ty);
 		SetPosition(cx, cy);
 		SetState(MONSTER_STATE_SLEEPING);
-		health=1;
+		health = 1;
 	}
 	if (state != MONSTER_STATE_SLEEPING)
 	{
@@ -138,7 +105,7 @@ void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						StartWait(wait1, start_wait1);
 
 					if (GetTickCount() - start_wait1 > 2000)
-					{						
+					{
 						if (fire == false)
 						{
 							bullet->SetPosition(this->x, this->y);
@@ -153,7 +120,7 @@ void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 							isAddBulletToCell = true;
 						}
 						SetState(FISHMAN_STATE_FIRE);
-						
+
 						start_wait1 = 0;
 
 						if (wait2)
@@ -167,10 +134,10 @@ void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 							wait2 = true;
 						}
 					}
-					
+
 				}
 				else
-					y += dy;				
+					y += dy;
 			}
 		}
 	}
@@ -207,7 +174,7 @@ void CFishman::Render()
 		animations[ani]->Render(x, y);
 		//bullet->Render();
 	}
-	RenderBoundingBox(200);
+	//RenderBoundingBox(200);
 }
 
 void CFishman::SetState(int state)

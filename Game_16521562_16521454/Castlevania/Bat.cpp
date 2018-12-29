@@ -29,42 +29,25 @@ CBat::CBat(int size)
 	SetState(BAT_STATE_SLEEPING);
 }
 
-CBat::CBat(int size, float a_x, float a_y, float width, float height, float height_fly)
-{
-	if (size == BAT_SIZE_SMALL)
-	{
-		damage = 1;
-		health = 1;
-		score = 100;
-		nx = -1;
-		vy = BAT_SMALL_FLYING_SPEED_X;
-	}
-	else
-	{
-		score = 1000;
-		health = 16;
-		damage = 4;
-	}
-	this->size = size;
-	AddAnimation(12001);
-	AddAnimation(12002);
-	AddAnimation(20001);
-	SetState(BAT_STATE_SLEEPING);
-	
-	SetPosstionAppear(a_x, a_y);
-	SetSize(width, height);
-	SetStateAppear(BAT_STATE_FLY_LEFT);
-	SetHeightFly(height_fly);
-}
-
 void CBat::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
+
 	if (size == BAT_SIZE_SMALL)
 	{
-		left = x;
-		top = y;
-		right = x + BAT_SMALL_BBOX_WIDTH;
-		bottom = y + BAT_SMALL_BBOX_HEIGHT;
+		if (state == BAT_STATE_SLEEPING)
+		{
+			left = x;
+			top = y;
+			right = left + weight;
+			bottom = top + height;
+		}
+		else
+		{
+			left = x;
+			top = y;
+			right = x + BAT_SMALL_BBOX_WIDTH;
+			bottom = y + BAT_SMALL_BBOX_HEIGHT;
+		}
 	}
 	else
 	{
@@ -91,10 +74,6 @@ void CBat::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 void CBat::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CMonster::Update(dt, coObjects);
-	//
-	// TO-DO: make sure Goomba can interact with the world and to each of them too!
-	// 
-
 	CSimon *simon = CSimon::GetInstance();
 	if (state != BAT_STATE_SLEEPING)
 	{

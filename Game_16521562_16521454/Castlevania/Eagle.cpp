@@ -12,21 +12,6 @@ CEagle::CEagle()
 	AddAnimation(220006);
 }
 
-CEagle::CEagle(float width, float height, float a_x, float a_y)
-{
-	damage = 4;
-	health = 1;
-	score = 300;
-	AddAnimation(220003);
-	AddAnimation(220004);
-	AddAnimation(220005);
-	AddAnimation(220006);
-
-	SetPosstionAppear(a_x, a_y);
-	SetSize(width, height);
-	SetStateAppear(EAGLE_STATE_FLY_RIGHT);
-}
-
 void CEagle::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
 	if(state==EAGLE_STATE_SLEEPING)

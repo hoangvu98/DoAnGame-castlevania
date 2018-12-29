@@ -43,7 +43,6 @@ class CBat : public CMonster
 	int appear_state;
 public:
 	CBat(int size);
-	CBat(int size, float a_x, float a_y, float width, float height, float height_fly);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render();

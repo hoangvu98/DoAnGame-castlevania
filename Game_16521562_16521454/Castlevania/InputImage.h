@@ -3,7 +3,6 @@
 #include "Sprites.h"
 #include "GameObject.h"
 #include <fstream>
-#include "Door.h"
 
 #define CANDLE		1 //roi
 #define HIDENOBJECT 2
@@ -29,6 +28,5 @@ public:
 		int n,int time=100);
 
 	static void LoadObjectFromFile(ifstream &in, LPGAMEOBJECT &object);
-	static void LoadDoorFromFile(ifstream &in, CDoor *&door);
 };
 
