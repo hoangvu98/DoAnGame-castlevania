@@ -20,12 +20,18 @@ void CGhoul::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CGame *game = CGame::GetInstance();
 	float cx, cy;
 	game->GetCamera(cx, cy);
+	if (state == MONSTER_STATE_DELETE && reset == true)
+	{
+		reset = false;
+		Time_Reset = GetTickCount();
+		Time_Reset_Ghoul = GetTickCount();
+	}
 	if (state == MONSTER_STATE_DELETE)
 		if (now - Time_Reset_Ghoul > FrameTime)
 			if (now - Time_Reset > FrameTimeReset)
 			{
 				Reset();
-				Time_Reset = GetTickCount();
+				reset = true;
 				Time_Reset_Ghoul = GetTickCount();
 			}
 	if (state == GHOUL_STATE_LEFT || state == GHOUL_STATE_RIGHT)
@@ -83,57 +89,28 @@ void CGhoul::Reset()
 {
 	CSimon* simon = CSimon::GetInstance();
 	CGame *game = CGame::GetInstance();
-	if (area_max == 0 && area_min == 0)
+	float cx, cy;
+	game->GetCamera(cx, cy);
+	if (simon->nx > 0)
 	{
-		float cx, cy;
-		game->GetCamera(cx, cy);
-		if (simon->nx > 0)
-		{
-			SetState(GHOUL_STATE_LEFT);
-			SetPosition(cx + 256.0f, y);
-		}
-		else
-		{
-			SetState(GHOUL_STATE_RIGHT);
-			SetPosition(cx, y);
-		}
-		health = 1;
-		int random;
-		random = rand() % 10;
-		if (random <= 1)
-			items = new CHeart(HEART_BIG);
-		else if (random <= 3)
-			items = new CHeart(HEART_SMALL);
-		else
-			items = NULL;
+		SetState(GHOUL_STATE_LEFT);
+		SetPosition(cx + 256.0f, y);
 	}
 	else
 	{
-		if (simon->x >= area_min && simon->x <= area_max)
-		{
-			float cx, cy;
-			game->GetCamera(cx, cy);
-			if (simon->nx > 0)
-			{
-				SetState(GHOUL_STATE_LEFT);
-				SetPosition(cx + 256.0f, y);
-			}
-			else
-			{
-				SetState(GHOUL_STATE_RIGHT);
-				SetPosition(cx, y);
-			}
-			health = 1;
-			int random;
-			random = rand() % 10;
-			if (random <= 1)
-				items = new CHeart(HEART_BIG);
-			else if (random <= 3)
-				items = new CHeart(HEART_SMALL);
-			else
-				items = NULL;
-		}
+		SetState(GHOUL_STATE_RIGHT);
+		SetPosition(cx, y);
 	}
+	health = 1;
+	int random;
+	//srand(time(NULL));
+	random = rand() % 10;
+	if (random <= 1)
+		items = new CHeart(HEART_BIG);
+	else if (random <= 3)
+		items = new CHeart(HEART_SMALL);
+	else
+		items = NULL;
 }
 CGhoul::CGhoul()
 {
@@ -141,8 +118,6 @@ CGhoul::CGhoul()
 	health = 1;
 	score = 100;
 	damage = 1;
-	area_max = 0;
-	area_min = 0;
 	AddAnimation(10000);
 	AddAnimation(10001);
 	int random;

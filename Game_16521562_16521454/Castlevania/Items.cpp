@@ -21,7 +21,7 @@ CItems::~CItems()
 void CItems::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
 	CGameObject::Update(dt);
-	vy = ITEM_GRAVITY * dt;
+	vy = ITEM_GRAVITY*dt;
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -42,7 +42,7 @@ void CItems::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 					IsUpdatePossiton = true;
 					y += min_ty * dy + ny * 0.4f;
 				}
-
+				
 			}
 		}
 	}
@@ -122,9 +122,11 @@ void CDagger::SetState(int state)
 	{
 	case ITEM_STATE_WEAPON_LEFT:
 		vx = -SPEED_DAGGER;
+		//vy = -0.1f;
 		break;
 	case ITEM_STATE_WEAPON_RIGHT:
 		vx = SPEED_DAGGER;
+		//vy = -0.1f;
 	}
 }
 void CHeart::Render()
@@ -177,10 +179,10 @@ void CWhipUpdate::GetBoundingBox(float & left, float & top, float & right, float
 
 CMoneyBag::CMoneyBag(int size, int state)
 {
-	this->state = state;
+	this->state = state; 
 	this->size = size;
-	AddAnimation(13001);
-	AddAnimation(13002);
+	AddAnimation(13001); 
+	AddAnimation(13002); 
 	AddAnimation(13003);
 }
 
@@ -217,7 +219,7 @@ void CAxe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
-
+			
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (dynamic_cast<CMonster *> (e->obj))
 			{
@@ -233,6 +235,7 @@ void CAxe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (candle->state != CANDLE_STATE_DELETE)
 				{
 					candle->SetState(CANDLE_STATE_DISAPPEAR);
+					simon->SetSkill(false);
 				}
 			}
 		}
@@ -311,58 +314,113 @@ void CBoomerang::SetState(int state)
 		break;
 	case ITEM_STATE_WEAPON_RIGHT:
 		vx = BOOMERANG_SPEED;
-		/*case BOOMERANG_STATE_DISAPPEAR:
-
-			break;*/
+	/*case BOOMERANG_STATE_DISAPPEAR:
+		
+		break;*/
 	}
 }
 
 void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (state == ITEM_STATE_ITEM)
-		CItems::Update(dt, coObjects);
-	else
-	{
-		if (state != ITEM_STATE_DELETE)
+		if (state == ITEM_STATE_ITEM)
+			CItems::Update(dt, coObjects);
+		else
 		{
-			CSimon *simon = CSimon::GetInstance();
-			float sx, sy;
-			simon->GetPosition(sx, sy);
+			if (state != ITEM_STATE_DELETE)
+			{
+				CSimon *simon = CSimon::GetInstance();
+				float sx, sy;
+				simon->GetPosition(sx, sy);
+				CGameObject::Update(dt);
+				float left_distance;
+				float right_distance;
+				left_distance = sx - DISTANCE_OF_BOOMERANG;
+				right_distance = sx + DISTANCE_OF_BOOMERANG;
+				if (x <= left_distance)
+				{
+					SetState(ITEM_STATE_WEAPON_RIGHT);
+					fly = true;
+				}
+				if (x >= right_distance)
+				{
+					SetState(ITEM_STATE_WEAPON_LEFT);
+					fly = true;
+				}
+				vector<LPCOLLISIONEVENT> coEvents;
+				vector<LPCOLLISIONEVENT> coEventsResult;
+
+				CalcPotentialCollisions(coObjects, coEvents);
+				if (coEvents.size() != 0)
+				{
+					FilterCollisionImmediately(coEvents, coEventsResult);
+					for (UINT i = 0; i < coEventsResult.size(); i++)
+					{
+						LPCOLLISIONEVENT e = coEventsResult[i];
+						if (dynamic_cast<CSimon *> (e->obj) && fly == true)
+						{
+							SetState(ITEM_STATE_DELETE);
+							simon->SetSkill(false);
+							fly = false;
+						}
+						else if (dynamic_cast<CCandle *> (e->obj))
+						{
+							CCandle *candle = dynamic_cast<CCandle *>(e->obj);
+							/*simon->SetSkill(false);*/
+							candle->SetState(CANDLE_STATE_DISAPPEAR);
+						}
+						else if (dynamic_cast<CMonster *> (e->obj))
+						{
+							CMonster *monster = dynamic_cast<CMonster *>(e->obj);
+							if (monster->state != MONSTER_STATE_DELETE && monster->state != MONSTER_STATE_DISAPPEAR)
+							{
+								monster->SetHealth(monster->GetHealth() - damage);
+							}
+						}
+					}
+				}
+				DebugOut(L"state %d\n", state);
+				x += dx;
+			}
+		}
+}
+	CHollyWater::CHollyWater()
+	{
+		damage = 1;
+		AddAnimation(16000);
+		AddAnimation(16001);
+		AddAnimation(16002);
+	}
+
+	void CHollyWater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+	{
+		if (state == ITEM_STATE_ITEM)
+			CItems::Update(dt, coObjects);
+		else
+		{
 			CGameObject::Update(dt);
-			float left_distance;
-			float right_distance;
-			left_distance = sx - DISTANCE_OF_BOOMERANG;
-			right_distance = sx + DISTANCE_OF_BOOMERANG;
-			if (x <= left_distance)
-			{
-				SetState(ITEM_STATE_WEAPON_RIGHT);
-				fly = true;
-			}
-			if (x >= right_distance)
-			{
-				SetState(ITEM_STATE_WEAPON_LEFT);
-				fly = true;
-			}
 			vector<LPCOLLISIONEVENT> coEvents;
 			vector<LPCOLLISIONEVENT> coEventsResult;
-
+			vy += HOLLY_WATER_GRAVITY * dt;
 			CalcPotentialCollisions(coObjects, coEvents);
+			bool test = true;
 			if (coEvents.size() != 0)
 			{
 				FilterCollisionImmediately(coEvents, coEventsResult);
 				for (UINT i = 0; i < coEventsResult.size(); i++)
 				{
 					LPCOLLISIONEVENT e = coEventsResult[i];
-					if (dynamic_cast<CSimon *> (e->obj) && fly == true)
+					if (dynamic_cast<CHidenObject *> (e->obj))
 					{
-						SetState(ITEM_STATE_DELETE);
-						simon->SetSkill(false);
-						fly = false;
+						CHidenObject *hobj = dynamic_cast<CHidenObject *> (e->obj);
+						if (hobj->state == HIDENOBJECT_STATE_NORMAL)
+						{
+							SetState(HOLLY_WATER_STATE_EXPLODE);
+							test = false;
+						}
 					}
 					else if (dynamic_cast<CCandle *> (e->obj))
 					{
 						CCandle *candle = dynamic_cast<CCandle *>(e->obj);
-						/*simon->SetSkill(false);*/
 						candle->SetState(CANDLE_STATE_DISAPPEAR);
 					}
 					else if (dynamic_cast<CMonster *> (e->obj))
@@ -375,196 +433,135 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 			}
-			DebugOut(L"state %d\n", state);
-			x += dx;
+			if (test == true)
+			{
+				x += dx;
+				y += dy;
+			}
 		}
 	}
-}
-CHollyWater::CHollyWater()
-{
-	damage = 1;
-	AddAnimation(16000);
-	AddAnimation(16001);
-	AddAnimation(16002);
-}
 
-void CHollyWater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
-{
-	if (state == ITEM_STATE_ITEM)
-		CItems::Update(dt, coObjects);
-	else
+	void CHollyWater::Render()
+	{
+		if (state == ITEM_STATE_ITEM)
+			animations[HOLLY_WATER_ANI_ITEM]->Render(x, y);
+		else if (state == ITEM_STATE_WEAPON_LEFT || state == ITEM_STATE_WEAPON_RIGHT)
+			animations[HOLLY_WATER_ANI_FALLING]->Render(x, y);
+		else if (state == HOLLY_WATER_STATE_EXPLODE)
+			animations[HOLLY_WATER_ANI_EXPLODE]->Render(x - 3, y - 3);
+	}
+
+	void CHollyWater::GetBoundingBox(float & left, float & top, float & right, float & bottom)
+	{
+		left = x;
+		right = y;
+		if (state == HOLLY_WATER_STATE_EXPLODE)
+		{
+			right = x + FIRE_BBOX_WIDTH;
+			bottom = y + FIRE_BBOX_HEIGHT;
+		}
+		else if (state == ITEM_STATE_ITEM)
+		{
+			right = x + ITEM_BBOX_WIDTH;
+			bottom = y + ITEM_BBOX_HEIGHT;
+		}
+		else
+		{
+			right = x + BOTTLE_BBOX_WIDTH;
+			bottom = y + BOTTLE_BBOX_HEIGHT;
+		}
+	}
+
+	void CHollyWater::SetState(int state)
+	{
+		CGameObject::SetState(state);
+		switch (state)
+		{
+		case ITEM_STATE_WEAPON_LEFT:
+			vx = -HOLLY_WATER_FALLING_SPEED_X;
+			vy = -HOLLY_WATER_FALLING_SPEDD_Y;
+			break;
+		case ITEM_STATE_WEAPON_RIGHT:
+			vx = HOLLY_WATER_FALLING_SPEED_X;
+			vy = -HOLLY_WATER_FALLING_SPEDD_Y;
+			break;
+		case HOLLY_WATER_STATE_EXPLODE:
+			vx = 0;
+			break;
+		}
+	}
+
+	COtherStuff::COtherStuff()
+	{
+		AddAnimation(260000);
+	}
+
+	void COtherStuff::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		CGameObject::Update(dt);
+		vy = ITEM_GRAVITY * dt;
+
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
-		vy += HOLLY_WATER_GRAVITY * dt;
+		bool IsUpdatePossiton = false;
 		CalcPotentialCollisions(coObjects, coEvents);
-		bool test = true;
 		if (coEvents.size() != 0)
 		{
-			FilterCollisionImmediately(coEvents, coEventsResult);
+			float min_tx, min_ty, nx = 0, ny;
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 			for (UINT i = 0; i < coEventsResult.size(); i++)
 			{
 				LPCOLLISIONEVENT e = coEventsResult[i];
 				if (dynamic_cast<CHidenObject *> (e->obj))
 				{
-					CHidenObject *hobj = dynamic_cast<CHidenObject *> (e->obj);
-					if (hobj->state == HIDENOBJECT_STATE_NORMAL)
+					CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
+					if (hidenobject->state == HIDENOBJECT_STATE_NORMAL)
 					{
-						SetState(HOLLY_WATER_STATE_EXPLODE);
-						test = false;
+						IsUpdatePossiton = true;
+						y += min_ty * dy + ny * 0.4f;
 					}
-				}
-				else if (dynamic_cast<CCandle *> (e->obj))
-				{
-					CCandle *candle = dynamic_cast<CCandle *>(e->obj);
-					if (candle->state != CANDLE_STATE_DELETE)
-						candle->SetState(CANDLE_STATE_DISAPPEAR);
-				}
-				else if (dynamic_cast<CMonster *> (e->obj))
-				{
-					CMonster *monster = dynamic_cast<CMonster *>(e->obj);
-					if (monster->state != MONSTER_STATE_DELETE && monster->state != MONSTER_STATE_DISAPPEAR)
-					{
-						if (monster->GetIsInjure())
-						{
-							monster->SetHealth(monster->GetHealth() - damage);
-							monster->SetIsInjure(false);
-							monster->SetTimeInjure();
-						}
-					}
+
 				}
 			}
 		}
-		if (test == true)
-		{
-			x += dx;
+		if (!IsUpdatePossiton)
 			y += dy;
-		}
 	}
-}
 
-void CHollyWater::Render()
-{
-	if (state == ITEM_STATE_ITEM)
-		animations[HOLLY_WATER_ANI_ITEM]->Render(x, y);
-	else if (state == ITEM_STATE_WEAPON_LEFT || state == ITEM_STATE_WEAPON_RIGHT)
-		animations[HOLLY_WATER_ANI_FALLING]->Render(x, y);
-	else if (state == HOLLY_WATER_STATE_EXPLODE)
-		animations[HOLLY_WATER_ANI_EXPLODE]->Render(x - 3, y - 3);
-}
-
-void CHollyWater::GetBoundingBox(float & left, float & top, float & right, float & bottom)
-{
-	left = x;
-	right = y;
-	if (state == HOLLY_WATER_STATE_EXPLODE)
+	void COtherStuff::Render()
 	{
-		right = x + FIRE_BBOX_WIDTH;
-		bottom = y + FIRE_BBOX_HEIGHT;
-	}
-	else if (state == ITEM_STATE_ITEM)
-	{
-		right = x + ITEM_BBOX_WIDTH;
-		bottom = y + ITEM_BBOX_HEIGHT;
-	}
-	else
-	{
-		right = x + BOTTLE_BBOX_WIDTH;
-		bottom = y + BOTTLE_BBOX_HEIGHT;
-	}
-}
-
-void CHollyWater::SetState(int state)
-{
-	CGameObject::SetState(state);
-	switch (state)
-	{
-	case ITEM_STATE_WEAPON_LEFT:
-		vx = -HOLLY_WATER_FALLING_SPEED_X;
-		vy = -HOLLY_WATER_FALLING_SPEDD_Y;
-		break;
-	case ITEM_STATE_WEAPON_RIGHT:
-		vx = HOLLY_WATER_FALLING_SPEED_X;
-		vy = -HOLLY_WATER_FALLING_SPEDD_Y;
-		break;
-	case HOLLY_WATER_STATE_EXPLODE:
-		vx = 0;
-		break;
-	}
-}
-
-COtherStuff::COtherStuff()
-{
-	AddAnimation(260000);
-}
-
-void COtherStuff::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
-{
-	CGameObject::Update(dt);
-	vy = ITEM_GRAVITY * dt;
-
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-	bool IsUpdatePossiton = false;
-	CalcPotentialCollisions(coObjects, coEvents);
-	if (coEvents.size() != 0)
-	{
-		float min_tx, min_ty, nx = 0, ny;
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (dynamic_cast<CHidenObject *> (e->obj))
-			{
-				CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
-				if (hidenobject->state == HIDENOBJECT_STATE_NORMAL)
-				{
-					IsUpdatePossiton = true;
-					y += min_ty * dy + ny * 0.4f;
-				}
-
-			}
-		}
-	}
-	if (!IsUpdatePossiton)
-		y += dy;
-}
-
-void COtherStuff::Render()
-{
-	animations[0]->Render(x, y);
-}
-
-void COtherStuff::GetBoundingBox(float & left, float & top, float & right, float & bottom)
-{
-	left = x;
-	top = y;
-	right = x + OTHER_STUFF_WIDTH;
-	bottom = y + OTHER_STUFF_HEIGHT;
-}
-
-void COtherStuff::SetState(int state)
-{
-	CGameObject::SetState(state);
-}
-
-CPotRoast::CPotRoast()
-{
-	health = 6;
-	AddAnimation(270000);
-}
-
-void CPotRoast::Render()
-{
-	if (state == ITEM_STATE_ITEM)
 		animations[0]->Render(x, y);
-}
+	}
 
-void CPotRoast::GetBoundingBox(float & left, float & top, float & right, float & bottom)
-{
-	left = x;
-	top = y;
-	right = x + POT_ROAST_BBOX_WIDTH;
-	bottom = y + POT_ROAST_BBOX_HEIGHT;
-}
+	void COtherStuff::GetBoundingBox(float & left, float & top, float & right, float & bottom)
+	{
+		left = x;
+		top = y;
+		right = x + OTHER_STUFF_WIDTH;
+		bottom = y + OTHER_STUFF_HEIGHT;
+	}
+
+	void COtherStuff::SetState(int state)
+	{
+		CGameObject::SetState(state);
+	}
+
+	CPotRoast::CPotRoast()
+	{
+		health = 6;
+		AddAnimation(270000);
+	}
+
+	void CPotRoast::Render()
+	{
+		if (state == ITEM_STATE_ITEM)
+			animations[0]->Render(x, y);
+	}
+
+	void CPotRoast::GetBoundingBox(float & left, float & top, float & right, float & bottom)
+	{
+		left = x;
+		top = y;
+		right = x + POT_ROAST_BBOX_WIDTH;
+		bottom = y + POT_ROAST_BBOX_HEIGHT;
+	}
