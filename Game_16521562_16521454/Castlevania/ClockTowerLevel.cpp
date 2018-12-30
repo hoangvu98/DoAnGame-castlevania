@@ -23,6 +23,10 @@ void CClockTowerLevel::LoadMap()
 	CEagle *eagle;
 	CBat* bat;
 	CDracula *dracula;
+	ifstream in;
+	LPGAMEOBJECT object;
+	int i;
+
 	switch (scene)
 	{
 	case SCENE_1:
@@ -37,6 +41,14 @@ void CClockTowerLevel::LoadMap()
 
 		cells = new CCells(column, row);
 
+		in.open("Data\\ClockTowerLevel_Scene1.txt");
+		for (i = 0; i < 10; i++)
+		{
+			CInputImage::LoadObjectFromFile(in, object);
+			cells->InitCells(object);
+		}
+		in.close();
+
 		/*bat = new CBat(BAT_SIZE_BIG);
 		bat->SetPosition(1343.0f, 0.0f);
 		bat->SetPosstionAppear(1220.0f, 0.0f);
@@ -49,7 +61,7 @@ void CClockTowerLevel::LoadMap()
 		bat->SetSize(10, 70);
 		cells->InitCells(bat);
 */
-		bat = new CBat(BAT_SIZE_BIG);
+		/*bat = new CBat(BAT_SIZE_BIG);
 		bat->SetPosition(580.0f, 0.0f);
 		bat->SetPosstionAppear(460.0f, 0.0f);
 		bat->SetSize(10, 70);
@@ -58,9 +70,9 @@ void CClockTowerLevel::LoadMap()
 		candle = new CCandle(SMALL_CANDLE, AXE);
 		candle->SetPosition(1501.0f, 84.0f);
 		candle->SetState(CANDLE_STATE_NORMAL);
-		cells->InitCells(candle);
+		cells->InitCells(candle);*/
 
-		for (int i = 0; i < 2; i++)
+		/*for (int i = 0; i < 2; i++)
 		{
 			candle = new CCandle(SMALL_CANDLE);
 			candle->SetPosition(i * 68.0f + 1371.0f, 112.0f);
@@ -79,7 +91,7 @@ void CClockTowerLevel::LoadMap()
 		candle = new CCandle(SMALL_CANDLE);
 		candle->SetPosition(92.0f, 14.0f);
 		candle->SetState(CANDLE_STATE_NORMAL);
-		cells->InitCells(candle);
+		cells->InitCells(candle);*/
 		break;
 	case SCENE_2:
 		simon->SetStage(17);
@@ -90,7 +102,15 @@ void CClockTowerLevel::LoadMap()
 
 		cells = new CCells(column, row);
 
-		candle = new CCandle(SMALL_CANDLE);
+		in.open("Data\\ClockTowerLevel_Scene2.txt");
+		for (i = 0; i < 11; i++)
+		{
+			CInputImage::LoadObjectFromFile(in, object);
+			cells->InitCells(object);
+		}
+		in.close();
+
+		/*candle = new CCandle(SMALL_CANDLE);
 		candle->SetPosition(734.0f, 17.0f);
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
@@ -134,7 +154,7 @@ void CClockTowerLevel::LoadMap()
 
 		skeleton = new CSkeleton(612.0f, 79.0f);
 		skeleton->SetState(SKELETON_STATE_WALKING_RIGHT);
-		cells->InitCells(skeleton);
+		cells->InitCells(skeleton);*/
 		break;
 	case SCENE_3:
 		simon->SetStage(17);
@@ -145,7 +165,15 @@ void CClockTowerLevel::LoadMap()
 
 		cells = new CCells(column, row);
 
-		skeleton = new CSkeleton(592.0f, 113.0f);
+		in.open("Data\\ClockTowerLevel_Scene3.txt");
+		for (i = 0; i < 12; i++)
+		{
+			CInputImage::LoadObjectFromFile(in, object);
+			cells->InitCells(object);
+		}
+		in.close();
+
+		/*skeleton = new CSkeleton(592.0f, 113.0f);
 		skeleton->SetState(SKELETON_STATE_WALKING_RIGHT);
 		cells->InitCells(skeleton);
 
@@ -203,7 +231,7 @@ void CClockTowerLevel::LoadMap()
 		candle = new CCandle(SMALL_CANDLE);
 		candle->SetPosition(28.0f, 16.0f);
 		candle->SetState(CANDLE_STATE_NORMAL);
-		cells->InitCells(candle);
+		cells->InitCells(candle);*/
 
 		break;
 	case SCENE_4:
@@ -227,7 +255,16 @@ void CClockTowerLevel::LoadMap()
 
 		cells = new CCells(column, row);
 
-		candle = new CCandle(SMALL_CANDLE,HOLLYWATER);
+		in.open("Data\\ClockTowerLevel_Scene5.txt");
+		for (i = 0; i < 9; i++)
+		{
+			CInputImage::LoadObjectFromFile(in, object);
+			cells->InitCells(object);
+		}
+
+		in.close();
+
+		/*candle = new CCandle(SMALL_CANDLE,HOLLYWATER);
 		candle->SetPosition(477.0f, 50.0f);
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
@@ -255,7 +292,7 @@ void CClockTowerLevel::LoadMap()
 			candle->SetState(CANDLE_STATE_NORMAL);
 			cells->InitCells(candle);
 		}
-
+*/
 
 		/*dracula = CDracula::GetInstance();
 		dracula->Setnx(-1);
@@ -270,6 +307,10 @@ void CClockTowerLevel::LoadObject()
 	LPDIRECT3DTEXTURE9 texture_map;
 	CHidenObject *hobj;
 	CDoor* door;
+	ifstream in;
+	LPGAMEOBJECT object;
+	int i;
+
 	switch (scene)
 	{
 	case SCENE_1:
@@ -286,13 +327,27 @@ void CClockTowerLevel::LoadObject()
 		row = (int)height / CELL_HEIGHT + 1;
 
 		cellsobject = new CCells(column, row);
-		hobj = new CHidenObject();
-		hobj->SetPosition(1345.0f, /*143.0f*/145.0f);
-		hobj->SetSize(192.0f, 15.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
+		in.open("Data\\hobj_CT_Scene1.txt");
+		for (i = 0; i < 15; i++)
+		{
+			CInputImage::LoadObjectFromFile(in, object);
+			cellsobject->InitCells(object);
+		}
+		in.close();
+
+		in.open("Data\\door_scene1_CLockTower.txt");
+		CInputImage::LoadDoorFromFile(in, door);
+		cellsobject->InitCells(door);
+		in.close();
+
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(1345.0f, /*143.0f*/145.0f);
+		//hobj->SetSize(192.0f, 15.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
+
+		/*hobj = new CHidenObject();
 		hobj->SetPosition(1217.0f, 81.0f);
 		hobj->SetSize(161.0f, 15.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
@@ -350,15 +405,15 @@ void CClockTowerLevel::LoadObject()
 		hobj->SetPosition(417.0f, 81.0f);
 		hobj->SetSize(33.0f, 15.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		cellsobject->InitCells(hobj);*/
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(33.0f, /*77.0f*/ 81.0f);
-		hobj->SetSize(288.0f, 15.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(33.0f, /*77.0f*/ 81.0f);
+		//hobj->SetSize(288.0f, 15.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
+		/*hobj = new CHidenObject();
 		hobj->SetPosition(0.0f, 0.0f);
 		hobj->SetSize(33.0f, 182.0f);
 		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
@@ -385,7 +440,7 @@ void CClockTowerLevel::LoadObject()
 		door->size = 30;
 		door->SetIsHiDen(true);
 		door->SetScene(2);
-		cellsobject->InitCells(door);
+		cellsobject->InitCells(door);*/
 		break;
 	case SCENE_2:
 		textures->Add(ID_MAP_LEVEL_6, LEVEL6_STAGE17A_PATH, D3DCOLOR_XRGB(255, 255, 255));
@@ -399,196 +454,213 @@ void CClockTowerLevel::LoadObject()
 
 		cellsobject = new CCells(column, row);
 
-		door = new CDoor();
-		door->SetState(DOOR_STATE_NORMAL);
-		door->SetPosition(100.0f, 0.0f);
-		door->cx = 92.0f;
-		door->cy = 144.0f;
-		door->SetIsHiDen(true);
-		door->SetIsStair(true);
-		door->SetScene(3);
-		cellsobject->InitCells(door);
+		in.open("Data\\hobj_CT_Scene2.txt");
+		for (i = 0; i < 24; i++)
+		{
+			CInputImage::LoadObjectFromFile(in, object);
+			cellsobject->InitCells(object);
+		}
+		in.close();
 
-		door = new CDoor();
-		door->SetState(DOOR_STATE_NORMAL);
-		door->SetPosition(325.0f, 0.0f);
-		door->cx = 315.08f;
-		door->cy = 143.06f;
-		door->SetIsHiDen(true);
-		door->SetIsStair(true);
-		door->SetScene(3);
-		cellsobject->InitCells(door);
+		in.open("Data\\door_scene2_CLockTower.txt");
+		for (i = 0; i < 3; i++)
+		{
+			CInputImage::LoadDoorFromFile(in, door);
+			door->SetIsStair(true);
+			cellsobject->InitCells(door);
+		}
+		in.close();
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(738.0f, /*80.0f*/82.0f);
-		hobj->SetSize(30.0f, 98.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		//door = new CDoor();
+		//door->SetState(DOOR_STATE_NORMAL);
+		//door->SetPosition(100.0f, 0.0f);
+		//door->cx = 92.0f;
+		//door->cy = 144.0f;
+		//door->SetIsHiDen(true);
+		//door->SetIsStair(true);
+		//door->SetScene(3);
+		//cellsobject->InitCells(door);
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(706.0f, /*80.0f*/82.0f);
-		hobj->SetSize(30.0f, 15.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		//door = new CDoor();
+		//door->SetState(DOOR_STATE_NORMAL);
+		//door->SetPosition(325.0f, 0.0f);
+		//door->cx = 315.08f;
+		//door->cy = 143.06f;
+		//door->SetIsHiDen(true);
+		//door->SetIsStair(true);
+		//door->SetScene(3);
+		//cellsobject->InitCells(door);
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(610.0f, /*48.0f*/50.0f);
-		hobj->SetSize(30.0f, 15.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(738.0f, /*80.0f*/82.0f);
+		//hobj->SetSize(30.0f, 98.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(642.0f, /*113.0f*/114.0f);
-		hobj->SetSize(30.0f, 15.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(706.0f, /*80.0f*/82.0f);
+		//hobj->SetSize(30.0f, 15.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(512.0f, /*113.0f*/114.0f);
-		hobj->SetSize(130.0f, 62.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(610.0f, /*48.0f*/50.0f);
+		//hobj->SetSize(30.0f, 15.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(482.0f, 0.0f);
-		hobj->SetSize(30.0f, 174.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(642.0f, /*113.0f*/114.0f);
+		//hobj->SetSize(30.0f, 15.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(418.0f, /*113.0f*/114.0f);
-		hobj->SetSize(62.0f, 29.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(512.0f, /*113.0f*/114.0f);
+		//hobj->SetSize(130.0f, 62.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(366.0f, /*18.0f*/19.0f);
-		hobj->SetSize(80.0f, 18.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(482.0f, 0.0f);
+		//hobj->SetSize(30.0f, 174.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(305.0f, /*80.0f*/81.0f);
-		hobj->SetSize(80.0f, 18.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(418.0f, /*113.0f*/114.0f);
+		//hobj->SetSize(62.0f, 29.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(224.0f, /*143.0f*/146.0f);
-		hobj->SetSize(64.0f, 32.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(366.0f, /*18.0f*/19.0f);
+		//hobj->SetSize(80.0f, 18.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(161.0f, /*143.0f*/146.0f);
-		hobj->SetSize(30.0f, 15.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(305.0f, /*80.0f*/81.0f);
+		//hobj->SetSize(80.0f, 18.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(162.0f, 0.0f);
-		hobj->SetSize(30.0f, 46.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(224.0f, /*143.0f*/146.0f);
+		//hobj->SetSize(64.0f, 32.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(258.0f, 49.0f);
-		hobj->SetSize(30.0f, 15.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(161.0f, /*143.0f*/146.0f);
+		//hobj->SetSize(30.0f, 15.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(33.0f, /*48.0f*/50.0f);
-		hobj->SetSize(95.0f, 15.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(162.0f, 0.0f);
+		//hobj->SetSize(30.0f, 46.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(0.0f, 0.0f);
-		hobj->SetSize(32.0f, 175.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(258.0f, 49.0f);
+		//hobj->SetSize(30.0f, 15.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
-		hobj->SetSize(25.0f, 10.0f);
-		hobj->SetPosition(538.0f, 104.0f);
-		hobj->SetStair_XY(538.0f, 83);
-		hobj->nx = 1;
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(33.0f, /*48.0f*/50.0f);
+		//hobj->SetSize(95.0f, 15.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
-		hobj->SetSize(19.0f, 8.0f);
-		hobj->SetPosition(606.0f, 42.0f);
-		hobj->SetStair_XY(600, 19);
-		hobj->nx = -1;
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(0.0f, 0.0f);
+		//hobj->SetSize(32.0f, 175.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
-		hobj->SetSize(26.0f, 10.0f);
-		hobj->SetPosition(215.0f, 136.0f);
-		hobj->SetStair_XY(216.0f, 114);
-		hobj->nx = -1;
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
+		//hobj->SetSize(25.0f, 10.0f);
+		//hobj->SetPosition(538.0f, 104.0f);
+		//hobj->SetStair_XY(538.0f, 83);
+		//hobj->nx = 1;
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
-		hobj->SetSize(23.0f, 9.0f);
-		hobj->SetPosition(111.0f, 41.0f);
-		hobj->SetStair_XY(121.0f, 19);
-		hobj->nx = 1;
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
+		//hobj->SetSize(19.0f, 8.0f);
+		//hobj->SetPosition(606.0f, 42.0f);
+		//hobj->SetStair_XY(600, 19);
+		//hobj->nx = -1;
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
-		hobj->SetSize(26.0f, 11.0f);
-		hobj->SetPosition(54.0f, 39.0f);
-		hobj->SetStair_XY(59.0f, 19);
-		hobj->nx = 1;
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
+		//hobj->SetSize(26.0f, 10.0f);
+		//hobj->SetPosition(215.0f, 136.0f);
+		//hobj->SetStair_XY(216.0f, 114);
+		//hobj->nx = -1;
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
-		hobj->SetSize(30.0f, 12.0f);
-		hobj->SetPosition(626.0f, 38.0f);
-		hobj->SetStair_XY(634.0f, 17);
-		hobj->nx = 1;
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
+		//hobj->SetSize(23.0f, 9.0f);
+		//hobj->SetPosition(111.0f, 41.0f);
+		//hobj->SetStair_XY(121.0f, 19);
+		//hobj->nx = 1;
+		//cellsobject->InitCells(hobj);
+
+		//hobj = new CHidenObject();
+		//hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
+		//hobj->SetSize(26.0f, 11.0f);
+		//hobj->SetPosition(54.0f, 39.0f);
+		//hobj->SetStair_XY(59.0f, 19);
+		//hobj->nx = 1;
+		//cellsobject->InitCells(hobj);
+
+		//hobj = new CHidenObject();
+		//hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
+		//hobj->SetSize(30.0f, 12.0f);
+		//hobj->SetPosition(626.0f, 38.0f);
+		//hobj->SetStair_XY(634.0f, 17);
+		//hobj->nx = 1;
+		//cellsobject->InitCells(hobj);
 
 
-		hobj = new CHidenObject();
-		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
-		hobj->SetSize(19.0f, 10.0f);
-		hobj->SetPosition(279.0f, 38.0f);
-		hobj->SetStair_XY(283.0f, 20);
-		hobj->nx = 1;
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
+		//hobj->SetSize(19.0f, 10.0f);
+		//hobj->SetPosition(279.0f, 38.0f);
+		//hobj->SetStair_XY(283.0f, 20);
+		//hobj->nx = 1;
+		//cellsobject->InitCells(hobj);
 
-		door = new CDoor();
-		door->SetState(DOOR_STATE_NORMAL);
-		door->SetPosition(680.0f, 0.0f);
-		door->cx = 672.02f;
-		door->cy = 139.38f;
-		door->SetIsHiDen(true);
-		door->SetIsStair(true);
-		door->SetScene(3);
-		cellsobject->InitCells(door);
+		//door = new CDoor();
+		//door->SetState(DOOR_STATE_NORMAL);
+		//door->SetPosition(680.0f, 0.0f);
+		//door->cx = 672.02f;
+		//door->cy = 139.38f;
+		//door->SetIsHiDen(true);
+		//door->SetIsStair(true);
+		//door->SetScene(3);
+		//cellsobject->InitCells(door);
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(675.0f, 106.0f);
-		hobj->SetSize(7.0f, 7.0f);
-		hobj->SetState(HIDENOBJECT_STATE_JUMP);
-		hobj->Setnx(1);
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(675.0f, 106.0f);
+		//hobj->SetSize(7.0f, 7.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_JUMP);
+		//hobj->Setnx(1);
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(695.0f, 75.0f);
-		hobj->SetSize(7.0f, 7.0f);
-		hobj->SetState(HIDENOBJECT_STATE_JUMP);
-		hobj->Setnx(-1);
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(695.0f, 75.0f);
+		//hobj->SetSize(7.0f, 7.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_JUMP);
+		//hobj->Setnx(-1);
+		//cellsobject->InitCells(hobj);
 		break;
 	case SCENE_3:
 		textures->Add(ID_MAP_LEVEL_6, LEVEL6_STAGE17B_PATH, D3DCOLOR_XRGB(255, 255, 255));
@@ -602,226 +674,249 @@ void CClockTowerLevel::LoadObject()
 
 		cellsobject = new CCells(column, row);
 
-		door = new CDoor();
-		door->SetState(DOOR_STATE_NORMAL);
-		door->SetPosition(0.0f, 45.0f);
-		door->SetIsAuto(false);
-		door->SetIsHiDen(true);
-		door->SetIsStair(true);
-		door->SetScene(4);
-		cellsobject->InitCells(door);
-
-		door = new CDoor();
-		door->SetState(DOOR_STATE_NORMAL);
-		door->SetPosition(80.0f, 170.0f);
-		door->cx = 89.0f;
-		door->cy = -11.0f;
-		door->SetIsHiDen(true);
-		door->SetIsStair(true);
-		door->SetScene(2);
-		cellsobject->InitCells(door);
-
-
-		door = new CDoor();
-		door->SetState(DOOR_STATE_NORMAL);
-		door->SetPosition(671.0f, 172.0f);
-		door->cx = 663.04f;
-		door->cy = -12.04f;
-		door->SetIsHiDen(true);
-		door->SetIsStair(true);
-		door->SetScene(2);
-		cellsobject->InitCells(door);
-
-		door = new CDoor();
-		door->SetState(DOOR_STATE_NORMAL);
-		door->SetPosition(300.0f, 160.0f);
-		door->cx = 312.04f;
-		door->cy = -11.08f;
-		door->SetIsHiDen(true);
-		door->SetIsStair(true);
-		door->SetScene(2);
-		cellsobject->InitCells(door);
-
-		hobj = new CHidenObject();
-		hobj->SetPosition(639.0f, 145.0f);
-		hobj->SetSize(32.0f, 12.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
-
-		hobj = new CHidenObject();
-		hobj->SetPosition(1.0f, /*81.0f*/82.0f);
-		hobj->SetSize(32.0f, 94.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
-
-		hobj = new CHidenObject();
-		hobj->SetPosition(128.0f, 146.0f);
-		hobj->SetSize(30.0f, 29.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
-
-		hobj = new CHidenObject();
-		hobj->SetPosition(160.0f, 16.0f);
-		hobj->SetSize(32.0f, 159.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
-
-		hobj = new CHidenObject();
-		hobj->SetPosition(257.0f, /*113.0f*/114.0f);
-		hobj->SetSize(62.0f, 30.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
-
-		hobj = new CHidenObject();
-		hobj->SetPosition(/*336.0f*/336.0f, /*145.0f*/146.0f);
-		hobj->SetSize(46.0f, 17.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
-
-		hobj = new CHidenObject();
-		hobj->SetPosition(434.0f, /*144.0f*/146.0f);
-		hobj->SetSize(47.0f, 18.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
-
-		hobj = new CHidenObject();
-		hobj->SetPosition(368.0f, /*113.0f*/114.0f);
-		hobj->SetSize(79.0f, 16.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
-
-		hobj = new CHidenObject();
-		hobj->SetPosition(336.0f, /*47.0f*/49.0f);
-		hobj->SetSize(79.0f, 3.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
-
-		hobj = new CHidenObject();
-		hobj->SetPosition(449.0f, /*47.0f*/49.0f);
-		hobj->SetSize(32.0f, 31.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
-
-		hobj = new CHidenObject();
-		hobj->SetPosition(481.0f, /*47.0f*/49.0f);
-		hobj->SetSize(190.0f, 14.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
-
-		for (int i = 0; i < 5; i++)
+		in.open("Data\\hobj_CT_Scene3.txt");
+		for (i = 0; i < 32; i++)
 		{
-			hobj = new CHidenObject();
-			hobj->SetPosition(481.0f, 63.0f + 16.0f*i);
-			hobj->SetSize(33.0f, 16.0f);
-			hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-			cellsobject->InitCells(hobj);
+			CInputImage::LoadObjectFromFile(in, object);
+			cellsobject->InitCells(object);
 		}
+		in.close();
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(481.0f, 144.0f);
-		hobj->SetSize(33.0f, 32.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		in.open("Data\\door_scene3_CLockTower.txt");
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(514.0f, /*145.0f*/146.0f);
-		hobj->SetSize(126.0f, 30.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		CInputImage::LoadDoorFromFile(in, door);
+		door->SetIsAuto(false);
+		door->SetIsStair(true);
+		cellsobject->InitCells(door);
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(705.0f, 81.0f);
-		hobj->SetSize(30.0f, 15.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		for (i = 0; i < 3; i++)
+		{
+			CInputImage::LoadDoorFromFile(in, door);
+			door->SetIsStair(true);
+			cellsobject->InitCells(door);
+		}
+		in.close();
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(705.0f, 145.0f);
-		hobj->SetSize(30.f, 15.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		//door = new CDoor();
+		//door->SetState(DOOR_STATE_NORMAL);
+		//door->SetPosition(0.0f, 45.0f);
+		//door->SetIsAuto(false);
+		//door->SetIsHiDen(true);
+		//door->SetIsStair(true);
+		//door->SetScene(4);
+		//cellsobject->InitCells(door);
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(737.0f, 1.0f);
-		hobj->SetSize(31.0f, 175.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		//door = new CDoor();
+		//door->SetState(DOOR_STATE_NORMAL);
+		//door->SetPosition(80.0f, 170.0f);
+		//door->cx = 89.0f;
+		//door->cy = -11.0f;
+		//door->SetIsHiDen(true);
+		//door->SetIsStair(true);
+		//door->SetScene(2);
+		//cellsobject->InitCells(door);
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(33.0f, /*81.0f*/82.0f);
-		hobj->SetSize(32.0f, 16.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(1.0f, 1.0f);
-		hobj->SetSize(32.0f, 16.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		//door = new CDoor();
+		//door->SetState(DOOR_STATE_NORMAL);
+		//door->SetPosition(671.0f, 172.0f);
+		//door->cx = 663.04f;
+		//door->cy = -12.04f;
+		//door->SetIsHiDen(true);
+		//door->SetIsStair(true);
+		//door->SetScene(2);
+		//cellsobject->InitCells(door);
 
-		hobj = new CHidenObject();
-		hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
-		hobj->SetSize(17.0f, 7.0f);
-		hobj->SetPosition(701.0f, 137.0f);
-		hobj->SetStair_XY(697.0f, 115);
-		hobj->nx = -1;
-		cellsobject->InitCells(hobj);
+		//door = new CDoor();
+		//door->SetState(DOOR_STATE_NORMAL);
+		//door->SetPosition(300.0f, 160.0f);
+		//door->cx = 312.04f;
+		//door->cy = -11.08f;
+		//door->SetIsHiDen(true);
+		//door->SetIsStair(true);
+		//door->SetScene(2);
+		//cellsobject->InitCells(door);
 
-		hobj = new CHidenObject();
-		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
-		hobj->SetSize(26.0f, 10.0f);
-		hobj->SetPosition(629.0f, 135.0f);
-		hobj->SetStair_XY(634.0f, 113);
-		hobj->nx = 1;
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(639.0f, 145.0f);
+		//hobj->SetSize(32.0f, 12.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
-		hobj->SetSize(23.0f, 7.0f);
-		hobj->SetPosition(656.0f, 42.0f);
-		hobj->SetStair_XY(665.0f, 19);
-		hobj->nx = 1;
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(1.0f, /*81.0f*/82.0f);
+		//hobj->SetSize(32.0f, 94.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
-		hobj->SetSize(23.0f, 8.0f);
-		hobj->SetPosition(303.0f, 105.0f);
-		hobj->SetStair_XY(313.0f, 83);
-		hobj->nx = 1;
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(128.0f, 146.0f);
+		//hobj->SetSize(30.0f, 29.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
-		hobj->SetSize(25.0f, 8.0f);
-		hobj->SetPosition(42.0f, 72.0f);
-		hobj->SetStair_XY(57.0f, 50);
-		hobj->nx = 1;
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(160.0f, 16.0f);
+		//hobj->SetSize(32.0f, 159.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP_DOWN);
-		hobj->SetSize(22.0f, 11.0f);
-		hobj->SetPosition(702.0f, 69.0f);
-		hobj->SetStair_XY(697, 50);
-		hobj->nx = -1;
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(257.0f, /*113.0f*/114.0f);
+		//hobj->SetSize(62.0f, 30.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP_DOWN);
-		hobj->SetSize(24.0f, 11.0f);
-		hobj->SetPosition(349.0f, 133.0f);
-		hobj->SetStair_XY(345.0f, 114);
-		hobj->nx = -1;
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(/*336.0f*/336.0f, /*145.0f*/146.0f);
+		//hobj->SetSize(46.0f, 17.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP_DOWN);
-		hobj->SetSize(27.0f, 15.0f);
-		hobj->SetPosition(127.0f, 129.0f);
-		hobj->SetStair_XY(122.0f, 114);
-		hobj->nx = -1;
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(434.0f, /*144.0f*/146.0f);
+		//hobj->SetSize(47.0f, 18.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
+
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(368.0f, /*113.0f*/114.0f);
+		//hobj->SetSize(79.0f, 16.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
+
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(336.0f, /*47.0f*/49.0f);
+		//hobj->SetSize(79.0f, 3.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
+
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(449.0f, /*47.0f*/49.0f);
+		//hobj->SetSize(32.0f, 31.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
+
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(481.0f, /*47.0f*/49.0f);
+		//hobj->SetSize(190.0f, 14.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
+
+		//for (int i = 0; i < 5; i++)
+		//{
+		//	hobj = new CHidenObject();
+		//	hobj->SetPosition(481.0f, 63.0f + 16.0f*i);
+		//	hobj->SetSize(33.0f, 16.0f);
+		//	hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//	cellsobject->InitCells(hobj);
+		//}
+
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(481.0f, 144.0f);
+		//hobj->SetSize(33.0f, 32.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
+
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(514.0f, /*145.0f*/146.0f);
+		//hobj->SetSize(126.0f, 30.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
+
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(705.0f, 81.0f);
+		//hobj->SetSize(30.0f, 15.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
+
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(705.0f, 145.0f);
+		//hobj->SetSize(30.f, 15.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
+
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(737.0f, 1.0f);
+		//hobj->SetSize(31.0f, 175.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
+
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(33.0f, /*81.0f*/82.0f);
+		//hobj->SetSize(32.0f, 16.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
+
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(1.0f, 1.0f);
+		//hobj->SetSize(32.0f, 16.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
+
+		//hobj = new CHidenObject();
+		//hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
+		//hobj->SetSize(17.0f, 7.0f);
+		//hobj->SetPosition(701.0f, 137.0f);
+		//hobj->SetStair_XY(697.0f, 115);
+		//hobj->nx = -1;
+		//cellsobject->InitCells(hobj);
+
+		//hobj = new CHidenObject();
+		//hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
+		//hobj->SetSize(26.0f, 10.0f);
+		//hobj->SetPosition(629.0f, 135.0f);
+		//hobj->SetStair_XY(634.0f, 113);
+		//hobj->nx = 1;
+		//cellsobject->InitCells(hobj);
+
+		//hobj = new CHidenObject();
+		//hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
+		//hobj->SetSize(23.0f, 7.0f);
+		//hobj->SetPosition(656.0f, 42.0f);
+		//hobj->SetStair_XY(665.0f, 19);
+		//hobj->nx = 1;
+		//cellsobject->InitCells(hobj);
+
+		//hobj = new CHidenObject();
+		//hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
+		//hobj->SetSize(23.0f, 8.0f);
+		//hobj->SetPosition(303.0f, 105.0f);
+		//hobj->SetStair_XY(313.0f, 83);
+		//hobj->nx = 1;
+		//cellsobject->InitCells(hobj);
+
+		//hobj = new CHidenObject();
+		//hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
+		//hobj->SetSize(25.0f, 8.0f);
+		//hobj->SetPosition(42.0f, 72.0f);
+		//hobj->SetStair_XY(57.0f, 50);
+		//hobj->nx = 1;
+		//cellsobject->InitCells(hobj);
+
+		//hobj = new CHidenObject();
+		//hobj->SetState(HIDENOBJECT_STATE_STAIR_UP_DOWN);
+		//hobj->SetSize(22.0f, 11.0f);
+		//hobj->SetPosition(702.0f, 69.0f);
+		//hobj->SetStair_XY(697, 50);
+		//hobj->nx = -1;
+		//cellsobject->InitCells(hobj);
+
+		//hobj = new CHidenObject();
+		//hobj->SetState(HIDENOBJECT_STATE_STAIR_UP_DOWN);
+		//hobj->SetSize(24.0f, 11.0f);
+		//hobj->SetPosition(349.0f, 133.0f);
+		//hobj->SetStair_XY(345.0f, 114);
+		//hobj->nx = -1;
+		//cellsobject->InitCells(hobj);
+
+		//hobj = new CHidenObject();
+		//hobj->SetState(HIDENOBJECT_STATE_STAIR_UP_DOWN);
+		//hobj->SetSize(27.0f, 15.0f);
+		//hobj->SetPosition(127.0f, 129.0f);
+		//hobj->SetStair_XY(122.0f, 114);
+		//hobj->nx = -1;
+		//cellsobject->InitCells(hobj);
 		break;
 	case SCENE_4:
 		textures->Add(ID_MAP_LEVEL_6, LEVEL6_STAGE18A_PATH, D3DCOLOR_XRGB(255, 255, 255));
@@ -835,35 +930,49 @@ void CClockTowerLevel::LoadObject()
 
 		cellsobject = new CCells(column, row);
 
-		door = new CDoor();
-		door->SetState(DOOR_STATE_NORMAL);
-		door->SetPosition(100.0f, 0.0f);
-		door->cx = 597.22f;
-		door->cy = 146.22f;
-		door->SetIsHiDen(true);
+		in.open("Data\\ClockTowerLevel_Scene4.txt");
+		for (i = 0; i < 3; i++)
+		{
+			CInputImage::LoadObjectFromFile(in, object);
+			cellsobject->InitCells(object);
+		}
+		in.close();
+
+		in.open("Data\\door_scene4_CLockTower.txt");
+		CInputImage::LoadDoorFromFile(in, door);
 		door->SetIsStair(true);
-		door->SetScene(5);
 		cellsobject->InitCells(door);
+		in.close();
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(249.0f, 0.0f);
-		hobj->SetSize(36.0f, 93.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		//door = new CDoor();
+		//door->SetState(DOOR_STATE_NORMAL);
+		//door->SetPosition(100.0f, 0.0f);
+		//door->cx = 597.22f;
+		//door->cy = 146.22f;
+		//door->SetIsHiDen(true);
+		//door->SetIsStair(true);
+		//door->SetScene(5);
+		//cellsobject->InitCells(door);
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(184.0f, /*81.0f*/82.0f);
-		hobj->SetSize(65.0f, 15.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(249.0f, 0.0f);
+		//hobj->SetSize(36.0f, 93.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
-		hobj->SetSize(24.0f, 10.0f);
-		hobj->SetPosition(175.0f, 71.0f);
-		hobj->SetStair_XY(177.0f, 50);
-		hobj->nx = -1;
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(184.0f, /*81.0f*/82.0f);
+		//hobj->SetSize(65.0f, 15.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
+
+		//hobj = new CHidenObject();
+		//hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
+		//hobj->SetSize(24.0f, 10.0f);
+		//hobj->SetPosition(175.0f, 71.0f);
+		//hobj->SetStair_XY(177.0f, 50);
+		//hobj->nx = -1;
+		//cellsobject->InitCells(hobj);
 		break;
 	case SCENE_5:
 		textures->Add(ID_MAP_LEVEL_6, LEVEL6_STAGE18B_PATH, D3DCOLOR_XRGB(255, 255, 255));
@@ -877,53 +986,68 @@ void CClockTowerLevel::LoadObject()
 
 		cellsobject = new CCells(column, row);
 
-		door = new CDoor();
-		door->SetState(DOOR_STATE_NORMAL);
-		door->SetPosition(607.0f, 175.0f);
-		door->cx = 117.0f;
-		door->cy = -10.0f;
-		door->SetIsHiDen(true);
+		in.open("Data\\hobj_CT_Scene5.txt");
+		for (i = 0; i < 6; i++)
+		{
+			CInputImage::LoadObjectFromFile(in, object);
+			cellsobject->InitCells(object);
+		}
+		in.close();
+
+		in.open("Data\\door_scene5_CLockTower.txt");
+		CInputImage::LoadDoorFromFile(in, door);
 		door->SetIsStair(true);
-		door->SetScene(4);
 		cellsobject->InitCells(door);
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(0.0f, 0.0f);
-		hobj->SetSize(2.0f, 146.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		in.close();
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(2.0f, 146.0f);
-		hobj->SetSize(478.0f, 30.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		//door = new CDoor();
+		//door->SetState(DOOR_STATE_NORMAL);
+		//door->SetPosition(607.0f, 175.0f);
+		//door->cx = 117.0f;
+		//door->cy = -10.0f;
+		//door->SetIsHiDen(true);
+		//door->SetIsStair(true);
+		//door->SetScene(4);
+		//cellsobject->InitCells(door);
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(447.0f, /*113.0f*/114.0f);
-		hobj->SetSize(103.0f, 32.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(0.0f, 0.0f);
+		//hobj->SetSize(2.0f, 146.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(257.0f, 0.0f);
-		hobj->SetSize(15.0f, 79.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(2.0f, 146.0f);
+		//hobj->SetSize(478.0f, 30.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetPosition(514.0f, 0.0f);
-		hobj->SetSize(30.0f, 47.0f);
-		hobj->SetState(HIDENOBJECT_STATE_NORMAL);
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(447.0f, /*113.0f*/114.0f);
+		//hobj->SetSize(103.0f, 32.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
 
-		hobj = new CHidenObject();
-		hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
-		hobj->SetSize(21.0f, 10.0f);
-		hobj->SetPosition(527.0f, 103.0f);
-		hobj->SetStair_XY(535.0f, 84);
-		hobj->nx = 1;
-		cellsobject->InitCells(hobj);
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(257.0f, 0.0f);
+		//hobj->SetSize(15.0f, 79.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
+
+		//hobj = new CHidenObject();
+		//hobj->SetPosition(514.0f, 0.0f);
+		//hobj->SetSize(30.0f, 47.0f);
+		//hobj->SetState(HIDENOBJECT_STATE_NORMAL);
+		//cellsobject->InitCells(hobj);
+
+		//hobj = new CHidenObject();
+		//hobj->SetState(HIDENOBJECT_STATE_STAIR_DOWN);
+		//hobj->SetSize(21.0f, 10.0f);
+		//hobj->SetPosition(527.0f, 103.0f);
+		//hobj->SetStair_XY(535.0f, 84);
+		//hobj->nx = 1;
+		//cellsobject->InitCells(hobj);
 		break;
 	}
 }

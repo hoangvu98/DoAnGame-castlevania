@@ -30,6 +30,39 @@ CFishman::CFishman()
 		items = NULL;
 }
 
+CFishman::CFishman(float width, float height, float a_x, float a_y)
+{
+	CMonster::CMonster();
+	health = 1;
+	damage = 1;
+	AddAnimation(18000);
+	AddAnimation(18001);
+	AddAnimation(18002);
+	AddAnimation(18003);
+	AddAnimation(18004);
+	AddAnimation(18005);
+	bullet = new CBullet();
+	i = 0;
+	j = 0;
+	fire = false;
+	int random;
+	wait1 = true;
+	wait2 = true;
+	isAddBulletToCell = false;
+	//srand(time(NULL));
+	random = rand() % 10;
+	if (random <= 1)
+		items = new CHeart(HEART_BIG);
+	else if (random <= 3)
+		items = new CHeart(HEART_SMALL);
+	else
+		items = NULL;
+
+	SetStateAppear(FISHMAN_STATE_JUMP);
+	SetPostionAppear(a_x, a_y);
+	SetSize(width, height);
+}
+
 void CFishman::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
 	left = x;

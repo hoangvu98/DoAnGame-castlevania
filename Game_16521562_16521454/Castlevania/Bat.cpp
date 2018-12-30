@@ -29,6 +29,33 @@ CBat::CBat(int size)
 	SetState(BAT_STATE_SLEEPING);
 }
 
+CBat::CBat(int size, float width, float height, float a_x, float a_y, float height_fly)
+{
+	if (size == BAT_SIZE_SMALL)
+	{
+		damage = 1;
+		health = 1;
+		score = 100;
+		nx = -1;
+		vy = BAT_SMALL_FLYING_SPEED_X;
+	}
+	else
+	{
+		score = 1000;
+		health = 16;
+		damage = 4;
+	}
+	this->size = size;
+	AddAnimation(12001);
+	AddAnimation(12002);
+	AddAnimation(20001);
+	SetState(BAT_STATE_SLEEPING);
+
+	SetPosstionAppear(a_x, a_y);
+	SetSize(width, height);
+	SetHeightFly(height_fly);
+}
+
 void CBat::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
 	if (size == BAT_SIZE_SMALL)

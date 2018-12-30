@@ -34,16 +34,22 @@ void CInputImage::AddAnimation(ifstream & in, CSprites * sprites, LPANIMATION & 
 void CInputImage::LoadObjectFromFile(ifstream & in, LPGAMEOBJECT & object)
 {
 	int id, type, item, state;
-	float x, y, width, height, height_fly;
+	float x, y, width, height, height_fly, nx;
+	float stair_x, stair_y, a_x, a_y;
 	in >> id;
 	in >> x;
-	in >> y; 
+	in >> y;
 	in >> width;
 	in >> height;
-	in >> type; 
+	in >> type;
 	in >> item;
 	in >> height_fly;
 	in >> state;
+	in >> stair_x;
+	in >> stair_y;
+	in >> nx;
+	in >> a_x;
+	in >> a_y;
 
 	switch (id)
 	{
@@ -53,10 +59,21 @@ void CInputImage::LoadObjectFromFile(ifstream & in, LPGAMEOBJECT & object)
 		else object = new CCandle(type);
 
 		object->SetPosition(x, y);
-		object->SetState(0);
+		object->SetState(state);
 		break;
 	case HIDENOBJECT:
-		object = new CHidenObject(width, height);
+		switch (state)
+		{
+		case HIDENOBJECT_STATE_STAIR_DOWN:
+		case HIDENOBJECT_STATE_STAIR_UP:
+		case HIDENOBJECT_STATE_STAIR_UP_DOWN:
+			object = new CHidenObject(width, height, stair_x, stair_y);
+			object->Setnx(nx);
+			break;
+		default:
+			object = new CHidenObject(width, height);
+			break;
+		}
 		object->SetState(state);
 		object->SetPosition(x, y);
 		break;
@@ -71,10 +88,10 @@ void CInputImage::LoadObjectFromFile(ifstream & in, LPGAMEOBJECT & object)
 		object->SetState(state);
 		break;
 	case FISHMAN:
-		object = new CFishman();
+		object = new CFishman(width, height, a_x, a_y);
 		object->SetState(state);
 		object->SetPosition(x, y);
-		object->Setnx(-1);
+		object->Setnx(nx);
 		break;
 	case BOSSBAT:
 		object = CBossBat::GetInstance();
@@ -85,13 +102,57 @@ void CInputImage::LoadObjectFromFile(ifstream & in, LPGAMEOBJECT & object)
 		object->SetState(SKELETON_STATE_WALKING_RIGHT);
 		break;
 	case EAGLE:
-		break;
-	case HUNCHBACK:
+		object = new CEagle(width, height, a_x, a_y);
+		object->SetPosition(x, y);
+		object->SetState(state);
 		break;
 	case DRACULA:
 		object = CDracula::GetInstance();
 		object->Setnx(-1);
 		object->SetState(state);
 		break;
+	case BAT:
+		object = new CBat(type, width, height, a_x, a_y, height_fly);
+		object->SetPosition(x, y);
+		object->SetState(state);
+		break;
+	case BRICK:
+		object = new CBrick(x, y);
+		object->SetState(state);
+		break;
+	}
+}
+
+void CInputImage::LoadDoorFromFile(ifstream & in, CDoor *& door)
+{
+	int state, ishiden, scene;
+	float x, y, cx, cy, size;
+	in >> state;
+	in >> x;
+	in >> y;
+	in >> ishiden;
+	in >> cx;
+	in >> cy;
+	in >> scene;
+	in >> size;
+	if (state < 0)
+	{
+		door = new CDoor();
+		door->SetPosition(x, y);
+		door->size = size;
+		door->SetIsHiDen(ishiden);
+		door->SetScene(scene);
+	}
+	else
+	{
+		door = new CDoor();
+		door->SetState(state);
+		door->SetPosition(x, y);
+		//if (cx != -1)
+		door->cx = cx;
+		//if (cy != -1);
+		door->cy = cy;
+		door->SetIsHiDen(ishiden);
+		door->SetScene(scene);
 	}
 }

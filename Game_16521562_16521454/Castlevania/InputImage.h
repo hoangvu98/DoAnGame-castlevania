@@ -3,6 +3,7 @@
 #include "Sprites.h"
 #include "GameObject.h"
 #include <fstream>
+#include "Door.h"
 
 #define CANDLE		1 //roi
 #define HIDENOBJECT 2
@@ -15,7 +16,7 @@
 #define HUNCHBACK	9
 #define BOSSBAT		10 //roi
 #define DRACULA		11
-
+#define BRICK		12
 class CInputImage
 {
 public:
@@ -28,5 +29,6 @@ public:
 		int n,int time=100);
 
 	static void LoadObjectFromFile(ifstream &in, LPGAMEOBJECT &object);
+	static void LoadDoorFromFile(ifstream &in, CDoor *&door);
 };
 
