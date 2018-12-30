@@ -85,7 +85,6 @@ void CBlackBoard::Render()
 		D3DCOLOR_XRGB(255, 255, 255));
 
 	int k;
-	int j;
 	k = simon->GetHealth();
 	if (k < 0) k = 0;
 	else if (k > 16) k = 16;
@@ -119,7 +118,7 @@ void CBlackBoard::Render()
 	for (int i = n; i < 16; i++)
 		enemyHP[i].SetType(EMPTY);
 
-	for (int i = 0; i < enemyHP.size(); i++)
+	for (int i = 0; i < (int)enemyHP.size(); i++)
 		enemyHP[i].Render(i * 6.0f + 32.0f, 20.0f);
 
 

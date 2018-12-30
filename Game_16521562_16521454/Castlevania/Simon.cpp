@@ -490,7 +490,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 						{
 							x += dx;
 							CCells* cell = map->GetCell();
-							float width, height, column, row;
+							float width, height;
+							int column, row;
 							map->GetTileMap()->GetSize(width, height);
 							column = (int)width / CELL_WIDTH + 1;
 							row = (int)height / CELL_HEIGHT + 1;
@@ -550,7 +551,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			if (now - FrameCollusion > 2000)
 				collusion = 0;
 		}
-		if (y >= 190.0f || time==0 && !IsDie)
+		if ((y >= 190.0f || time==0) && !IsDie)
 		{
 			vx = 0;
 			vy = 0;

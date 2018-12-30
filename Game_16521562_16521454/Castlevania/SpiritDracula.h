@@ -43,7 +43,7 @@
 #define SPIRITDRACULA_FIRE_BBOX_HEIGHT 83
 
 
-#define OFFSET			19.0f
+#define SPIRITDRACULA_OFFSET 19.0f
 #define DISTANCE1		40.0f
 #define DISTANCE2		50.0f
 
@@ -63,7 +63,7 @@ class CSpiritDracula :
 	static CSpiritDracula *__instance;
 	vector<CBullet *> bullets;
 	CHidenObject *head;
-	int height;
+	float height;
 	bool resetpos;
 	bool Bullet;
 	bool startwait1;

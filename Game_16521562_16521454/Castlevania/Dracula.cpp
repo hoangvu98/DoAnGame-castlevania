@@ -57,23 +57,23 @@ void CDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						{
 							for (i = 0; i < 3; i++)
 							{
-								bullets[i]->SetPosition(x + BULLET_POSITION_X, y + BULLET_POSITION_Y);
+								bullets[i]->SetPosition(x + DRACULA_BULLET_POSITION_X, y + DRACULA_BULLET_POSITION_Y);
 								bullets[i]->Setnx(1);
 							}
-							bullets[0]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y, 800);
-							bullets[1]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y - 8.0f, 800);
-							bullets[2]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y + 8.0f, 800);
+							bullets[0]->SetSpeed(x + DRACULA_BULLET_POSITION_X, y + DRACULA_BULLET_POSITION_Y, simon->x, simon->y, 800);
+							bullets[1]->SetSpeed(x + DRACULA_BULLET_POSITION_X, y + DRACULA_BULLET_POSITION_Y, simon->x, simon->y - 8.0f, 800);
+							bullets[2]->SetSpeed(x + DRACULA_BULLET_POSITION_X, y + DRACULA_BULLET_POSITION_Y, simon->x, simon->y + 8.0f, 800);
 						}
 						else
 						{
 							for (i = 0; i < 3; i++)
 							{
-								bullets[i]->SetPosition(x, y + BULLET_POSITION_Y);
+								bullets[i]->SetPosition(x, y + DRACULA_BULLET_POSITION_Y);
 								bullets[i]->Setnx(-1);
 							}
-							bullets[0]->SetSpeed(x, y + BULLET_POSITION_Y, simon->x, simon->y, 800);
-							bullets[1]->SetSpeed(x, y + BULLET_POSITION_Y, simon->x, simon->y - 8.0f, 800);
-							bullets[2]->SetSpeed(x, y + BULLET_POSITION_Y, simon->x, simon->y + 8.0f, 800);
+							bullets[0]->SetSpeed(x, y + DRACULA_BULLET_POSITION_Y, simon->x, simon->y, 800);
+							bullets[1]->SetSpeed(x, y + DRACULA_BULLET_POSITION_Y, simon->x, simon->y - 8.0f, 800);
+							bullets[2]->SetSpeed(x, y + DRACULA_BULLET_POSITION_Y, simon->x, simon->y + 8.0f, 800);
 						}
 
 
@@ -172,7 +172,7 @@ void CDracula::Render()
 					if (nx > 0)
 					{
 						ani = DRACULA_ANI_FIRE_RIGHT;
-						animations[DRACULA_ANI_FIRE_RIGHT1]->Render(this->x - OFFSET, y);
+						animations[DRACULA_ANI_FIRE_RIGHT1]->Render(this->x - DRACULA_OFFSET, y);
 					}
 					else ani = DRACULA_ANI_FIRE_LEFT;
 
@@ -239,25 +239,6 @@ void CDracula::Reset()
 	startwait1 = true;
 	startwait2 = true;
 	startwait3 = true;
-	int i;
-	/*if (nx > 0)
-	{
-		for (i = 0; i < 3; i++)
-		{
-			bullets[i]->SetPosition(x + BULLET_POSITION_X, y + BULLET_POSITION_Y);
-			bullets[i]->Setnx(1);
-		}
-		
-	}
-	else
-	{
-		for (i = 0; i < 3; i++)
-		{
-			bullets[i]->SetPosition(x, y + BULLET_POSITION_Y);
-			bullets[i]->Setnx(-1);
-		}
-
-	}*/
 }
 
 void CDracula::SetState(int state)
@@ -299,14 +280,14 @@ CDracula::CDracula()
 		bullets.push_back(new CBullet());
 	for (i = 0; i < 3; i++)
 	{
-		bullets[i]->SetPosition(x + BULLET_POSITION_X, y + BULLET_POSITION_Y);
+		bullets[i]->SetPosition(x + DRACULA_BULLET_POSITION_X, y + DRACULA_BULLET_POSITION_Y);
 		bullets[i]->Setnx(-1);
 		bullets[i]->SetDamage(4);
 	}
 
-	/*bullets[0]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y, 800);
-	bullets[1]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y - 8.0f, 800);
-	bullets[2]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y + 8.0f, 800);*/
+	/*bullets[0]->SetSpeed(x + DRACULA_BULLET_POSITION_X, y + DRACULA_BULLET_POSITION_Y, simon->x, simon->y, 800);
+	bullets[1]->SetSpeed(x + DRACULA_BULLET_POSITION_X, y + DRACULA_BULLET_POSITION_Y, simon->x, simon->y - 8.0f, 800);
+	bullets[2]->SetSpeed(x + DRACULA_BULLET_POSITION_X, y + DRACULA_BULLET_POSITION_Y, simon->x, simon->y + 8.0f, 800);*/
 
 
 	AddAnimation(240001);
@@ -348,13 +329,13 @@ CDracula::CDracula(float x, float y)
 		bullets.push_back(new CBullet());
 	for (i = 0; i < 3; i++)
 	{
-		bullets[i]->SetPosition(x + BULLET_POSITION_X, y + BULLET_POSITION_Y);
+		bullets[i]->SetPosition(x + DRACULA_BULLET_POSITION_X, y + DRACULA_BULLET_POSITION_Y);
 		bullets[i]->Setnx(-1);
 	}
 
-	bullets[0]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y + 20.0f, 800);
-	bullets[1]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y - 30.0f, 800);
-	bullets[2]->SetSpeed(x + BULLET_POSITION_X, y + BULLET_POSITION_Y, simon->x, simon->y + 60.0f, 800);
+	bullets[0]->SetSpeed(x + DRACULA_BULLET_POSITION_X, y + DRACULA_BULLET_POSITION_Y, simon->x, simon->y + 20.0f, 800);
+	bullets[1]->SetSpeed(x + DRACULA_BULLET_POSITION_X, y + DRACULA_BULLET_POSITION_Y, simon->x, simon->y - 30.0f, 800);
+	bullets[2]->SetSpeed(x + DRACULA_BULLET_POSITION_X, y + DRACULA_BULLET_POSITION_Y, simon->x, simon->y + 60.0f, 800);
 
 	AddAnimation(240001);
 	AddAnimation(240002);

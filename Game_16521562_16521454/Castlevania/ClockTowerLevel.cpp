@@ -17,16 +17,12 @@ CClockTowerLevel::CClockTowerLevel()
 
 void CClockTowerLevel::LoadMap()
 {
-	LPDIRECT3DTEXTURE9 texture_map;
-	CHidenObject *hobj;
 	CCandle *candle;
 	CSkeleton *skeleton;
 	CSimon *simon = CSimon::GetInstance();
-	CDoor * door;
 	CEagle *eagle;
 	CBat* bat;
 	CDracula *dracula;
-	CSpiritDracula *spirit_dracula;
 	switch (scene)
 	{
 	case SCENE_1:
@@ -41,7 +37,7 @@ void CClockTowerLevel::LoadMap()
 
 		cells = new CCells(column, row);
 
-		bat = new CBat(BAT_SIZE_BIG);
+		/*bat = new CBat(BAT_SIZE_BIG);
 		bat->SetPosition(1343.0f, 0.0f);
 		bat->SetPosstionAppear(1220.0f, 0.0f);
 		bat->SetSize(10, 70);
@@ -52,7 +48,7 @@ void CClockTowerLevel::LoadMap()
 		bat->SetPosstionAppear(673.0f, 0.0f);
 		bat->SetSize(10, 70);
 		cells->InitCells(bat);
-
+*/
 		bat = new CBat(BAT_SIZE_BIG);
 		bat->SetPosition(580.0f, 0.0f);
 		bat->SetPosstionAppear(460.0f, 0.0f);

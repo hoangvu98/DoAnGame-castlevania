@@ -12,8 +12,8 @@ class CTileMap
 	int row;
 	int column;
 
-	int width;
-	int height;
+	float width;
+	float height;
 
 	CSprites *sprites;
 public:

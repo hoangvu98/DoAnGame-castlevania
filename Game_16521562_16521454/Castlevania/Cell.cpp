@@ -71,14 +71,14 @@ void CCells::InitCells(LPGAMEOBJECT object)
 			float width, height, x, y;
 			hidenobject->GetSize(width, height);
 			hidenobject->GetPosition(x, y);
-			int x1 = x / CELL_WIDTH;
-			int x2 = (x + width) / CELL_WIDTH;
-			int j = y / CELL_HEIGHT;
+			int x1 = (int)x / CELL_WIDTH;
+			int x2 = (int)(x + width) / CELL_WIDTH;
+			int j = (int)y / CELL_HEIGHT;
 			for (int i = x1; i <= x2; i++)
 			{
 				hidenobject = new CHidenObject();
 				hidenobject->SetState(HIDENOBJECT_STATE_NORMAL);
-				hidenobject->SetPosition(i*CELL_WIDTH, y);
+				hidenobject->SetPosition((float)i*CELL_WIDTH, y);
 				hidenobject->SetSize(CELL_WIDTH, height);
 				if (i == x1)
 				{
@@ -101,15 +101,15 @@ void CCells::InitCells(LPGAMEOBJECT object)
 		}
 		else
 		{
-			int x = object->x / CELL_WIDTH;
-			int y = object->y / CELL_HEIGHT;
+			int x = (int)object->x / CELL_WIDTH;
+			int y = (int)object->y / CELL_HEIGHT;
 			cells[x][y].SetObjects(object);
 		}
 	}
 	else
 	{
-		int x = object->x / CELL_WIDTH;
-		int y = object->y / CELL_HEIGHT;
+		int x = (int)object->x / CELL_WIDTH;
+		int y = (int)object->y / CELL_HEIGHT;
 		cells[x][y].SetObjects(object);
 	}
 }
@@ -128,7 +128,7 @@ void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, fl
 		for (j = ys; j <= ye; j++)
 		{
 			if (cells[i][j].GetObjects().size() != 0)
-				for (k = 0; k < cells[i][j].GetObjects().size(); k++)
+				for (k = 0; k < (int)cells[i][j].GetObjects().size(); k++)
 				{
 					LPGAMEOBJECT e = cells[i][j].GetObjects()[k];				
 					list_object->push_back(e);
@@ -150,7 +150,7 @@ void CCells::ChangeCellOfObject(float cam_x, float cam_y)
 		for (j = ys; j <= ye; j++)
 		{
 			if (cells[i][j].GetObjects().size() != 0)
-				for (k = 0; k < cells[i][j].GetObjects().size(); k++)
+				for (k = 0; k < (int)cells[i][j].GetObjects().size(); k++)
 				{
 					LPGAMEOBJECT e = cells[i][j].GetObjects()[k];
 					if (dynamic_cast <CCandle *> (e))
@@ -181,8 +181,8 @@ void CCells::ChangeCellOfObject(float cam_x, float cam_y)
 					}
 					else if (dynamic_cast<CMonster *> (e))
 					{
-						int a = e->x / CELL_WIDTH;
-						int b = e->y / CELL_HEIGHT;
+						int a = (int)e->x / CELL_WIDTH;
+						int b = (int)e->y / CELL_HEIGHT;
 						if (a != i || b != j)
 						{
 							cells[i][j].XoaObject(k);
@@ -192,8 +192,8 @@ void CCells::ChangeCellOfObject(float cam_x, float cam_y)
 					}
 					else if (dynamic_cast<CBullet *> (e))
 					{
-						int a = e->x / CELL_WIDTH;
-						int b = e->y / CELL_HEIGHT;
+						int a = (int)e->x / CELL_WIDTH;
+						int b = (int)e->y / CELL_HEIGHT;
 						if (a != i || b != j)
 						{
 							cells[i][j].XoaObject(k);

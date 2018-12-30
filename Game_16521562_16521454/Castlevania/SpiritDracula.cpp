@@ -37,7 +37,7 @@ void CSpiritDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		Bullet = true;
 	}*/
 
-	if (simon->x < this->x + OFFSET) this->nx = -1;
+	if (simon->x < this->x + SPIRITDRACULA_OFFSET) this->nx = -1;
 	else this->nx = 1;
 
 	for (UINT i = 0; i < coEvents.size(); i++)
@@ -61,7 +61,7 @@ void CSpiritDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	if (state == SPIRITDRACULA_STATE_IDLE)
 	{
-		if (abs(simon->x - this->x + OFFSET) > DISTANCE1 && abs(simon->x - this->x + OFFSET) < DISTANCE2 &&
+		if (abs(simon->x - this->x + SPIRITDRACULA_OFFSET) > DISTANCE1 && abs(simon->x - this->x + SPIRITDRACULA_OFFSET) < DISTANCE2 &&
 			fire == false /*&& state == SPIRITDRACULA_STATE_IDLE*/)
 		{
 			fire = true;

@@ -14,7 +14,7 @@
 class CBreakingWall :
 	public CGameObject
 {
-	int height;
+	float height;
 	bool fall;
 public:
 	CBreakingWall();
@@ -22,7 +22,7 @@ public:
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	void Render();
 	void SetState(int state);
-	void SetHeight(int height) { this->height = height; }
+	void SetHeight(float height) { this->height = height; }
 	void SetFall(bool fall) { this->fall = fall; }
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 };

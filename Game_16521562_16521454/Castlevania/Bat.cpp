@@ -31,7 +31,6 @@ CBat::CBat(int size)
 
 void CBat::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
-
 	if (size == BAT_SIZE_SMALL)
 	{
 		if (state == BAT_STATE_SLEEPING)
@@ -58,7 +57,7 @@ void CBat::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 			right = left + weight;
 			bottom = top + height;
 		}
-		else if (state == BAT_STATE_FLY)
+		else 
 		{
 			left = x;
 			top = y;

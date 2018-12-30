@@ -4,9 +4,7 @@ CEntranceLevel *CEntranceLevel::__instance = NULL;
 
 void CEntranceLevel::LoadMap()
 {
-	float c_x, c_y;
 	CCandle *candle;
-	CPanther *panther;
 	CGhoul *ghoul;
 	CSimon *simon = CSimon::GetInstance();
 	CBrick *brick;
@@ -1198,8 +1196,8 @@ void CEntranceLevel::NextScece(float &x, float &y)
 	}
 	else if (scene == SCENE_5)
 	{
-		x = 2062.1;
-		y = 34.6;
+		x = 2062.1f;
+		y = 34.6f;
 	}
 }
 

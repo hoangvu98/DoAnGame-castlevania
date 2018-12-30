@@ -27,7 +27,6 @@
 
 #define FISHMAN_TURN			30.0f
 #define FRAMETIME				200
-#define OFFSET			2
 class CFishman : public CMonster
 {
 	bool fire;

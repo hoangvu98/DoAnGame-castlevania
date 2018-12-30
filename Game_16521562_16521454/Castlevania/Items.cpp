@@ -408,7 +408,8 @@ void CHollyWater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		CGameObject::Update(dt);
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
-		vy += HOLLY_WATER_GRAVITY * dt;
+		if(vy<= 0.05f)
+			vy += HOLLY_WATER_GRAVITY * dt;
 		CalcPotentialCollisions(coObjects, coEvents);
 		bool test = true;
 		if (coEvents.size() != 0)

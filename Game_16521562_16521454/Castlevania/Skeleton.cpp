@@ -50,8 +50,8 @@ void CSkeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		DWORD now = GetTickCount();
 
 
-		min = simon->x - DISTANCE;
-		max = simon->x - DISTANCE / 2;
+		min = simon->x - SKELETON_DISTANCE;
+		max = simon->x - SKELETON_DISTANCE / 2;
 		if (state != SKELETON_STATE_JUMP)
 		{
 			if (x < min)
