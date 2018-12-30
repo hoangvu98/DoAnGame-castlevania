@@ -28,7 +28,6 @@ using namespace std;
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"Castlevania"
 
-#define BRICK_TEXTURE_PATH L"brick.png"
 #define BBOX_TEXTURE_PATH L"bbox.png"
 #define CANDLE_TEXTURE_PATH L"castlevania_texture\\Weapon\\Candle.png"
 #define TITLE_SCREEN_PATH L"castlevania_texture\\Background\\Title Screen.png"
@@ -39,8 +38,6 @@ using namespace std;
 
 #define MAX_FRAME_RATE 120
 
-#define ID_BRICK			3
-#define ID_BAT				5
 #define ID_TITLE_SCREEN		15
 #define ID_INTRO_SCREEN		16
 CGame *game;
@@ -350,7 +347,7 @@ void LoadResources()
 	//simon->SetPosition(1700.0f, 0.0f);
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
-	simon->map->SetScene(SCENE_5);
+	simon->map->SetScene(SCENE_3);
 	screen = 2;
 	simon->map->LoadObject();
 	simon->map->LoadMap();
@@ -384,9 +381,9 @@ void Update(DWORD dt)
 	case 1:
 		objects.clear();
 		objects.push_back(simon);
-		for (int i = 0; i < objects.size() - 1; i++)
+		for (int i = 0; i < (int)objects.size() - 1; i++)
 			coObjects.push_back(objects[i]);
-		for (int i = 0; i < objects.size(); i++)
+		for (int i = 0; i < (int)objects.size(); i++)
 			objects[i]->Update(dt, &coObjects);
 		break;
 	case 2:
@@ -487,9 +484,9 @@ void Update(DWORD dt)
 			simon->map->GetUpdateObjects(&objects);
 			objects.push_back(simon);
 			//vector<LPGAMEOBJECT> coObjects;
-			for (int i = 0; i < objects.size(); i++)
+			for (int i = 0; i < (int)objects.size(); i++)
 				coObjects.push_back(objects[i]);
-			for (int i = 0; i < objects.size(); i++)
+			for (int i = 0; i < (int)objects.size(); i++)
 				objects[i]->Update(dt, &coObjects);
 		}
 		break;
@@ -540,14 +537,14 @@ void Render()
 			simon->SetStateAuto(-1);
 			simon->SetCameraAuto(-1);
 			game->SetCamera(0, 0);
-			game->Draw(0.0f, 0.0f, texture_intro, 0, 0, 256.0f, 185.0f);
-			for (int i = 0; i < objects.size(); i++)
+			game->Draw(0.0f, 0.0f, texture_intro, 0, 0, 256, 185);
+			for (int i = 0; i < (int)objects.size(); i++)
 				objects[i]->Render();
 			break;
 		case 2:
 			simon->map->Render();
 			blackboard->Render();
-			for (int i = 0; i < objects.size(); i++)
+			for (int i = 0; i < (int)objects.size(); i++)
 				objects[i]->Render();
 			break;
 		}

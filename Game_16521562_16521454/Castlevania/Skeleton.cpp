@@ -27,7 +27,7 @@ CSkeleton::CSkeleton(float x, float y)
 
 	bone[0]->SetSpeed(0.02f, 0.1f);
 	bone[1]->SetSpeed(0.03f, 0.1f);
-	bone[2]->SetSpeed(0.04, 0.1f);
+	bone[2]->SetSpeed(0.04f, 0.1f);
 
 	number = 0;
 

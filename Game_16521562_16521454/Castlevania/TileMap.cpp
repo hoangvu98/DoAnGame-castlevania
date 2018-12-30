@@ -18,8 +18,8 @@ void CTileMap::LoadTileMap(string fileName, LPDIRECT3DTEXTURE9 tex)
 	in >> column;
 	in >> row;
 
-	width = TILE_WIDTH * column;
-	height = TILE_HEIGHT * row;
+	width = (float)TILE_WIDTH * column;
+	height = (float)TILE_HEIGHT * row;
 
 	//khoi tao ma tran map
 	int i = 0;

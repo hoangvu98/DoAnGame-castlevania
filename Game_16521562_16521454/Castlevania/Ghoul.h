@@ -1,7 +1,7 @@
 #pragma once
 #include "Monster.h"
 using namespace std;
-#define GHOUL_WALKING_SPEED 0.03;
+#define GHOUL_WALKING_SPEED 0.03f;
 
 #define GHOUL_BBOX_WIDTH 15
 #define GHOUL_BBOX_HEIGHT 31
