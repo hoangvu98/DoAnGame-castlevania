@@ -23,6 +23,7 @@
 #include "InputImage.h"
 #include "Resource.h"
 #include "BlackBoard.h"
+#include "Dracula.h"
 using namespace std;
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
@@ -404,6 +405,7 @@ void Update(DWORD dt)
 		}
 		if (simon->GetReset())
 		{
+			CDracula::SetInstance();
 			int live = simon->GetLive();
 			if (live >= 1)
 			{
