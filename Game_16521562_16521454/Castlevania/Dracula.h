@@ -83,5 +83,6 @@ public:
 	~CDracula();
 
 	static CDracula *GetInstance();
+	static void SetInstance();
 };
 

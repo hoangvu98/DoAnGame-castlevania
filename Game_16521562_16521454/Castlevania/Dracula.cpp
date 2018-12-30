@@ -353,3 +353,8 @@ CDracula * CDracula::GetInstance()
 	if (__instance == NULL) __instance = new CDracula();
 	return __instance;
 }
+
+void CDracula::SetInstance()
+{
+	__instance = NULL;
+}
