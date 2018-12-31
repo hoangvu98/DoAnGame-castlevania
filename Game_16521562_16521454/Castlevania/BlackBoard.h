@@ -15,8 +15,11 @@ using namespace std;
 #define TILE_BLACKBOARD_WIDTH	16
 #define TILE_BLACKBOARD_HEIGHT	16
 
-#define ID_HEARTBLACKBOARD		15
-#define ID_RECTANGLE			16
+//#define ID_HEARTBLACKBOARD		15
+//#define ID_RECTANGLE			16
+
+#define ITEM_POSITION_X		140.0f
+#define ITEM_POSITION_Y		15.0f
 
 class CBlackBoard
 {

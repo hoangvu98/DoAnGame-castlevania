@@ -121,6 +121,14 @@ void CBlackBoard::Render()
 	for (int i = 0; i < (int)enemyHP.size(); i++)
 		enemyHP[i].Render(i * 6.0f + 32.0f, 20.0f);
 
+	CItems *item = simon->GetWeapon();
+	if (item != NULL)
+	{
+		CGame *game = CGame::GetInstance();
+		float cx, cy;
+		game->GetCamera(cx, cy);
+		item->animations[0]->Render(cx + ITEM_POSITION_X, ITEM_POSITION_Y - OFFSET);
+	}
 
 	game->GetFont()->DrawTextW(game->GetSpriteHandler(), textheart.c_str(), -1, &rect, DT_EXPANDTABS,
 		D3DCOLOR_XRGB(255, 255, 255));

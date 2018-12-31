@@ -9,26 +9,30 @@
 #include "Dracula.h"
 #include "Hunchback.h"
 
-void CInputImage::LoadDataFromFile(ifstream & in, int & id, int & left, int & top, int & right, int & bottom)
+
+void CInputImage::LoadDataFromFile(ifstream & in, int & id, int & left, int & top, int & right, int & bottom, int & aniID)
 {
 	in >> id;
 	in >> left;
 	in >> top;
 	in >> right;
 	in >> bottom;
+	in >> aniID;
 }
 
-void CInputImage::AddAnimation(ifstream & in, CSprites * sprites, LPANIMATION & ani, LPDIRECT3DTEXTURE9 texture, int n,int time)
+void CInputImage::LoadTexture(ifstream & in, CSprites * sprites, LPANIMATION & ani, LPDIRECT3DTEXTURE9 texture, CAnimations * animations, int & tempaniID, int time)
 {
-	int id, left, top, right, bottom;
-	int i;
-	ani = new CAnimation(time);
-	for (i = 0; i < n; i++)
+	int aniID, id, left, top, right, bottom;
+	LoadDataFromFile(in, id, left, top, right, bottom, aniID);
+	if (tempaniID != aniID)
 	{
-		LoadDataFromFile(in, id, left, top, right, bottom);
-		sprites->Add(id, left, top, right, bottom, texture);
-		ani->Add(id);
+		tempaniID = aniID;
+		ani = new CAnimation(time);
 	}
+
+	sprites->Add(id, left, top, right, bottom, texture);
+	ani->Add(id);
+	animations->Add(aniID, ani);
 }
 
 void CInputImage::LoadObjectFromFile(ifstream & in, LPGAMEOBJECT & object)

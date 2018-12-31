@@ -11,62 +11,83 @@ void CResource::LoadSimon()
 	texture->Add(ID_SIMON, SIMON_TEXTURE_PATH, D3DCOLOR_XRGB(0, 128, 128));
 	LPDIRECT3DTEXTURE9 texsimon = texture->Get(ID_SIMON);
 	ifstream in("Data\\Simon.txt");
-
+	int i;
+	int tempaniID;
 	LPANIMATION ani;
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3);//walk left
-	animations->Add(101, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3);//walk right
-	animations->Add(102, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//idle left
-	animations->Add(201, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//idle right
-	animations->Add(202, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//jump left
-	animations->Add(301, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//jump right
-	animations->Add(302, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, FRAME_TIME_WHIP); //fight left
-	animations->Add(401, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, FRAME_TIME_WHIP); //fight right
-	animations->Add(402, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, FRAME_TIME_WHIP);//knee fight left
-	animations->Add(501, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, FRAME_TIME_WHIP); //knee fight right
-	animations->Add(502, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 2, TIME_STAIR/2); //stair walk up left
-	animations->Add(601, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 2, TIME_STAIR/2); //stair walk up right
-	animations->Add(602, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 2, TIME_STAIR / 2); //stair walk down left
-	animations->Add(603, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 2, TIME_STAIR / 2); //stair walk down right
-	animations->Add(604, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //stair up left
-	animations->Add(701, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //stair up right
-	animations->Add(702, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //stair down left
-	animations->Add(703, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //stair down right
-	animations->Add(704, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, FRAME_TIME_WHIP); //stair fight up left
-	animations->Add(801, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, FRAME_TIME_WHIP); //stair fight up right
-	animations->Add(802, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, FRAME_TIME_WHIP); //stair fight down left
-	animations->Add(803, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, FRAME_TIME_WHIP); //stair fight down right
-	animations->Add(804, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //collusion monster left 
-	animations->Add(901, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//collusion monster right
-	animations->Add(902, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//collusion monster right
-	animations->Add(1000, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//simon die left
-	animations->Add(1001, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//simon die right
-	animations->Add(1002, ani);
+	//CInputImage::AddAnimation(in, sprites, ani, texsimon, 3);//walk left
+	//animations->Add(101, ani);
+	//CInputImage::AddAnimation(in, sprites, ani, texsimon, 3);//walk right
+	//animations->Add(102, ani);
+	//CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//idle left
+	//animations->Add(201, ani);
+	//CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//idle right
+	//animations->Add(202, ani);
+	//CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//jump left
+	//animations->Add(301, ani);
+	//CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//jump right
+	//animations->Add(302, ani);
+
+	for (i = 0; i < 10; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texsimon, animations, tempaniID);
+
+	//CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, FRAME_TIME_WHIP); //fight left
+	//animations->Add(401, ani);
+	//CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, FRAME_TIME_WHIP); //fight right
+	//animations->Add(402, ani);
+	//CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, FRAME_TIME_WHIP);//knee fight left
+	//animations->Add(501, ani);
+	//CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, FRAME_TIME_WHIP); //knee fight right
+	//animations->Add(502, ani);
+	for (i = 0; i < 12; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texsimon, animations, tempaniID, FRAME_TIME_WHIP);
+
+
+	//CInputImage::AddAnimation(in, sprites, ani, texsimon, 2, TIME_STAIR/2); //stair walk up left
+	//animations->Add(601, ani);
+	//CInputImage::AddAnimation(in, sprites, ani, texsimon, 2, TIME_STAIR/2); //stair walk up right
+	//animations->Add(602, ani);
+	//CInputImage::AddAnimation(in, sprites, ani, texsimon, 2, TIME_STAIR / 2); //stair walk down left
+	//animations->Add(603, ani);
+	//CInputImage::AddAnimation(in, sprites, ani, texsimon, 2, TIME_STAIR / 2); //stair walk down right
+	//animations->Add(604, ani);
+	for (i = 0; i < 8; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texsimon, animations, tempaniID, TIME_STAIR / 2);
+
+
+	//CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //stair up left
+	//animations->Add(701, ani);
+	//CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //stair up right
+	//animations->Add(702, ani);
+	//CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //stair down left
+	//animations->Add(703, ani);
+	//CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //stair down right
+	//animations->Add(704, ani);
+	for (i = 0; i < 4; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texsimon, animations, tempaniID);
+
+	for (i = 0; i < 12; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texsimon, animations, tempaniID, FRAME_TIME_WHIP);
+
+	//CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, FRAME_TIME_WHIP); //stair fight up left
+	//animations->Add(801, ani);
+	//CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, FRAME_TIME_WHIP); //stair fight up right
+	//animations->Add(802, ani);
+	//CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, FRAME_TIME_WHIP); //stair fight down left
+	//animations->Add(803, ani);
+	//CInputImage::AddAnimation(in, sprites, ani, texsimon, 3, FRAME_TIME_WHIP); //stair fight down right
+	//animations->Add(804, ani);
+	for (i = 0; i < 5; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texsimon, animations, tempaniID);
+	//CInputImage::AddAnimation(in, sprites, ani, texsimon, 1); //collusion monster left 
+	//animations->Add(901, ani);
+	//CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//collusion monster right
+	//animations->Add(902, ani);
+	//CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//collusion monster right
+	//animations->Add(1000, ani);
+	//CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//simon die left
+	//animations->Add(1001, ani);
+	//CInputImage::AddAnimation(in, sprites, ani, texsimon, 1);//simon die right
+	//animations->Add(1002, ani);
 	in.close();
 }
 
@@ -80,7 +101,9 @@ void CResource::LoadWhip()
 	ifstream in("Data\\Whip.txt");
 	LPANIMATION ani;
 	LPDIRECT3DTEXTURE9 texwhip = texture->Get(ID_WHIP);
-	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, FRAME_TIME_WHIP);
+	int i;
+	int tempaniID = 0;
+	/*CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, FRAME_TIME_WHIP);
 	animations->Add(2000, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, FRAME_TIME_WHIP);
 	animations->Add(2001, ani);
@@ -93,7 +116,10 @@ void CResource::LoadWhip()
 	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, FRAME_TIME_WHIP);
 	animations->Add(2004, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texwhip, 3, FRAME_TIME_WHIP);
-	animations->Add(2005, ani);
+	animations->Add(2005, ani);*/
+	for (i = 0; i < 18; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texwhip, animations, tempaniID, FRAME_TIME_WHIP);
+
 	in.close();
 }
 
@@ -108,9 +134,12 @@ void CResource::LoadPanther()
 	if (!in) DebugOut(L"Can't open file");
 	LPANIMATION ani;
 	LPDIRECT3DTEXTURE9 texpanther = texture->Get(ID_PANTHER);
-	
+	int i;
+	int tempaniID;
 
-	CInputImage::AddAnimation(in, sprites, ani, texpanther, 1);
+	for (i = 0; i < 10; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texpanther, animations, tempaniID);
+	/*CInputImage::AddAnimation(in, sprites, ani, texpanther, 1);
 	animations->Add(4000, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texpanther, 1);
 	animations->Add(4001, ani);
@@ -121,7 +150,7 @@ void CResource::LoadPanther()
 	CInputImage::AddAnimation(in, sprites, ani, texpanther, 1);
 	animations->Add(4004, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texpanther, 1);
-	animations->Add(4005, ani);
+	animations->Add(4005, ani);*/
 	in.close();
 }
 
@@ -131,15 +160,18 @@ void CResource::LoadGhoul()
 	CSprites *sprites = CSprites::GetInstance();
 	CAnimations *animations = CAnimations::GetInstance();
 	texture->Add(ID_GHOUL, GHOUL_TEXTURE_PATH, D3DCOLOR_XRGB(96, 68, 106));
-
+	int i;
+	int tempaniID = 0; 
 
 	ifstream in("Data\\Ghoul.txt");
 	LPANIMATION ani;
 	LPDIRECT3DTEXTURE9 texghoul = texture->Get(ID_GHOUL);
-	CInputImage::AddAnimation(in, sprites, ani, texghoul, 2);//left
-	animations->Add(10000, ani);
-	CInputImage::AddAnimation(in, sprites, ani, texghoul, 2);//right
-	animations->Add(10001, ani);
+	for (i = 0; i < 4; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texghoul, animations, tempaniID);
+	//CInputImage::AddAnimation(in, sprites, ani, texghoul, 2);//left
+	//animations->Add(10000, ani);
+	//CInputImage::AddAnimation(in, sprites, ani, texghoul, 2);//right
+	//animations->Add(10001, ani);
 	in.close();
 }
 
@@ -152,11 +184,17 @@ void CResource::LoadDagger()
 	LPANIMATION ani = new CAnimation(100);
 	LPDIRECT3DTEXTURE9 texitem;
 	texitem = texture->Get(ID_ITEM);
+
+	int i;
+	int tempaniID = 0;
+
 	ifstream in("Data\\Dagger.txt");
-	CInputImage::AddAnimation(in, sprites, ani, texitem, 1);
+	for (i = 0; i < 2; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texitem, animations, tempaniID);
+	/*CInputImage::AddAnimation(in, sprites, ani, texitem, 1);
 	animations->Add(6000, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texitem, 1);
-	animations->Add(6001, ani);
+	animations->Add(6001, ani);*/
 	in.close();
 }
 
@@ -169,11 +207,17 @@ void CResource::LoadHeart()
 	LPANIMATION ani = new CAnimation(100);
 	LPDIRECT3DTEXTURE9 texitem;
 	texitem = texture->Get(ID_ITEM);
+	int i;
+	int tempaniID;
+
 	ifstream in("Data\\Heart.txt");
-	CInputImage::AddAnimation(in, sprites, ani, texitem, 1);
+
+	for (i = 0; i < 2; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texitem, animations, tempaniID);
+	/*CInputImage::AddAnimation(in, sprites, ani, texitem, 1);
 	animations->Add(7000, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texitem, 1);
-	animations->Add(8000, ani);
+	animations->Add(8000, ani);*/
 	in.close();
 }
 
@@ -186,9 +230,12 @@ void CResource::LoadWhipUpdate()
 	LPANIMATION ani = new CAnimation(100);
 	LPDIRECT3DTEXTURE9 texitem;
 	texitem = texture->Get(ID_ITEM);
+	int tempaniID;
 	ifstream in("Data\\WhipUpdate.txt");
-	CInputImage::AddAnimation(in, sprites, ani, texitem, 1);
-	animations->Add(9000, ani);
+	CInputImage::LoadTexture(in, sprites, ani, texitem, animations, tempaniID);
+
+	/*CInputImage::AddAnimation(in, sprites, ani, texitem, 1);
+	animations->Add(9000, ani);*/
 	in.close();
 }
 
@@ -202,10 +249,17 @@ void CResource::LoadCandle()
 	LPDIRECT3DTEXTURE9 texcandle;
 	texcandle = texture->Get(ID_CANDLE);
 	ifstream in("Data\\Candle.txt");
-	CInputImage::AddAnimation(in, sprites, ani, texcandle, 2);
+
+	int i;
+	int tempaniID = 0;
+
+	for (i = 0; i < 4; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texcandle, animations, tempaniID);
+
+	/*CInputImage::AddAnimation(in, sprites, ani, texcandle, 2);
 	animations->Add(11111, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texcandle, 2);
-	animations->Add(11112, ani);
+	animations->Add(11112, ani);*/
 	in.close();
 }
 void CResource::LoadHitEffect()
@@ -220,10 +274,15 @@ void CResource::LoadHitEffect()
 	LPANIMATION ani;
 	LPDIRECT3DTEXTURE9 texhiteffect = texture->Get(ID_HITEFFECT);
 	ani = new CAnimation(50);
-	CInputImage::AddAnimation(in, sprites, ani, texhiteffect, 1);
+	int i;
+	int tempaniID = 0;
+
+	for (i = 0; i < 4; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texhiteffect, animations, tempaniID);
+	/*CInputImage::AddAnimation(in, sprites, ani, texhiteffect, 1);
 	animations->Add(5000, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texhiteffect, 3);
-	animations->Add(5001, ani);
+	animations->Add(5001, ani);*/
 	in.close();
 }
 
@@ -239,14 +298,18 @@ void CResource::LoadDoor()
 	LPANIMATION ani;
 	LPDIRECT3DTEXTURE9 texdoor = texture->Get(ID_DOOR);
 	ani = new CAnimation(100);
-	CInputImage::AddAnimation(in, sprites, ani, texdoor, 1);
+	int i;
+	int tempaniID = 0;
+	for (i = 0; i < 3; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texdoor, animations, tempaniID);
+	/*CInputImage::AddAnimation(in, sprites, ani, texdoor, 1);
 	animations->Add(11000, ani);
 	ani = new CAnimation(1000);
 	CInputImage::AddAnimation(in, sprites, ani, texdoor, 1);
 	animations->Add(11001, ani);
 	ani = new CAnimation(100);
 	CInputImage::AddAnimation(in, sprites, ani, texdoor, 1);
-	animations->Add(11002, ani);
+	animations->Add(11002, ani);*/
 	in.close();
 }
 
@@ -262,14 +325,19 @@ void CResource::LoadBat()
 	LPANIMATION ani;
 	LPDIRECT3DTEXTURE9 texbat = texture->Get(ID_BAT);
 	ani = new CAnimation(100);
-	CInputImage::AddAnimation(in, sprites, ani, texbat, 1);
+	int i;
+	int tempaniID = 0;
+	for (i = 0; i < 7; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texbat, animations, tempaniID);
+
+	/*CInputImage::AddAnimation(in, sprites, ani, texbat, 1);
 	animations->Add(12000, ani);
 	ani = new CAnimation(100);
 	CInputImage::AddAnimation(in, sprites, ani, texbat, 3);
 	animations->Add(12001, ani);
 	ani = new CAnimation(100);
 	CInputImage::AddAnimation(in, sprites, ani, texbat, 3);
-	animations->Add(12002, ani);
+	animations->Add(12002, ani);*/
 	in.close();
 }
 
@@ -283,12 +351,18 @@ void CResource::LoadMoneyBag()
 	LPDIRECT3DTEXTURE9 texitem;
 	texitem = texture->Get(ID_ITEM);
 	ifstream in("Data\\MoneyBag.txt");
-	CInputImage::AddAnimation(in, sprites, ani, texitem, 1);
+
+	int i;
+	int tempaniID = 0;
+	for (i = 0; i < 3; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texitem, animations, tempaniID);
+
+	/*CInputImage::AddAnimation(in, sprites, ani, texitem, 1);
 	animations->Add(13001, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texitem, 1);
 	animations->Add(13002, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texitem, 1);
-	animations->Add(13003, ani);
+	animations->Add(13003, ani);*/
 	in.close();
 }
 
@@ -301,9 +375,13 @@ void CResource::LoadAxe()
 	LPANIMATION ani = new CAnimation(100);
 	LPDIRECT3DTEXTURE9 texitem;
 	texitem = texture->Get(ID_ITEM);
-	ifstream in("Data\\Axe.txt");
-	CInputImage::AddAnimation(in, sprites, ani, texitem, 1);
-	animations->Add(14001, ani);
+	ifstream in("Data\\Axe_item.txt");
+
+	int tempaniID = 0;
+	CInputImage::LoadTexture(in, sprites, ani, texitem, animations, tempaniID);
+
+	/*CInputImage::AddAnimation(in, sprites, ani, texitem, 1);
+	animations->Add(14001, ani);*/
 	in.close();
 }
 
@@ -317,8 +395,12 @@ void CResource::LoadAxe_animation()
 	LPDIRECT3DTEXTURE9 texitem;
 	texitem = texture->Get(ID_ITEM);
 	ifstream in("Data\\Axe.txt");
-	CInputImage::AddAnimation(in, sprites, ani, texitem, 4);
-	animations->Add(14002, ani);
+	int i;
+	int tempaniID;
+	for (i = 0; i < 4; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texitem, animations, tempaniID);
+	/*CInputImage::AddAnimation(in, sprites, ani, texitem, 4);
+	animations->Add(14002, ani);*/
 	in.close();
 }
 
@@ -333,15 +415,21 @@ void CResource::LoadBoomerang()
 
 	LPANIMATION ani;
 	ani = new CAnimation(100);
+	int i;
+	int tempaniID;
 
-	ifstream in("Data\\Boomerang.txt");
-	CInputImage::AddAnimation(in, sprites, ani, texboomerang, 1);
-	animations->Add(15000, ani);
+	ifstream in("Data\\Boomerang_item.txt");
+	CInputImage::LoadTexture(in, sprites, ani, texboomerang, animations, tempaniID);
+	/*CInputImage::AddAnimation(in, sprites, ani, texboomerang, 1);
+	animations->Add(15000, ani);*/
 	in.close();
+
 	in.open("Data\\Boomerang.txt");
 	ani = new CAnimation(100);
-	CInputImage::AddAnimation(in, sprites, ani, texboomerang, 3);
-	animations->Add(15001, ani);
+	for (i = 0; i < 3; i++)
+	CInputImage::LoadTexture(in, sprites, ani, texboomerang, animations, tempaniID);
+	/*CInputImage::AddAnimation(in, sprites, ani, texboomerang, 3);
+	animations->Add(15001, ani);*/
 	in.close();
 }
 
@@ -358,13 +446,18 @@ void CResource::LoadHollyWater()
 	ani = new CAnimation(100);
 
 	ifstream in("Data\\Holly_water.txt");
-	CInputImage::AddAnimation(in, sprites, ani, texhollywater, 1);
+	int tempaniID;
+	int i;
+	for (i = 0; i < 4; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texhollywater, animations, tempaniID);
+
+	/*CInputImage::AddAnimation(in, sprites, ani, texhollywater, 1);
 	animations->Add(16000, ani);
 	ani = new CAnimation(100);
 	CInputImage::AddAnimation(in, sprites, ani, texhollywater, 1);
 	animations->Add(16001, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texhollywater, 2);
-	animations->Add(16002, ani);
+	animations->Add(16002, ani);*/
 	in.close();
 }
 
@@ -383,12 +476,19 @@ void CResource::LoadBrick()
 	ani = new CAnimation(100);
 
 	ifstream in("Data\\Brick.txt");
-	CInputImage::AddAnimation(in, sprites, ani, texbrick, 1);
+
+	int i;
+	int tempaniID;
+
+	for (i = 0; i < 2; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texbrick, animations, tempaniID);
+
+	/*CInputImage::AddAnimation(in, sprites, ani, texbrick, 1);
 	animations->Add(17000, ani);
 
 	ani = new CAnimation(100);
 	CInputImage::AddAnimation(in, sprites, ani, texbrick, 1);
-	animations->Add(17001, ani);
+	animations->Add(17001, ani);*/
 	in.close();
 }
 
@@ -407,7 +507,12 @@ void CResource::LoadFishman()
 	ani = new CAnimation(100);
 
 	ifstream in("Data\\Fishman.txt");
-	CInputImage::AddAnimation(in, sprites, ani, texfishman, 1);
+
+	int i;
+	int tempaniID = 0;
+	for (i = 0; i < 8; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texfishman, animations, tempaniID);
+	/*CInputImage::AddAnimation(in, sprites, ani, texfishman, 1);
 	animations->Add(18000, ani);
 
 	ani = new CAnimation(100);
@@ -428,7 +533,7 @@ void CResource::LoadFishman()
 
 	ani = new CAnimation(100);
 	CInputImage::AddAnimation(in, sprites, ani, texfishman, 2);
-	animations->Add(18005, ani);
+	animations->Add(18005, ani);*/
 
 	in.close();
 }
@@ -448,12 +553,16 @@ void CResource::LoadBullet()
 	ani = new CAnimation(100);
 
 	ifstream in("Data\\Bullet.txt");
-	CInputImage::AddAnimation(in, sprites, ani, texbullet, 1);
+	int i;
+	int tempaniID;
+	for (i = 0; i < 2; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texbullet, animations, tempaniID);
+	/*CInputImage::AddAnimation(in, sprites, ani, texbullet, 1);
 	animations->Add(19000, ani);
 
 	ani = new CAnimation(100);
 	CInputImage::AddAnimation(in, sprites, ani, texbullet, 1);
-	animations->Add(19001, ani);
+	animations->Add(19001, ani);*/
 	in.close();
 }
 
@@ -472,12 +581,17 @@ void CResource::LoadBossBat()
 	ani = new CAnimation(100);
 
 	ifstream in("Data\\BossBat.txt");
-	CInputImage::AddAnimation(in, sprites, ani, texbossbat, 1,250);
+
+	int i;
+	int tempaniID = 0;
+	for (i = 0; i < 3; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texbossbat, animations, tempaniID, 250);
+	/*CInputImage::AddAnimation(in, sprites, ani, texbossbat, 1,250);
 	animations->Add(20000, ani);
 
 	ani = new CAnimation(100);
 	CInputImage::AddAnimation(in, sprites, ani, texbossbat, 2,250);
-	animations->Add(20001, ani);
+	animations->Add(20001, ani);*/
 	in.close();
 }
 
@@ -489,15 +603,18 @@ void CResource::LoadBreakingWall()
 	CSprites *sprites = CSprites::GetInstance();
 	CAnimations *animations = CAnimations::GetInstance();
 
-	LPDIRECT3DTEXTURE9 texbullet;
-	texbullet = textures->Get(ID_BREAKINGWALL);
+	LPDIRECT3DTEXTURE9 texbreakingwall;
+	texbreakingwall = textures->Get(ID_BREAKINGWALL);
 
 	LPANIMATION ani;
 	ani = new CAnimation(100);
 
 	ifstream in("Data\\BreakingWall.txt");
-	CInputImage::AddAnimation(in, sprites, ani, texbullet, 1);
-	animations->Add(21000, ani);
+	int tempaniID = 0;
+	CInputImage::LoadTexture(in, sprites, ani, texbreakingwall, animations, tempaniID);
+
+	/*CInputImage::AddAnimation(in, sprites, ani, texbullet, 1);
+	animations->Add(21000, ani);*/
 }
 void CResource::LoadCastleGate()
 {
@@ -507,15 +624,18 @@ void CResource::LoadCastleGate()
 	CSprites *sprites = CSprites::GetInstance();
 	CAnimations *animations = CAnimations::GetInstance();
 
-	LPDIRECT3DTEXTURE9 texbullet;
-	texbullet = textures->Get(ID_CASTLEGATE);
+	LPDIRECT3DTEXTURE9 texcastlegate;
+	texcastlegate = textures->Get(ID_CASTLEGATE);
 
 	LPANIMATION ani;
 	ani = new CAnimation(100);
 
 	ifstream in("Data\\Castle_Gate.txt");
-	CInputImage::AddAnimation(in, sprites, ani, texbullet, 1);
-	animations->Add(21001, ani);
+	int tempaniID = 0;
+	CInputImage::LoadTexture(in, sprites, ani, texcastlegate, animations, tempaniID);
+	in.close();
+	/*CInputImage::AddAnimation(in, sprites, ani, texbullet, 1);
+	animations->Add(21001, ani);*/
 }
 
 void CResource::LoadSkeleton()
@@ -533,11 +653,16 @@ void CResource::LoadSkeleton()
 	ani = new CAnimation(100);
 
 	ifstream in("Data\\Skeleton.txt");
-	CInputImage::AddAnimation(in, sprites, ani, texskeleton, 2);
+	int tempaniID = 0;
+	int i;
+	for (i = 0; i < 4; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texskeleton, animations, tempaniID);
+	
+	/*CInputImage::AddAnimation(in, sprites, ani, texskeleton, 2);
 	animations->Add(220011, ani);
 
 	CInputImage::AddAnimation(in, sprites, ani, texskeleton, 2);
-	animations->Add(220012, ani);
+	animations->Add(220012, ani);*/
 	in.close();
 }
 
@@ -556,11 +681,17 @@ void CResource::LoadBone()
 	ani = new CAnimation(100);
 
 	ifstream in("Data\\Bone.txt");
-	CInputImage::AddAnimation(in, sprites, ani, texbone, 2);
+
+	int tempaniID = 0;
+	int i;
+	for (i = 0; i < 4; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texbone, animations, tempaniID);
+
+	/*CInputImage::AddAnimation(in, sprites, ani, texbone, 2);
 	animations->Add(220001, ani);
 
 	CInputImage::AddAnimation(in, sprites, ani, texbone, 2);
-	animations->Add(220002, ani);
+	animations->Add(220002, ani);*/
 	in.close();
 }
 
@@ -579,14 +710,18 @@ void CResource::LoadEagle()
 	ani = new CAnimation(100);
 
 	ifstream in("Data\\Eagle.txt");
-	CInputImage::AddAnimation(in, sprites, ani, texeagle, 2,300);
+	int tempaniID = 0;
+	int i;
+	for (i = 0; i < 6; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texeagle, animations, tempaniID);
+	/*CInputImage::AddAnimation(in, sprites, ani, texeagle, 2,300);
 	animations->Add(220003, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texeagle, 2, 300);
 	animations->Add(220004, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texeagle, 1);
 	animations->Add(220005, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texeagle, 1);
-	animations->Add(220006, ani);
+	animations->Add(220006, ani);*/
 	in.close();
 }
 
@@ -605,14 +740,18 @@ void CResource::LoadHunchback()
 	ani = new CAnimation(100);
 
 	ifstream in("Data\\Hunchback.txt");
-	CInputImage::AddAnimation(in, sprites, ani, texhunchback, 1);
+	int tempaniID = 0;
+	int i;
+	for (i = 0; i < 4; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texhunchback, animations, tempaniID);
+	/*CInputImage::AddAnimation(in, sprites, ani, texhunchback, 1);
 	animations->Add(230001, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texhunchback, 1);
 	animations->Add(230002, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texhunchback, 1);
 	animations->Add(230003, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texhunchback, 1);
-	animations->Add(230004, ani);
+	animations->Add(230004, ani);*/
 	in.close();
 }
 
@@ -631,7 +770,11 @@ void CResource::LoadDracula()
 	ani = new CAnimation(100);
 
 	ifstream in("Data\\BodyDracula.txt");
-	CInputImage::AddAnimation(in, sprites, ani, texdracula, 1);
+	int tempaniID = 0;
+	int i;
+	for (i = 0; i < 4; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texdracula, animations, tempaniID);
+	/*CInputImage::AddAnimation(in, sprites, ani, texdracula, 1);
 	animations->Add(240001, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texdracula, 1);
 	animations->Add(240002, ani);
@@ -640,14 +783,16 @@ void CResource::LoadDracula()
 	CInputImage::AddAnimation(in, sprites, ani, texdracula, 1);
 	animations->Add(240004, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texdracula, 1);
-	animations->Add(240005, ani);
+	animations->Add(240005, ani);*/
 	in.close();
 
 	in.open("Data\\HeadDracula.txt");
-	CInputImage::AddAnimation(in, sprites, ani, texdracula, 1);
+	for (i = 0; i < 2; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texdracula, animations, tempaniID);
+	/*CInputImage::AddAnimation(in, sprites, ani, texdracula, 1);
 	animations->Add(240011, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texdracula, 1);
-	animations->Add(240012, ani);
+	animations->Add(240012, ani);*/
 	in.close();
 }
 
@@ -665,7 +810,11 @@ void CResource::LoadSpiritDracula()
 	ani = new CAnimation(100);
 
 	ifstream in("Data\\SpiritDracula.txt");
-	CInputImage::AddAnimation(in, sprites, ani, texspiritdracula, 1);
+	int tempaniID = 0;
+	int i;
+	for (i = 0; i < 10; i++)
+		CInputImage::LoadTexture(in, sprites, ani, texspiritdracula, animations, tempaniID);
+	/*CInputImage::AddAnimation(in, sprites, ani, texspiritdracula, 1);
 	animations->Add(250001, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texspiritdracula, 1);
 	animations->Add(250002, ani);
@@ -684,7 +833,7 @@ void CResource::LoadSpiritDracula()
 	CInputImage::AddAnimation(in, sprites, ani, texspiritdracula, 1);
 	animations->Add(250009, ani);
 	CInputImage::AddAnimation(in, sprites, ani, texspiritdracula, 1);
-	animations->Add(250010, ani);
+	animations->Add(250010, ani);*/
 	in.close();
 }
 
@@ -703,8 +852,9 @@ void CResource::LoadOtherStuff()
 	ani = new CAnimation(100);
 
 	ifstream in("Data\\Other_stuff.txt");
-	CInputImage::AddAnimation(in, sprites, ani, texspiritdracula, 2);
-	animations->Add(260000, ani);
+	int tempaniID = 0;
+	CInputImage::LoadTexture(in, sprites, ani, texspiritdracula, animations, tempaniID);
+	/*animations->Add(260000, ani);*/
 	in.close();
 }
 
@@ -717,6 +867,8 @@ void CResource::LoadPotRoast()
 	LPANIMATION ani = new CAnimation(100);
 	ifstream in("Data\\PotRoast.txt");
 	LPDIRECT3DTEXTURE9 texpotroast = textures->Get(ID_ITEM);
-	CInputImage::AddAnimation(in, sprites, ani, texpotroast, 1);
-	animations->Add(270000, ani);
+	int tempaniID = 0;
+	CInputImage::LoadTexture(in, sprites, ani, texpotroast, animations, tempaniID);
+	//animations->Add(270000, ani);
+	in.close();
 }

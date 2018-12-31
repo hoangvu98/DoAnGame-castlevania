@@ -23,10 +23,11 @@ public:
 	static void LoadDataFromFile(ifstream &in,
 		int &id,
 		int &left, int &top,
-		int &right, int &bottom);
-	static void AddAnimation(ifstream &in, CSprites *sprites,
-		LPANIMATION &ani, LPDIRECT3DTEXTURE9 texture,
-		int n,int time=100);
+		int &right, int &bottom,
+		int &aniID);
+	static void LoadTexture(ifstream &in, CSprites *sprites,
+		LPANIMATION &ani, LPDIRECT3DTEXTURE9 texture, CAnimations * animations,
+		int &tempaniID, int time = 100);
 
 	static void LoadObjectFromFile(ifstream &in, LPGAMEOBJECT &object);
 	static void LoadDoorFromFile(ifstream &in, CDoor *&door);
