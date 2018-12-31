@@ -15,11 +15,11 @@
 
 //#define ID_MAP_LEVEL_6	20
 
-#define SCENE_1		1
-#define SCENE_2		2
-#define SCENE_3		3
-#define SCENE_4		4
-#define SCENE_5		5
+#define SCENE_6_1		6
+#define SCENE_6_2		7
+#define SCENE_6_3		8
+#define SCENE_6_4		9
+#define SCENE_6_5		10
 
 #define MIN_MAP_6_1 0
 #define MAX_MAP_6_1 1550

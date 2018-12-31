@@ -29,7 +29,7 @@ void CClockTowerLevel::LoadMap()
 
 	switch (scene)
 	{
-	case SCENE_1:
+	case SCENE_6_1:
 		simon->SetStage(16);
 		int column, row;
 
@@ -93,7 +93,7 @@ void CClockTowerLevel::LoadMap()
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);*/
 		break;
-	case SCENE_2:
+	case SCENE_6_2:
 		simon->SetStage(17);
 		tilemap->GetSize(width, height);
 
@@ -156,7 +156,7 @@ void CClockTowerLevel::LoadMap()
 		skeleton->SetState(SKELETON_STATE_WALKING_RIGHT);
 		cells->InitCells(skeleton);*/
 		break;
-	case SCENE_3:
+	case SCENE_6_3:
 		simon->SetStage(17);
 		tilemap->GetSize(width, height);
 
@@ -234,7 +234,7 @@ void CClockTowerLevel::LoadMap()
 		cells->InitCells(candle);*/
 
 		break;
-	case SCENE_4:
+	case SCENE_6_4:
 		simon->SetStage(18);
 		tilemap->GetSize(width, height);
 
@@ -246,7 +246,7 @@ void CClockTowerLevel::LoadMap()
 		dracula = CDracula::GetInstance();
 		dracula->SetHealth(16);
 		break;
-	case SCENE_5:
+	case SCENE_6_5:
 		simon->SetStage(18);
 		tilemap->GetSize(width, height);
 
@@ -313,7 +313,7 @@ void CClockTowerLevel::LoadObject()
 
 	switch (scene)
 	{
-	case SCENE_1:
+	case SCENE_6_1:
 		textures->Add(ID_MAP_LEVEL_6, LEVEL6_STAGE16_PATH, D3DCOLOR_XRGB(255, 255, 255));
 		texture_map = textures->Get(ID_MAP_LEVEL_6);
 		tilemap->LoadTileMap(STAGE_16_MAP_DATA, texture_map);
@@ -442,7 +442,7 @@ void CClockTowerLevel::LoadObject()
 		door->SetScene(2);
 		cellsobject->InitCells(door);*/
 		break;
-	case SCENE_2:
+	case SCENE_6_2:
 		textures->Add(ID_MAP_LEVEL_6, LEVEL6_STAGE17A_PATH, D3DCOLOR_XRGB(255, 255, 255));
 		texture_map = textures->Get(ID_MAP_LEVEL_6);
 		tilemap->LoadTileMap(STAGE_17A_MAP_DATA, texture_map);
@@ -662,7 +662,7 @@ void CClockTowerLevel::LoadObject()
 		//hobj->Setnx(-1);
 		//cellsobject->InitCells(hobj);
 		break;
-	case SCENE_3:
+	case SCENE_6_3:
 		textures->Add(ID_MAP_LEVEL_6, LEVEL6_STAGE17B_PATH, D3DCOLOR_XRGB(255, 255, 255));
 		texture_map = textures->Get(ID_MAP_LEVEL_6);
 		tilemap->LoadTileMap(STAGE_17B_MAP_DATA, texture_map);
@@ -918,7 +918,7 @@ void CClockTowerLevel::LoadObject()
 		//hobj->nx = -1;
 		//cellsobject->InitCells(hobj);
 		break;
-	case SCENE_4:
+	case SCENE_6_4:
 		textures->Add(ID_MAP_LEVEL_6, LEVEL6_STAGE18A_PATH, D3DCOLOR_XRGB(255, 255, 255));
 		texture_map = textures->Get(ID_MAP_LEVEL_6);
 		tilemap->LoadTileMap(STAGE_18A_MAP_DATA, texture_map);
@@ -974,7 +974,7 @@ void CClockTowerLevel::LoadObject()
 		//hobj->nx = -1;
 		//cellsobject->InitCells(hobj);
 		break;
-	case SCENE_5:
+	case SCENE_6_5:
 		textures->Add(ID_MAP_LEVEL_6, LEVEL6_STAGE18B_PATH, D3DCOLOR_XRGB(255, 255, 255));
 		texture_map = textures->Get(ID_MAP_LEVEL_6);
 		tilemap->LoadTileMap(STAGE_18B_MAP_DATA, texture_map);
@@ -1087,27 +1087,27 @@ CClockTowerLevel * CClockTowerLevel::GetInstance()
 
 void CClockTowerLevel::GetSizeMap(float & min, float & max)
 {
-	if (scene == SCENE_1)
+	if (scene == SCENE_6_1)
 	{
 		min = MIN_MAP_6_1;
 		max = MAX_MAP_6_1;
 	}
-	else if (scene == SCENE_2)
+	else if (scene == SCENE_6_2)
 	{
 		min = MIN_MAP_6_2;
 		max = MAX_MAP_6_2;
 	}
-	else if (scene == SCENE_3)
+	else if (scene == SCENE_6_3)
 	{
 		min = MIN_MAP_6_3;
 		max = MAX_MAP_6_3;
 	}
-	else if (scene == SCENE_4)
+	else if (scene == SCENE_6_4)
 	{
 		min = MIN_MAP_6_4;
 		max = MAX_MAP_6_4;
 	}
-	else if (scene == SCENE_5)
+	else if (scene == SCENE_6_5)
 	{
 		min = MIN_MAP_6_5;
 		max = MAX_MAP_6_5;
@@ -1115,22 +1115,22 @@ void CClockTowerLevel::GetSizeMap(float & min, float & max)
 }
 void CClockTowerLevel::NextScece(float &x, float &y)
 {
-	if (scene == SCENE_1)
+	if (scene == SCENE_6_1)
 	{
 		x = 1462.0f;
 		y = 112.0f;
 	}
-	else if (scene == SCENE_2)
+	else if (scene == SCENE_6_2)
 	{
 		x = 727.0f;
 		y = 41.0f;
 	}
-	else if (scene == SCENE_4)
+	else if (scene == SCENE_6_4)
 	{
 		x = 232.0f;
 		y = 50.0f;
 	}
-	else if (SCENE_5)
+	else if (SCENE_6_5)
 	{
 		x = 0;
 		y = 0;
@@ -1139,16 +1139,16 @@ void CClockTowerLevel::NextScece(float &x, float &y)
 
 void CClockTowerLevel::ResetScene()
 {
-	if (scene == SCENE_1)
+	if (scene == SCENE_6_1)
 	{
-		scene = SCENE_1;
+		scene = SCENE_6_1;
 	}
-	else if (scene == SCENE_2 || scene == SCENE_3)
+	else if (scene == SCENE_6_2 || scene == SCENE_6_3)
 	{
-		scene = SCENE_2;
+		scene = SCENE_6_2;
 	}
-	else if (scene == SCENE_4 || scene == SCENE_5)
+	else if (scene == SCENE_6_4 || scene == SCENE_6_5)
 	{
-		scene = SCENE_4;
+		scene = SCENE_6_4;
 	}
 }

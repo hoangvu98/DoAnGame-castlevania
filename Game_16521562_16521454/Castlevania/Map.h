@@ -49,4 +49,5 @@ public:
 	CCells* GetCell() { return cells; }
 	void SetCell(CCells *cells) {this->cells= cells;}
 	CTileMap* GetTileMap() { return tilemap; }
+	void SetPrevScene(int prev_scene) { this->prev_scene = prev_scene; }
 };
