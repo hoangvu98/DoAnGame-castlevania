@@ -71,8 +71,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				ResetFight();
 			}
 		}
-		if (t < 2000)
-			weapon->Update(dt, coObject);
+		/*if (t < 2000)
+			weapon->Update(dt, coObject);*/
 		coEventsResult.clear();
 		FilterCollisionImmediately(coEvents, coEventsResult);
 		bool test = true;
@@ -794,9 +794,9 @@ void CSimon::Render()
 		else
 			animations[ani]->Render(x, y, color);
 	}
-	DWORD t = GetTickCount() - FrameWeapon;
+	/*DWORD t = GetTickCount() - FrameWeapon;
 	if (t< 2000)
-		weapon->Render();
+		weapon->Render();*/
 	RenderBoundingBox(100);
 }
 
@@ -1190,7 +1190,7 @@ CSimon::CSimon()
 	mx = 0;
 	whip = new CWhip();
 	whip->SetState(WHITE_WHIP);
-	map = CEntranceLevel::GetInstance();
+	map = CClockTowerLevel::GetInstance();
 	IsChangeMap = false;
 }
 

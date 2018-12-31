@@ -89,6 +89,9 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 			}
+			DWORD now = GetTickCount();
+			if(now-time_delete>450)
+				SetState(ITEM_STATE_DELETE);
 		}
 		x += dx;
 		y += dy;
@@ -122,9 +125,11 @@ void CDagger::SetState(int state)
 	{
 	case ITEM_STATE_WEAPON_LEFT:
 		vx = -SPEED_DAGGER;
+		time_delete = GetTickCount();
 		break;
 	case ITEM_STATE_WEAPON_RIGHT:
 		vx = SPEED_DAGGER;
+		time_delete = GetTickCount();
 	}
 }
 void CHeart::Render()
@@ -210,7 +215,6 @@ void CAxe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		CGameObject::Update(dt);
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
-		CGameObject::Update(dt);
 		float min_tx, min_ty, nx = 0, ny;
 		coEventsResult.clear();
 		CalcPotentialCollisions(coObjects, coEvents);
@@ -236,6 +240,8 @@ void CAxe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 		}
+		if (y >= 180.0f)
+			SetState(ITEM_STATE_DELETE);
 		vy += AXE_GRAVITY * dt;
 		x += dx;
 		y += dy;
@@ -284,6 +290,7 @@ CBoomerang::CBoomerang()
 	damage = 1;
 	AddAnimation(15000);
 	AddAnimation(15001);
+	IsDelete = false;
 }
 
 void CBoomerang::Render()
@@ -313,9 +320,9 @@ void CBoomerang::SetState(int state)
 		break;
 	case ITEM_STATE_WEAPON_RIGHT:
 		vx = BOOMERANG_SPEED;
-		/*case BOOMERANG_STATE_DISAPPEAR:
-
-			break;*/
+	case ITEM_STATE_DELETE:
+		IsDelete = false;
+		break;
 	}
 }
 
@@ -344,11 +351,29 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				SetState(ITEM_STATE_WEAPON_RIGHT);
 				fly = true;
+				if(IsDelete)
+					SetState(ITEM_STATE_DELETE);
+				else
+				{
+					if (IsDelete)
+						IsDelete = false;
+					else
+						IsDelete = true;
+				}
 			}
 			if (x >= right_distance || x >= cx+ VIEWPORT_WIDTH)
 			{
 				SetState(ITEM_STATE_WEAPON_LEFT);
 				fly = true;
+				if (IsDelete)
+					SetState(ITEM_STATE_DELETE);
+				else
+				{
+					if (IsDelete)
+						IsDelete = false;
+					else
+						IsDelete = true;
+				}
 			}
 			vector<LPCOLLISIONEVENT> coEvents;
 			vector<LPCOLLISIONEVENT> coEventsResult;
@@ -356,7 +381,8 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			CalcPotentialCollisions(coObjects, coEvents);
 			if (coEvents.size() != 0)
 			{
-				FilterCollisionImmediately(coEvents, coEventsResult);
+				float min_tx, min_ty, nx = 0, ny;
+				FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 				for (UINT i = 0; i < coEventsResult.size(); i++)
 				{
 					LPCOLLISIONEVENT e = coEventsResult[i];

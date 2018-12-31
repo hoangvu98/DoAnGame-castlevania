@@ -111,6 +111,11 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 					float temp_x, temp_y;
 					simon->GetPosition(temp_x, temp_y);
 					simon->GetWeapon()->SetPosition(temp_x, temp_y + 5);
+					
+					CCells* cell = simon->map->GetCell();
+					cell->InitCells(simon->GetWeapon());
+					simon->map->SetCell(cell);
+
 					if (simon->state == SIMON_STATE_STAIR_UP || simon->state == SIMON_STATE_STAIR_UP_IDLE)
 						simon->SetState(SIMON_STATE_STAIR_UP_IDLE);
 					else if (simon->state == SIMON_STATE_STAIR_DOWN || simon->state == SIMON_STATE_STAIR_DOWN_IDLE)
@@ -342,13 +347,13 @@ void LoadResources()
 	//simon->SetPosition(40.0f, 10.0f);//map 3
 	//simon->SetPosition(180.0f, 30.0f);//map 4
 	////simon->SetPosition(190.0f, 30.0f);//map 5
-	//simon->SetPosition(448.0f, 76.0f);//map 5
+	simon->SetPosition(448.0f, 76.0f);//map 5
 	//simon->SetPosition(190.0f, 30.0f   /*719.0f, 45.0f*/);
 	//simon->SetPosition(49.0f, 104.0f);
-	simon->SetPosition(1555.0f, 30.0f);
+	//simon->SetPosition(1555.0f, 30.0f);
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
-	simon->map->SetScene(SCENE_3);
+	simon->map->SetScene(SCENE_5);
 	screen = 2;
 	simon->map->LoadObject();
 	simon->map->LoadMap();

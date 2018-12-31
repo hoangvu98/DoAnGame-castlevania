@@ -30,6 +30,7 @@ public:
 class CDagger : public CItems
 {
 	int damage = 1;
+	DWORD time_delete;
 public:
 	CDagger() :CItems() { AddAnimation(6000); AddAnimation(6001); }
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
@@ -150,6 +151,7 @@ class CBoomerang : public CItems
 	bool fly;
 	bool IsSetDistance;
 	float left_distance, right_distance;
+	bool IsDelete;
 public:
 	CBoomerang();
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);

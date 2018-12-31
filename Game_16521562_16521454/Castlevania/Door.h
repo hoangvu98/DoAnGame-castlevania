@@ -23,7 +23,7 @@ class CDoor :
 	bool IsAuto;
 	DWORD time_open;
 public:
-	int size=0;
+	float size=0;
 	bool IsGo = true;
 	float cx, cy;
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);

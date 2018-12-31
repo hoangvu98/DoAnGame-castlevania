@@ -255,16 +255,16 @@ void CClockTowerLevel::LoadMap()
 
 		cells = new CCells(column, row);
 
-		in.open("Data\\ClockTowerLevel_Scene5.txt");
+		/*in.open("Data\\ClockTowerLevel_Scene5.txt");
 		for (i = 0; i < 9; i++)
 		{
 			CInputImage::LoadObjectFromFile(in, object);
 			cells->InitCells(object);
 		}
 
-		in.close();
+		in.close();*/
 
-		/*candle = new CCandle(SMALL_CANDLE,HOLLYWATER);
+		candle = new CCandle(SMALL_CANDLE,DAGGER);
 		candle->SetPosition(477.0f, 50.0f);
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
@@ -292,7 +292,7 @@ void CClockTowerLevel::LoadMap()
 			candle->SetState(CANDLE_STATE_NORMAL);
 			cells->InitCells(candle);
 		}
-*/
+
 
 		/*dracula = CDracula::GetInstance();
 		dracula->Setnx(-1);

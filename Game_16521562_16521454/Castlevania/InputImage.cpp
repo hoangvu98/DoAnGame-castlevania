@@ -68,7 +68,7 @@ void CInputImage::LoadObjectFromFile(ifstream & in, LPGAMEOBJECT & object)
 		case HIDENOBJECT_STATE_STAIR_UP:
 		case HIDENOBJECT_STATE_STAIR_UP_DOWN:
 			object = new CHidenObject(width, height, stair_x, stair_y);
-			object->Setnx(nx);
+			object->Setnx((int)nx);
 			break;
 		default:
 			object = new CHidenObject(width, height);
@@ -91,7 +91,7 @@ void CInputImage::LoadObjectFromFile(ifstream & in, LPGAMEOBJECT & object)
 		object = new CFishman(width, height, a_x, a_y);
 		object->SetState(state);
 		object->SetPosition(x, y);
-		object->Setnx(nx);
+		object->Setnx((int)nx);
 		break;
 	case BOSSBAT:
 		object = CBossBat::GetInstance();
