@@ -13,7 +13,16 @@ void CDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		int i;
 		if (state != DRACULA_STATE_DIE)
 		{
-			if (state != DRACULA_STATE_DIE)
+			if (isAddHeadToCell)
+			{
+				CCells *cells = simon->map->GetCell();
+				cells->InitCells(head);
+				simon->map->SetCell(cells);
+				isAddHeadToCell = false;
+			}
+
+			//head->Update(dt, coObjects);
+			if (head->GetState() != HEAD_STATE_FLY)
 			{
 				if (simon->x < this->x)
 				{
@@ -27,19 +36,7 @@ void CDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					head->Setnx(1);
 					head->SetPosition(this->x + HEAD_OFFSET_X1, this->y - HEAD_OFFSET_Y);
 				}
-			}
 
-			if (isAddHeadToCell)
-			{
-				CCells *cells = simon->map->GetCell();
-				cells->InitCells(head);
-				simon->map->SetCell(cells);
-				isAddHeadToCell = false;
-			}
-
-			//head->Update(dt, coObjects);
-			if (head->GetState() != HEAD_STATE_FLY)
-			{
 				SetState(DRACULA_STATE_IDLE);
 				if (start == true)
 					StartUntouchable();

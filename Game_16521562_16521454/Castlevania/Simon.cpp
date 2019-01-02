@@ -1083,7 +1083,7 @@ void CSimon::Camera()
 	}
 	else if (dynamic_cast<CClockTowerLevel *>(map))
 	{
-		if (map->GetScene() == SCENE_5 && x - 128.0f < min && !MeetBoss)
+		if (map->GetScene() == SCENE_6_5 && x - 128.0f < min && !MeetBoss)
 		{
 			MeetBoss = true;
 			CHidenObject *hidenobject;
