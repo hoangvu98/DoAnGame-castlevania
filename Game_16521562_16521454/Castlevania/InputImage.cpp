@@ -82,9 +82,12 @@ void CInputImage::LoadObjectFromFile(ifstream & in, LPGAMEOBJECT & object)
 		object->SetPosition(x, y);
 		break;
 	case GHOUL:
-		object = new CGhoul();
-		object->SetPosition(x, y);
-		object->SetState(state);
+		CGhoul* ghoul;
+		ghoul = new CGhoul();
+		ghoul->SetPosition(x, y);
+		ghoul->SetState(state);
+		ghoul->SetLimitArea(a_x, a_y);
+		object = (CGameObject *)ghoul;
 		break;
 	case PANTHER:
 		object = new CPanther(x, y);

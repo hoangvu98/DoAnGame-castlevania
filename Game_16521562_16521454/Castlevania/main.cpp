@@ -64,6 +64,14 @@ class CSampleKeyHander : public CKeyEventHandler
 };
 
 CSampleKeyHander * keyHandler;
+void ResetLevel()
+{
+	simon->SetReset(true);
+	simon->SetLive(simon->GetLive() + 1);
+	simon->SetStair(0);
+	simon->SetCollusion(0);
+	simon->map->SetPrevScene(0);
+}
 void CSampleKeyHander::OnKeyDown(int KeyCode)
 {
 	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
@@ -79,51 +87,37 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		}
 		break;
 	case DIK_Q:
-		simon->SetReset(true);
-		simon->SetLive(simon->GetLive() + 1);
-		simon->map->SetPrevScene(0);
+		ResetLevel();
 		simon->map = CEntranceLevel::GetInstance();
 		simon->map->SetScene(SCENE_1);
 		break;
 	case DIK_W:
-		simon->SetReset(true);
-		simon->SetLive(simon->GetLive() + 1);
-		simon->map->SetPrevScene(0);
+		ResetLevel();
 		simon->map = CEntranceLevel::GetInstance();
 		simon->map->SetScene(SCENE_2);
 		break;
 	case DIK_E:
-		simon->SetReset(true);
-		simon->SetLive(simon->GetLive() + 1);
-		simon->map->SetPrevScene(0);
+		ResetLevel();
 		simon->map = CEntranceLevel::GetInstance();
 		simon->map->SetScene(SCENE_3);
 		break;
 	case DIK_R:
-		simon->SetReset(true);
-		simon->SetLive(simon->GetLive() + 1);
-		simon->map->SetPrevScene(0);
+		ResetLevel();
 		simon->map = CEntranceLevel::GetInstance();
 		simon->map->SetScene(SCENE_5);
 		break;
 	case DIK_T:
-		simon->SetReset(true);
-		simon->SetLive(simon->GetLive() + 1);
-		simon->map->SetPrevScene(0);
+		ResetLevel();
 		simon->map = CClockTowerLevel::GetInstance();
 		simon->map->SetScene(SCENE_6_1);
 		break;
 	case DIK_Y:
-		simon->SetReset(true);
-		simon->SetLive(simon->GetLive() + 1);
-		simon->map->SetPrevScene(0);
+		ResetLevel();
 		simon->map = CClockTowerLevel::GetInstance();
 		simon->map->SetScene(SCENE_6_2);
 		break;
 	case DIK_U:
-		simon->SetReset(true);
-		simon->SetLive(simon->GetLive() + 1);
-		simon->map->SetPrevScene(0);
+		ResetLevel();
 		simon->map = CClockTowerLevel::GetInstance();
 		simon->map->SetScene(SCENE_6_4);
 		break;
@@ -143,9 +137,9 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		DWORD t = GetTickCount() - simon->GetWhip()->GetFrameWhip();
 		if (t >= 3 * FRAME_TIME_WHIP)
 		{
-			int k=-1;
-			if(simon->GetOnSkill())
-				k=simon->GetHeart() - simon->GetWeapon()->GetMana();
+			int k = -1;
+			if (simon->GetOnSkill())
+				k = simon->GetHeart() - simon->GetWeapon()->GetMana();
 			if (k >= 0 && game->IsKeyDown(DIK_UP) && t >= 3 * FRAME_TIME_WHIP)
 			{
 				simon->SetHeart(k);
@@ -160,7 +154,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 					float temp_x, temp_y;
 					simon->GetPosition(temp_x, temp_y);
 					simon->GetWeapon()->SetPosition(temp_x, temp_y + 5);
-					
+
 					CCells* cell = simon->map->GetCell();
 					cell->InitCells(simon->GetWeapon());
 					simon->map->SetCell(cell);
@@ -280,14 +274,14 @@ void CSampleKeyHander::KeyState(BYTE *states)
 			{
 				if (simon->GetFight() == false)
 				{
-					if (game->IsKeyDown(DIK_UP)
+					if (game->IsKeyDown(DIK_UP) && simon->state == SIMON_STATE_IDLE
 						&& (simon->GetStair() == 1 || simon->GetStair() == 4))
 					{
 						simon->SetStateAuto(1);
 						simon->SetStair(5);
 					}
-					else if (game->IsKeyDown(DIK_DOWN) &&
-						(simon->GetStair() == 3 || simon->GetStair() == 4))
+					else if (game->IsKeyDown(DIK_DOWN) && simon->state == SIMON_STATE_IDLE
+						&& (simon->GetStair() == 3 || simon->GetStair() == 4))
 					{
 						simon->SetStateAuto(1);
 						simon->SetStair(6);
@@ -386,7 +380,7 @@ void LoadResources()
 	//simon->SetPosition(1378.0f, 34.0f);
 	//simon->SetPosition(618.4f, 129.0f);
 	simon->SetPosition(100.0f, 20.0f);
-	simon->SetPosition(226.0f, 130.0f); 
+	simon->SetPosition(226.0f, 130.0f);
 	simon->SetState(SIMON_STATE_WALKING_LEFT);
 	//simon->SetPosition(1460.0f, 30.0f);//map 1
 	//simon->SetPosition(727.0f, 51.0f);//map 2
@@ -399,10 +393,10 @@ void LoadResources()
 	simon->SetPosition(448.0f, 76.0f);//map 5
 	//simon->SetPosition(190.0f, 30.0f   /*719.0f, 45.0f*/);
 	//simon->SetPosition(49.0f, 104.0f);
-	//simon->SetPosition(1555.0f, 30.0f);
+	simon->SetPosition(1555.0f, 30.0f);
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
-	simon->map->SetScene(SCENE_1);
+	simon->map->SetScene(SCENE_4);
 	screen = 2;
 	simon->map->LoadObject();
 	simon->map->LoadMap();
@@ -446,9 +440,9 @@ void Update(DWORD dt)
 		{
 			simon->MeetBoss = false;
 			simon->SetIsChangeMap(false);
-			if(simon->GetStage()==6)
+			if (simon->GetStage() == 6)
 				simon->map = CClockTowerLevel::GetInstance();
-			simon->map->SetScene(SCENE_1);
+			simon->map->SetScene(SCENE_6_1);
 			simon->SetHealth(16);
 			simon->SetHeart(5);
 			float x, y;
@@ -464,7 +458,7 @@ void Update(DWORD dt)
 			if (live >= 1)
 			{
 				simon->MeetBoss = false;
-				simon->SetLive(live-1);
+				simon->SetLive(live - 1);
 				simon->SetHeart(5);
 				simon->SetHealth(16);
 				simon->map->ResetScene();
@@ -691,9 +685,9 @@ int Run()
 				if (now - time_route_blackboard > 1000)
 				{
 					int time = simon->GetTime() - 1;
-					if(time>=0)
+					if (time >= 0)
 						simon->SetTime(time);
-					time_route_blackboard= GetTickCount();
+					time_route_blackboard = GetTickCount();
 				}
 				if (simon->state != SIMON_STATE_DIE)
 					if (simon->GetStateAuto() == 0 && simon->GetCollusion() != 1)

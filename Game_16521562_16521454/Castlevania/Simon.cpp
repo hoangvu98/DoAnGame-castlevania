@@ -216,7 +216,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				{
 					break;
 				}
-				else if (dynamic_cast<CBat *> (e->obj) && monster->state == BAT_STATE_SLEEPING)
+				else if (dynamic_cast<CBat *> (e->obj) && monster->state == MONSTER_STATE_SLEEPING)
 				{
 					CBat *bat = dynamic_cast<CBat *>(e->obj);
 					float cx, cy;
@@ -280,6 +280,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 					fight = false;
 					whip->fight = false;
 					ResetFight();
+					state_auto = 0;
 					health -= monster->GetDamage();
 					collusion_nx = nx;
 					FrameCollusion = GetTickCount();
@@ -298,6 +299,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				fight = false;
 				whip->fight = false;
 				ResetFight();
+				state_auto = 0;
 				health -= bullet->GetDamage();
 				collusion_nx = nx;
 				FrameCollusion = GetTickCount();
@@ -315,6 +317,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				fight = false;
 				whip->fight = false;
 				ResetFight();
+				state_auto = 0;
 				health -= bone->GetDamage();
 				collusion_nx = nx;
 				FrameCollusion = GetTickCount();
@@ -405,7 +408,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				{
 					CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
 					if (stair != 2)
-					{						
+					{
 						if (test)
 						{
 							if (y + min_ty * dy + ny * 0.4f >= 132)
@@ -519,8 +522,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		}
 		if (test)
 		{
-			if (y+dy >= 132)
-				DebugOut(L"y=%f\n",  y);
+			if (y + dy >= 132)
+				DebugOut(L"y=%f\n", y);
 			x += dx;
 			y += dy;
 		}
@@ -538,7 +541,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			else
 				collusion = 2;
 		}
-		else if ( collusion == 2)
+		else if (collusion == 2)
 		{
 			if (health <= 0)
 			{
@@ -551,7 +554,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			if (now - FrameCollusion > 2000)
 				collusion = 0;
 		}
-		if ((y >= 190.0f || time==0) && !IsDie)
+		if ((y >= 190.0f || time == 0) && !IsDie)
 		{
 			vx = 0;
 			vy = 0;
@@ -583,7 +586,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		//DebugOut(L"x=%f\ny=%f\n", x, y);	
 		//DebugOut(L"y=%f\n",  y);
 		//DebugOut(L"heart=%d\n", heart);
-		//DebugOut(L"stair=%d\n", stair);
+		DebugOut(L"state_auto=%d\n", state_auto);
 	}
 }
 
@@ -631,46 +634,46 @@ void CSimon::Render()
 				}
 				else
 				{
-					    if (fight == true || skill==true)
+					if (fight == true || skill == true)
+					{
+						if (state == SIMON_STATE_STAIR_UP_IDLE)
 						{
-							if (state == SIMON_STATE_STAIR_UP_IDLE)
-							{
 
-								if (nx > 0)
-									ani = SIMON_ANI_STAIR_FIGHT_UP_RIGHT;
-								else
-									ani = SIMON_ANI_STAIR_FIGHT_UP_LEFT;
-							}
+							if (nx > 0)
+								ani = SIMON_ANI_STAIR_FIGHT_UP_RIGHT;
 							else
-							{
-								if (nx > 0)
-									ani = SIMON_ANI_STAIR_FIGHT_DOWN_RIGHT;
-								else
-									ani = SIMON_ANI_STAIR_FIGHT_DOWN_LEFT;
-							}
-							if (fight == true)
-							{
-								if (nx > 0)whip->SetStateWhip(WHIP_STATE_RIGHT);
-								else whip->SetStateWhip(WHIP_STATE_LEFT);
-							}
+								ani = SIMON_ANI_STAIR_FIGHT_UP_LEFT;
 						}
 						else
 						{
-							if (state == SIMON_STATE_STAIR_UP_IDLE)
-							{
-								if (nx > 0)
-									ani = SIMON_ANI_STAIR_IDLE_UP_RIGHT;
-								else
-									ani = SIMON_ANI_STAIR_IDLE_UP_LEFT;
-							}
-							else if (state == SIMON_STATE_STAIR_DOWN_IDLE)
-							{
-								if (nx > 0)
-									ani = SIMON_ANI_STAIR_IDLE_DOWN_RIGHT;
-								else
-									ani = SIMON_ANI_STAIR_IDLE_DOWN_LEFT;
-							}
+							if (nx > 0)
+								ani = SIMON_ANI_STAIR_FIGHT_DOWN_RIGHT;
+							else
+								ani = SIMON_ANI_STAIR_FIGHT_DOWN_LEFT;
 						}
+						if (fight == true)
+						{
+							if (nx > 0)whip->SetStateWhip(WHIP_STATE_RIGHT);
+							else whip->SetStateWhip(WHIP_STATE_LEFT);
+						}
+					}
+					else
+					{
+						if (state == SIMON_STATE_STAIR_UP_IDLE)
+						{
+							if (nx > 0)
+								ani = SIMON_ANI_STAIR_IDLE_UP_RIGHT;
+							else
+								ani = SIMON_ANI_STAIR_IDLE_UP_LEFT;
+						}
+						else if (state == SIMON_STATE_STAIR_DOWN_IDLE)
+						{
+							if (nx > 0)
+								ani = SIMON_ANI_STAIR_IDLE_DOWN_RIGHT;
+							else
+								ani = SIMON_ANI_STAIR_IDLE_DOWN_LEFT;
+						}
+					}
 				}
 			}
 			else
@@ -745,7 +748,7 @@ void CSimon::Render()
 							else if (vy < 0 && nx > 0)
 								ani = SIMON_ANI_JUMP_RIGHT;
 						}
-					}				
+					}
 				}
 			}
 		}
@@ -1189,7 +1192,7 @@ CSimon::CSimon()
 	Reset = false;
 	mx = 0;
 	whip = new CWhip();
-	whip->SetState(YELLOW_WHIP);
+	whip->SetState(WHITE_WHIP);
 	map = CEntranceLevel::GetInstance();
 	IsChangeMap = false;
 }

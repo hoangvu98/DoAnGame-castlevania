@@ -25,7 +25,6 @@
 #define BAT_STATE_FLY_RIGHT	1
 #define BAT_STATE_FLY       2
 #define BAT_STATE_FIRE      3
-#define BAT_STATE_SLEEPING  4
 
 #define BAT_SIZE_SMALL 0
 #define BAT_SIZE_BIG 1

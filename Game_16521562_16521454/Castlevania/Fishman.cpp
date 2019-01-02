@@ -108,7 +108,24 @@ void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			vector<LPCOLLISIONEVENT> coEventsResult;
 			coEventsResult.clear();
 			CalcPotentialCollisions(coObjects, coEvents);
-
+			for (UINT i = 0; i < coEvents.size(); i++)
+			{
+				LPCOLLISIONEVENT e = coEvents[i];
+				if (dynamic_cast<CHidenObject *> (e->obj))
+				{
+					CHidenObject *hidenobject = dynamic_cast<CHidenObject *>(e->obj);
+					if (hidenobject->GetState() != HIDENOBJECT_STATE_NORMAL)
+					{
+						coEvents.erase(coEvents.begin() + i);
+						i--;
+					}
+				}
+				else
+				{
+					coEvents.erase(coEvents.begin() + i);
+					i--;
+				}
+			}
 			if (coEvents.size() == 0)
 			{
 				x += dx;
@@ -118,20 +135,17 @@ void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 				float min_tx, min_ty, nx = 0, ny;
 				FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-				x += dx;
 				x += min_tx * dx + nx * 0.4f;
 				if (ny < 0)
 				{
 					y += min_ty * dy + ny * 0.4f;
-					/*if (fire == false)
-					{
-						if (this->nx < 0 && this->x >= FISHMAN_TURN) SetState(FISHMAN_STATE_WALKING_LEFT);
-						else SetState(FISHMAN_STATE_WALKING_RIGHT);
-						SetPosition(this->x, this->y - OFFSET);
-					}*/
+
+
+
+
 					if (this->nx < 0 && this->x >= FISHMAN_TURN) SetState(FISHMAN_STATE_WALKING_LEFT);
 					else SetState(FISHMAN_STATE_WALKING_RIGHT);
-					//SetPosition(this->x, this->y - OFFSET);
+
 
 					if (wait1)
 						StartWait(wait1, start_wait1);

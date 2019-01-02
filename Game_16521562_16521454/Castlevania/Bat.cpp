@@ -26,7 +26,7 @@ CBat::CBat(int size)
 	AddAnimation(12001);
 	AddAnimation(12002);
 	AddAnimation(20001);
-	SetState(BAT_STATE_SLEEPING);
+	SetState(MONSTER_STATE_SLEEPING);
 }
 
 CBat::CBat(int size, float width, float height, float a_x, float a_y, float height_fly)
@@ -49,7 +49,7 @@ CBat::CBat(int size, float width, float height, float a_x, float a_y, float heig
 	AddAnimation(12001);
 	AddAnimation(12002);
 	AddAnimation(20001);
-	SetState(BAT_STATE_SLEEPING);
+	SetState(MONSTER_STATE_SLEEPING);
 
 	SetPosstionAppear(a_x, a_y);
 	SetSize(width, height);
@@ -60,7 +60,7 @@ void CBat::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
 	if (size == BAT_SIZE_SMALL)
 	{
-		if (state == BAT_STATE_SLEEPING)
+		if (state == MONSTER_STATE_SLEEPING)
 		{
 			left = x;
 			top = y;
@@ -77,14 +77,14 @@ void CBat::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 	}
 	else
 	{
-		if (state == BAT_STATE_SLEEPING)
+		if (state == MONSTER_STATE_SLEEPING)
 		{
 			left = x;
 			top = y;
 			right = left + weight;
 			bottom = top + height;
 		}
-		else 
+		else
 		{
 			left = x;
 			top = y;
@@ -101,7 +101,7 @@ void CBat::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CMonster::Update(dt, coObjects);
 	CSimon *simon = CSimon::GetInstance();
-	if (state != BAT_STATE_SLEEPING)
+	if (state != MONSTER_STATE_SLEEPING)
 	{
 		if (size == BAT_SIZE_SMALL)
 		{
@@ -250,7 +250,7 @@ void CBat::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void CBat::Render()
 {
-	if (state != BAT_STATE_SLEEPING)
+	if (state != MONSTER_STATE_SLEEPING)
 	{
 		if (state != MONSTER_STATE_DISAPPEAR && state != MONSTER_STATE_DELETE)
 		{
