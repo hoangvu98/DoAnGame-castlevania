@@ -1189,7 +1189,7 @@ CSimon::CSimon()
 	Reset = false;
 	mx = 0;
 	whip = new CWhip();
-	whip->SetState(WHITE_WHIP);
+	whip->SetState(YELLOW_WHIP);
 	map = CEntranceLevel::GetInstance();
 	IsChangeMap = false;
 }

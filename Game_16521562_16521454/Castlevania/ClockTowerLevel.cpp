@@ -244,7 +244,7 @@ void CClockTowerLevel::LoadMap()
 		cells = new CCells(column, row);
 
 		dracula = CDracula::GetInstance();
-		dracula->SetHealth(16);
+		dracula->SetHealth(1);
 		break;
 	case SCENE_6_5:
 		simon->SetStage(18);
@@ -294,10 +294,10 @@ void CClockTowerLevel::LoadMap()
 		}
 
 
-		/*dracula = CDracula::GetInstance();
+		dracula = CDracula::GetInstance();
 		dracula->Setnx(-1);
 		dracula->SetState(DRACULA_STATE_SLEEPING);
-		cells->InitCells(dracula);*/
+		cells->InitCells(dracula);
 		break;
 	}
 }

@@ -35,6 +35,10 @@ void CHidenObject::Render()
 	{
 		animations[0]->Render(x, y);
 	}
+	else if (state == HIDENOBJECT_STATE_HEAD)
+	{
+		RenderBoundingBox(200);
+	}
 }
 
 void CHidenObject::GetBoundingBox(float & left, float & top, float & right, float & bottom)

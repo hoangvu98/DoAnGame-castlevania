@@ -10,7 +10,8 @@ void CSpiritDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CSimon *simon = CSimon::GetInstance();
 	int i;
-	CGameObject::Update(dt);
+	//CGameObject::Update(dt);
+	CMonster::Update(dt, coObjects);
 	//vy += SPIRITDRACULA_GRAVITY * dt;
 
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -162,13 +163,13 @@ void CSpiritDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		head->SetPosition(x + HEAD_POSITION_X, y);
 		head->SetSize(HEAD_WIDTH, HEAD_HEIGHT);
-		head->SetState(HIDENOBJECT_STATE_HEAD);
+		//head->SetState(HIDENOBJECT_STATE_HEAD);
 	}
 	else
 	{
 		head->SetPosition(x + HEAD_POSITION_X1, y);
 		head->SetSize(HEAD_WIDTH, HEAD_HEIGHT);
-		head->SetState(HIDENOBJECT_STATE_HEAD);
+		//head->SetState(HIDENOBJECT_STATE_HEAD);
 	}
 
 	bool test = true;
@@ -211,73 +212,77 @@ void CSpiritDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CSpiritDracula::Render()
 {
 	int ani;
-	if (state == SPIRITDRACULA_STATE_IDLE)
+	if (state != MONSTER_STATE_DISAPPEAR && state != MONSTER_STATE_DELETE)
 	{
-		if (nx > 0) ani = SPIRITDRACULA_ANI_IDLE_RIGHT;
-		else ani = SPIRITDRACULA_ANI_IDLE_LEFT;
+		if (state == SPIRITDRACULA_STATE_IDLE)
+		{
+			if (nx > 0) ani = SPIRITDRACULA_ANI_IDLE_RIGHT;
+			else ani = SPIRITDRACULA_ANI_IDLE_LEFT;
 
-	}
-	else if (state == SPIRITDRACULA_STATE_JUMP)
-	{
-		if (nx > 0) ani = SPIRITDRACULA_ANI_PRE_JUMP_RIGHT;
-		else ani = SPIRITDRACULA_ANI_PRE_JUMP_LEFT;
+		}
+		else if (state == SPIRITDRACULA_STATE_JUMP)
+		{
+			if (nx > 0) ani = SPIRITDRACULA_ANI_PRE_JUMP_RIGHT;
+			else ani = SPIRITDRACULA_ANI_PRE_JUMP_LEFT;
 
-		if (startwait2 == true)
-			StartWait(startwait2, wait_start2);
-		if (GetTickCount() - wait_start2 > SPIRITDRACULA_PRE_JUMP_TIME)
+			if (startwait2 == true)
+				StartWait(startwait2, wait_start2);
+			if (GetTickCount() - wait_start2 > SPIRITDRACULA_PRE_JUMP_TIME)
+			{
+				if (nx > 0) ani = SPIRITDRACULA_ANI_JUMP_RIGHT;
+				else ani = SPIRITDRACULA_ANI_JUMP_LEFT;
+
+				wait_start2 = 0;
+
+				if (startwait3 == true)
+					StartWait(startwait3, wait_start3);
+
+				if (GetTickCount() - wait_start3 > SPIRITDRACULA_JUMP_TIME)
+				{
+					if (nx > 0) ani = SPIRITDRACULA_ANI_LANDING_AND_FLY_RIGHT;
+					else ani = SPIRITDRACULA_ANI_LANDING_AND_FLY_LEFT;
+
+					wait_start3 = 0;
+				}
+			}
+		}
+		else if (state == SPIRITDRACULA_STATE_FALL)
 		{
 			if (nx > 0) ani = SPIRITDRACULA_ANI_JUMP_RIGHT;
 			else ani = SPIRITDRACULA_ANI_JUMP_LEFT;
 
-			wait_start2 = 0;
+			if (startwait4 == true)
+				StartWait(startwait4, wait_start4);
 
-			if (startwait3 == true)
-				StartWait(startwait3, wait_start3);
-
-			if (GetTickCount() - wait_start3 > SPIRITDRACULA_JUMP_TIME)
+			if (GetTickCount() - wait_start4 > SPIRITDRACULA_JUMP_TIME)
 			{
 				if (nx > 0) ani = SPIRITDRACULA_ANI_LANDING_AND_FLY_RIGHT;
 				else ani = SPIRITDRACULA_ANI_LANDING_AND_FLY_LEFT;
 
-				wait_start3 = 0;
+				wait_start4 = 0;
+
+				if (startwait5 == true)
+					StartWait(startwait5, wait_start5);
+
+				if (GetTickCount() - wait_start5 > SPIRITDRACULA_LANDING_TIME)
+				{
+					wait_start5 = 0;
+					SetState(SPIRITDRACULA_STATE_IDLE);
+					jump = false;
+				}
 			}
 		}
-	}
-	else if (state == SPIRITDRACULA_STATE_FALL)
-	{
-		if (nx > 0) ani = SPIRITDRACULA_ANI_JUMP_RIGHT;
-		else ani = SPIRITDRACULA_ANI_JUMP_LEFT;
-
-		if (startwait4 == true)
-			StartWait(startwait4, wait_start4);
-
-		if (GetTickCount() - wait_start4 > SPIRITDRACULA_JUMP_TIME)
+		else if (state == SPIRITDRACULA_STATE_FIRE)
 		{
-			if (nx > 0) ani = SPIRITDRACULA_ANI_LANDING_AND_FLY_RIGHT;
-			else ani = SPIRITDRACULA_ANI_LANDING_AND_FLY_LEFT;
+			if (nx > 0) ani = SPIRITDRACULA_ANI_FIRE_RIGHT;
+			else ani = SPIRITDRACULA_ANI_FIRE_LEFT;
 
-			wait_start4 = 0;
-
-			if (startwait5 == true)
-				StartWait(startwait5, wait_start5);
-
-			if (GetTickCount() - wait_start5 > SPIRITDRACULA_LANDING_TIME)
-			{
-				wait_start5 = 0;
-				SetState(SPIRITDRACULA_STATE_IDLE);
-				jump = false;
-			}
+			/*for (int i = 0; i < 3; i++)
+				bullets[i]->Render();*/
 		}
+		animations[ani]->Render(x, y);
+		RenderBoundingBox(100);
 	}
-	else if (state == SPIRITDRACULA_STATE_FIRE)
-	{
-		if (nx > 0) ani = SPIRITDRACULA_ANI_FIRE_RIGHT;
-		else ani = SPIRITDRACULA_ANI_FIRE_LEFT;
-
-		/*for (int i = 0; i < 3; i++)		
-			bullets[i]->Render();*/
-	}
-	animations[ani]->Render(x, y);
 }
 
 void CSpiritDracula::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -348,13 +353,13 @@ void CSpiritDracula::Reset()
 	{
 		head->SetPosition(x + HEAD_POSITION_X, y);
 		head->SetSize(HEAD_WIDTH, HEAD_HEIGHT);
-		head->SetState(HIDENOBJECT_STATE_HEAD);
+		//head->SetState(HIDENOBJECT_STATE_HEAD);
 	}
 	else
 	{
 		head->SetPosition(x + HEAD_POSITION_X1, y);
 		head->SetSize(HEAD_WIDTH, HEAD_HEIGHT);
-		head->SetState(HIDENOBJECT_STATE_HEAD);
+		//head->SetState(HIDENOBJECT_STATE_HEAD);
 	}
 }
 

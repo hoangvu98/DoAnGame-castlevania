@@ -7,12 +7,21 @@
 CDracula *CDracula::__instance = NULL;
 void CDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+
+	
 	if (state != DRACULA_STATE_SLEEPING)
 	{
 		CSimon *simon = CSimon::GetInstance();
 		int i;
 		if (state != DRACULA_STATE_DIE)
 		{
+			if (!IsInjure)
+			{
+				DWORD now = GetTickCount();
+				if (now - time_injure > TIME_INJURE)
+					IsInjure = true;
+
+			}
 			if (isAddHeadToCell)
 			{
 				CCells *cells = simon->map->GetCell();
@@ -24,6 +33,16 @@ void CDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			//head->Update(dt, coObjects);
 			if (head->GetState() != HEAD_STATE_FLY)
 			{
+				/*if (IsInjure == false)
+				{
+					DWORD now = GetTickCount();
+					if (now - time_injure > TIME_INJURE)
+					{
+						IsInjure = true;
+						DebugOut(L"true");
+					}
+				}*/
+
 				if (simon->x < this->x)
 				{
 					this->nx = -1;
@@ -236,6 +255,7 @@ void CDracula::Reset()
 	startwait1 = true;
 	startwait2 = true;
 	startwait3 = true;
+	IsInjure = true;
 }
 
 void CDracula::SetState(int state)
@@ -247,7 +267,7 @@ CDracula::CDracula()
 {
 	CSimon *simon = CSimon::GetInstance();
 	SetPosition(DEFAULT_POSITION_X, DEFAULT_POSITION_Y);
-	health = 16;
+	health = /*16*/1;
 	damage = 4;
 
 	alpha = 255;

@@ -5,6 +5,8 @@
 #include "HidenObject.h"
 #include "Monster.h"
 #include "Candle.h"
+#include "Dracula.h"
+#include "SpiritDracula.h"
 using namespace std;
 
 
@@ -223,20 +225,47 @@ void CAxe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (dynamic_cast<CMonster *> (e->obj))
-			{
-				CMonster *monster = dynamic_cast<CMonster *>(e->obj);
-				if (monster->state != MONSTER_STATE_DELETE && monster->state != MONSTER_STATE_DISAPPEAR)
-				{
-					monster->SetHealth(monster->GetHealth() - damage);
-				}
-			}
-			else if (dynamic_cast<CCandle *> (e->obj))
+			if (dynamic_cast<CCandle *> (e->obj))
 			{
 				CCandle *candle = dynamic_cast<CCandle *>(e->obj);
 				if (candle->state != CANDLE_STATE_DELETE)
 				{
 					candle->SetState(CANDLE_STATE_DISAPPEAR);
+				}
+			}
+			else if (dynamic_cast<CMonster *> (e->obj))
+			{
+				CMonster *monster = dynamic_cast<CMonster *>(e->obj);
+				CDracula *dracula = dynamic_cast<CDracula *>(monster);
+				CSpiritDracula *spiritdracula = dynamic_cast<CSpiritDracula *>(monster);
+
+				if (dracula == NULL && spiritdracula == NULL)
+				{
+					if (monster->state != MONSTER_STATE_DELETE && monster->state != MONSTER_STATE_DISAPPEAR)
+					{
+						monster->SetHealth(monster->GetHealth() - damage);
+						monster->SetIsInjure(false);
+						monster->SetTimeInjure();
+					}
+				}
+			}
+			else if (dynamic_cast<CHeadDracula *>(e->obj))
+			{
+				CDracula *dracula = CDracula::GetInstance();
+				CHeadDracula *head = dynamic_cast<CHeadDracula *>(e->obj);
+				if (dracula->state == DRACULA_STATE_FIRE || dracula->state == DRACULA_STATE_IDLE)
+				{
+					if (dracula->GetIsInjure())
+					{
+						dracula->SetHealth(dracula->GetHealth() - 1);
+						if (dracula->GetHealth() <= 0)
+						{
+							head->SetState(HEAD_STATE_FLY_AWAY);
+							dracula->SetState(DRACULA_STATE_DIE);
+						}
+						dracula->SetIsInjure(false);
+						dracula->SetTimeInjure();
+					}
 				}
 			}
 		}
@@ -401,9 +430,36 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					else if (dynamic_cast<CMonster *> (e->obj))
 					{
 						CMonster *monster = dynamic_cast<CMonster *>(e->obj);
-						if (monster->state != MONSTER_STATE_DELETE && monster->state != MONSTER_STATE_DISAPPEAR)
+						CDracula *dracula = dynamic_cast<CDracula *>(monster);
+						CSpiritDracula *spiritdracula = dynamic_cast<CSpiritDracula *>(monster);
+
+						if (dracula == NULL && spiritdracula == NULL)
 						{
-							monster->SetHealth(monster->GetHealth() - damage);
+							if (monster->state != MONSTER_STATE_DELETE && monster->state != MONSTER_STATE_DISAPPEAR)
+							{
+								monster->SetHealth(monster->GetHealth() - damage);
+								monster->SetIsInjure(false);
+								monster->SetTimeInjure();
+							}
+						}
+					}
+					else if (dynamic_cast<CHeadDracula *>(e->obj))
+					{
+						CDracula *dracula = CDracula::GetInstance();
+						CHeadDracula *head = dynamic_cast<CHeadDracula *>(e->obj);
+						if (dracula->state == DRACULA_STATE_FIRE || dracula->state == DRACULA_STATE_IDLE)
+						{
+							if (dracula->GetIsInjure())
+							{
+								dracula->SetHealth(dracula->GetHealth() - 1);
+								if (dracula->GetHealth() <= 0)
+								{
+									head->SetState(HEAD_STATE_FLY_AWAY);
+									dracula->SetState(DRACULA_STATE_DIE);
+								}
+								dracula->SetIsInjure(false);
+								dracula->SetTimeInjure();
+							}
 						}
 					}
 				}
@@ -462,13 +518,38 @@ void CHollyWater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				else if (dynamic_cast<CMonster *> (e->obj))
 				{
 					CMonster *monster = dynamic_cast<CMonster *>(e->obj);
-					if (monster->state != MONSTER_STATE_DELETE && monster->state != MONSTER_STATE_DISAPPEAR)
+					CDracula *dracula = dynamic_cast<CDracula *>(monster);
+					CSpiritDracula *spiritdracula = dynamic_cast<CSpiritDracula *>(monster);
+
+					if (dracula == NULL && spiritdracula == NULL)
 					{
-						if (monster->GetIsInjure())
+						if (monster->state != MONSTER_STATE_DELETE && monster->state != MONSTER_STATE_DISAPPEAR)
 						{
-							monster->SetHealth(monster->GetHealth() - damage);
-							monster->SetIsInjure(false);
-							monster->SetTimeInjure();
+							if (monster->GetIsInjure())
+							{
+								monster->SetHealth(monster->GetHealth() - damage);
+								monster->SetIsInjure(false);
+								monster->SetTimeInjure();
+							}
+						}
+					}
+				}
+				else if (dynamic_cast<CHeadDracula *>(e->obj))
+				{
+					CDracula *dracula = CDracula::GetInstance();
+					CHeadDracula *head = dynamic_cast<CHeadDracula *>(e->obj);
+					if (dracula->state == DRACULA_STATE_FIRE || dracula->state == DRACULA_STATE_IDLE)
+					{
+						if (dracula->GetIsInjure())
+						{
+							dracula->SetHealth(dracula->GetHealth() - 1);
+							if (dracula->GetHealth() <= 0)
+							{
+								head->SetState(HEAD_STATE_FLY_AWAY);
+								dracula->SetState(DRACULA_STATE_DIE);
+							}
+							dracula->SetIsInjure(false);
+							dracula->SetTimeInjure();
 						}
 					}
 				}
@@ -490,12 +571,13 @@ void CHollyWater::Render()
 		animations[HOLLY_WATER_ANI_FALLING]->Render(x, y);
 	else if (state == HOLLY_WATER_STATE_EXPLODE)
 		animations[HOLLY_WATER_ANI_EXPLODE]->Render(x - 3, y - 3);
+	RenderBoundingBox(200);
 }
 
 void CHollyWater::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
 	left = x;
-	right = y;
+	top = y;
 	if (state == HOLLY_WATER_STATE_EXPLODE)
 	{
 		right = x + FIRE_BBOX_WIDTH;

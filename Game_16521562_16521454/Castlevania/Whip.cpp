@@ -59,13 +59,12 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					if (dracula->GetIsInjure())
 					{
+						dracula->SetHealth(dracula->GetHealth() - 1);
 						if (dracula->GetHealth() <= 0)
 						{
 							head->SetState(HEAD_STATE_FLY_AWAY);
 							dracula->SetState(DRACULA_STATE_DIE);
-						}
-						else
-							dracula->SetHealth(dracula->GetHealth() - 1);
+						}							
 						dracula->SetIsInjure(false);
 						dracula->SetTimeInjure();
 					}
@@ -78,13 +77,19 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CMonster *> (e->obj))
 			{
 				CMonster *monster = dynamic_cast<CMonster *>(e->obj);
-				if (monster->state != MONSTER_STATE_DELETE && monster->state != MONSTER_STATE_DISAPPEAR
-					&& monster->state!=MONSTER_STATE_SLEEPING)
+				CDracula *dracula = dynamic_cast<CDracula *>(monster);
+				CSpiritDracula *spiritdracula = dynamic_cast<CSpiritDracula *>(monster);
+
+				if (dracula == NULL && spiritdracula == NULL)
 				{
-					if (IsSubHP)
+					if (monster->state != MONSTER_STATE_DELETE && monster->state != MONSTER_STATE_DISAPPEAR
+						&& monster->state != MONSTER_STATE_SLEEPING)
 					{
-						monster->SetHealth(monster->GetHealth() - damage);
-						IsSubHP = false;
+						if (IsSubHP)
+						{
+							monster->SetHealth(monster->GetHealth() - damage);
+							IsSubHP = false;
+						}
 					}
 				}
 			}
@@ -103,11 +108,23 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				CSpiritDracula *spiritdracula = CSpiritDracula::GetInstance();
 				CHidenObject *head = dynamic_cast<CHidenObject *> (e->obj);
+				
 				if (head->GetState() == HIDENOBJECT_STATE_HEAD)
 				{
-					if (spiritdracula->GetHealth() <= 0)
+					if (spiritdracula->GetIsInjure())
+					{
+						spiritdracula->SetHealth(spiritdracula->GetHealth() - 1);
+						if (spiritdracula->GetHealth() <= 0)
+						{
+							/*head->SetState(HEAD_STATE_FLY_AWAY);*/
+							spiritdracula->SetState(SPIRITDRACULA_STATE_DIE);
+						}
+						spiritdracula->SetIsInjure(false);
+						spiritdracula->SetTimeInjure();
+					}
+					/*if (spiritdracula->GetHealth() <= 0)
 						spiritdracula->SetState(SPIRITDRACULA_STATE_DIE);
-					else spiritdracula->SetHealth(spiritdracula->GetHealth() - 1);
+					else spiritdracula->SetHealth(spiritdracula->GetHealth() - 1);*/
 				}
 			}
 		}
