@@ -127,6 +127,11 @@ void CBlackBoard::Render()
 		CGame *game = CGame::GetInstance();
 		float cx, cy;
 		game->GetCamera(cx, cy);
+		if (dynamic_cast<CDagger *>(item))
+			item->animations[0]->Render(cx + ITEM_POSITION_X - 2.0f, ITEM_POSITION_Y - OFFSET + 2.0f);
+		else if (dynamic_cast<CHollyWater *>(item))
+			item->animations[0]->Render(cx + ITEM_POSITION_X + 2.0f, ITEM_POSITION_Y - OFFSET - 1.0f);
+		else
 		item->animations[0]->Render(cx + ITEM_POSITION_X, ITEM_POSITION_Y - OFFSET);
 	}
 
