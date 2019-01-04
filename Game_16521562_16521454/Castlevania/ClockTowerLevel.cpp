@@ -103,7 +103,7 @@ cells->InitCells(candle);*/
 		cells = new CCells(column, row);
 
 		in.open("Data\\ClockTowerLevel_Scene2.txt");
-		for (i = 0; i < 11; i++)
+		for (i = 0; i < 10; i++)
 		{
 			CInputImage::LoadObjectFromFile(in, object);
 			cells->InitCells(object);
@@ -166,7 +166,7 @@ cells->InitCells(candle);*/
 		cells = new CCells(column, row);
 
 		in.open("Data\\ClockTowerLevel_Scene3.txt");
-		for (i = 0; i < 12; i++)
+		for (i = 0; i < 10; i++)
 		{
 			CInputImage::LoadObjectFromFile(in, object);
 			cells->InitCells(object);
@@ -455,7 +455,7 @@ void CClockTowerLevel::LoadObject()
 		cellsobject = new CCells(column, row);
 
 		in.open("Data\\hobj_CT_Scene2.txt");
-		for (i = 0; i < 24; i++)
+		for (i = 0; i < 25; i++)
 		{
 			CInputImage::LoadObjectFromFile(in, object);
 			cellsobject->InitCells(object);
@@ -630,13 +630,13 @@ void CClockTowerLevel::LoadObject()
 		//cellsobject->InitCells(hobj);
 
 
-		//hobj = new CHidenObject();
-		//hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
-		//hobj->SetSize(19.0f, 10.0f);
-		//hobj->SetPosition(279.0f, 38.0f);
-		//hobj->SetStair_XY(283.0f, 20);
-		//hobj->nx = 1;
-		//cellsobject->InitCells(hobj);
+	/*	hobj = new CHidenObject();
+		hobj->SetState(HIDENOBJECT_STATE_STAIR_UP);
+		hobj->SetSize(19.0f, 10.0f);
+		hobj->SetPosition(279.0f, 38.0f);
+		hobj->SetStair_XY(283.0f, 20);
+		hobj->nx = 1;
+		cellsobject->InitCells(hobj);*/
 
 		//door = new CDoor();
 		//door->SetState(DOOR_STATE_NORMAL);

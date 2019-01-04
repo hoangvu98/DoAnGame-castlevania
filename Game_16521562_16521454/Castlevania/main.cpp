@@ -219,8 +219,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 			if (simon->GetFight() == false)
 			{
 				DWORD now = GetTickCount();
-
-				if (now - simon->GetFrameStair() > TIME_STAIR)
+				if (simon->state == SIMON_STATE_STAIR_UP_IDLE || simon->state == SIMON_STATE_STAIR_DOWN_IDLE)
 				{
 					if (simon->IsUp == 2)
 					{
@@ -258,13 +257,6 @@ void CSampleKeyHander::KeyState(BYTE *states)
 							simon->nx = -simon->nx;
 						simon->SetState(SIMON_STATE_STAIR_DOWN);
 						simon->SetFrameStair();
-					}
-					else
-					{
-						if (simon->GetState() == SIMON_STATE_STAIR_UP || simon->GetState() == SIMON_STATE_STAIR_UP_IDLE)
-							simon->SetState(SIMON_STATE_STAIR_UP_IDLE);
-						else
-							simon->SetState(SIMON_STATE_STAIR_DOWN_IDLE);
 					}
 				}
 			}
@@ -390,18 +382,18 @@ void LoadResources()
 	//simon->SetPosition(1460.0f, 30.0f);//map 1
 	//simon->SetPosition(727.0f, 51.0f);//map 2
 	//simon->SetPosition(267.0f, 0.0f);//map 2
-	//simon->SetPosition(629.0f, 10.0f);//map 3
-	//simon->SetPosition(450.0f, 10.0f);//map 3
+	simon->SetPosition(629.0f, 10.0f);//map 3
+	simon->SetPosition(450.0f, 10.0f);//map 3
 	//simon->SetPosition(40.0f, 10.0f);//map 3
 	//simon->SetPosition(180.0f, 30.0f);//map 4
 	////simon->SetPosition(190.0f, 30.0f);//map 5
-	simon->SetPosition(448.0f, 76.0f);//map 5
+	//simon->SetPosition(448.0f, 76.0f);//map 5
 	//simon->SetPosition(190.0f, 30.0f   /*719.0f, 45.0f*/);
 	//simon->SetPosition(49.0f, 104.0f);
-	simon->SetPosition(500.0f, 114.5f);
+	simon->SetPosition(260.0f, 0.5f);
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
-	simon->map->SetScene(SCENE_2);
+	simon->map->SetScene(SCENE_6_2);
 	screen = 2;
 	simon->map->LoadObject();
 	simon->map->LoadMap();
@@ -513,6 +505,10 @@ void Update(DWORD dt)
 			simon->SetCameraAuto(0);
 			simon->SetStateAuto(0);
 			simon->Camera();
+			if (simon->state == SIMON_STATE_STAIR_UP)
+				simon->SetState(SIMON_STATE_STAIR_UP);
+			if(simon->state == SIMON_STATE_STAIR_DOWN)
+				simon->SetState(SIMON_STATE_STAIR_DOWN);
 		}
 		else if (simon->map->GetIsFall())
 		{
@@ -532,6 +528,10 @@ void Update(DWORD dt)
 			simon->SetCameraAuto(0);
 			simon->SetStateAuto(0);
 			simon->Camera();
+			if (simon->state == SIMON_STATE_STAIR_UP)
+				simon->SetState(SIMON_STATE_STAIR_UP);
+			if (simon->state == SIMON_STATE_STAIR_DOWN)
+				simon->SetState(SIMON_STATE_STAIR_DOWN);
 		}
 		if (screen == 2)
 		{

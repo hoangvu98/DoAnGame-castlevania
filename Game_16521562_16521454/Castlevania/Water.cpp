@@ -60,7 +60,7 @@ void CWater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		isUpdateSplashEffect = false;
 		Reset();
 	}
-	DebugOut(L"dang update water\n");
+	//DebugOut(L"dang update water\n");
 }
 
 void CWater::Render()

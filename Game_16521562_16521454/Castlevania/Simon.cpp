@@ -568,7 +568,29 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				IsDie = false;
 			}
 		}
-
+		if ((state == SIMON_STATE_STAIR_UP && !map->GetIsNext() )
+			|| (state == SIMON_STATE_STAIR_DOWN && !map->GetIsNext()))
+		{
+			if ((nx > 0 && x >= simon_x)|| (nx < 0 && x <= simon_x))
+				{
+					x = simon_x;
+					y = simon_y;
+					if (state == SIMON_STATE_STAIR_UP)
+						SetState(SIMON_STATE_STAIR_UP_IDLE);
+					else
+						SetState(SIMON_STATE_STAIR_DOWN_IDLE);
+				}
+	
+			if ((state == SIMON_STATE_STAIR_UP && y <= simon_y) || (state == SIMON_STATE_STAIR_DOWN && y >= simon_y))
+				{
+					x = simon_x;
+					y = simon_y;
+					if (state == SIMON_STATE_STAIR_UP)
+						SetState(SIMON_STATE_STAIR_UP_IDLE);
+					else
+						SetState(SIMON_STATE_STAIR_DOWN_IDLE);
+				}		
+		}
 		Auto();
 		if (camera_auto == 0)
 			Camera();
@@ -854,26 +876,32 @@ void CSimon::SetState(int state)
 		if (nx > 0)
 		{
 			vx = 8.0f / TIME_STAIR;
+			simon_x = x + 8;
 			animations[SIMON_ANI_STAIR_UP_RIGHT]->SetCureentFrame(-1);
 		}
 		else
 		{
 			vx = -8.0f / TIME_STAIR;
+			simon_x = x - 8;
 			animations[SIMON_ANI_STAIR_UP_LEFT]->SetCureentFrame(-1);
 		}
+		simon_y = y - 8;
 		vy = -8.0f / TIME_STAIR;
 		break;
 	case SIMON_STATE_STAIR_DOWN:
 		if (nx > 0)
 		{
 			vx = 8.0f / TIME_STAIR;
+			simon_x = x + 8;
 			animations[SIMON_ANI_STAIR_DOWN_RIGHT]->SetCureentFrame(-1);
 		}
 		else
 		{
 			vx = -8.0f / TIME_STAIR;
+			simon_x = x - 8;
 			animations[SIMON_ANI_STAIR_DOWN_LEFT]->SetCureentFrame(-1);
 		}
+		simon_y = y + 8;
 		vy = 8.0f / TIME_STAIR;
 		break;
 	case SIMON_STATE_COLLUSION:
@@ -915,12 +943,12 @@ void CSimon::Auto()
 	}
 	if (state_auto == 1) // tu dong di ve phia cau thang
 	{
-		if (x + 9 > stair_x)
+		if (x + 9 >= stair_x)
 		{
 			SetState(SIMON_STATE_WALKING_LEFT);
 			state_auto = 2;
 		}
-		else if (x + 9 < stair_x)
+		else if (x + 9 <= stair_x)
 		{
 			state_auto = 3;
 			SetState(SIMON_STATE_WALKING_RIGHT);
@@ -1172,7 +1200,7 @@ CSimon::CSimon()
 	mx = 0;
 	whip = new CWhip();
 	whip->SetState(WHITE_WHIP);
-	map = CEntranceLevel::GetInstance();
+	map = CClockTowerLevel::GetInstance();
 	IsChangeMap = false;
 }
 
