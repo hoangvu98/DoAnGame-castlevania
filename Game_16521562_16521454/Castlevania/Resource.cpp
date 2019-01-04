@@ -772,7 +772,7 @@ void CResource::LoadDracula()
 	ifstream in("Data\\BodyDracula.txt");
 	int tempaniID = 0;
 	int i;
-	for (i = 0; i < 4; i++)
+	for (i = 0; i < 5; i++)
 		CInputImage::LoadTexture(in, sprites, ani, texdracula, animations, tempaniID);
 	/*CInputImage::AddAnimation(in, sprites, ani, texdracula, 1);
 	animations->Add(240001, ani);

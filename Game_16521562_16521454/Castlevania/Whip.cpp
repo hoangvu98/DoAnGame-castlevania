@@ -9,6 +9,7 @@
 #include "Panther.h"
 #include "Dracula.h"
 #include "HeadDracula.h"
+#include "Bullet.h"
 #define WHIP_TEXTURE_PATH L"castlevania_texture\\Weapon\\Whip.png"
 #define ID_WHIP	6
 using namespace std;
@@ -149,6 +150,11 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						simon->map->SetCell(cell);
 					}
 				}
+			}
+			else if (dynamic_cast<CBullet *>(e->obj))
+			{
+				CBullet *bullet = dynamic_cast<CBullet *>(e->obj);
+				bullet->SetState(BULLET_STATE_REFLECT);
 			}
 		}
 	}

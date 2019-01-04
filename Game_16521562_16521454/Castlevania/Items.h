@@ -162,9 +162,9 @@ public:
 	void SetState(int state);
 };
 
-#define HOLLY_WATER_FALLING_SPEED_X		0.3f
-#define HOLLY_WATER_FALLING_SPEDD_Y		0.01f
-#define HOLLY_WATER_GRAVITY				0.003f
+#define HOLLY_WATER_FALLING_SPEED_X		0.15f
+#define HOLLY_WATER_FALLING_SPEDD_Y		0.3f
+#define HOLLY_WATER_GRAVITY				0.03f
 
 #define BOTTLE_BBOX_WIDTH 	10
 #define BOTTLE_BBOX_HEIGHT	11

@@ -25,9 +25,12 @@ void CBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CBullet::Render()
 {
+	if (state != BULLET_STATE_REFLECT)
+	{
 		if (nx < 0)
 			animations[BULLET_ANI_LEFT]->Render(x, y);
 		else animations[BULLET_ANI_RIGHT]->Render(x, y);
+	}
 }
 
 void CBullet::GetBoundingBox(float & left, float & top, float & right, float & bottom)

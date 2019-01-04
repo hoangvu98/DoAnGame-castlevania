@@ -74,7 +74,7 @@ void CDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							for (i = 0; i < 3; i++)
 							{
 								bullets[i]->SetPosition(x + DRACULA_BULLET_POSITION_X, y + DRACULA_BULLET_POSITION_Y);
-								bullets[i]->Setnx(1);
+								bullets[i]->SetState(BULLET_STATE_RIGHT);
 							}
 							bullets[0]->SetSpeed(x + DRACULA_BULLET_POSITION_X, y + DRACULA_BULLET_POSITION_Y, simon->x, simon->y, 800);
 							bullets[1]->SetSpeed(x + DRACULA_BULLET_POSITION_X, y + DRACULA_BULLET_POSITION_Y, simon->x, simon->y - 8.0f, 800);
@@ -85,7 +85,7 @@ void CDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							for (i = 0; i < 3; i++)
 							{
 								bullets[i]->SetPosition(x, y + DRACULA_BULLET_POSITION_Y);
-								bullets[i]->Setnx(-1);
+								bullets[i]->SetState(BULLET_STATE_LEFT);
 							}
 							bullets[0]->SetSpeed(x, y + DRACULA_BULLET_POSITION_Y, simon->x, simon->y, 800);
 							bullets[1]->SetSpeed(x, y + DRACULA_BULLET_POSITION_Y, simon->x, simon->y - 8.0f, 800);

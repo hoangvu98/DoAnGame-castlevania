@@ -30,25 +30,7 @@ void CSpiritDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vector<LPCOLLISIONEVENT> coEventsResult;
 		CalcPotentialCollisions(coObjects, coEvents);
 
-		///tham khao ban
-		/*if (state == SPIRITDRACULA_STATE_FIRE)
-		{
-			if (Bullet)
-			{
-				CBullet* bullet = new CBullet();
-				bullet->SetPosition(x, y);
-				bullet->SetSpeed(x, y, simon->x, simon->y, 800);
-				bullet->SetState(x, simon->x);
-				CCells* cell = simon->map->GetCell();
-				cell->InitCells(bullet);
-				simon->map->SetCell(cell);
-				Bullet = false;
-			}
-		}*/
-		/*else*/
-		/*{
-			Bullet = true;
-		}*/
+		
 
 		if (simon->x < this->x + SPIRITDRACULA_OFFSET) this->nx = -1;
 		else this->nx = 1;
@@ -101,7 +83,7 @@ void CSpiritDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					for (i = 0; i < 3; i++)
 					{
 						bullets[i]->SetPosition(x + BULLET_POSITION_X, y /*+ BULLET_POSITION_Y*/);
-						bullets[i]->Setnx(-1);
+						bullets[i]->SetState(BULLET_STATE_LEFT);
 					}
 
 					bullets[0]->SetSpeed(x + BULLET_POSITION_X, y /*+ BULLET_POSITION_Y*/,
@@ -116,7 +98,7 @@ void CSpiritDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					for (i = 0; i < 3; i++)
 					{
 						bullets[i]->SetPosition(x + BULLET_POSITION_X1, y /*+ BULLET_POSITION_Y*/);
-						bullets[i]->Setnx(1);
+						bullets[i]->SetState(BULLET_STATE_RIGHT);
 					}
 
 					bullets[0]->SetSpeed(x + BULLET_POSITION_X1, y /*+ BULLET_POSITION_Y*/,

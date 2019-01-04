@@ -292,20 +292,24 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			else if (dynamic_cast<CBullet *>(e->obj) && collusion == 0)
 			{
 				CBullet *bullet = dynamic_cast<CBullet *>(e->obj);
-				if (stair != 2)
+				if (bullet->state != BULLET_STATE_REFLECT)
 				{
-					collusion = 1;
-					SetState(SIMON_STATE_COLLUSION);
+					if (stair != 2)
+					{
+						collusion = 1;
+						SetState(SIMON_STATE_COLLUSION);
+					}
+					else
+						collusion = 2;
+					fight = false;
+					whip->fight = false;
+					ResetFight();
+					state_auto = 0;
+					health -= bullet->GetDamage();
+					collusion_nx = nx;
+					FrameCollusion = GetTickCount();
 				}
-				else
-					collusion = 2;
-				fight = false;
-				whip->fight = false;
-				ResetFight();
-				state_auto = 0;
-				health -= bullet->GetDamage();
-				collusion_nx = nx;
-				FrameCollusion = GetTickCount();
+				else continue;
 			}
 			else if (dynamic_cast<CBone *>(e->obj) && collusion == 0)
 			{
