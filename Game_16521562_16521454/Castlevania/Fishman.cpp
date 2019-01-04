@@ -1,5 +1,8 @@
 #include "Fishman.h"
 #include "Simon.h"
+#include "Water.h"
+#include "SplashEffect.h"
+
 CFishman::CFishman()
 {
 	CMonster::CMonster();
@@ -120,6 +123,8 @@ void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						i--;
 					}
 				}
+				else if (dynamic_cast<CWater *>(e->obj))
+					continue;
 				else
 				{
 					coEvents.erase(coEvents.begin() + i);
@@ -184,6 +189,30 @@ void CFishman::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				else
 					y += dy;
+
+				for (UINT i = 0; i < coEventsResult.size(); i++)
+				{
+					LPCOLLISIONEVENT e = coEventsResult[i];
+					if (dynamic_cast<CWater *> (e->obj))
+					{
+						CWater *water = dynamic_cast<CWater *> (e->obj);
+						water->SetIsUpEffect(true);
+						water->SetWait(true);
+						vector<CSplashEffect *> spEffect = water->GetSplashEffect();
+						if (e->ny > 0)
+						{
+							for (UINT i = 0; i < spEffect.size(); i++)
+								spEffect[i]->SetPosition(x + 5.0f, y);
+						}
+						else 
+						{
+							for (UINT i = 0; i < spEffect.size(); i++)
+								spEffect[i]->SetPosition(x + 5.0f, y + FISHMAN_BBOX_HEIGHT);
+						}
+						y += dy;
+						//wait = true;
+					}
+				}
 			}
 		}
 	}

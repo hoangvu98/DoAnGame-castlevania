@@ -872,3 +872,20 @@ void CResource::LoadPotRoast()
 	//animations->Add(270000, ani);
 	in.close();
 }
+
+void CResource::LoadSplashEffect()
+{
+	CTextures *textures = CTextures::GetInstance();
+	CSprites *sprites = CSprites::GetInstance();
+	CAnimations *animations = CAnimations::GetInstance();
+
+	textures->Add(ID_SPLASH_EFFECT, SPLASH_EFFECT_TEXTURE_PATH, D3DCOLOR_XRGB(34, 177, 76));
+
+	LPANIMATION ani = new CAnimation(100);
+	ifstream in("Data\\SplashEffect.txt");
+	LPDIRECT3DTEXTURE9 texspeffect = textures->Get(ID_SPLASH_EFFECT);
+	int tempaniID = 0;
+	CInputImage::LoadTexture(in, sprites, ani, texspeffect, animations, tempaniID);
+	//animations->Add(270000, ani);
+	in.close();
+}

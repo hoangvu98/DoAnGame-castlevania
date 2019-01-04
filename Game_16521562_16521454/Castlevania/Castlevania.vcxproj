@@ -160,9 +160,11 @@
     <ClInclude Include="Simon.h" />
     <ClInclude Include="Skeleton.h" />
     <ClInclude Include="SpiritDracula.h" />
+    <ClInclude Include="SplashEffect.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="TileMap.h" />
+    <ClInclude Include="Water.h" />
     <ClInclude Include="Whip.h" />
   </ItemGroup>
   <ItemGroup>
@@ -199,9 +201,11 @@
     <ClCompile Include="Simon.cpp" />
     <ClCompile Include="Skeleton.cpp" />
     <ClCompile Include="SpiritDracula.cpp" />
+    <ClCompile Include="SplashEffect.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="TileMap.cpp" />
+    <ClCompile Include="Water.cpp" />
     <ClCompile Include="Whip.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

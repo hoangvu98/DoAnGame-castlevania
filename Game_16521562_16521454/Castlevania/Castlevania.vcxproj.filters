@@ -123,6 +123,12 @@
     <ClInclude Include="SpiritDracula.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SplashEffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Water.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bat.cpp">
@@ -234,6 +240,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SpiritDracula.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SplashEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Water.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

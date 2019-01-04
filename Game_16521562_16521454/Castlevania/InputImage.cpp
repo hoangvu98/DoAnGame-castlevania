@@ -8,6 +8,7 @@
 #include "Eagle.h"
 #include "Dracula.h"
 #include "Hunchback.h"
+#include "Water.h"
 
 
 void CInputImage::LoadDataFromFile(ifstream & in, int & id, int & left, int & top, int & right, int & bottom, int & aniID)
@@ -126,6 +127,10 @@ void CInputImage::LoadObjectFromFile(ifstream & in, LPGAMEOBJECT & object)
 	case BRICK:
 		object = new CBrick(x, y);
 		object->SetState(state);
+		break;
+	case WATER:
+		object = new CWater(x, y);
+		object->SetPosition(x, y);
 		break;
 	}
 }

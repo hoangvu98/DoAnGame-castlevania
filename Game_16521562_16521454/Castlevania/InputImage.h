@@ -17,6 +17,7 @@
 #define BOSSBAT		10 //roi
 #define DRACULA		11
 #define BRICK		12
+#define WATER		13
 class CInputImage
 {
 public:

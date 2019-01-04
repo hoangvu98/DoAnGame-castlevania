@@ -374,6 +374,7 @@ void LoadResources()
 	resource->LoadSpiritDracula();
 	resource->LoadOtherStuff();
 	resource->LoadPotRoast();
+	resource->LoadSplashEffect();
 	simon = CSimon::GetInstance();
 	simon->SetPosition(2053.0f, 28.0f);
 	//simon->SetPosition(906.0f, 34.0f);
@@ -393,7 +394,7 @@ void LoadResources()
 	simon->SetPosition(448.0f, 76.0f);//map 5
 	//simon->SetPosition(190.0f, 30.0f   /*719.0f, 45.0f*/);
 	//simon->SetPosition(49.0f, 104.0f);
-	simon->SetPosition(1555.0f, 30.0f);
+	simon->SetPosition(66.0f, 34.0f);
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
 	simon->map->SetScene(SCENE_4);

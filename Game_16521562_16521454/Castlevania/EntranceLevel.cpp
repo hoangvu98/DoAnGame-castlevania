@@ -333,7 +333,7 @@ void CEntranceLevel::LoadMap()
 		cells = new CCells(column, row);
 
 		in.open("Data\\EntranceLevel_Scene4.txt");
-		for (i = 0; i < 12; i++)
+		for (i = 0; i < 20; i++)
 		{
 			CInputImage::LoadObjectFromFile(in, object);
 			cells->InitCells(object);
