@@ -96,7 +96,7 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				SetState(ITEM_STATE_DELETE);
 		}
 		x += dx;
-		y += dy;
+		DebugOut(L"x=%f\n", x);
 	}
 }
 
@@ -329,6 +329,7 @@ void CBoomerang::Render()
 		animations[BOOMERANG_ANI_ITEM]->Render(x, y);
 	else if (state == ITEM_STATE_WEAPON_LEFT || state == ITEM_STATE_WEAPON_RIGHT)
 		animations[BOOMERANG_ANI_FLY]->Render(x, y);
+	RenderBoundingBox(200);
 }
 
 void CBoomerang::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -349,6 +350,7 @@ void CBoomerang::SetState(int state)
 		break;
 	case ITEM_STATE_WEAPON_RIGHT:
 		vx = BOOMERANG_SPEED;
+		break;
 	case ITEM_STATE_DELETE:
 		IsDelete = false;
 		break;
@@ -380,29 +382,21 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				SetState(ITEM_STATE_WEAPON_RIGHT);
 				fly = true;
+				dx = 5.0f;
 				if (IsDelete)
 					SetState(ITEM_STATE_DELETE);
 				else
-				{
-					if (IsDelete)
-						IsDelete = false;
-					else
-						IsDelete = true;
-				}
+					IsDelete = true;
 			}
-			if (x >= right_distance || x >= cx + VIEWPORT_WIDTH)
+			if (x >= right_distance || x >= cx + VIEWPORT_WIDTH -10.0f)
 			{
 				SetState(ITEM_STATE_WEAPON_LEFT);
 				fly = true;
+				dx = -5.0f;
 				if (IsDelete)
 					SetState(ITEM_STATE_DELETE);
 				else
-				{
-					if (IsDelete)
-						IsDelete = false;
-					else
-						IsDelete = true;
-				}
+					IsDelete = true;
 			}
 			vector<LPCOLLISIONEVENT> coEvents;
 			vector<LPCOLLISIONEVENT> coEventsResult;
@@ -487,7 +481,6 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 			}
-			DebugOut(L"state %d\n", state);
 			x += dx;
 		}
 		else

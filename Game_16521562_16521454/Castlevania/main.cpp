@@ -73,13 +73,12 @@ void ResetLevel()
 	simon->SetCollusion(0);
 	simon->map->SetPrevScene(0);
 }
+int i = 0;
 void CSampleKeyHander::OnKeyDown(int KeyCode)
 {
 	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	switch (KeyCode)
 	{
-	case DIK_UP:
-		break;
 	case DIK_RETURN:
 		if (screen == 0)
 		{
@@ -148,18 +147,27 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 					simon->SetHeart(k);
 					if (simon->GetOnSkill())
 					{
-						if (simon->nx > 0)
-							simon->GetWeapon()->SetState(ITEM_STATE_WEAPON_RIGHT);
+						CItems* skill;
+						if (dynamic_cast<CBoomerang *>(simon->GetWeapon()))
+							skill = new CBoomerang();
+						else if(dynamic_cast<CDagger* >(simon->GetWeapon()))
+							skill = new CDagger();
+						else if (dynamic_cast<CAxe*>(simon->GetWeapon()))
+							skill = new CAxe();
 						else
-							simon->GetWeapon()->SetState(ITEM_STATE_WEAPON_LEFT);
+							skill = new CHollyWater();
+						if (simon->nx > 0)
+							skill->SetState(ITEM_STATE_WEAPON_RIGHT);
+						else
+							skill->SetState(ITEM_STATE_WEAPON_LEFT);
 						simon->SetFrameWeapon();
 						simon->SetSkill(true);
 						float temp_x, temp_y;
 						simon->GetPosition(temp_x, temp_y);
-						simon->GetWeapon()->SetPosition(temp_x, temp_y + 5);
+						skill->SetPosition(temp_x, temp_y + 5);
 
 						CCells* cell = simon->map->GetCell();
-						cell->InitCells(simon->GetWeapon());
+						cell->InitCells(skill);
 						simon->map->SetCell(cell);
 
 						if (simon->state == SIMON_STATE_STAIR_UP || simon->state == SIMON_STATE_STAIR_UP_IDLE)
@@ -387,13 +395,13 @@ void LoadResources()
 	//simon->SetPosition(40.0f, 10.0f);//map 3
 	//simon->SetPosition(180.0f, 30.0f);//map 4
 	////simon->SetPosition(190.0f, 30.0f);//map 5
-	//simon->SetPosition(448.0f, 76.0f);//map 5
+	simon->SetPosition(448.0f, 76.0f);//map 5
 	//simon->SetPosition(190.0f, 30.0f   /*719.0f, 45.0f*/);
 	//simon->SetPosition(49.0f, 104.0f);
-	simon->SetPosition(260.0f, 0.5f);
+	//simon->SetPosition(260.0f, 0.5f);
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
-	simon->map->SetScene(SCENE_6_2);
+	simon->map->SetScene(SCENE_6_5);
 	screen = 2;
 	simon->map->LoadObject();
 	simon->map->LoadMap();

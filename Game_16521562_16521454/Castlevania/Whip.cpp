@@ -211,16 +211,16 @@ void CWhip::FindPosstion()
 		if (size == SHORT_WHIP)
 		{
 			if (state_whip == WHIP_STATE_RIGHT)
-				SetPosition(x - 12, y + 9);
+				SetPosition(x -8, y + 8);
 			else
-				SetPosition(x + 24, y + 8);
+				SetPosition(x + 29, y + 8);
 		}
 		else
 		{
 			if (state_whip == WHIP_STATE_RIGHT)
-				SetPosition(x - 12, y + 9);
+				SetPosition(x - 8, y + 8);
 			else
-				SetPosition(x + 21, y + 8);
+				SetPosition(x + 30, y + 8);
 		}
 		IsSubHP = true;
 	}
@@ -230,34 +230,33 @@ void CWhip::FindPosstion()
 		if (size == SHORT_WHIP)
 		{
 			if (state_whip == WHIP_STATE_RIGHT)
-				SetPosition(x - 11, y + 6);
+				SetPosition(x - 6, y + 4);
 			else
-				SetPosition(x + 15, y + 6);
+				SetPosition(x + 22, y + 5);
 		}
 		else
 		{
 			if (state_whip == WHIP_STATE_RIGHT)
-				SetPosition(x - 11, y + 6);
+				SetPosition(x - 7, y + 5);
 			else
-				SetPosition(x + 14, y + 6);
+				SetPosition(x + 22, y + 5);
 		}
 	}
 	else if (currentFrame == 2)
 	{
-
 		if (size == SHORT_WHIP)
 		{
 			if (state_whip == WHIP_STATE_RIGHT)
-				SetPosition(x + 23, y + 8);
+				SetPosition(x + 30, y + 8);
 			else
-				SetPosition(x - 28, y + 5);
+				SetPosition(x - 23, y + 7);
 		}
 		else
 		{
 			if (state_whip == WHIP_STATE_RIGHT)
-				SetPosition(x + 23, y + 8);
+				SetPosition(x + 30, y + 10);
 			else
-				SetPosition(x - 45, y + 5);
+				SetPosition(x - 39, y + 8);
 		}
 	}
 }

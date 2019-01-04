@@ -264,12 +264,12 @@ cells->InitCells(candle);*/
 
 		in.close();
 
-		/*candle = new CCandle(SMALL_CANDLE, AXE);
+		candle = new CCandle(SMALL_CANDLE, HOLLYWATER);
 		candle->SetPosition(477.0f, 50.0f);
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
 
-		candle = new CCandle(SMALL_CANDLE, HOLLYWATER);
+		/*candle = new CCandle(SMALL_CANDLE, HOLLYWATER);
 		candle->SetPosition(0 * 64.0f + 30.0f, 83.0f);
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);

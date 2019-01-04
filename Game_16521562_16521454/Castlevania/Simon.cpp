@@ -65,8 +65,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				ResetFight();
 			}
 		}
-		/*if (t < 2000)
-			weapon->Update(dt, coObject);*/
+		
 		coEventsResult.clear();
 		FilterCollisionImmediately(coEvents, coEventsResult);
 		bool test = true;
@@ -601,7 +600,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		else
 			CameraAuto();
 
-		DebugOut(L"x=%f\ny=%f\n",x,y);
+		//DebugOut(L"x=%f\ny=%f\n",x,y);
 		//DebugOut(L"state_auto=%d\n", state_auto);
 		//DebugOut(L"IsUp=%d\nIsDown=%d\n", IsUp,IsDown);
 		//DebugOut(L"state=%d\n", state);
