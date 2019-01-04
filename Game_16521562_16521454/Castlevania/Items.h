@@ -13,7 +13,7 @@
 class CItems :
 	public CGameObject
 {
-	int mana=1;
+	int mana = 1;
 public:
 	CItems();
 	~CItems();
@@ -162,7 +162,7 @@ public:
 };
 
 #define HOLLY_WATER_FALLING_SPEED_X		0.3f
-#define HOLLY_WATER_FALLING_SPEDD_Y		0.1f
+#define HOLLY_WATER_FALLING_SPEDD_Y		0.01f
 #define HOLLY_WATER_GRAVITY				0.003f
 
 #define BOTTLE_BBOX_WIDTH 	10
@@ -179,10 +179,11 @@ public:
 #define HOLLY_WATER_ANI_ITEM		0
 #define HOLLY_WATER_ANI_FALLING		1
 #define HOLLY_WATER_ANI_EXPLODE		2
-
+#define HOLLY_WATER_TIME_FIRE 2000
 class CHollyWater :public CItems
 {
 	int damage;
+	DWORD time;
 public:
 	CHollyWater();
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);

@@ -61,37 +61,37 @@ void CClockTowerLevel::LoadMap()
 		bat->SetSize(10, 70);
 		cells->InitCells(bat);
 */
-		/*bat = new CBat(BAT_SIZE_BIG);
-		bat->SetPosition(580.0f, 0.0f);
-		bat->SetPosstionAppear(460.0f, 0.0f);
-		bat->SetSize(10, 70);
-		cells->InitCells(bat);
+/*bat = new CBat(BAT_SIZE_BIG);
+bat->SetPosition(580.0f, 0.0f);
+bat->SetPosstionAppear(460.0f, 0.0f);
+bat->SetSize(10, 70);
+cells->InitCells(bat);
 
-		candle = new CCandle(SMALL_CANDLE, AXE);
-		candle->SetPosition(1501.0f, 84.0f);
-		candle->SetState(CANDLE_STATE_NORMAL);
-		cells->InitCells(candle);*/
+candle = new CCandle(SMALL_CANDLE, AXE);
+candle->SetPosition(1501.0f, 84.0f);
+candle->SetState(CANDLE_STATE_NORMAL);
+cells->InitCells(candle);*/
 
-		/*for (int i = 0; i < 2; i++)
-		{
-			candle = new CCandle(SMALL_CANDLE);
-			candle->SetPosition(i * 68.0f + 1371.0f, 112.0f);
-			candle->SetState(CANDLE_STATE_NORMAL);
-			cells->InitCells(candle);
-		}
+/*for (int i = 0; i < 2; i++)
+{
+	candle = new CCandle(SMALL_CANDLE);
+	candle->SetPosition(i * 68.0f + 1371.0f, 112.0f);
+	candle->SetState(CANDLE_STATE_NORMAL);
+	cells->InitCells(candle);
+}
 
-		for (int i = 0; i < 3; i++)
-		{
-			candle = new CCandle(SMALL_CANDLE);
-			candle->SetPosition(i * 69.0f + 670.0f, 47.0f);
-			candle->SetState(CANDLE_STATE_NORMAL);
-			cells->InitCells(candle);
-		}
+for (int i = 0; i < 3; i++)
+{
+	candle = new CCandle(SMALL_CANDLE);
+	candle->SetPosition(i * 69.0f + 670.0f, 47.0f);
+	candle->SetState(CANDLE_STATE_NORMAL);
+	cells->InitCells(candle);
+}
 
-		candle = new CCandle(SMALL_CANDLE);
-		candle->SetPosition(92.0f, 14.0f);
-		candle->SetState(CANDLE_STATE_NORMAL);
-		cells->InitCells(candle);*/
+candle = new CCandle(SMALL_CANDLE);
+candle->SetPosition(92.0f, 14.0f);
+candle->SetState(CANDLE_STATE_NORMAL);
+cells->InitCells(candle);*/
 		break;
 	case SCENE_6_2:
 		simon->SetStage(17);
@@ -264,17 +264,17 @@ void CClockTowerLevel::LoadMap()
 
 		in.close();*/
 
-		candle = new CCandle(SMALL_CANDLE,DAGGER);
+		candle = new CCandle(SMALL_CANDLE, AXE);
 		candle->SetPosition(477.0f, 50.0f);
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
 
-		candle = new CCandle(SMALL_CANDLE,HOLLYWATER);
+		candle = new CCandle(SMALL_CANDLE, HOLLYWATER);
 		candle->SetPosition(0 * 64.0f + 30.0f, 83.0f);
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
 
-		candle = new CCandle(SMALL_CANDLE,BOOMERANG);
+		candle = new CCandle(SMALL_CANDLE, BOOMERANG);
 		candle->SetPosition(3 * 64.0f + 30.0f, 83.0f);
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);

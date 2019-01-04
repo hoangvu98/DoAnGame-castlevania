@@ -31,12 +31,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			IsDown = 0;
 		if (stair != 2)
 			vy += SIMON_GRAVITY;
-		if (state != SIMON_STATE_KNEE && previousstate == SIMON_STATE_KNEE)
-		{
-			previousstate = NULL;
-			SetPosition(x, y - 5);
-			SetState(SIMON_STATE_IDLE);
-		}
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
 		coEventsResult.clear();
@@ -411,8 +405,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 					{
 						if (test)
 						{
-							if (y + min_ty * dy + ny * 0.4f >= 132)
-								DebugOut(L"y=%f\n", y + min_ty * dy + ny * 0.4f);
 							x += min_tx * dx + nx * 0.4f;
 							y += min_ty * dy + ny * 0.4f;
 							test = false;
@@ -436,8 +428,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				{
 					if (test)
 					{
-						if (y + min_ty * dy + ny * 0.4f >= 132)
-							DebugOut(L"y=%f\n", y + min_ty * dy + ny * 0.4f);
 						x += min_tx * dx + nx * 0.4f;
 						y += min_ty * dy + ny * 0.4f;
 					}
@@ -522,8 +512,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		}
 		if (test)
 		{
-			if (y + dy >= 132)
-				DebugOut(L"y=%f\n", y);
+
 			x += dx;
 			y += dy;
 		}
@@ -533,7 +522,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			if (health <= 0)
 			{
 				IsDie = true;
-				y += 20;
 				time_reset = GetTickCount();
 				collusion = 0;
 				stair = 0;
@@ -546,7 +534,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			if (health <= 0)
 			{
 				IsDie = true;
-				y += 20;
 				time_reset = GetTickCount();
 				collusion = 0;
 				stair = 0;
@@ -562,6 +549,9 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			time_reset = GetTickCount();
 		}
 
+		/*	if (state == SIMON_STATE_DIE)
+			{
+			}*/
 		if (IsDie)
 		{
 			SetState(SIMON_STATE_DIE);
@@ -572,6 +562,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				IsDie = false;
 			}
 		}
+
 		Auto();
 		if (camera_auto == 0)
 			Camera();
@@ -583,10 +574,9 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		//DebugOut(L"IsUp=%d\nIsDown=%d\n", IsUp,IsDown);
 		//DebugOut(L"state=%d\n", state);
 		//DebugOut(L"up=%d\ndown=%d\n", IsUp, IsDown);
-		//DebugOut(L"x=%f\ny=%f\n", x, y);	
 		//DebugOut(L"y=%f\n",  y);
 		//DebugOut(L"heart=%d\n", heart);
-		DebugOut(L"state_auto=%d\n", state_auto);
+		//DebugOut(L"state_auto=%d\n", state_auto);
 	}
 }
 
@@ -780,56 +770,39 @@ void CSimon::Render()
 			}
 		}
 	}
+	//x = 10.0f;
+	//y = 114.0f;
+
 	if (!IsRenDer)
 	{
-		DWORD t = GetTickCount() - whip->GetFrameWhip();
-		if (fight == true)
-		{
-			if (t <= FRAME_TIME_WHIP && nx > 0)
-				animations[ani]->Render(x - 7, y, color);
-			else if (t >= 2 * FRAME_TIME_WHIP && nx < 0)
-				animations[ani]->Render(x - 6, y, color);
-			else
-				animations[ani]->Render(x, y, color);
-			whip->SetCurrentFrame(animations[ani]->GetCureentFrame());
-			whip->Render();
-		}
-		else
-			animations[ani]->Render(x, y, color);
+		animations[ani]->Render(x, y, color);
 	}
-	/*DWORD t = GetTickCount() - FrameWeapon;
-	if (t< 2000)
-		weapon->Render();*/
+	if (fight == true)
+	{
+		whip->SetCurrentFrame(animations[ani]->GetCureentFrame());
+		whip->Render();
+	}
+
 	RenderBoundingBox(100);
+	//DebugOut(L"ani=%d\n", ani);
+	//animations[0]->Render(x,y);
 }
 
 void CSimon::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
-	left = x;
+	left = x + DISTANCE_BBOX_WIDTH_IDLE;
 	top = y;
-	DWORD t = GetTickCount() - whip->GetFrameWhip();
-	if (state == SIMON_STATE_DIE)
+	if (vy < 0)
 	{
-		right = x + 30;
-		bottom = y + 14;
-	}
-	else if (vy < 0)
-	{
-		right = x + SIMON_BBOX_KNEE_WIDTH;
-		bottom = y + SIMON_BBOX_KNEE_HEIGHT;
+		top = y + DISTANCE_BBOX_HEIGHT_KNEE;
 	}
 	else if (vx == 0 && mx == 1)
 	{
-		right = x + SIMON_BBOX_KNEE_WIDTH;
-		bottom = y + SIMON_BBOX_KNEE_HEIGHT;
-	}
-	else
-	{
-		right = x + SIMON_BBOX_IDLE_WIDTH;
-		bottom = y + SIMON_BBOX_IDLE_HEIGHT;
-	}
+		top = y + DISTANCE_BBOX_HEIGHT_KNEE;
 
-
+	}
+	right = left + SIMON_BBOX_IDLE_WIDTH;
+	bottom = y + SIMON_BBOX_IDLE_HEIGHT;
 }
 
 
@@ -936,12 +909,12 @@ void CSimon::Auto()
 	}
 	if (state_auto == 1) // tu dong di ve phia cau thang
 	{
-		if (x > stair_x)
+		if (x + 9 > stair_x)
 		{
 			SetState(SIMON_STATE_WALKING_LEFT);
 			state_auto = 2;
 		}
-		else if (x < stair_x)
+		else if (x + 9 < stair_x)
 		{
 			state_auto = 3;
 			SetState(SIMON_STATE_WALKING_RIGHT);
@@ -949,9 +922,9 @@ void CSimon::Auto()
 	}
 	else if (state_auto == 2) //tu dong len cau thang
 	{
-		if (x <= stair_x)
+		if (x + 9 <= stair_x)
 		{
-			x = stair_x;
+			x = stair_x - 9;
 			y = stair_y;
 			nx = nx1;
 			if (stair == 1)
@@ -977,9 +950,9 @@ void CSimon::Auto()
 	}
 	else if (state_auto == 3) //tu dong len cau thang
 	{
-		if (x >= stair_x)
+		if (x + 9 >= stair_x)
 		{
-			x = stair_x;
+			x = stair_x - 9;
 			y = stair_y;
 			nx = nx1;
 			if (stair == 1)

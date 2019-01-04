@@ -86,8 +86,9 @@ public:
 	~CGameObject();
 };
 
-#define HITEFFECT_STATE_NORMAL 0
-#define HITEFFECT_STATE_DELETE 1
+#define HITEFFECT_STATE_HIT 0
+#define HITEFFECT_STATE_DIE 1
+#define HITEFFECT_STATE_DELETE 2
 
 #define TIME_EFFECT 200
 class Chiteffect :public CGameObject

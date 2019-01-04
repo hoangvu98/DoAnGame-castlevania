@@ -140,7 +140,7 @@ void CGameObject::RenderBoundingBox(int alpha)
 	rect.right = (int)r - (int)l;
 	rect.bottom = (int)b - (int)t;
 
-	CGame::GetInstance()->Draw(x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, alpha);
+	CGame::GetInstance()->Draw(l, t, bbox, rect.left, rect.top, rect.right, rect.bottom, alpha);
 }
 
 void CGameObject::AddAnimation(int aniId)
@@ -157,7 +157,7 @@ CGameObject::~CGameObject()
 
 void Chiteffect::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (state == HITEFFECT_STATE_NORMAL)
+	if (state == HITEFFECT_STATE_HIT || state == HITEFFECT_STATE_DIE)
 	{
 		DWORD now = GetTickCount();
 		if (now - time > TIME_EFFECT)
@@ -169,11 +169,11 @@ void Chiteffect::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void Chiteffect::Render()
 {
-	if (state == HITEFFECT_STATE_NORMAL)
-	{
+	if (state == HITEFFECT_STATE_HIT)
 		animations[0]->Render(x, y, 255);
+	if (state == HITEFFECT_STATE_DIE)
 		animations[1]->Render(x + 5, y + 5, 255);
-	}
+
 }
 
 void Chiteffect::SetState(int state)
@@ -181,7 +181,11 @@ void Chiteffect::SetState(int state)
 	CGameObject::SetState(state);
 	switch (state)
 	{
-	case HITEFFECT_STATE_NORMAL:
+	case HITEFFECT_STATE_HIT:
 		time = GetTickCount();
+		break;
+	case HITEFFECT_STATE_DIE:
+		time = GetTickCount();
+		break;
 	}
 }

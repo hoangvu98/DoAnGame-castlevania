@@ -92,7 +92,7 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 			DWORD now = GetTickCount();
-			if(now-time_delete>450)
+			if (now - time_delete > 450)
 				SetState(ITEM_STATE_DELETE);
 		}
 		x += dx;
@@ -376,11 +376,11 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			CGame* game = CGame::GetInstance();
 			float cx, cy;
 			game->GetCamera(cx, cy);
-			if (x <= left_distance || x <= cx-10.0f)
+			if (x <= left_distance || x <= cx - 10.0f)
 			{
 				SetState(ITEM_STATE_WEAPON_RIGHT);
 				fly = true;
-				if(IsDelete)
+				if (IsDelete)
 					SetState(ITEM_STATE_DELETE);
 				else
 				{
@@ -390,7 +390,7 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						IsDelete = true;
 				}
 			}
-			if (x >= right_distance || x >= cx+ VIEWPORT_WIDTH)
+			if (x >= right_distance || x >= cx + VIEWPORT_WIDTH)
 			{
 				SetState(ITEM_STATE_WEAPON_LEFT);
 				fly = true;
@@ -424,7 +424,7 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					else if (dynamic_cast<CCandle *> (e->obj))
 					{
 						CCandle *candle = dynamic_cast<CCandle *>(e->obj);
-						if(candle->state!=CANDLE_STATE_DELETE)
+						if (candle->state != CANDLE_STATE_DELETE)
 							candle->SetState(CANDLE_STATE_DISAPPEAR);
 					}
 					else if (dynamic_cast<CMonster *> (e->obj))
@@ -490,7 +490,7 @@ void CHollyWater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		CGameObject::Update(dt);
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
-		if(vy<= 0.05f)
+		if (vy <= 0.05f)
 			vy += HOLLY_WATER_GRAVITY * dt;
 		CalcPotentialCollisions(coObjects, coEvents);
 		bool test = true;
@@ -507,12 +507,13 @@ void CHollyWater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					{
 						SetState(HOLLY_WATER_STATE_EXPLODE);
 						test = false;
+						time = GetTickCount();
 					}
 				}
 				else if (dynamic_cast<CCandle *> (e->obj))
 				{
 					CCandle *candle = dynamic_cast<CCandle *>(e->obj);
-					if(candle->state!=CANDLE_STATE_DELETE)
+					if (candle->state != CANDLE_STATE_DELETE)
 						candle->SetState(CANDLE_STATE_DISAPPEAR);
 				}
 				else if (dynamic_cast<CMonster *> (e->obj))
@@ -559,6 +560,14 @@ void CHollyWater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			x += dx;
 			y += dy;
+		}
+		if (state == HOLLY_WATER_STATE_EXPLODE)
+		{
+			DWORD now = GetTickCount();
+			if (now - time > HOLLY_WATER_TIME_FIRE)
+			{
+				SetState(ITEM_STATE_DELETE);
+			}
 		}
 	}
 }

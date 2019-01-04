@@ -49,6 +49,12 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (candle->state != CANDLE_STATE_DELETE)
 				{
 					candle->SetState(CANDLE_STATE_DISAPPEAR);
+					Chiteffect* hiteffect = new Chiteffect();
+					hiteffect->SetPosition(x, y);
+					hiteffect->SetState(HITEFFECT_STATE_HIT);
+					CCells* cell = simon->map->GetCell();
+					cell->InitCells(hiteffect);
+					simon->map->SetCell(cell);
 				}
 			}
 			else if (dynamic_cast<CHeadDracula *>(e->obj))
@@ -64,9 +70,16 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						{
 							head->SetState(HEAD_STATE_FLY_AWAY);
 							dracula->SetState(DRACULA_STATE_DIE);
-						}							
+						}
 						dracula->SetIsInjure(false);
 						dracula->SetTimeInjure();
+
+						Chiteffect* hiteffect = new Chiteffect();
+						hiteffect->SetPosition(x, y);
+						hiteffect->SetState(HITEFFECT_STATE_HIT);
+						CCells* cell = simon->map->GetCell();
+						cell->InitCells(hiteffect);
+						simon->map->SetCell(cell);
 					}
 				}
 			}
@@ -89,6 +102,13 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						{
 							monster->SetHealth(monster->GetHealth() - damage);
 							IsSubHP = false;
+
+							Chiteffect* hiteffect = new Chiteffect();
+							hiteffect->SetPosition(x, y);
+							hiteffect->SetState(HITEFFECT_STATE_HIT);
+							CCells* cell = simon->map->GetCell();
+							cell->InitCells(hiteffect);
+							simon->map->SetCell(cell);
 						}
 					}
 				}
@@ -108,7 +128,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				CSpiritDracula *spiritdracula = CSpiritDracula::GetInstance();
 				CHidenObject *head = dynamic_cast<CHidenObject *> (e->obj);
-				
+
 				if (head->GetState() == HIDENOBJECT_STATE_HEAD)
 				{
 					if (spiritdracula->GetIsInjure())
@@ -121,10 +141,13 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						}
 						spiritdracula->SetIsInjure(false);
 						spiritdracula->SetTimeInjure();
+						Chiteffect* hiteffect = new Chiteffect();
+						hiteffect->SetPosition(x, y);
+						hiteffect->SetState(HITEFFECT_STATE_HIT);
+						CCells* cell = simon->map->GetCell();
+						cell->InitCells(hiteffect);
+						simon->map->SetCell(cell);
 					}
-					/*if (spiritdracula->GetHealth() <= 0)
-						spiritdracula->SetState(SPIRITDRACULA_STATE_DIE);
-					else spiritdracula->SetHealth(spiritdracula->GetHealth() - 1);*/
 				}
 			}
 		}

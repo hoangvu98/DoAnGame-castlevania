@@ -137,53 +137,56 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		DWORD t = GetTickCount() - simon->GetWhip()->GetFrameWhip();
 		if (t >= 3 * FRAME_TIME_WHIP)
 		{
-			int k = -1;
-			if (simon->GetOnSkill())
-				k = simon->GetHeart() - simon->GetWeapon()->GetMana();
-			if (k >= 0 && game->IsKeyDown(DIK_UP) && t >= 3 * FRAME_TIME_WHIP)
+			if (simon->state != SIMON_STATE_STAIR_UP && simon->state != SIMON_STATE_STAIR_DOWN)
 			{
-				simon->SetHeart(k);
+				int k = -1;
 				if (simon->GetOnSkill())
+					k = simon->GetHeart() - simon->GetWeapon()->GetMana();
+				if (k >= 0 && game->IsKeyDown(DIK_UP) && t >= 3 * FRAME_TIME_WHIP)
+				{
+					simon->SetHeart(k);
+					if (simon->GetOnSkill())
+					{
+						if (simon->nx > 0)
+							simon->GetWeapon()->SetState(ITEM_STATE_WEAPON_RIGHT);
+						else
+							simon->GetWeapon()->SetState(ITEM_STATE_WEAPON_LEFT);
+						simon->SetFrameWeapon();
+						simon->SetSkill(true);
+						float temp_x, temp_y;
+						simon->GetPosition(temp_x, temp_y);
+						simon->GetWeapon()->SetPosition(temp_x, temp_y + 5);
+
+						CCells* cell = simon->map->GetCell();
+						cell->InitCells(simon->GetWeapon());
+						simon->map->SetCell(cell);
+
+						if (simon->state == SIMON_STATE_STAIR_UP || simon->state == SIMON_STATE_STAIR_UP_IDLE)
+							simon->SetState(SIMON_STATE_STAIR_UP_IDLE);
+						else if (simon->state == SIMON_STATE_STAIR_DOWN || simon->state == SIMON_STATE_STAIR_DOWN_IDLE)
+							simon->SetState(SIMON_STATE_STAIR_DOWN_IDLE);
+						else if (simon->state != SIMON_STATE_JUMP)
+							simon->SetState(SIMON_STATE_IDLE);
+					}
+				}
+				else
 				{
 					if (simon->nx > 0)
-						simon->GetWeapon()->SetState(ITEM_STATE_WEAPON_RIGHT);
+						simon->GetWhip()->SetStateWhip(WHIP_STATE_RIGHT);
 					else
-						simon->GetWeapon()->SetState(ITEM_STATE_WEAPON_LEFT);
-					simon->SetFrameWeapon();
-					simon->SetSkill(true);
-					float temp_x, temp_y;
-					simon->GetPosition(temp_x, temp_y);
-					simon->GetWeapon()->SetPosition(temp_x, temp_y + 5);
-
-					CCells* cell = simon->map->GetCell();
-					cell->InitCells(simon->GetWeapon());
-					simon->map->SetCell(cell);
-
-					if (simon->state == SIMON_STATE_STAIR_UP || simon->state == SIMON_STATE_STAIR_UP_IDLE)
-						simon->SetState(SIMON_STATE_STAIR_UP_IDLE);
-					else if (simon->state == SIMON_STATE_STAIR_DOWN || simon->state == SIMON_STATE_STAIR_DOWN_IDLE)
-						simon->SetState(SIMON_STATE_STAIR_DOWN_IDLE);
-					else if (simon->state != SIMON_STATE_JUMP)
-						simon->SetState(SIMON_STATE_IDLE);
+						simon->GetWhip()->SetStateWhip(WHIP_STATE_LEFT);
+					simon->SetFight(true);
+					if (simon->GetStair() != 2)
+					{
+						if (game->IsKeyDown(DIK_DOWN))
+							simon->SetState(SIMON_STATE_KNEE);
+						else if (simon->state != SIMON_STATE_JUMP)
+							simon->SetState(SIMON_STATE_IDLE);
+					}
 				}
+				DWORD time = GetTickCount();
+				simon->GetWhip()->SetFrameWhip(time);
 			}
-			else
-			{
-				if (simon->nx > 0)
-					simon->GetWhip()->SetStateWhip(WHIP_STATE_RIGHT);
-				else
-					simon->GetWhip()->SetStateWhip(WHIP_STATE_LEFT);
-				simon->SetFight(true);
-				if (simon->GetStair() != 2)
-				{
-					if (game->IsKeyDown(DIK_DOWN))
-						simon->SetState(SIMON_STATE_KNEE);
-					else if (simon->state != SIMON_STATE_JUMP)
-						simon->SetState(SIMON_STATE_IDLE);
-				}
-			}
-			DWORD time = GetTickCount();
-			simon->GetWhip()->SetFrameWhip(time);
 		}
 		break;
 	}
@@ -394,10 +397,10 @@ void LoadResources()
 	simon->SetPosition(448.0f, 76.0f);//map 5
 	//simon->SetPosition(190.0f, 30.0f   /*719.0f, 45.0f*/);
 	//simon->SetPosition(49.0f, 104.0f);
-	simon->SetPosition(66.0f, 34.0f);
+	simon->SetPosition(500.0f, 114.5f);
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
-	simon->map->SetScene(SCENE_4);
+	simon->map->SetScene(SCENE_2);
 	screen = 2;
 	simon->map->LoadObject();
 	simon->map->LoadMap();

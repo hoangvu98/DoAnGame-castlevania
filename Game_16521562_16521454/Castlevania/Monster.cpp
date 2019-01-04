@@ -28,7 +28,7 @@ void CMonster::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		CSimon* simon = CSimon::GetInstance();
 		Chiteffect* hiteffect = new Chiteffect();
 		hiteffect->SetPosition(x, y);
-		hiteffect->SetState(HITEFFECT_STATE_NORMAL);
+		hiteffect->SetState(HITEFFECT_STATE_DIE);
 		CCells* cell = simon->map->GetCell();
 		cell->InitCells(hiteffect);
 		if (items != NULL)

@@ -9,7 +9,7 @@ void CCandle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	{
 		Chiteffect *hiteffect = new Chiteffect();
 		hiteffect->SetPosition(x, y);
-		hiteffect->SetState(HITEFFECT_STATE_NORMAL);
+		hiteffect->SetState(HITEFFECT_STATE_DIE);
 		items->SetPosition(x + 5, y + 10);
 		CSimon* simon = CSimon::GetInstance();
 		CCells* cell = simon->map->GetCell();
