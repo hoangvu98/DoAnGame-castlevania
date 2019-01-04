@@ -1,15 +1,7 @@
 #include "Cell.h"
 #include "debug.h"
-#include "Candle.h"
-#include "Simon.h"
-#include "Ghoul.h"
 #include "HidenObject.h"
-#include "BossBat.h"
-#include "Bat.h"
-#include "Fishman.h"
-#include "Bullet.h"
-#include "SpiritDracula.h"
-#include "Dracula.h"
+
 void CCell::SetObjects(LPGAMEOBJECT object)
 {
 	objects.push_back(object);
@@ -59,6 +51,69 @@ CCells::CCells(int row, int column)
 
 CCells::~CCells()
 {
+}
+
+void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, float cam_y)
+{
+	int xs, ys;
+	int xe, ye;
+	int i, j, k;
+	xs = (int)cam_x / CELL_WIDTH;
+	ys = (int)cam_y / CELL_HEIGHT;
+
+	xe = (int)(cam_x + 256.0f) / CELL_WIDTH;
+	ye = (int)(cam_y + 185.0f) / CELL_HEIGHT;
+	for (i = xs; i <= xe; i++)
+		for (j = ys; j <= ye; j++)
+		{
+			if (cells[i][j].GetObjects().size() != 0)
+				for (k = 0; k < (int)cells[i][j].GetObjects().size(); k++)
+				{
+					LPGAMEOBJECT e = cells[i][j].GetObjects()[k];				
+					list_object->push_back(e);
+				}
+		}
+}
+
+
+void CCells::Update(DWORD dt, float cam_x, float cam_y)
+{
+	int xs, ys;
+	int xe, ye;
+	int i, j;
+
+	xs = (int)cam_x / CELL_WIDTH;
+	ys = (int)cam_y / CELL_HEIGHT;
+
+	xe = (int)(cam_x + 256.0f) / CELL_WIDTH;
+	ye = (int)(cam_y + 160.0f) / CELL_HEIGHT;
+
+	for (i = xs; i < xe; i++)
+		for (j = ys; j < ye; j++)
+			cells[i][j].Update(dt);
+
+}
+
+void CCells::Render(float cam_x, float cam_y)
+{
+	int xs, ys;
+	int xe, ye;
+	int i, j;
+
+	xs = (int)cam_x / CELL_WIDTH;
+	ys = (int)cam_y / CELL_HEIGHT;
+
+	xe = (int)(cam_x + 256.0f) / CELL_WIDTH;
+	ye = (int)(cam_y + 160.0f) / CELL_HEIGHT;
+
+	for (i = xs; i < xe; i++)
+		for (j = ys; j < ye; j++)
+			cells[i][j].Render();
+}
+
+CCell CCells::GetCell(int x, int y)
+{
+	return cells[x][y];
 }
 
 void CCells::InitCells(LPGAMEOBJECT object)
@@ -113,142 +168,3 @@ void CCells::InitCells(LPGAMEOBJECT object)
 		cells[x][y].SetObjects(object);
 	}
 }
-
-void CCells::GetListOfObjects(vector<LPGAMEOBJECT>* list_object, float cam_x, float cam_y)
-{
-	int xs, ys;
-	int xe, ye;
-	int i, j, k;
-	xs = (int)cam_x / CELL_WIDTH;
-	ys = (int)cam_y / CELL_HEIGHT;
-
-	xe = (int)(cam_x + 256.0f) / CELL_WIDTH;
-	ye = (int)(cam_y + 185.0f) / CELL_HEIGHT;
-	for (i = xs; i <= xe; i++)
-		for (j = ys; j <= ye; j++)
-		{
-			if (cells[i][j].GetObjects().size() != 0)
-				for (k = 0; k < (int)cells[i][j].GetObjects().size(); k++)
-				{
-					LPGAMEOBJECT e = cells[i][j].GetObjects()[k];				
-					list_object->push_back(e);
-				}
-		}
-}
-
-void CCells::ChangeCellOfObject(float cam_x, float cam_y)
-{
-	int xs, ys;
-	int xe, ye;
-	int i, j, k;
-	xs = (int)cam_x / CELL_WIDTH;
-	ys = (int)cam_y / CELL_HEIGHT;
-
-	xe = (int)(cam_x + 256.0f) / CELL_WIDTH;
-	ye = (int)(cam_y + 185.0f) / CELL_HEIGHT;
-	for (i = xs; i <= xe; i++)
-		for (j = ys; j <= ye; j++)
-		{
-			if (cells[i][j].GetObjects().size() != 0)
-				for (k = 0; k < (int)cells[i][j].GetObjects().size(); k++)
-				{
-					LPGAMEOBJECT e = cells[i][j].GetObjects()[k];
-					if (dynamic_cast <CCandle *> (e))
-					{
-						if (e->state == CANDLE_STATE_DELETE)
-							cells[i][j].XoaObject(k);
-					}					
-					if (dynamic_cast <CItems *> (e))
-					{
-						if (e->state == ITEM_STATE_DELETE)
-							cells[i][j].XoaObject(k);
-					}
-					else if (dynamic_cast <CDracula *> (e))
-					{
-						CDracula *dracula = dynamic_cast<CDracula *>(e);
-						if (dracula->state == DRACULA_STATE_DIE && dracula->GetIsSpirit() == false)
-						{
-							cells[i][j].XoaObject(k);
-						}
-					}
-					else if (dynamic_cast <CBossBat *> (e))
-					{
-						CBossBat *bossbat = dynamic_cast<CBossBat *>(e);
-						if (bossbat->state == MONSTER_STATE_DELETE )
-						{
-							cells[i][j].XoaObject(k);
-						}
-					}
-					else if (dynamic_cast<CMonster *> (e))
-					{
-						int a = (int)e->x / CELL_WIDTH;
-						int b = (int)e->y / CELL_HEIGHT;
-						if (a != i || b != j)
-						{
-							cells[i][j].XoaObject(k);
-							if (xs <= a && a <= xe && ys <= b && b <= ye)
-								cells[a][b].SetObjects(e);
-						}
-					}
-					else if (dynamic_cast<CBullet *> (e))
-					{
-						int a = (int)e->x / CELL_WIDTH;
-						int b = (int)e->y / CELL_HEIGHT;
-						if (a != i || b != j)
-						{
-							cells[i][j].XoaObject(k);
-							if (xs <= a && a <= xe)
-								if (ys <= b && b <= ye)
-									cells[a][b].SetObjects(e);
-						}
-					}
-					else if (dynamic_cast<CBrick *>(e))
-					{
-						CBrick *brick = dynamic_cast<CBrick *>(e);
-						if (brick->state == BRICK_STATE_DELETE)
-							cells[i][j].XoaObject(k);
-					}
-				}
-		}
-}
-
-void CCells::Update(DWORD dt, float cam_x, float cam_y)
-{
-	int xs, ys;
-	int xe, ye;
-	int i, j;
-
-	xs = (int)cam_x / CELL_WIDTH;
-	ys = (int)cam_y / CELL_HEIGHT;
-
-	xe = (int)(cam_x + 256.0f) / CELL_WIDTH;
-	ye = (int)(cam_y + 160.0f) / CELL_HEIGHT;
-
-	for (i = xs; i < xe; i++)
-		for (j = ys; j < ye; j++)
-			cells[i][j].Update(dt);
-
-}
-
-void CCells::Render(float cam_x, float cam_y)
-{
-	int xs, ys;
-	int xe, ye;
-	int i, j;
-
-	xs = (int)cam_x / CELL_WIDTH;
-	ys = (int)cam_y / CELL_HEIGHT;
-
-	xe = (int)(cam_x + 256.0f) / CELL_WIDTH;
-	ye = (int)(cam_y + 160.0f) / CELL_HEIGHT;
-
-	for (i = xs; i < xe; i++)
-		for (j = ys; j < ye; j++)
-			cells[i][j].Render();
-}
-
-CCell CCells::GetCell(int x, int y)
-{
-	return cells[x][y];
-}
-

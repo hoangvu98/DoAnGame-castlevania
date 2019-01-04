@@ -103,7 +103,7 @@ cells->InitCells(candle);*/
 		cells = new CCells(column, row);
 
 		in.open("Data\\ClockTowerLevel_Scene2.txt");
-		for (i = 0; i < 10; i++)
+		for (i = 0; i < 11; i++)
 		{
 			CInputImage::LoadObjectFromFile(in, object);
 			cells->InitCells(object);
@@ -166,7 +166,7 @@ cells->InitCells(candle);*/
 		cells = new CCells(column, row);
 
 		in.open("Data\\ClockTowerLevel_Scene3.txt");
-		for (i = 0; i < 10; i++)
+		for (i = 0; i < 12; i++)
 		{
 			CInputImage::LoadObjectFromFile(in, object);
 			cells->InitCells(object);

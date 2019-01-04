@@ -116,7 +116,9 @@ public:
 	void SetFrameWeapon() { FrameWeapon = GetTickCount(); }
 	DWORD GetFrameWeapon() { return FrameWeapon; }
 	bool GetOnSkill() { return OnSkill; }
+	void SetOnSkill(bool OnSkill) { this->OnSkill = OnSkill; }
 	CItems* GetWeapon() { return weapon; }
+	void SetWeapon(CItems* weapon) { this->weapon = weapon; }
 	CWhip* GetWhip() { return whip; }
 	int GetStair() { return stair; }
 	void SetStair(int stair) { this->stair = stair; }

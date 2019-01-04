@@ -147,7 +147,7 @@ void CSkeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			start_to_throw = GetTickCount();
 		}
 		else
-			if (now - start_to_throw >= 4000)
+			if (now - start_to_throw >= 2* TIME_TO_THROW_BONES)
 			{
 				fire = false;
 				for (int i = 0; i < number; i++)

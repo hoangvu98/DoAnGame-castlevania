@@ -446,8 +446,16 @@ void Update(DWORD dt)
 			simon->MeetBoss = false;
 			simon->SetIsChangeMap(false);
 			if (simon->GetStage() == 6)
+			{
 				simon->map = CClockTowerLevel::GetInstance();
-			simon->map->SetScene(SCENE_6_1);
+				simon->map->SetScene(SCENE_6_1);
+			}
+			if (simon->GetStage() == 1)
+			{
+				simon->map = CEntranceLevel::GetInstance();
+				screen = 0;
+				simon->map->SetScene(SCENE_1);
+			}
 			simon->SetHealth(16);
 			simon->SetHeart(5);
 			float x, y;
@@ -455,6 +463,13 @@ void Update(DWORD dt)
 			if (x != 0 || y != 0)
 				simon->SetPosition(x, y);
 			simon->Camera();
+			if (simon->GetStage() == 1)
+			{
+				simon->SetOnSkill(false);
+				simon->SetWeapon(NULL);
+				simon->SetPosition(226.0f, 130.0f);
+				game->SetCamera(0, 0);
+			}
 		}
 		if (simon->GetReset())
 		{

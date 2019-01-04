@@ -363,8 +363,16 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			}
 			else if (dynamic_cast<COtherStuff *>(e->obj))
 			{
+			if (dynamic_cast<CEntranceLevel *>(map))
+			{
 				IsChangeMap = true;
 				stage = 6;
+			}
+			else if (dynamic_cast<CClockTowerLevel *>(map))
+			{
+				IsChangeMap = true;
+				stage = 1;
+			}
 			}
 		}
 		for (UINT i = 0; i < coEvents.size(); i++)

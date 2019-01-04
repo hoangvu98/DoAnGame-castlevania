@@ -25,7 +25,7 @@ void CHidenObject::Render()
 	}
 	else if (state == HIDENOBJECT_STATE_JUMP)
 	{
-
+		RenderBoundingBox(200);
 	}
 	else if (state == HIDENOBJECT_STATE_DOOR)
 	{

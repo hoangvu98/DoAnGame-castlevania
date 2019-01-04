@@ -38,6 +38,7 @@ public:
 	void SetNextScene(int NextScene) { this->NextScene = NextScene; }
 	int GetNextScene() { return NextScene; }
 	void GetUpdateObjects(vector<LPGAMEOBJECT>* object);
+	void ChangeCellOfObject(float cam_x, float cam_y);
 	void GetSizeOfMap(float &width, float &height);
 	virtual void LoadMap();
 	virtual void LoadObject() = 0;
