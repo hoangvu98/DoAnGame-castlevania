@@ -92,7 +92,7 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 			DWORD now = GetTickCount();
-			if (now - time_delete > 450)
+			if (now - time_delete > 1000)
 				SetState(ITEM_STATE_DELETE);
 		}
 		x += dx;

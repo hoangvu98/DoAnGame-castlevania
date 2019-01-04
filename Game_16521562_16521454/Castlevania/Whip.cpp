@@ -50,7 +50,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					candle->SetState(CANDLE_STATE_DISAPPEAR);
 					Chiteffect* hiteffect = new Chiteffect();
-					hiteffect->SetPosition(x, y);
+					hiteffect->SetPosition(candle->x, candle->y);
 					hiteffect->SetState(HITEFFECT_STATE_HIT);
 					CCells* cell = simon->map->GetCell();
 					cell->InitCells(hiteffect);
@@ -75,7 +75,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						dracula->SetTimeInjure();
 
 						Chiteffect* hiteffect = new Chiteffect();
-						hiteffect->SetPosition(x, y);
+						hiteffect->SetPosition(head->x, head->y);
 						hiteffect->SetState(HITEFFECT_STATE_HIT);
 						CCells* cell = simon->map->GetCell();
 						cell->InitCells(hiteffect);
@@ -104,7 +104,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							IsSubHP = false;
 
 							Chiteffect* hiteffect = new Chiteffect();
-							hiteffect->SetPosition(x, y);
+							hiteffect->SetPosition(monster->x, monster-> y);
 							hiteffect->SetState(HITEFFECT_STATE_HIT);
 							CCells* cell = simon->map->GetCell();
 							cell->InitCells(hiteffect);
@@ -142,7 +142,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						spiritdracula->SetIsInjure(false);
 						spiritdracula->SetTimeInjure();
 						Chiteffect* hiteffect = new Chiteffect();
-						hiteffect->SetPosition(x, y);
+						hiteffect->SetPosition(head->x, head->y);
 						hiteffect->SetState(HITEFFECT_STATE_HIT);
 						CCells* cell = simon->map->GetCell();
 						cell->InitCells(hiteffect);

@@ -102,8 +102,12 @@ void CInputImage::LoadObjectFromFile(ifstream & in, LPGAMEOBJECT & object)
 		object->Setnx((int)nx);
 		break;
 	case BOSSBAT:
-		object = CBossBat::GetInstance();
-		object->SetPosition(x, y);
+		CBossBat* bossbat;
+		bossbat = CBossBat::GetInstance();
+		bossbat->SetState(state);
+		bossbat->SetPosition(x, y);
+		bossbat->SetHealth(16);
+		object = (CBossBat *)bossbat;
 		break;
 	case SKELETON:
 		object = new CSkeleton(x, y);

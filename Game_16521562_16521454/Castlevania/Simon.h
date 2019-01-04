@@ -60,7 +60,7 @@ using namespace std;
 #define DISTANCE_BBOX_HEIGHT_KNEE 6
 
 #define SIMON_BBOX_IDLE_WIDTH		15
-#define SIMON_BBOX_IDLE_HEIGHT		31
+#define SIMON_BBOX_IDLE_HEIGHT		30
 
 #define TIME_STAIR 400
 #define TIME_RESET 1000

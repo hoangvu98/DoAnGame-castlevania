@@ -264,6 +264,12 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				else if (collusion == 0 && monster->state != MONSTER_STATE_DELETE &&
 					monster->state != MONSTER_STATE_DISAPPEAR)
 				{
+					if (dynamic_cast<CBat *> (e->obj))
+					{
+						CBat *bat = dynamic_cast<CBat *>(e->obj);
+						if (bat->GetSize() == BAT_SIZE_SMALL)
+							bat->SetHealth(bat->GetHealth() - 1);
+					}
 					if (stair != 2)
 					{
 						collusion = 1;
@@ -569,7 +575,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		else
 			CameraAuto();
 
-
+		DebugOut(L"x=%f\ny=%f\n",x,y);
 		//DebugOut(L"state_auto=%d\n", state_auto);
 		//DebugOut(L"IsUp=%d\nIsDown=%d\n", IsUp,IsDown);
 		//DebugOut(L"state=%d\n", state);
