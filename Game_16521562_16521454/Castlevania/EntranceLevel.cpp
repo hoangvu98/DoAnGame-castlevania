@@ -333,7 +333,7 @@ void CEntranceLevel::LoadMap()
 		cells = new CCells(column, row);
 
 		in.open("Data\\EntranceLevel_Scene4.txt");
-		for (i = 0; i < 20; i++)
+		for (i = 0; i < 22; i++)
 		{
 			CInputImage::LoadObjectFromFile(in, object);
 			cells->InitCells(object);
@@ -1164,7 +1164,7 @@ void CEntranceLevel::LoadObject()
 
 		in.open("Data\\hobj_EL_Scene5.txt");
 
-		for (i = 0; i < 11; i++)
+		for (i = 0; i < 13; i++)
 		{
 			CInputImage::LoadObjectFromFile(in, object);
 			cellsobject->InitCells(object);

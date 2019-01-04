@@ -255,16 +255,16 @@ cells->InitCells(candle);*/
 
 		cells = new CCells(column, row);
 
-		/*in.open("Data\\ClockTowerLevel_Scene5.txt");
+		in.open("Data\\ClockTowerLevel_Scene5.txt");
 		for (i = 0; i < 9; i++)
 		{
 			CInputImage::LoadObjectFromFile(in, object);
 			cells->InitCells(object);
 		}
 
-		in.close();*/
+		in.close();
 
-		candle = new CCandle(SMALL_CANDLE, AXE);
+		/*candle = new CCandle(SMALL_CANDLE, AXE);
 		candle->SetPosition(477.0f, 50.0f);
 		candle->SetState(CANDLE_STATE_NORMAL);
 		cells->InitCells(candle);
@@ -297,7 +297,7 @@ cells->InitCells(candle);*/
 		dracula = CDracula::GetInstance();
 		dracula->Setnx(-1);
 		dracula->SetState(DRACULA_STATE_SLEEPING);
-		cells->InitCells(dracula);
+		cells->InitCells(dracula);*/
 		break;
 	}
 }
@@ -329,7 +329,7 @@ void CClockTowerLevel::LoadObject()
 		cellsobject = new CCells(column, row);
 
 		in.open("Data\\hobj_CT_Scene1.txt");
-		for (i = 0; i < 15; i++)
+		for (i = 0; i < 16; i++)
 		{
 			CInputImage::LoadObjectFromFile(in, object);
 			cellsobject->InitCells(object);

@@ -462,6 +462,29 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							}
 						}
 					}
+					else if (dynamic_cast<CHidenObject *> (e->obj))
+					{
+						CSpiritDracula *spiritdracula = CSpiritDracula::GetInstance();
+						CHidenObject *head = dynamic_cast<CHidenObject *> (e->obj);
+
+						if (head->GetState() == HIDENOBJECT_STATE_HEAD)
+						{
+							if (spiritdracula->GetIsInjure())
+							{
+								spiritdracula->SetHealth(spiritdracula->GetHealth() - 1);
+								if (spiritdracula->GetHealth() <= 0)
+								{
+									/*head->SetState(HEAD_STATE_FLY_AWAY);*/
+									spiritdracula->SetState(SPIRITDRACULA_STATE_DIE);
+								}
+								spiritdracula->SetIsInjure(false);
+								spiritdracula->SetTimeInjure();
+							}
+							/*if (spiritdracula->GetHealth() <= 0)
+								spiritdracula->SetState(SPIRITDRACULA_STATE_DIE);
+							else spiritdracula->SetHealth(spiritdracula->GetHealth() - 1);*/
+						}
+					}
 				}
 			}
 			DebugOut(L"state %d\n", state);

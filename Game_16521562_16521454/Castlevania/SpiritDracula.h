@@ -99,6 +99,7 @@ public:
 	void SetState(int state);
 	void Reset();
 	static CSpiritDracula *GetInstance();
+	static void SetInstance() { __instance = NULL; }
 	CHidenObject *GetHead() { return this->head; }
 	CSpiritDracula();
 	CSpiritDracula(float x, float y);

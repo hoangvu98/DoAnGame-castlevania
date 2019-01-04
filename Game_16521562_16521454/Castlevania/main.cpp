@@ -24,6 +24,7 @@
 #include "Resource.h"
 #include "BlackBoard.h"
 #include "Dracula.h"
+#include "SpiritDracula.h"
 using namespace std;
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
@@ -458,6 +459,7 @@ void Update(DWORD dt)
 		if (simon->GetReset())
 		{
 			CDracula::SetInstance();
+			CSpiritDracula::SetInstance();
 			int live = simon->GetLive();
 			if (live >= 1)
 			{
