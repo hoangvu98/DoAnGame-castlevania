@@ -131,18 +131,21 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			else if (dynamic_cast<CMoneyBag *>(e->obj))
 			{
 				CMoneyBag *moneybag = dynamic_cast<CMoneyBag *>(e->obj);
-				if (moneybag->GetSize() == MONEY_BAG_BIG)
-					score += 1000;
-				else
+				if (moneybag->state != ITEM_STATE_DELETE)
 				{
-					if (state == MONEY_BAG_RED)
-						score += 100;
-					else if (state == MONEY_BAG_BLUE)
-						score += 400;
-					else if (state == MONEY_BAG_WHITE)
-						score += 700;
+					if (moneybag->GetSize() == MONEY_BAG_BIG)
+						score += 1000;
+					else
+					{
+						if (state == MONEY_BAG_RED)
+							score += 100;
+						else if (state == MONEY_BAG_BLUE)
+							score += 400;
+						else if (state == MONEY_BAG_WHITE)
+							score += 700;
+					}
+					moneybag->SetState(ITEM_STATE_DELETE);
 				}
-				moneybag->SetState(ITEM_STATE_DELETE);
 			}
 			else if (dynamic_cast<CDagger *>(e->obj))
 			{

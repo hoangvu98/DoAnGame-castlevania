@@ -1,5 +1,5 @@
 #include "Bone.h"
-
+#include "debug.h"
 
 
 CBone::CBone()
@@ -18,19 +18,16 @@ void CBone::InitHeight()
 
 void CBone::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (y >= height && fall == false)
-		vy = -BONE_SPEED_Y;
-	else
-	{
-		vy += BONE_GRAVITY * dt;
-		fall = true;
-	}
-	if (nx > 0)
-		vx = BONE_SPEED_X;
-	else vx = -BONE_SPEED_X;
 	CGameObject::Update(dt);
-	this->x += dx;
-	this->y += dy;
+	if (state == BONE_STATE_NORMAL)
+	{
+		vy += BONE_GRAVITY;
+		this->x += dx;
+		this->y += dy;
+	}
+	if (y >= 190.0f)
+		SetState(BONE_STATE_DELETE);
+	DebugOut(L"x=%f\ny=%f\n",x,y);
 }
 
 void CBone::Render()

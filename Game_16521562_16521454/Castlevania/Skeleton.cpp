@@ -16,22 +16,11 @@ CSkeleton::CSkeleton(float x, float y)
 	SetPosition(x, y);
 	AddAnimation(220011); //ani left
 	AddAnimation(220012); // ani right
-	for (int i = 0; i < 3; i++)
-		bone.push_back(new CBone());
 
-	for (int i = 0; i < 3; i++)
-	{
-		bone[i]->SetPosition(x + 5.0f, y + 10.0f);
-		bone[i]->InitHeight();
-	}
 
-	bone[0]->SetSpeed(0.02f, 0.1f);
-	bone[1]->SetSpeed(0.03f, 0.1f);
-	bone[2]->SetSpeed(0.04f, 0.1f);
+
 
 	number = 0;
-
-	fire = false;
 
 	jump = false;
 
@@ -49,7 +38,6 @@ void CSkeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		DWORD now = GetTickCount();
 
-
 		min = simon->x - SKELETON_DISTANCE;
 		max = simon->x - SKELETON_DISTANCE / 2;
 		if (state != SKELETON_STATE_JUMP)
@@ -64,8 +52,24 @@ void CSkeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vector<LPCOLLISIONEVENT> coEventsResult;
 		coEventsResult.clear();
 		CalcPotentialCollisions(coObjects, coEvents);
-
-
+		FilterCollisionImmediately(coEvents, coEventsResult);
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<CHidenObject *>(e->obj))
+			{
+				CHidenObject *hobj = dynamic_cast<CHidenObject *>(e->obj);
+				if (hobj->GetState() == HIDENOBJECT_STATE_JUMP)
+				{
+					if (state != SKELETON_STATE_JUMP)
+					{
+						jump = true;
+						jump_time = GetTickCount();
+					}
+				}
+			}
+		}
+		coEventsResult.clear();
 
 		for (UINT i = 0; i < coEvents.size(); i++)//Xoa cac doi tuong khong can thiet
 		{
@@ -94,7 +98,6 @@ void CSkeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			float min_tx, min_ty, nx = 0, ny;
 			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
-			//if (nx != 0) vx = 0;
 			if (ny != 0) vy = 0;
 
 			for (UINT i = 0; i < coEventsResult.size(); i++)
@@ -116,48 +119,24 @@ void CSkeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 								SetState(SKELETON_STATE_WALKING_RIGHT);
 						}
 					}
-					else if (hobj->GetState() == HIDENOBJECT_STATE_JUMP)
-					{
-						if ((hobj->nx > 0 && vx > 0) || (hobj->nx < 0 && vx < 0))
-						{
-							jump = true;
-							jump_time = GetTickCount();
-						}
-					}
 				}
 			}
 		}
-		int random = rand() % 3;
-		number = random;
-		if (now - start_to_throw >= TIME_TO_THROW_BONES && fire == false)
-		{
-			SetState(SKELETON_STATE_THROW_BONE);
-			for (int i = 0; i < number; i++)
-			{
-				bone[i]->SetPosition(this->x + 5.0f, this->y + 10.0f);
-				bone[i]->InitHeight();
-				if (this->nx > 0) bone[i]->nx = 1;
-				else bone[i]->nx = -1;
-			}
-			CCells* cell = simon->map->GetCell();
-			for (int i = 0; i < number; i++)
-				cell->InitCells(bone[i]);
-			simon->map->SetCell(cell);
 
+		if (now - start_to_throw >= TIME_TO_THROW_BONES)
+		{
+			CCells* cell = simon->map->GetCell();
+			CBone* bone = new CBone();
+			bone->SetSpeed(0.02, -0.2f);
+			bone->SetPosition(this->x + 5.0f, this->y + 10.0f);
+			bone->InitHeight();
+			bone->SetState(BONE_STATE_NORMAL);
+			if (this->nx > 0) bone->nx = 1;
+			else bone->nx = -1;
+			cell->InitCells(bone);
+			simon->map->SetCell(cell);
 			start_to_throw = GetTickCount();
 		}
-		else
-			if (now - start_to_throw >= 2* TIME_TO_THROW_BONES)
-			{
-				fire = false;
-				for (int i = 0; i < number; i++)
-					bone[i]->SetFall(false);
-				if (this->nx > 0) SetState(SKELETON_STATE_WALKING_RIGHT);
-				else SetState(SKELETON_STATE_WALKING_LEFT);
-				start_to_throw = GetTickCount();
-			}
-			
-
 		if (jump == true)
 		{
 			SetState(SKELETON_STATE_JUMP);
@@ -169,6 +148,8 @@ void CSkeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			this->x += dx;
 			this->y += dy;
 		}
+		if (y >= 190)
+			SetState(MONSTER_STATE_DELETE);
 	}
 	DebugOut(L"state= %d\n", state);
 }
@@ -207,10 +188,6 @@ void CSkeleton::SetState(int state)
 		break;
 	case SKELETON_STATE_JUMP:
 		vy = -SKELETON_JUMP_SPEED_Y;
-		break;
-	case SKELETON_STATE_THROW_BONE:
-		vx = 0;
-		vy = 0;
 		break;
 	}
 }

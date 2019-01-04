@@ -20,7 +20,7 @@
 #define DISTANCE_WITH_SIMON		70
 #define DISTANCE_TO_TURN_BACK	100
 
-#define TIME_TO_THROW_BONES		2000
+#define TIME_TO_THROW_BONES		1000
 
 #define SKELETON_BBOX_WIDTH		17
 #define SKELETON_BBOX_HEIGHT	31
@@ -28,7 +28,6 @@
 class CSkeleton :
 	public CMonster
 {
-	vector<CBone *> bone;
 	int number;
 
 	float left, right;
@@ -38,20 +37,17 @@ class CSkeleton :
 	DWORD start_to_throw;
 	DWORD jump_time;
 
-	bool fire;
 	bool jump;
 
 	bool isChange;
 
 	bool is_back;
-	DWORD time_skeleton_hiteffect;
 public:
 	CSkeleton();
 	CSkeleton(float x, float y);
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	void Render();
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
-	//CBone *GetBone() { return bone; }
 	void SetState(int state);
 	~CSkeleton();
 };

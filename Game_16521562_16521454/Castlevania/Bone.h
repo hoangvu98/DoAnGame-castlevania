@@ -2,12 +2,15 @@
 #include "GameObject.h"
 #define BONE_SPEED_X		0.08f
 #define BONE_SPEED_Y		0.1f
-#define BONE_GRAVITY		0.002f
+#define BONE_GRAVITY		0.005f
 #define BONE_BBOX_WIDTH		15
 #define BONE_BBOX_HEIGHT	15
 
 #define BONE_ANI_FLY_LEFT	0
 #define BONE_ANI_FLY_RIGHT	1
+
+#define BONE_STATE_NORMAL 0
+#define BONE_STATE_DELETE 1
 
 #define HEIGHT				50
 class CBone :

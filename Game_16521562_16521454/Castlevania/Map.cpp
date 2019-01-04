@@ -54,6 +54,11 @@ void CMap::ChangeCellOfObject(float cam_x, float cam_y)
 				for (k = 0; k < (int)cells->GetCell(i, j).GetObjects().size(); k++)
 				{
 					LPGAMEOBJECT e = cells->GetCell(i, j).GetObjects()[k];
+					if (dynamic_cast <CBone *> (e))
+					{
+						if (e->state == BONE_STATE_DELETE)
+							cells->GetCell(i,j).XoaObject(k);
+					}
 					if (dynamic_cast <CCandle *> (e))
 					{
 						if (e->state == CANDLE_STATE_DELETE)
@@ -62,7 +67,7 @@ void CMap::ChangeCellOfObject(float cam_x, float cam_y)
 					if (dynamic_cast <CItems *> (e))
 					{
 						if (e->state == ITEM_STATE_DELETE)
-							cells->GetCell(i, j).XoaObject(k);
+							cells->GetCell(i,j).XoaObject(k);
 					}
 					else if (dynamic_cast <CDracula *> (e))
 					{
