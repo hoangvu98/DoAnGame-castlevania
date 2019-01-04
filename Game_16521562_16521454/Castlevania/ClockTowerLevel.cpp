@@ -675,7 +675,7 @@ void CClockTowerLevel::LoadObject()
 		cellsobject = new CCells(column, row);
 
 		in.open("Data\\hobj_CT_Scene3.txt");
-		for (i = 0; i < 32; i++)
+		for (i = 0; i < 35; i++)
 		{
 			CInputImage::LoadObjectFromFile(in, object);
 			cellsobject->InitCells(object);

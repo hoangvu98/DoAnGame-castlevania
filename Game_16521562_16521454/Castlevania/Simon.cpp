@@ -116,6 +116,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			{
 				CHeart *hearts = dynamic_cast<CHeart *>(e->obj);
 				heart += hearts->GetHearts();
+				if (heart >= 99) heart = 99;
 				hearts->SetState(ITEM_STATE_DELETE);
 			}
 			else if (dynamic_cast<CPotRoast *>(e->obj))
