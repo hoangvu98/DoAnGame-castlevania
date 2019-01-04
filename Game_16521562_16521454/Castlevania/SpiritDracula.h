@@ -2,6 +2,7 @@
 #include "Monster.h"
 #include "Bullet.h"
 #include "HidenObject.h"
+#include "Items.h"
 
 #define SPIRITDRACULA_GRAVITY		0.002f
 #define SPIRITDRACULA_JUMP_SPEED_X	0.09f
@@ -57,12 +58,17 @@
 #define HEAD_WIDTH			17
 #define HEAD_HEIGHT			25
 
+#define OTHERSTUFF_POSITION_X 118.0f
+#define OTHERSTUFF_POSTIION_Y 54.0f
+
 class CSpiritDracula :
 	public CMonster
 {
 	static CSpiritDracula *__instance;
 	vector<CBullet *> bullets;
 	CHidenObject *head;
+
+	COtherStuff *otherstuff;
 	float height;
 	bool resetpos;
 	bool Bullet;
@@ -73,6 +79,7 @@ class CSpiritDracula :
 	bool startwait5;
 	bool startwait6;
 	bool startwait7;
+	bool isInitOtherStuff = true;
 
 	bool wait;
 

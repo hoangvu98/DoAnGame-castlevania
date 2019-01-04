@@ -9,202 +9,215 @@ CSpiritDracula * CSpiritDracula::__instance = NULL;
 void CSpiritDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CSimon *simon = CSimon::GetInstance();
-	int i;
-	//CGameObject::Update(dt);
-	CMonster::Update(dt, coObjects);
-	//vy += SPIRITDRACULA_GRAVITY * dt;
-
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-	CalcPotentialCollisions(coObjects, coEvents);
-	
-	///tham khao ban
-	/*if (state == SPIRITDRACULA_STATE_FIRE)
+	if (health <= 0 && isInitOtherStuff)
 	{
-		if (Bullet)
-		{
-			CBullet* bullet = new CBullet();
-			bullet->SetPosition(x, y);
-			bullet->SetSpeed(x, y, simon->x, simon->y, 800);
-			bullet->SetState(x, simon->x);
-			CCells* cell = simon->map->GetCell();
-			cell->InitCells(bullet);
-			simon->map->SetCell(cell);
-			Bullet = false;
-		}
-	}*/
-	/*else*/
-	/*{
-		Bullet = true;
-	}*/
-
-	if (simon->x < this->x + SPIRITDRACULA_OFFSET) this->nx = -1;
-	else this->nx = 1;
-
-	for (UINT i = 0; i < coEvents.size(); i++)
-	{
-		LPCOLLISIONEVENT e = coEvents[i];
-		if (dynamic_cast<CCandle *> (e->obj))
-		{
-			coEvents.erase(coEvents.begin() + i);
-			i--;
-		}
-		
-	}
-
-	if (isAddHeadToCell == false)
-	{
+		SetState(SPIRITDRACULA_STATE_DIE);
+		otherstuff = new COtherStuff();
+		otherstuff->SetPosition(OTHERSTUFF_POSITION_X, OTHERSTUFF_POSTIION_Y);
 		CCells *cells = simon->map->GetCell();
-		cells->InitCells(head);
-		simon->map->SetCell(cells);
-		isAddHeadToCell = true;
-
+		cells->InitCells(otherstuff);
+		isInitOtherStuff = false;
 	}
-	if (state == SPIRITDRACULA_STATE_IDLE)
+
+	if (state != SPIRITDRACULA_STATE_DIE)
 	{
-		if (abs(simon->x - this->x + SPIRITDRACULA_OFFSET) > DISTANCE1 && abs(simon->x - this->x + SPIRITDRACULA_OFFSET) < DISTANCE2 &&
-			fire == false /*&& state == SPIRITDRACULA_STATE_IDLE*/)
+		int i;
+		//CGameObject::Update(dt);
+		CMonster::Update(dt, coObjects);
+		//vy += SPIRITDRACULA_GRAVITY * dt;
+
+		vector<LPCOLLISIONEVENT> coEvents;
+		vector<LPCOLLISIONEVENT> coEventsResult;
+		CalcPotentialCollisions(coObjects, coEvents);
+
+		///tham khao ban
+		/*if (state == SPIRITDRACULA_STATE_FIRE)
 		{
-			fire = true;
-			resetpos = true;
-			
+			if (Bullet)
+			{
+				CBullet* bullet = new CBullet();
+				bullet->SetPosition(x, y);
+				bullet->SetSpeed(x, y, simon->x, simon->y, 800);
+				bullet->SetState(x, simon->x);
+				CCells* cell = simon->map->GetCell();
+				cell->InitCells(bullet);
+				simon->map->SetCell(cell);
+				Bullet = false;
+			}
+		}*/
+		/*else*/
+		/*{
+			Bullet = true;
+		}*/
+
+		if (simon->x < this->x + SPIRITDRACULA_OFFSET) this->nx = -1;
+		else this->nx = 1;
+
+		for (UINT i = 0; i < coEvents.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEvents[i];
+			if (dynamic_cast<CCandle *> (e->obj))
+			{
+				coEvents.erase(coEvents.begin() + i);
+				i--;
+			}
+
 		}
 
-		if (fire == false)
+		if (isAddHeadToCell == false)
 		{
-			if (startwait1 == true)
-				StartWait(startwait1, wait_start1);
+			CCells *cells = simon->map->GetCell();
+			cells->InitCells(head);
+			simon->map->SetCell(cells);
+			isAddHeadToCell = true;
 
-			if (GetTickCount() - wait_start1 > SPIRITDRACULA_WAIT_TIME)
+		}
+		if (state == SPIRITDRACULA_STATE_IDLE)
+		{
+			if (abs(simon->x - this->x + SPIRITDRACULA_OFFSET) > DISTANCE1 && abs(simon->x - this->x + SPIRITDRACULA_OFFSET) < DISTANCE2 &&
+				fire == false /*&& state == SPIRITDRACULA_STATE_IDLE*/)
 			{
-				SetState(SPIRITDRACULA_STATE_JUMP);
-				wait_start1 = 0;
+				fire = true;
+				resetpos = true;
+
 			}
+
+			if (fire == false)
+			{
+				if (startwait1 == true)
+					StartWait(startwait1, wait_start1);
+
+				if (GetTickCount() - wait_start1 > SPIRITDRACULA_WAIT_TIME)
+				{
+					SetState(SPIRITDRACULA_STATE_JUMP);
+					wait_start1 = 0;
+				}
+			}
+			else
+			{
+				isAddBulletToCell = true;
+				if (this->nx < 0)
+				{
+					for (i = 0; i < 3; i++)
+					{
+						bullets[i]->SetPosition(x + BULLET_POSITION_X, y /*+ BULLET_POSITION_Y*/);
+						bullets[i]->Setnx(-1);
+					}
+
+					bullets[0]->SetSpeed(x + BULLET_POSITION_X, y /*+ BULLET_POSITION_Y*/,
+						simon->x + 5.0f, simon->y, 800);
+					bullets[1]->SetSpeed(x + BULLET_POSITION_X, y /*+ BULLET_POSITION_Y*/,
+						simon->x + 5.0f, simon->y - 8.0f, 800);
+					bullets[2]->SetSpeed(x + BULLET_POSITION_X, y /*+ BULLET_POSITION_Y*/,
+						simon->x + 5.0f, simon->y + 8.0f, 800);
+				}
+				else if (this->nx > 0)
+				{
+					for (i = 0; i < 3; i++)
+					{
+						bullets[i]->SetPosition(x + BULLET_POSITION_X1, y /*+ BULLET_POSITION_Y*/);
+						bullets[i]->Setnx(1);
+					}
+
+					bullets[0]->SetSpeed(x + BULLET_POSITION_X1, y /*+ BULLET_POSITION_Y*/,
+						simon->x + 5.0f, simon->y, 800);
+					bullets[1]->SetSpeed(x + BULLET_POSITION_X1, y/* + BULLET_POSITION_Y*/,
+						simon->x + 5.0f, simon->y - 8.0f, 800);
+					bullets[2]->SetSpeed(x + BULLET_POSITION_X1, y /*+ BULLET_POSITION_Y*/,
+						simon->x + 5.0f, simon->y + 8.0f, 800);
+				}
+
+				if (startwait6 == true)
+					StartWait(startwait6, wait_start6);
+
+				if (GetTickCount() - wait_start6 > SPIRITDRACULA_WAIT_TIME)
+				{
+					SetState(SPIRITDRACULA_STATE_FIRE);
+					if (isAddBulletToCell)
+					{
+						CCells* cell = simon->map->GetCell();
+						for (int i = 0; i < 3; i++)
+							cell->InitCells(bullets[i]);
+						simon->map->SetCell(cell);
+						isAddBulletToCell = false;
+					}
+					wait_start6 = 0;
+				}
+			}
+		}
+
+		if (this->y < height)
+		{
+			SetState(SPIRITDRACULA_STATE_FALL);
+			vy += SPIRITDRACULA_GRAVITY * dt;
+			reset = true;
+		}
+
+		if (fire == true)
+		{
+			if (startwait7 == true)
+				StartWait(startwait7, wait_start7);
+
+			/*for (int i = 0; i < 3; i++)
+				bullets[i]->Update(dt, coObjects);*/
+
+			if (GetTickCount() - wait_start7 > SPIRITDRACULA_FIRE_TIME)
+			{
+				SetState(SPIRITDRACULA_STATE_IDLE);
+				vy += SPIRITDRACULA_GRAVITY * dt;
+				reset = true;
+				wait_start7 = 0;
+			}
+
+		}
+
+		if (nx < 0)
+		{
+			head->SetPosition(x + HEAD_POSITION_X, y);
+			head->SetSize(HEAD_WIDTH, HEAD_HEIGHT);
+			//head->SetState(HIDENOBJECT_STATE_HEAD);
 		}
 		else
 		{
-			isAddBulletToCell = true;
-			if (this->nx < 0)
-			{
-				for (i = 0; i < 3; i++)
-				{
-					bullets[i]->SetPosition(x + BULLET_POSITION_X, y /*+ BULLET_POSITION_Y*/);
-					bullets[i]->Setnx(-1);
-				}
-
-				bullets[0]->SetSpeed(x + BULLET_POSITION_X, y /*+ BULLET_POSITION_Y*/,
-					simon->x + 5.0f, simon->y, 800);
-				bullets[1]->SetSpeed(x + BULLET_POSITION_X, y /*+ BULLET_POSITION_Y*/,
-					simon->x + 5.0f, simon->y - 8.0f, 800);
-				bullets[2]->SetSpeed(x + BULLET_POSITION_X, y /*+ BULLET_POSITION_Y*/,
-					simon->x + 5.0f, simon->y + 8.0f, 800);
-			}
-			else if (this->nx > 0)
-			{
-				for (i = 0; i < 3; i++)
-				{
-					bullets[i]->SetPosition(x + BULLET_POSITION_X1, y /*+ BULLET_POSITION_Y*/);
-					bullets[i]->Setnx(1);
-				}
-
-				bullets[0]->SetSpeed(x + BULLET_POSITION_X1, y /*+ BULLET_POSITION_Y*/,
-					simon->x + 5.0f, simon->y, 800);
-				bullets[1]->SetSpeed(x + BULLET_POSITION_X1, y/* + BULLET_POSITION_Y*/,
-					simon->x + 5.0f, simon->y - 8.0f, 800);
-				bullets[2]->SetSpeed(x + BULLET_POSITION_X1, y /*+ BULLET_POSITION_Y*/,
-					simon->x + 5.0f, simon->y + 8.0f, 800);
-			}
-
-			if (startwait6 == true)
-				StartWait(startwait6, wait_start6);
-
-			if (GetTickCount() - wait_start6 > SPIRITDRACULA_WAIT_TIME)
-			{
-				SetState(SPIRITDRACULA_STATE_FIRE);
-				if (isAddBulletToCell)
-				{
-					CCells* cell = simon->map->GetCell();
-					for (int i = 0; i < 3; i++)
-						cell->InitCells(bullets[i]);
-					simon->map->SetCell(cell);
-					isAddBulletToCell = false;
-				}
-				wait_start6 = 0;
-			}
+			head->SetPosition(x + HEAD_POSITION_X1, y);
+			head->SetSize(HEAD_WIDTH, HEAD_HEIGHT);
+			//head->SetState(HIDENOBJECT_STATE_HEAD);
 		}
-	}
 
-	if (this->y < height)
-	{
-		SetState(SPIRITDRACULA_STATE_FALL);
-		vy += SPIRITDRACULA_GRAVITY * dt;
-		reset = true;
-	}
-
-	if (fire == true)
-	{
-		if (startwait7 == true)
-			StartWait(startwait7, wait_start7);
-
-		/*for (int i = 0; i < 3; i++)
-			bullets[i]->Update(dt, coObjects);*/
-
-		if (GetTickCount() - wait_start7 > SPIRITDRACULA_FIRE_TIME)
+		bool test = true;
+		if (coEvents.size() != 0)
 		{
-			SetState(SPIRITDRACULA_STATE_IDLE);
-			vy += SPIRITDRACULA_GRAVITY * dt;
-			reset = true;
-			wait_start7 = 0;
-		}
-		
-	}
+			float min_tx, min_ty, nx = 0, ny;
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
-	if (nx < 0)
-	{
-		head->SetPosition(x + HEAD_POSITION_X, y);
-		head->SetSize(HEAD_WIDTH, HEAD_HEIGHT);
-		//head->SetState(HIDENOBJECT_STATE_HEAD);
-	}
-	else
-	{
-		head->SetPosition(x + HEAD_POSITION_X1, y);
-		head->SetSize(HEAD_WIDTH, HEAD_HEIGHT);
-		//head->SetState(HIDENOBJECT_STATE_HEAD);
-	}
+			//if (ny != 0) vy = 0;
+			if (nx != 0) vx = 0;
 
-	bool test = true;
-	if (coEvents.size() != 0)
-	{
-		float min_tx, min_ty, nx = 0, ny;
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-
-		//if (ny != 0) vy = 0;
-		if (nx != 0) vx = 0;
-
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (dynamic_cast<CHidenObject *>(e->obj))
+			for (UINT i = 0; i < coEventsResult.size(); i++)
 			{
-				CHidenObject *hobj = dynamic_cast<CHidenObject *>(e->obj);
-				if (hobj->GetState() == HIDENOBJECT_STATE_NORMAL)
+				LPCOLLISIONEVENT e = coEventsResult[i];
+				if (dynamic_cast<CHidenObject *>(e->obj))
 				{
-					this->x += min_tx * dx + nx * 0.4f;
-					this->y += min_ty * dy + ny * 0.4f;
-					test = false;				
+					CHidenObject *hobj = dynamic_cast<CHidenObject *>(e->obj);
+					if (hobj->GetState() == HIDENOBJECT_STATE_NORMAL)
+					{
+						this->x += min_tx * dx + nx * 0.4f;
+						this->y += min_ty * dy + ny * 0.4f;
+						test = false;
+					}
 				}
 			}
 		}
+
+		if (test == true)
+		{
+			x += dx;
+			y += dy;
+		}
+
+		if (reset == true)
+			Reset();
 	}
-	
-	if (test == true)
-	{
-		x += dx;
-		y += dy;
-	}
-	
-	if (reset == true)
-		Reset();
 	/*DebugOut(L"state %d\n", state);
 	DebugOut(L"fire %d\n", fire);*/
 }
@@ -212,7 +225,8 @@ void CSpiritDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CSpiritDracula::Render()
 {
 	int ani;
-	if (state != MONSTER_STATE_DISAPPEAR && state != MONSTER_STATE_DELETE)
+	if (state != MONSTER_STATE_DISAPPEAR && state != SPIRITDRACULA_STATE_DIE
+		&& state != MONSTER_STATE_DELETE)
 	{
 		if (state == SPIRITDRACULA_STATE_IDLE)
 		{
@@ -374,7 +388,7 @@ CSpiritDracula::CSpiritDracula()
 {
 	CSimon *simon = CSimon::GetInstance();
 	damage = 4;
-	health = 16;
+	health = 2;
 	SetPosition(x, y);
 	height =  SPIRITDRACULA_JUMP_HEIGHT;
 

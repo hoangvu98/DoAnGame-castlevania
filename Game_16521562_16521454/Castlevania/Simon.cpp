@@ -210,6 +210,10 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				{
 					break;
 				}
+				else if (dynamic_cast<CSpiritDracula *>(e->obj) && monster->state == SPIRITDRACULA_STATE_DIE)
+				{
+					break;
+				}
 				else if (dynamic_cast<CBat *> (e->obj) && monster->state == MONSTER_STATE_SLEEPING)
 				{
 					CBat *bat = dynamic_cast<CBat *>(e->obj);
