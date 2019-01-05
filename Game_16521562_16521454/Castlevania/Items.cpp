@@ -557,9 +557,10 @@ void CHollyWater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					CHidenObject *hobj = dynamic_cast<CHidenObject *> (e->obj);
 					if (hobj->state == HIDENOBJECT_STATE_NORMAL)
 					{
+						if (state != HOLLY_WATER_STATE_EXPLODE)
+							time = GetTickCount();
 						SetState(HOLLY_WATER_STATE_EXPLODE);
-						test = false;
-						time = GetTickCount();
+						test = false;					
 					}
 				}
 				else if (dynamic_cast<CCandle *> (e->obj))
@@ -664,7 +665,7 @@ void CHollyWater::Render()
 		animations[HOLLY_WATER_ANI_FALLING]->Render(x, y);
 	else if (state == HOLLY_WATER_STATE_EXPLODE)
 		animations[HOLLY_WATER_ANI_EXPLODE]->Render(x - 3, y - 3);
-	RenderBoundingBox(200);
+	//RenderBoundingBox(200);
 }
 
 void CHollyWater::GetBoundingBox(float & left, float & top, float & right, float & bottom)

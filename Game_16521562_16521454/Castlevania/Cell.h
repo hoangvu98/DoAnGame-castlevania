@@ -28,8 +28,8 @@ class CCells
 	int row;
 	int column;
 
-	LPCELL *cells;
 public:
+	LPCELL *cells;
 	CCells();
 	CCells(int row, int column);
 	~CCells();
@@ -38,5 +38,4 @@ public:
 	void GetListOfObjects(vector<LPGAMEOBJECT> *list_object, float cam_x, float cam_y);
 	void Update(DWORD dt, float cam_x, float cam_y);
 	void Render(float cam_x, float cam_y);
-	CCell GetCell(int x, int y);
 };

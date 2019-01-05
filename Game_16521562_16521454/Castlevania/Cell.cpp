@@ -111,10 +111,6 @@ void CCells::Render(float cam_x, float cam_y)
 			cells[i][j].Render();
 }
 
-CCell CCells::GetCell(int x, int y)
-{
-	return cells[x][y];
-}
 
 void CCells::InitCells(LPGAMEOBJECT object)
 {
