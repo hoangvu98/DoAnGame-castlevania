@@ -122,12 +122,15 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		simon->map->SetScene(SCENE_6_4);
 		break;
 	case DIK_D:
-		if (simon->GetFight() == false)
+		if (simon->GetStair() != 2)
 		{
-			if (!game->IsKeyDown(DIK_DOWN) && simon->GetJump() == 0)
+			if (simon->GetFight() == false)
 			{
-				simon->SetState(SIMON_STATE_JUMP);
-				simon->SetJump(1);
+				if (!game->IsKeyDown(DIK_DOWN) && simon->GetJump() == 0)
+				{
+					simon->SetState(SIMON_STATE_JUMP);
+					simon->SetJump(1);
+				}
 			}
 		}
 		break;

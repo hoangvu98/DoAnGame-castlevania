@@ -11,6 +11,7 @@ void CCandle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		hiteffect->SetPosition(x, y);
 		hiteffect->SetState(HITEFFECT_STATE_DIE);
 		items->SetPosition(x + 5, y + 10);
+		items->SetTime();
 		CSimon* simon = CSimon::GetInstance();
 		CCells* cell = simon->map->GetCell();
 		cell->InitCells(hiteffect);

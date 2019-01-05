@@ -10,10 +10,13 @@
 #define ITEM_STATE_WEAPON_RIGHT 1
 #define ITEM_STATE_WEAPON_LEFT 2
 #define ITEM_STATE_DELETE 100
+
+#define ITEM_TIME_DISAPEAR 5000
 class CItems :
 	public CGameObject
 {
 	int mana = 1;
+	DWORD time_disapear;
 public:
 	CItems();
 	~CItems();
@@ -21,6 +24,7 @@ public:
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	virtual void Render() = 0;
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom) = 0;
+	void SetTime() { time_disapear = GetTickCount(); }
 	int GetMana() { return mana; }
 };
 

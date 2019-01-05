@@ -48,6 +48,9 @@ void CItems::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			}
 		}
 	}
+	DWORD now = GetTickCount();
+	if (now - time_disapear > ITEM_TIME_DISAPEAR)
+		SetState(ITEM_STATE_DELETE);
 	if (!IsUpdatePossiton)
 		y += dy;
 }

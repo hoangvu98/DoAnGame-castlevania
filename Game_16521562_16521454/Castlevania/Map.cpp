@@ -47,34 +47,35 @@ void CMap::ChangeCellOfObject(float cam_x, float cam_y)
 
 	xe = (int)(cam_x + 256.0f) / CELL_WIDTH;
 	ye = (int)(cam_y + 185.0f) / CELL_HEIGHT;
+	CCells* cell = cells;
 	for (i = xs; i <= xe; i++)
 		for (j = ys; j <= ye; j++)
 		{
-			if (cells->GetCell(i, j).GetObjects().size() != 0)
-				for (k = 0; k < (int)cells->GetCell(i, j).GetObjects().size(); k++)
+			if (cell->GetCell(i,j).GetObjects().size() != 0)
+				for (k = 0; k < (int)cell->GetCell(i, j).GetObjects().size(); k++)
 				{
-					LPGAMEOBJECT e = cells->GetCell(i, j).GetObjects()[k];
+					LPGAMEOBJECT e = cell->GetCell(i, j).GetObjects()[k];
 					if (dynamic_cast <CBone *> (e))
 					{
 						if (e->state == BONE_STATE_DELETE)
-							cells->GetCell(i,j).XoaObject(k);
+							cell->GetCell(i,j).XoaObject(k);
 					}
 					if (dynamic_cast <CCandle *> (e))
 					{
 						if (e->state == CANDLE_STATE_DELETE)
-							cells->GetCell(i, j).XoaObject(k);
+							cell->GetCell(i, j).XoaObject(k);
 					}
 					if (dynamic_cast <CItems *> (e))
 					{
 						if (e->state == ITEM_STATE_DELETE)
-							cells->GetCell(i,j).XoaObject(k);
+							cell->GetCell(i,j).XoaObject(k);
 					}
 					else if (dynamic_cast <CDracula *> (e))
 					{
 						CDracula *dracula = dynamic_cast<CDracula *>(e);
 						if (dracula->state == DRACULA_STATE_DIE && dracula->GetIsSpirit() == false)
 						{
-							cells->GetCell(i, j).XoaObject(k);
+							cell->GetCell(i, j).XoaObject(k);
 						}
 					}
 					else if (dynamic_cast <CBossBat *> (e))
@@ -82,7 +83,7 @@ void CMap::ChangeCellOfObject(float cam_x, float cam_y)
 						CBossBat *bossbat = dynamic_cast<CBossBat *>(e);
 						if (bossbat->state == MONSTER_STATE_DELETE)
 						{
-							cells->GetCell(i, j).XoaObject(k);
+							cell->GetCell(i, j).XoaObject(k);
 						}
 					}
 					else if (dynamic_cast<CMonster *> (e))
@@ -91,9 +92,9 @@ void CMap::ChangeCellOfObject(float cam_x, float cam_y)
 						int b = (int)e->y / CELL_HEIGHT;
 						if (a != i || b != j)
 						{
-							cells->GetCell(i, j).XoaObject(k);
+							cell->GetCell(i,j).XoaObject(k);
 							if (xs <= a && a <= xe && ys <= b && b <= ye)
-								cells->GetCell(a, b).SetObjects(e);
+								cell->GetCell(a, b).SetObjects(e);
 						}
 					}
 					else if (dynamic_cast<CBullet *> (e))
@@ -102,20 +103,21 @@ void CMap::ChangeCellOfObject(float cam_x, float cam_y)
 						int b = (int)e->y / CELL_HEIGHT;
 						if (a != i || b != j)
 						{
-							cells->GetCell(i, j).XoaObject(k);
+							cell->GetCell(i, j).XoaObject(k);
 							if (xs <= a && a <= xe)
 								if (ys <= b && b <= ye)
-									cells->GetCell(a, b).SetObjects(e);
+									cell->GetCell(a, b).SetObjects(e);
 						}
 					}
 					else if (dynamic_cast<CBrick *>(e))
 					{
 						CBrick *brick = dynamic_cast<CBrick *>(e);
 						if (brick->state == BRICK_STATE_DELETE)
-							cells->GetCell(i, j).XoaObject(k);
+							cell->GetCell(i, j).XoaObject(k);
 					}
 				}
 		}
+	SetCell(cell);
 }
 
 void CMap::GetSizeOfMap(float &width, float &height)
