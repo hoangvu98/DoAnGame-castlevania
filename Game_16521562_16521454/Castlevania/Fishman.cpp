@@ -249,7 +249,7 @@ void CFishman::Render()
 		animations[ani]->Render(x, y);
 		//bullet->Render();
 	}
-	RenderBoundingBox(200);
+	//RenderBoundingBox(200);
 }
 
 void CFishman::SetState(int state)

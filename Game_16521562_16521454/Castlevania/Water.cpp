@@ -70,7 +70,7 @@ void CWater::Render()
 		for (int i = 0; i < 3; i++)
 			splasheffect[i]->Render();
 	}
-	RenderBoundingBox(150);
+	//RenderBoundingBox(150);
 }
 
 void CWater::GetBoundingBox(float & left, float & top, float & right, float & bottom)

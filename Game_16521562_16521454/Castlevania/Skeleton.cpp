@@ -38,8 +38,8 @@ void CSkeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		DWORD now = GetTickCount();
 
-		min = simon->x - SKELETON_DISTANCE;
-		max = simon->x - SKELETON_DISTANCE / 2;
+		min = simon->x - SKELETON_DISTANCE_MIN;
+		max = simon->x - SKELETON_DISTANCE_MAX;
 		if (state != SKELETON_STATE_JUMP)
 		{
 			if (x < min)
@@ -127,7 +127,7 @@ void CSkeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			CCells* cell = simon->map->GetCell();
 			CBone* bone = new CBone();
-			bone->SetSpeed(0.02, -0.2f);
+			bone->SetSpeed(0.02f, -0.2f);
 			bone->SetPosition(this->x + 5.0f, this->y + 10.0f);
 			bone->InitHeight();
 			bone->SetState(BONE_STATE_NORMAL);

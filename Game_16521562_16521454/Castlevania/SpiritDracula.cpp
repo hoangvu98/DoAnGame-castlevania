@@ -277,7 +277,7 @@ void CSpiritDracula::Render()
 				bullets[i]->Render();*/
 		}
 		animations[ani]->Render(x, y);
-		RenderBoundingBox(100);
+		//RenderBoundingBox(100);
 	}
 }
 
@@ -370,7 +370,7 @@ CSpiritDracula::CSpiritDracula()
 {
 	CSimon *simon = CSimon::GetInstance();
 	damage = 4;
-	health = 2;
+	health = 16;
 	SetPosition(x, y);
 	height =  SPIRITDRACULA_JUMP_HEIGHT;
 

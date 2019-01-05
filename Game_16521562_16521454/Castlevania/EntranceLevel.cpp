@@ -4,13 +4,13 @@ CEntranceLevel *CEntranceLevel::__instance = NULL;
 
 void CEntranceLevel::LoadMap()
 {
-	CCandle *candle;
-	CGhoul *ghoul;
+	/*CCandle *candle;
+	CGhoul *ghoul;*/
 	CSimon *simon = CSimon::GetInstance();
-	CBrick *brick;
+	/*CBrick *brick;
 	CBat *bat;
-	CFishman *fishman;
-	CBossBat* bossbat;
+	CFishman *fishman;*/
+	//CBossBat* bossbat;
 
 	int i;
 	ifstream in;

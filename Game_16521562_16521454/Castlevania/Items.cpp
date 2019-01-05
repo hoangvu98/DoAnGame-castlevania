@@ -360,7 +360,7 @@ void CBoomerang::Render()
 		animations[BOOMERANG_ANI_ITEM]->Render(x, y);
 	else if (state == ITEM_STATE_WEAPON_LEFT || state == ITEM_STATE_WEAPON_RIGHT)
 		animations[BOOMERANG_ANI_FLY]->Render(x, y);
-	RenderBoundingBox(200);
+	//RenderBoundingBox(200);
 }
 
 void CBoomerang::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -465,6 +465,12 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 								monster->SetHealth(monster->GetHealth() - damage);
 								monster->SetIsInjure(false);
 								monster->SetTimeInjure();
+								Chiteffect* hiteffect = new Chiteffect();
+								hiteffect->SetPosition(monster->x, monster->y);
+								hiteffect->SetState(HITEFFECT_STATE_HIT);
+								CCells* cell = simon->map->GetCell();
+								cell->InitCells(hiteffect);
+								simon->map->SetCell(cell);
 							}
 						}
 					}
@@ -474,17 +480,18 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						CHeadDracula *head = dynamic_cast<CHeadDracula *>(e->obj);
 						if (dracula->state == DRACULA_STATE_FIRE || dracula->state == DRACULA_STATE_IDLE)
 						{
-							if (dracula->GetIsInjure())
-							{
 								dracula->SetHealth(dracula->GetHealth() - 1);
 								if (dracula->GetHealth() <= 0)
 								{
 									head->SetState(HEAD_STATE_FLY_AWAY);
 									dracula->SetState(DRACULA_STATE_DIE);
 								}
-								dracula->SetIsInjure(false);
-								dracula->SetTimeInjure();
-							}
+								Chiteffect* hiteffect = new Chiteffect();
+								hiteffect->SetPosition(dracula->x, dracula->y);
+								hiteffect->SetState(HITEFFECT_STATE_HIT);
+								CCells* cell = simon->map->GetCell();
+								cell->InitCells(hiteffect);
+								simon->map->SetCell(cell);
 						}
 					}
 					else if (dynamic_cast<CHidenObject *> (e->obj))
@@ -494,20 +501,19 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 						if (head->GetState() == HIDENOBJECT_STATE_HEAD)
 						{
-							if (spiritdracula->GetIsInjure())
-							{
 								spiritdracula->SetHealth(spiritdracula->GetHealth() - 1);
 								if (spiritdracula->GetHealth() <= 0)
 								{
 									/*head->SetState(HEAD_STATE_FLY_AWAY);*/
 									spiritdracula->SetState(SPIRITDRACULA_STATE_DIE);
 								}
-								spiritdracula->SetIsInjure(false);
-								spiritdracula->SetTimeInjure();
-							}
-							/*if (spiritdracula->GetHealth() <= 0)
-								spiritdracula->SetState(SPIRITDRACULA_STATE_DIE);
-							else spiritdracula->SetHealth(spiritdracula->GetHealth() - 1);*/
+								
+								Chiteffect* hiteffect = new Chiteffect();
+								hiteffect->SetPosition(spiritdracula->x, spiritdracula->y);
+								hiteffect->SetState(HITEFFECT_STATE_HIT);
+								CCells* cell = simon->map->GetCell();
+								cell->InitCells(hiteffect);
+								simon->map->SetCell(cell);
 						}
 					}
 					else if (dynamic_cast<CBullet *>(e->obj))
@@ -569,6 +575,21 @@ void CHollyWater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (candle->state != CANDLE_STATE_DELETE)
 						candle->SetState(CANDLE_STATE_DISAPPEAR);
 				}
+				else if (dynamic_cast<CSpiritDracula *>(e->obj))
+				{
+					CSpiritDracula *spiritdracula = dynamic_cast<CSpiritDracula *>(e->obj);
+					if (spiritdracula->GetIsInjure())
+					{
+						spiritdracula->SetHealth(spiritdracula->GetHealth() - 1);
+						if (spiritdracula->GetHealth() <= 0)
+						{
+							/*head->SetState(HEAD_STATE_FLY_AWAY);*/
+							spiritdracula->SetState(SPIRITDRACULA_STATE_DIE);
+						}
+						spiritdracula->SetIsInjure(false);
+						spiritdracula->SetTimeInjure();
+					}
+				}
 				else if (dynamic_cast<CMonster *> (e->obj))
 				{
 					CMonster *monster = dynamic_cast<CMonster *>(e->obj);
@@ -611,28 +632,6 @@ void CHollyWater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					CBullet *bullet = dynamic_cast<CBullet *>(e->obj);
 					bullet->SetState(BULLET_STATE_REFLECT);
-				}
-				else if (dynamic_cast<CHidenObject *> (e->obj))
-				{
-					CSpiritDracula *spiritdracula = CSpiritDracula::GetInstance();
-					CHidenObject *head = dynamic_cast<CHidenObject *> (e->obj);
-
-					if (head->GetState() == HIDENOBJECT_STATE_HEAD)
-					{
-						if (spiritdracula->GetIsInjure())
-						{
-							spiritdracula->SetHealth(spiritdracula->GetHealth() - 1);
-							if (spiritdracula->GetHealth() <= 0)
-							{
-								/*head->SetState(HEAD_STATE_FLY_AWAY);*/
-								spiritdracula->SetState(SPIRITDRACULA_STATE_DIE);
-							}
-							spiritdracula->SetIsInjure(false);
-							spiritdracula->SetTimeInjure();
-						}
-						/*if (spiritdracula->GetHealth() <= 0)
-							spiritdracula->SetState(SPIRITDRACULA_STATE_DIE);*/
-					}
 				}
 				else if (dynamic_cast<CBullet *>(e->obj))
 				{

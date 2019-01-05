@@ -222,6 +222,8 @@ void CDracula::LoadSpirit()
 	spirit_dracula->SetPosition(this->x, this->y - 19.0f);
 	spirit_dracula->SetState(SPIRITDRACULA_STATE_IDLE);
 	spirit_dracula->Setnx(this->nx);
+	spirit_dracula->SetIsInjure(false);
+	spirit_dracula->SetTimeInjure();
 	CClockTowerLevel *level = CClockTowerLevel::GetInstance();
 	CCells *cells = level->GetCell();
 	cells->InitCells(spirit_dracula);
@@ -267,7 +269,7 @@ CDracula::CDracula()
 {
 	CSimon *simon = CSimon::GetInstance();
 	SetPosition(DEFAULT_POSITION_X, DEFAULT_POSITION_Y);
-	health = /*16*/1;
+	health = /*16*/16;
 	damage = 4;
 
 	alpha = 255;

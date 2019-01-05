@@ -17,11 +17,11 @@ CClockTowerLevel::CClockTowerLevel()
 
 void CClockTowerLevel::LoadMap()
 {
-	CCandle *candle;
-	CSkeleton *skeleton;
+	/*CCandle *candle;
+	CSkeleton *skeleton;*/
 	CSimon *simon = CSimon::GetInstance();
-	CEagle *eagle;
-	CBat* bat;
+	/*CEagle *eagle;
+	CBat* bat;*/
 	CDracula *dracula;
 	ifstream in;
 	LPGAMEOBJECT object;
@@ -42,7 +42,7 @@ void CClockTowerLevel::LoadMap()
 		cells = new CCells(column, row);
 
 		in.open("Data\\ClockTowerLevel_Scene1.txt");
-		for (i = 0; i < 10; i++)
+		for (i = 0; i < 9; i++)
 		{
 			CInputImage::LoadObjectFromFile(in, object);
 			cells->InitCells(object);
@@ -244,7 +244,7 @@ cells->InitCells(candle);*/
 		cells = new CCells(column, row);
 
 		dracula = CDracula::GetInstance();
-		dracula->SetHealth(1);
+		dracula->SetHealth(16);
 		break;
 	case SCENE_6_5:
 		simon->SetStage(18);
@@ -264,10 +264,10 @@ cells->InitCells(candle);*/
 
 		in.close();
 
-		candle = new CCandle(SMALL_CANDLE, HOLLYWATER);
+		/*candle = new CCandle(SMALL_CANDLE, HOLLYWATER);
 		candle->SetPosition(477.0f, 50.0f);
 		candle->SetState(CANDLE_STATE_NORMAL);
-		cells->InitCells(candle);
+		cells->InitCells(candle);*/
 
 		/*candle = new CCandle(SMALL_CANDLE, HOLLYWATER);
 		candle->SetPosition(0 * 64.0f + 30.0f, 83.0f);
@@ -305,7 +305,7 @@ cells->InitCells(candle);*/
 void CClockTowerLevel::LoadObject()
 {
 	LPDIRECT3DTEXTURE9 texture_map;
-	CHidenObject *hobj;
+	//CHidenObject *hobj;
 	CDoor* door;
 	ifstream in;
 	LPGAMEOBJECT object;
@@ -675,7 +675,7 @@ void CClockTowerLevel::LoadObject()
 		cellsobject = new CCells(column, row);
 
 		in.open("Data\\hobj_CT_Scene3.txt");
-		for (i = 0; i < 35; i++)
+		for (i = 0; i < 32; i++)
 		{
 			CInputImage::LoadObjectFromFile(in, object);
 			cellsobject->InitCells(object);

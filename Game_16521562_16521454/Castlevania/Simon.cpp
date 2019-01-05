@@ -830,7 +830,7 @@ void CSimon::Render()
 		whip->Render();
 	}
 
-	RenderBoundingBox(100);
+	//RenderBoundingBox(100);
 	//DebugOut(L"ani=%d\n", ani);
 	//animations[0]->Render(x,y);
 }
@@ -926,12 +926,10 @@ void CSimon::SetState(int state)
 	case SIMON_STATE_COLLUSION:
 		if (collusion_nx > 0)
 		{
-			nx = 1;
 			vx = SIMON_WALKING_SPEED;
 		}
 		else
 		{
-			nx = -1;
 			vx = -SIMON_WALKING_SPEED;
 		}
 		vy = -0.15f;
@@ -1057,10 +1055,11 @@ void CSimon::Auto()
 		}
 		if (nx > 0)
 		{
-			if (x > simon_x)
+			if (x >= simon_x)
 			{
-				simon_x = 0;
 				map->SetIsNext(true);
+				simon_x = 0;
+				simon_y = 0;
 			}
 		}
 		else
@@ -1068,6 +1067,7 @@ void CSimon::Auto()
 			if (x < simon_x)
 			{
 				simon_x = 0;
+				simon_y = 0;
 				map->SetIsNext(true);
 			}
 		}
@@ -1219,7 +1219,7 @@ CSimon::CSimon()
 	mx = 0;
 	whip = new CWhip();
 	whip->SetState(WHITE_WHIP);
-	map = CClockTowerLevel::GetInstance();
+	map = CEntranceLevel::GetInstance();
 	IsChangeMap = false;
 }
 

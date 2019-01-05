@@ -99,13 +99,13 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (monster->state != MONSTER_STATE_DELETE && monster->state != MONSTER_STATE_DISAPPEAR
 						&& monster->state != MONSTER_STATE_SLEEPING)
 					{
-						if (IsSubHP)
+						if (monster->GetIsInjure())
 						{
 							monster->SetHealth(monster->GetHealth() - damage);
-							IsSubHP = false;
-
+							monster->SetIsInjure(false);
+							monster->SetTimeInjure();
 							Chiteffect* hiteffect = new Chiteffect();
-							hiteffect->SetPosition(monster->x, monster-> y);
+							hiteffect->SetPosition(monster->x, monster->y);
 							hiteffect->SetState(HITEFFECT_STATE_HIT);
 							CCells* cell = simon->map->GetCell();
 							cell->InitCells(hiteffect);
@@ -166,6 +166,7 @@ void CWhip::Render()
 	DWORD t = GetTickCount() - FrameWhip;
 	animations[ani]->SetCureentFrame(currentFrame);
 	animations[ani]->Render_now(x, y, 255);
+	//RenderBoundingBox(150);
 }
 
 
@@ -228,7 +229,6 @@ void CWhip::FindPosstion()
 			else
 				SetPosition(x + 30, y + 8);
 		}
-		IsSubHP = true;
 	}
 	else if (currentFrame == 1)
 	{
