@@ -129,7 +129,6 @@ void CEntranceLevel::LoadMap()
 void CEntranceLevel::LoadObject()
 {
 	LPDIRECT3DTEXTURE9 texture_map;
-	CHidenObject *hidenObj;
 	CDoor *door;
 	CSimon *simon = CSimon::GetInstance();
 
@@ -273,47 +272,6 @@ void CEntranceLevel::LoadObject()
 		}
 		in.close();
 
-		hidenObj = new CHidenObject();
-		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
-		hidenObj->SetPosition(0.0f, 83.0f);
-		hidenObj->SetSize(224.0f, 15.0f);
-		cellsobject->InitCells(hidenObj);
-		
-		hidenObj = new CHidenObject();
-		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
-		hidenObj->SetPosition(320.0f, 83.0f);
-		hidenObj->SetSize(161.0f, 14.0f);
-		cellsobject->InitCells(hidenObj);
-
-		hidenObj = new CHidenObject();
-		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
-		hidenObj->SetPosition(504.0f, 0.0f);
-		hidenObj->SetSize(8.0f, 96.0f);
-		cellsobject->InitCells(hidenObj);
-
-		hidenObj = new CHidenObject();
-		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
-		hidenObj->SetPosition(97.0f, 50.0f);
-		hidenObj->SetSize(32.0f, 15.0f);
-		cellsobject->InitCells(hidenObj);
-
-		hidenObj = new CHidenObject();
-		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
-		hidenObj->SetPosition(257.0f, 83.0f);
-		hidenObj->SetSize(32.0f, 15.0f);
-		cellsobject->InitCells(hidenObj);
-
-		hidenObj = new CHidenObject();
-		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
-		hidenObj->SetPosition(481.0f, 114.0f);
-		hidenObj->SetSize(32.0f, 15.0f);
-		cellsobject->InitCells(hidenObj);
-
-		hidenObj = new CHidenObject();
-		hidenObj->SetState(HIDENOBJECT_STATE_NORMAL);
-		hidenObj->SetPosition(449.0f, 146.0f);
-		hidenObj->SetSize(32.0f, 15.0f);
-		cellsobject->InitCells(hidenObj);
 
 		break;
 	case SCENE_5:
