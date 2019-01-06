@@ -490,6 +490,7 @@ void Update(DWORD dt)
 				CGame *game = CGame::GetInstance();
 				game->SetCamera(0, 0);
 			}
+			simon->SetOnSkill(false);
 			simon->SetWeapon(NULL);
 			simon->SetTime(400);
 		}
