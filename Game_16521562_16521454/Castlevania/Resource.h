@@ -5,7 +5,7 @@
 #define GHOUL_TEXTURE_PATH L"castlevania_texture\\Enemy\\Ghoul.png"
 #define ITEM_TEXTURE_PATH L"castlevania_texture\\Weapon\\Items.png"
 #define CANDLE_TEXTURE_PATH L"castlevania_texture\\Weapon\\Candle.png"
-#define HITEFFECT_TEXTURE_PATH L"Hit effect.png"
+#define HITEFFECT_TEXTURE_PATH L"castlevania_texture\\Weapon\\Hit effect.png"
 #define DOOR_TEXTURE_PATH L"castlevania_texture\\Weapon\\Door.png"
 #define BAT_TEXTURE_PATH L"castlevania_texture\\Enemy\\Bat.png"
 #define BRICK_TEXTURE_PATH L"castlevania_texture\\Weapon\\Brick.png"

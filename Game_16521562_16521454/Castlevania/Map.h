@@ -22,7 +22,6 @@ protected:
 	
 	CTileMap *tilemap;
 	bool IsNext=false;
-	bool IsFall = false;
 	int NextScene;
 public:
 	CMap();
@@ -32,9 +31,7 @@ public:
 	void SetScene(int scene) { this->scene = scene; }
 	int GetScene() { return scene; }
 	void SetIsNext(bool IsNext) { this->IsNext = IsNext; };
-	void SetIsFall(bool IsFall) { this->IsFall = IsFall; };
 	bool GetIsNext() {return IsNext;}
-	bool GetIsFall() { return IsFall; }
 	void SetNextScene(int NextScene) { this->NextScene = NextScene; }
 	int GetNextScene() { return NextScene; }
 	void GetUpdateObjects(vector<LPGAMEOBJECT>* object);

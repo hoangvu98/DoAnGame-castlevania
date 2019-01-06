@@ -67,7 +67,7 @@ using namespace std;
 class CSimon :public CGameObject
 {
 	static CSimon *__instance;
-	int heart = 5, score = 0, health = /*160*/16;
+	int heart = 5, score = 0, health = 16;
 	int mx;
 	int stage;
 	int previousstate = NULL;
@@ -88,21 +88,19 @@ class CSimon :public CGameObject
 	int collusion_nx = 0;
 	int state_auto = 0;
 	int camera_auto = 0;
-
 	int time;
 	int live;
-
+	bool MeetBoss = false;
 	bool Reset;
 	bool IsDie;
 	bool IsChangeMap;
-public:
-	CMap *map;
-	bool MeetBoss = false;
 	DWORD test_stair = 0;
 	float simon_x = 0;
 	float simon_y = 0;
 	int IsUp = 0;
 	int IsDown = 0;
+public:
+	CMap *map;
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObject = NULL);
 	void Render();
 	void GetBoundingBox(float & left, float & top, float & right, float & bottom);
@@ -130,7 +128,13 @@ public:
 	void SetStateAuto(int state_auto) { this->state_auto = state_auto; }
 	void SetCameraAuto(int camera_auto) { this->camera_auto = camera_auto; }
 	DWORD GetFrameUpdate() { return FrameUpdate; }
-
+	int GetIsUp() { return IsUp; }
+	void SetIsUp(int IsUp) { this->IsUp = IsUp; }
+	int GetIsDown() { return IsDown; }
+	void SetIsDown(int IsDown) { this->IsDown = IsDown; }
+	void SetMeetBoss(bool MeetBoss) { this->MeetBoss = MeetBoss; }
+	bool GetMeetBoss() {return MeetBoss;}
+	void GetSimon_XY(float& simon_x, float& simon_y) { simon_x = this->simon_x; simon_y = this->simon_y; }
 	int GetScore() { return score; }
 	void SetScore(int score) { this->score = score; }
 	int GetHeart() { return this->heart; }

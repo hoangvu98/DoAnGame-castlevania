@@ -31,7 +31,6 @@ using namespace std;
 #define MAIN_WINDOW_TITLE L"Castlevania"
 
 #define BBOX_TEXTURE_PATH L"bbox.png"
-#define CANDLE_TEXTURE_PATH L"castlevania_texture\\Weapon\\Candle.png"
 #define TITLE_SCREEN_PATH L"castlevania_texture\\Background\\Title Screen.png"
 #define INTRO_SCREEN_PATH L"castlevania_texture\\Background\\introscreen.png"
 
@@ -232,23 +231,23 @@ void CSampleKeyHander::KeyState(BYTE *states)
 				DWORD now = GetTickCount();
 				if (simon->state == SIMON_STATE_STAIR_UP_IDLE || simon->state == SIMON_STATE_STAIR_DOWN_IDLE)
 				{
-					if (simon->IsUp == 2)
+					if (simon->GetIsUp() == 2)
 					{
 						simon->y -= 3.0f;
-						simon->IsUp = 0;
+						simon->SetIsUp(0);
 						simon->SetStair(0);
 					}
-					if (simon->IsDown == 2)
+					if (simon->GetIsDown() == 2)
 					{
 						simon->y -= 3.0f;
-						simon->IsDown = 0;
+						simon->SetIsDown(0);
 						simon->SetStair(0);
 					}
 					if (game->IsKeyDown(DIK_UP))
 					{
-						if (simon->IsUp == 1)
+						if (simon->GetIsUp() == 1)
 						{
-							simon->IsUp = 2;
+							simon->SetIsUp(2);
 						}
 
 						if (simon->GetState() == SIMON_STATE_STAIR_DOWN ||
@@ -259,9 +258,9 @@ void CSampleKeyHander::KeyState(BYTE *states)
 					}
 					else if (game->IsKeyDown(DIK_DOWN))
 					{
-						if (simon->IsDown == 1)
+						if (simon->GetIsDown() == 1)
 						{
-							simon->IsDown = 2;
+							simon->SetIsDown(2);
 						}
 						if (simon->GetState() == SIMON_STATE_STAIR_UP ||
 							simon->GetState() == SIMON_STATE_STAIR_UP_IDLE)
@@ -344,10 +343,7 @@ void LoadResources()
 	CTextures *texture = CTextures::GetInstance();
 	CSprites *sprites = CSprites::GetInstance();
 	CAnimations *animations = CAnimations::GetInstance();
-	texture->Add(ID_BRICK, BBOX_TEXTURE_PATH, D3DCOLOR_XRGB(237, 28, 36));
 	texture->Add(ID_BBOX, BBOX_TEXTURE_PATH, D3DCOLOR_XRGB(0, 128, 128));
-	texture->Add(ID_CANDLE, CANDLE_TEXTURE_PATH, D3DCOLOR_XRGB(34, 177, 76));
-	texture->Add(ID_ITEM, ITEM_TEXTURE_PATH, D3DCOLOR_XRGB(128, 0, 0));
 	texture->Add(ID_TITLE_SCREEN, TITLE_SCREEN_PATH, D3DCOLOR_XRGB(255, 255, 255));
 	texture->Add(ID_INTRO_SCREEN, INTRO_SCREEN_PATH, D3DCOLOR_XRGB(255, 255, 255));
 	resource = new CResource();
@@ -383,25 +379,8 @@ void LoadResources()
 	resource->LoadPotRoast();
 	resource->LoadSplashEffect();
 	simon = CSimon::GetInstance();
-	simon->SetPosition(2053.0f, 28.0f);
-	//simon->SetPosition(906.0f, 34.0f);
-	//simon->SetPosition(1378.0f, 34.0f);
-	//simon->SetPosition(618.4f, 129.0f);
-	simon->SetPosition(100.0f, 20.0f);
 	simon->SetPosition(226.0f, 130.0f);
 	simon->SetState(SIMON_STATE_WALKING_LEFT);
-	//simon->SetPosition(1460.0f, 30.0f);//map 1
-	//simon->SetPosition(727.0f, 51.0f);//map 2
-	//simon->SetPosition(267.0f, 0.0f);//map 2
-	//simon->SetPosition(629.0f, 10.0f);//map 3
-	//simon->SetPosition(450.0f, 10.0f);//map 3
-	//simon->SetPosition(40.0f, 10.0f);//map 3
-	//simon->SetPosition(180.0f, 30.0f);//map 4
-	////simon->SetPosition(190.0f, 30.0f);//map 5
-	//simon->SetPosition(448.0f, 76.0f);//map 5
-	//simon->SetPosition(190.0f, 30.0f   /*719.0f, 45.0f*/);
-	//simon->SetPosition(49.0f, 104.0f);
-	//simon->SetPosition(260.0f, 0.5f);
 	texture_title = texture->Get(ID_TITLE_SCREEN);
 	texture_intro = texture->Get(ID_INTRO_SCREEN);
 	simon->map->SetScene(SCENE_1);
@@ -446,7 +425,7 @@ void Update(DWORD dt)
 	case 2:
 		if (simon->GetIsChangeMap())
 		{
-			simon->MeetBoss = false;
+			simon->SetMeetBoss (false);
 			simon->SetIsChangeMap(false);
 			if (simon->GetStage() == 6)
 			{
@@ -481,7 +460,7 @@ void Update(DWORD dt)
 			int live = simon->GetLive();
 			if (live >= 1)
 			{
-				simon->MeetBoss = false;
+				simon->SetMeetBoss(false);
 				simon->SetLive(live - 1);
 				simon->SetHeart(5);
 				simon->SetHealth(16);
@@ -497,7 +476,7 @@ void Update(DWORD dt)
 			}
 			else
 			{
-				simon->MeetBoss = false;
+				simon->SetMeetBoss(false);
 				simon->SetLive(3);
 				simon->SetHeart(5);
 				simon->SetHealth(16);
@@ -511,6 +490,7 @@ void Update(DWORD dt)
 				CGame *game = CGame::GetInstance();
 				game->SetCamera(0, 0);
 			}
+			simon->SetWeapon(NULL);
 			simon->SetTime(400);
 		}
 		if (simon->map->GetIsNext())
@@ -519,8 +499,10 @@ void Update(DWORD dt)
 			scene = simon->map->GetNextScene();
 			simon->map->SetScene(scene);
 			float x, y;
-			if (simon->simon_x != 0 || simon->simon_y != 0)
-				simon->SetPosition(simon->simon_x, simon->simon_y);
+			float simon_x, simon_y;
+			simon->GetSimon_XY(simon_x, simon_y);
+			if (simon_x != 0 || simon_y != 0)
+				simon->SetPosition(simon_x, simon_y);
 			else
 			{
 				simon->map->NextScece(x, y);
@@ -536,29 +518,7 @@ void Update(DWORD dt)
 			if(simon->state == SIMON_STATE_STAIR_DOWN)
 				simon->SetState(SIMON_STATE_STAIR_DOWN);
 		}
-		else if (simon->map->GetIsFall())
-		{
-			int scene;
-			scene = simon->map->GetNextScene();
-			simon->map->SetScene(scene);
-			float x, y;
-			if (simon->simon_x != 0 || simon->simon_y != 0)
-				simon->SetPosition(simon->simon_x, simon->simon_y);
-			else
-			{
-				simon->map->NextScece(x, y);
-				if (x != 0 || y != 0)
-					simon->SetPosition(x, y);
-			}
-			simon->map->SetIsFall(false);
-			simon->SetCameraAuto(0);
-			simon->SetStateAuto(0);
-			simon->Camera();
-			if (simon->state == SIMON_STATE_STAIR_UP)
-				simon->SetState(SIMON_STATE_STAIR_UP);
-			if (simon->state == SIMON_STATE_STAIR_DOWN)
-				simon->SetState(SIMON_STATE_STAIR_DOWN);
-		}
+
 		if (screen == 2)
 		{
 			simon->map->Update();

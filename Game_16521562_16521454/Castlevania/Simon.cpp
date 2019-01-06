@@ -488,7 +488,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 											simon_x = door->cx;
 											simon_y = door->cy;
 										}
-										map->SetIsFall(true);
+										map->SetIsNext(true);
 										map->SetNextScene(door->GetScene());
 									}
 								}
